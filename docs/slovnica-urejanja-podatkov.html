@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" xml:lang="fr">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
@@ -254,6 +254,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="slovnica-urejanja-podatkov" class="section level1" number="1">
 <h1><span class="header-section-number">Poglavje 1</span> Slovnica urejanja podatkov</h1>
+<p>Pri sistematičnem delu s podatki je zelo pomembna berljivost in preglednost programske kode. Pri delu velikokrat delimo svojo programsko kodo z drugimi strokovnjaki, zato je zaželjeno, da je koda pregledna in razumljiva. Lahko se tudi zgodi, da imamo težave z razumevanjem svoje starejše kode. Zaradi tega je smiselno, da stremimo k čimvečji konsistentnosti in preglednosti. Na dolgi rok s tem prihranimo čas – s konsistentno uporabo enakih ukazov postanemo bolj učinkoviti, prav tako pa lažje prenesemo programsko kodo iz enega problema na drugega. Naša programska koda je s tem bolj robustna in ponovljiva, kar je pomembno iz vidika iskanja napak v analizah. Dober primer konsistentnosti in razumljivosti za sporazumevanje je naraven jezik – v kolikor dve osebi govorita enak jezik se bosta brez težav sporazumevali. Lahko si predstavljate, da ne boste imeli težav z razumevanjem teksta v slovenščini, če se bo avtor držal slovničnih in pravopisnih pravil. Tako kot se pri naravnem jeziku držimo določenih pravil, lahko podobno dosežemo tudi s programskim jezikom.</p>
 <p>V tem predavanju se bomo osredotočili na temeljne operacije, ki jih izvajamo nad podatki. Te operacije so nepogrešljive pri vsaki analizi:</p>
 <ul>
 <li>izbira podmnožice vrstic,</li>
@@ -262,7 +263,7 @@ div.csl-indent {
 <li>urejanje razpredelnice glede na vrednosti stolpcev,</li>
 <li>povzemanje razpredelnic, na primer povprečja in vsote.</li>
 </ul>
-<p>Paket <strong>dplyr</strong> vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Paket dplyr uvede t. i. <strong>slovnico urejanja podatkov</strong> (ang. <strong>grammar of data manipulation</strong>), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku.</p>
+<p>Paket <strong>dplyr</strong> vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Temelji na t. i. <strong>slovnici urejanja podatkov</strong> (ang. <strong>grammar of data manipulation</strong>), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku.</p>
 <p>Pri slovnici urejanja podatkov poznamo 5 osnovnih glagolov, s katerimi preoblikujemo podatke. Vsak glagol ustreza eni izmed temeljnih operacij, ki smo jih omenili zgoraj. Programska koda se potem bere podobno kot naravni jezik – glagoli programskemu jeziku povedo, kaj naj s podatki naredi. Ti glagoli so implementirani v obliki funkcij:</p>
 <ul>
 <li><code>filter()</code> Izbira podmnožice vrstic glede na izbrane pogoje.</li>
@@ -486,7 +487,7 @@ $(document).ready(function() {
 ## 4                   0               0     1.000000
 ## 5                   0               0     1.000000
 ## 6                   0               0     0.045820</code></pre>
-<p>Spremenljivka <code>ds_jobs</code> je tipa <code>data.frame</code>. To je osnovna oblika, v kateri v R hranimo razpredelnice. V tidyverse obstaja paket <strong>tibble</strong>, ki je namenjen sodobni predstavitvi razpredelnice. Glavna funkcionalnost tega paketa je objekt <code>tibble</code>, ki predstavlja nadgradnjo data frame. V preostanku knjige bomo za objekte <code>data.frame</code> uporabljali izraz “data frame” in za objekte tipa <code>tibble</code> izraz “tibble”. Večina funkcij v tidyverse sicer lahko kot vhodni podatek prejme data frame, ampak ga nekatere potem samodejno pretvorijo v tibble. Kot dobro prakso predlagamo delo izključno s tibble. Poleg kompatibilnosti s funkcijami tidyverse je še nekaj drugih razlik v primerjavi z data frame, večino le-teh bomo spoznali v preostanku knjige.</p>
+<p>Spremenljivka <code>ds_jobs</code> je tipa <code>data.frame</code>. To je osnovna oblika, v kateri v R hranimo razpredelnice. V tidyverse obstaja paket <strong>tibble</strong>, ki je namenjen sodobni predstavitvi razpredelnice. Glavna funkcionalnost tega paketa je objekt <code>tibble</code>, ki predstavlja nadgradnjo data frame. V preostanku knjige bomo za objekte <code>data.frame</code> uporabljali izraz “data frame” in za objekte tipa <code>tibble</code> izraz “tibble.” Večina funkcij v tidyverse sicer lahko kot vhodni podatek prejme data frame, ampak ga nekatere potem samodejno pretvorijo v tibble. Kot dobro prakso predlagamo delo izključno s tibble. Poleg kompatibilnosti s funkcijami tidyverse je še nekaj drugih razlik v primerjavi z data frame, večino le-teh bomo spoznali v preostanku knjige.</p>
 <p>Pretvorimo sedaj ta data frame v tibble s funkcijo <code>as_tibble()</code>.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="slovnica-urejanja-podatkov.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb32-2"><a href="slovnica-urejanja-podatkov.html#cb32-2" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(ds_jobs)</span>
@@ -1436,7 +1437,7 @@ z_i = \frac{x_i - \bar{x}}{S_x},
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
 ## 1  20.1  6.19  231.  147.  3.60  3.22  17.8 0.438 0.406  3.69  2.81    12.8
 ## # ... with 1 more variable: wt_in_kg &lt;dbl&gt;</code></pre></li>
-<li><p><strong>Težja naloga</strong>. V mapi <em>data-raw</em> se nahajajo podatki o gozdnih požarih na Portugalskem. Podatki so bili uporabljeni v znanstvenem članku <span class="citation">(<a href="reference.html#ref-Cortez2007" role="doc-biblioref">Cortez et Morais 2007</a>)</span>, kjer so napovedovali velikost požganega območja v odvisnosti od meteoroloških in drugih podatkov. Vrednosti 0 za požgano območje predstavljajo požare, kjer je pogorelo manj kot 100 kvadratnih metrov.</p>
+<li><p><strong>Težja naloga</strong>. V mapi <em>data-raw</em> se nahajajo podatki o gozdnih požarih na Portugalskem. Podatki so bili uporabljeni v znanstvenem članku <span class="citation">(<a href="reference.html#ref-Cortez2007" role="doc-biblioref">Cortez and Morais 2007</a>)</span>, kjer so napovedovali velikost požganega območja v odvisnosti od meteoroloških in drugih podatkov. Vrednosti 0 za požgano območje predstavljajo požare, kjer je pogorelo manj kot 100 kvadratnih metrov.</p>
 <ul>
 <li>Preberite podatke in jih shranite kot tibble.</li>
 <li>Preverite, v katerem mesecu je največ požarov in jih uredite padajoče od tistega z največ požari do tistega z najmanj.</li>

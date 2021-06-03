@@ -10,7 +10,8 @@ biblio-style: apalike
 link-citations: yes
 github-repo: bstatcomp/urejanje-podatkov
 description: "Gradivo za delavnico Urejanje podatkov pobude DataScience@UL-FRI."
-lang: fr
+nocite: | 
+  @Wickham2014, @Wickham2016
 ---
 
 # Uvod {-}

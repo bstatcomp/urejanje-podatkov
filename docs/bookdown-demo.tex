@@ -3,7 +3,6 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  french,
 ]{book}
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
@@ -39,7 +38,6 @@
 \hypersetup{
   pdftitle={Urejanje podatkov},
   pdfauthor={Gregor Pirš, Matej Pičulin in Erik Štrumbelj},
-  pdflang={fr},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
@@ -118,16 +116,6 @@
   \thm@postskip=\thm@preskip
 }
 \makeatother
-\ifxetex
-  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
-  \usepackage{polyglossia}
-  \setmainlanguage[]{french}
-\else
-  \usepackage[main=french]{babel}
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-\fi
 \ifluatex
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -227,6 +215,8 @@ V tej knjigi bomo predelali potrebne koncepte za urejanje podatkov, kar nam bo o
 \hypertarget{slovnica-urejanja-podatkov}{%
 \chapter{Slovnica urejanja podatkov}\label{slovnica-urejanja-podatkov}}
 
+Pri sistematičnem delu s podatki je zelo pomembna berljivost in preglednost programske kode. Pri delu velikokrat delimo svojo programsko kodo z drugimi strokovnjaki, zato je zaželjeno, da je koda pregledna in razumljiva. Lahko se tudi zgodi, da imamo težave z razumevanjem svoje starejše kode. Zaradi tega je smiselno, da stremimo k čimvečji konsistentnosti in preglednosti. Na dolgi rok s tem prihranimo čas -- s konsistentno uporabo enakih ukazov postanemo bolj učinkoviti, prav tako pa lažje prenesemo programsko kodo iz enega problema na drugega. Naša programska koda je s tem bolj robustna in ponovljiva, kar je pomembno iz vidika iskanja napak v analizah. Dober primer konsistentnosti in razumljivosti za sporazumevanje je naraven jezik -- v kolikor dve osebi govorita enak jezik se bosta brez težav sporazumevali. Lahko si predstavljate, da ne boste imeli težav z razumevanjem teksta v slovenščini, če se bo avtor držal slovničnih in pravopisnih pravil. Tako kot se pri naravnem jeziku držimo določenih pravil, lahko podobno dosežemo tudi s programskim jezikom.
+
 V tem predavanju se bomo osredotočili na temeljne operacije, ki jih izvajamo nad podatki. Te operacije so nepogrešljive pri vsaki analizi:
 
 \begin{itemize}
@@ -243,7 +233,7 @@ V tem predavanju se bomo osredotočili na temeljne operacije, ki jih izvajamo na
   povzemanje razpredelnic, na primer povprečja in vsote.
 \end{itemize}
 
-Paket \textbf{dplyr} vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Paket dplyr uvede t. i. \textbf{slovnico urejanja podatkov} (ang. \textbf{grammar of data manipulation}), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku.
+Paket \textbf{dplyr} vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Temelji na t. i. \textbf{slovnici urejanja podatkov} (ang. \textbf{grammar of data manipulation}), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku.
 
 Pri slovnici urejanja podatkov poznamo 5 osnovnih glagolov, s katerimi preoblikujemo podatke. Vsak glagol ustreza eni izmed temeljnih operacij, ki smo jih omenili zgoraj. Programska koda se potem bere podobno kot naravni jezik -- glagoli programskemu jeziku povedo, kaj naj s podatki naredi. Ti glagoli so implementirani v obliki funkcij:
 
@@ -2180,6 +2170,8 @@ V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementa
 
 \hypertarget{urejeni-in-relacijski-podatki}{%
 \chapter{Urejeni in relacijski podatki}\label{urejeni-in-relacijski-podatki}}
+
+Pri kakršnemkoli delu smo običajno zelo ciljno naravnani. Dobimo neko nalogo in jo želimo čimprej in čimbolje opraviti. Z namenom učinkovitosti se običajno poslužimo znanih orodij in postopkov, ki jih prilagodimo samemu problemu. Pri delu s podatki se ciljna naravnanost običajno izrazi tako, da želimo čimprej priti do analize in zaključkov, samemu urejanju podatkov pa ne posvetimo pretirane pozornosti, oziroma le toliko, kot je nujno potrebno (kar je še vedno lahko dolgotrajno). Na kratek rok to deluje v redu in celo prihranimo nekaj časa. Na dolgi rok pa običajno zahteva veliko več časa, saj se moramo pri vsaki novi nalogi na novo prilagajati podatkom. Boljši pristop bi bil, da bi problem prilagodili ustaljenemu postopku. Običajno lahko večino podatkov uredimo do te mere, da so si po obliki podobni. V kolikor se naučimo narediti to za neko splošno podatkovno zbirko, lahko potem vsakič pristopimo do nadaljnjega dela na podoben način. V praksi s tem na dolgi rok prihranimo veliko časa, poleg tega pa je naša programska koda bolj berljiva in robustna.
 
 Kaj pravzaprav so urejeni podatki? Ali to pomeni, da se v stolpcih ne mešajo različni podatkovni tipi? Da nimamo manjkajočih vrednosti? Da so podatki, ki opisujejo enako zadevo, v eni sami razpredelnici in niso raztreseni po večih razpredelnicah? Da so letnice v vrstnem redu? Verjetno bi lahko to vprašanje zastavili 100 ljudem in bi dobili 100 različnih odgovorov. Seveda je to popolnoma normalno, na prvi pogled je besedna zveza ``urejeni podatki'' zelo relativna. Na srečo pa za odgovor ne rabimo povpraševati naokoli in poiskati nekega skupnega mnenja, saj obstaja koncept \textbf{urejenih podatkov} (ang. \textbf{tidy data}), ki ga bomo spoznali v tem poglavju. Podatke, ki so strukturirani v urejeni obliki, lahko veliko lažje transformiramo in pripravljamo na nadaljnjo analizo. Tudi funkcije v tidyverse so implementirane tako, da na vhod prejmejo urejene podatke in takšne tudi vrnejo.
 
@@ -4496,7 +4488,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-03 13:20:12 CEST"
+## [1] "2021-06-03 14:28:07 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4556,7 +4548,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 13
+## [1] 14
 \end{verbatim}
 
 \begin{Shaded}
@@ -4566,7 +4558,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 20
+## [1] 28
 \end{verbatim}
 
 \begin{Shaded}
@@ -4576,7 +4568,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 12.76964
+## [1] 7.583882
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4589,7 +4581,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 13:20:12 CEST"
+## [1] "2021-06-05 14:28:07 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:
