@@ -334,8 +334,6 @@ Poznamo dva glavna tipa ključev:
 
 V kolikor razpredelnica nima primarnega ključa lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer `mutate(row_number())`.
 
-<span style="color:red">Bi bilo potrebno dodati kak primer s sestavljenim kjučem in nadomestnim ključem? je sicer eden v domači nalogi, ampak morda bi bilo potrebno kakega tu prikazat? Kaj misliš?</span>
-
 Primarni in tuj ključ skupaj tvorita relacijo med razpredelnicama. Na primer `account_id` predstavlja relacijo med razpredelnicama `trans` in `account`. Relacije so lahko ena-proti-ena (ena država ima enega predsednika in ena oseba je lahko predsednik samo ene države), ena-proti-mnogo (en igralec lahko igra za en klub, ampak en klub ima več igralcev) ali mnogo-proti-mnogo (en avtor lahko napiše več knjig in ena knjiga je lahko napisana s strani večih avtorjev).
 
 Kadar imamo opravka z relacijskimi podatki je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.
@@ -364,8 +362,6 @@ Združevanja podatkovnih razpredelnic lahko ločimo na 3 sklope:
 - **Mutirajoča združevanja** (ang. **mutating joins**). Dodajo nove stolpce k razpredelnici iz ujemajočih vrstic druge razpredelnice.
 - **Filtrirajoča združevanja** (ang. **filtering joins**). Izberejo vrstice ene razpredenice glede na to, ali se te ujemajo z vrsticami v drugi razpredelnici.
 - **Operacije nad množicami**. Operirajo nad vrsticami kot da so ti deli množice.
-
-<font color='red'>Ali so ti prevodi OK? Jaz bi rekel da ne, ampak se trenutno ne spomnim boljših.</font>
 
 
 ### Mutirajoča združevanja

@@ -2996,8 +2996,6 @@ Poznamo dva glavna tipa ključev:
 
 V kolikor razpredelnica nima primarnega ključa lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer \texttt{mutate(row\_number())}.
 
-{Bi bilo potrebno dodati kak primer s sestavljenim kjučem in nadomestnim ključem? je sicer eden v domači nalogi, ampak morda bi bilo potrebno kakega tu prikazat? Kaj misliš?}
-
 Primarni in tuj ključ skupaj tvorita relacijo med razpredelnicama. Na primer \texttt{account\_id} predstavlja relacijo med razpredelnicama \texttt{trans} in \texttt{account}. Relacije so lahko ena-proti-ena (ena država ima enega predsednika in ena oseba je lahko predsednik samo ene države), ena-proti-mnogo (en igralec lahko igra za en klub, ampak en klub ima več igralcev) ali mnogo-proti-mnogo (en avtor lahko napiše več knjig in ena knjiga je lahko napisana s strani večih avtorjev).
 
 Kadar imamo opravka z relacijskimi podatki je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.
@@ -3047,8 +3045,6 @@ Združevanja podatkovnih razpredelnic lahko ločimo na 3 sklope:
 \item
   \textbf{Operacije nad množicami}. Operirajo nad vrsticami kot da so ti deli množice.
 \end{itemize}
-
-Ali so ti prevodi OK? Jaz bi rekel da ne, ampak se trenutno ne spomnim boljših.
 
 \hypertarget{mutirajoux10da-zdruux17eevanja}{%
 \subsection{Mutirajoča združevanja}\label{mutirajoux10da-zdruux17eevanja}}
@@ -4488,7 +4484,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-03 14:28:07 CEST"
+## [1] "2021-06-03 14:48:17 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4558,7 +4554,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 28
+## [1] 48
 \end{verbatim}
 
 \begin{Shaded}
@@ -4568,7 +4564,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 7.583882
+## [1] 17.67445
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4581,7 +4577,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 14:28:07 CEST"
+## [1] "2021-06-05 14:48:17 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:

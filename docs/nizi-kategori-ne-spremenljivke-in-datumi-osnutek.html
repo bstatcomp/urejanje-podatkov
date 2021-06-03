@@ -501,7 +501,7 @@ Razvrstitev lahko uredimo tudi ročno s funkicjo <code>fct_relevel()</code>.</p>
 <p>Poglejmo sedaj kaj vračajo te funkcije:</p>
 <div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb331-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">now</span>()</span>
 <span id="cb331-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb331-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] &quot;2021-06-03 14:27:39 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2021-06-03 14:47:26 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(x)</span></code></pre></div>
 <pre><code>## [1] 2021</code></pre>
 <div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">month</span>(x)</span></code></pre></div>
@@ -515,13 +515,13 @@ Razvrstitev lahko uredimo tudi ročno s funkicjo <code>fct_relevel()</code>.</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hour</span>(x)</span></code></pre></div>
 <pre><code>## [1] 14</code></pre>
 <div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">minute</span>(x)</span></code></pre></div>
-<pre><code>## [1] 27</code></pre>
+<pre><code>## [1] 47</code></pre>
 <div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second</span>(x)</span></code></pre></div>
-<pre><code>## [1] 39.37936</code></pre>
+<pre><code>## [1] 26.90963</code></pre>
 <p>S komponentami lahko tudi spreminjamo dele časovne spremenljivke:</p>
 <div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mday</span>(x) <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb349-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb349-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] &quot;2021-06-05 14:27:39 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2021-06-05 14:47:26 CEST&quot;</code></pre>
 <p>Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:</p>
 <ul>
 <li><strong>trajanja</strong> (ang. duration). Čas v sekundah. Funkcije <code>dseconds()</code>, <code>dminutes()</code>, <code>ddays()</code>, <code>dweeks()</code> in <code>dyears()</code>. Pri trajanjih se vedno uporabi pretvorba, da ima vsak dan 24 ur in vsako leto 365.25 dni. Slednje predstavlja povprečno šteilo dni v letu. Tako da bo funkcija <code>dyears(4)</code> vedno vrnila število sekund, ki ustreza 4x365.25 dnem, ki imajo vsak po 24 ur.</li>

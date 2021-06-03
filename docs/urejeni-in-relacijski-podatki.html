@@ -783,7 +783,6 @@ div.csl-indent {
 <li><strong>Tuj ključ</strong>. To je ključ v razpredelnici, ki je primarni ključ v eni od preostalih razpredelnic. Na primer, <code>account_id</code> v razpredelnici <code>trans</code>. Vrednosti tujih ključev se lahko podvajajo. Na primer, več transakcij lahko ima isto vrednost tujega ključa za <code>account_id</code>, saj se na enem bančnem računu izvede več transakcij.</li>
 </ul>
 <p>V kolikor razpredelnica nima primarnega ključa lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer <code>mutate(row_number())</code>.</p>
-<p><span style="color:red">Bi bilo potrebno dodati kak primer s sestavljenim kjučem in nadomestnim ključem? je sicer eden v domači nalogi, ampak morda bi bilo potrebno kakega tu prikazat? Kaj misliš?</span></p>
 <p>Primarni in tuj ključ skupaj tvorita relacijo med razpredelnicama. Na primer <code>account_id</code> predstavlja relacijo med razpredelnicama <code>trans</code> in <code>account</code>. Relacije so lahko ena-proti-ena (ena država ima enega predsednika in ena oseba je lahko predsednik samo ene države), ena-proti-mnogo (en igralec lahko igra za en klub, ampak en klub ima več igralcev) ali mnogo-proti-mnogo (en avtor lahko napiše več knjig in ena knjiga je lahko napisana s strani večih avtorjev).</p>
 <p>Kadar imamo opravka z relacijskimi podatki je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="urejeni-in-relacijski-podatki.html#cb188-1" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>(account, client, disp, trans, loan)</span>
@@ -816,7 +815,6 @@ div.csl-indent {
 <li><strong>Filtrirajoča združevanja</strong> (ang. <strong>filtering joins</strong>). Izberejo vrstice ene razpredenice glede na to, ali se te ujemajo z vrsticami v drugi razpredelnici.</li>
 <li><strong>Operacije nad množicami</strong>. Operirajo nad vrsticami kot da so ti deli množice.</li>
 </ul>
-<p><font color='red'>Ali so ti prevodi OK? Jaz bi rekel da ne, ampak se trenutno ne spomnim boljših.</font></p>
 <div id="mutirajoča-združevanja" class="section level3" number="2.9.1">
 <h3><span class="header-section-number">2.9.1</span> Mutirajoča združevanja</h3>
 <p>Mutirajoča združevanja so verjetno najbolj pogosta operacija, ki jo uporabljamo pri delu z relacijskimi podatki. Te operacije združijo dve (ali več) razpredelnici glede na vrednosti stolpcev. Obstajajo 4 takšne operacije:</p>
