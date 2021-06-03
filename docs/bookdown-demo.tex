@@ -151,7 +151,7 @@
 
 Pri delu s podatki se srečujemo z različnimi izzivi. Prvi izziv je zbiranje do podatkov. Takoj za tem pa se soočimo z drugim izzivom, ki običajno zahteva največ našega časa -- čiščenje in urejanje podatkov. V večini primerov so podatki v izvorni obliki namreč \textbf{neurejeni} (ang. \textbf{messy} data).
 
-Ta knjiga je namenjena spoznanju osnovnih konceptov čiščenja in urejanja podatkov, ki nam bodo olajšali nadaljnjo analizo in vizualizacijo. Vse koncepte bomo prikazali v programskem jeziku R. Podatkovne množice in izvorne datoteke te knjige so objavljene na Github repozitoriju: \url{https://github.com/bstatcomp/urejanje-podatkov}. Cilj delavnice je spoznati:
+Ta knjiga je namenjena spoznanju osnovnih konceptov čiščenja in urejanja podatkov, ki nam bodo olajšali nadaljnjo analizo in vizualizacijo. Vse koncepte bomo prikazali v programskem jeziku R. Podatkovne množice in izvorne datoteke te knjige so objavljene na Github \href{https://github.com/bstatcomp/urejanje-podatkov}{repozitoriju}. Cilj delavnice je spoznati:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -222,7 +222,7 @@ Vsako poglavje ima 3 sklope:
 \section*{Stil programske kode}\label{stil-programske-kode}}
 \addcontentsline{toc}{section}{Stil programske kode}
 
-V tej knjigi bomo predelali potrebne koncepte za urejanje podatkov, kar nam bo omogočilo bolj kvalitetno in učinkovito delo s podatki. Poleg poznavanja teh orodij in konceptov pa nam analizo olajša tudi konsistenten stil programiranja. Dober stil programiranja za naše delo ni nujen, je pa vsekakor dobrodošel, saj je programska koda bolj berljiva. Zbirka paketov tidyverse ima tudi svoj stilski vodnik: \url{https://style.tidyverse.org/}. Vsak stilski vodnik vsebuje pravila, ki so določena dokaj arbitrarno, oziroma glede na preference avtorja. Najbolj pomembno je, da smo pri pisanju programske kode konsistentni in stilski vodnik nam to nudi.
+V tej knjigi bomo predelali potrebne koncepte za urejanje podatkov, kar nam bo omogočilo bolj kvalitetno in učinkovito delo s podatki. Poleg poznavanja teh orodij in konceptov pa nam analizo olajša tudi konsistenten stil programiranja. Dober stil programiranja za naše delo ni nujen, je pa vsekakor dobrodošel, saj je programska koda bolj berljiva. Zbirka paketov tidyverse ima tudi svoj \href{https://style.tidyverse.org/}{stilski vodnik}. Vsak stilski vodnik vsebuje pravila, ki so določena dokaj arbitrarno, oziroma glede na preference avtorja. Najbolj pomembno je, da smo pri pisanju programske kode konsistentni in stilski vodnik nam to nudi.
 
 \hypertarget{slovnica-urejanja-podatkov}{%
 \chapter{Slovnica urejanja podatkov}\label{slovnica-urejanja-podatkov}}
@@ -263,10 +263,10 @@ Pri slovnici urejanja podatkov poznamo 5 osnovnih glagolov, s katerimi preobliku
 
 V tem predavanju bomo bolj podrobno spoznali vsakega izmed teh glagolov. Po tem pa si bomo ogledali še dva uporabna povzetka -- povzemanje po vrsticah in povzemanje po stolpcih.
 
-\hypertarget{predpriprava}{%
-\section{Predpriprava}\label{predpriprava}}
+\hypertarget{priprava}{%
+\section{Priprava}\label{priprava}}
 
-V predpripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice urejanja podatkov. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo si podatke:
+V pripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice urejanja podatkov. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo si podatke:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2185,8 +2185,8 @@ Kaj pravzaprav so urejeni podatki? Ali to pomeni, da se v stolpcih ne mešajo ra
 
 Relacijski podatki pa predstavljajo primere, ko so podatki o različnih entitetah (na primer podjetje, delavec, službeno vozilo, klient) shranjeni v različnih razpredelnicah. Kadar želimo analizirati takšne podatke moramo razumeti povezave med njimi in z njimi tudi znati delati. Spoznali bomo koncept relacijskih podatkovnih zbirk in kako uporabiti tidyverse za delo z njimi.
 
-\hypertarget{predpriprava-1}{%
-\section{Predpriprava}\label{predpriprava-1}}
+\hypertarget{priprava-1}{%
+\section{Priprava}\label{priprava-1}}
 
 Na tem predavanju bomo spoznali kako podatke pretvarjamo med daljšo in krajšo obliko ter kako delamo z relacijskimi podatki. Kaj vsi ti koncepti pomenijo in kako so povezani z urejenimi podatki bomo predelali na predavanju, na tem mestu se bomo le naučili glavnih funkcij s katerimi bomo utrjevali te koncepte.
 
@@ -4496,7 +4496,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-03 11:37:01 CEST"
+## [1] "2021-06-03 13:20:12 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4556,7 +4556,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 11
+## [1] 13
 \end{verbatim}
 
 \begin{Shaded}
@@ -4566,7 +4566,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 37
+## [1] 20
 \end{verbatim}
 
 \begin{Shaded}
@@ -4576,7 +4576,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.742077
+## [1] 12.76964
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4589,7 +4589,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 11:37:01 CEST"
+## [1] "2021-06-05 13:20:12 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:

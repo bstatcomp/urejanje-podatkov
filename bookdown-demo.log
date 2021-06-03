@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.6.3)  3 JUN 2021 11:40
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.6.3)  3 JUN 2021 13:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1026,25 +1026,7 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 \tf@toc=\write5
 \openout5 = `bookdown-demo.toc'.
 
-[4]
-Underfull \hbox (badness 2158) in paragraph at lines 154--155
-\TU/lmr/m/n/10 podatkov, ki nam bodo olajšali nadaljnjo analizo in vizualizacij
-o. Vse
- []
-
-
-Underfull \hbox (badness 1472) in paragraph at lines 154--155
-\TU/lmr/m/n/10 koncepte bomo prikazali v programskem jeziku R. Podatkovne množi
-ce
- []
-
-
-Underfull \hbox (badness 3138) in paragraph at lines 154--155
-\TU/lmr/m/n/10 in izvorne datoteke te knjige so objavljene na Github repozitori
-ju :
- []
-
-[5
+[4] [5
 
 ] [6] [7] [8
 
@@ -6188,12 +6170,12 @@ LaTeX Info: Redefining \sffamily on input line 20.
 LaTeX Info: Redefining \ttfamily on input line 20.
 )
 Package rerunfilecheck Info: File `bookdown-demo.out' has not changed.
-(rerunfilecheck)             Checksum: 05F16A790262CEAE8E47908DC3A1D433;6847.
+(rerunfilecheck)             Checksum: 6F99251160A1E584A9F4D0D762DB131F;6807.
  ) 
 Here is how much of TeX's memory you used:
  17939 strings out of 478489
- 324516 string characters out of 5858000
- 818082 words of memory out of 5000000
+ 324508 string characters out of 5858000
+ 818074 words of memory out of 5000000
  37946 multiletter control sequences out of 15000+600000
  409953 words of font info for 89 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191

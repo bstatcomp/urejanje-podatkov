@@ -166,7 +166,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html"><i class="fa fa-check"></i><b>1</b> Slovnica urejanja podatkov</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#predpriprava"><i class="fa fa-check"></i><b>1.1</b> Predpriprava</a></li>
+<li class="chapter" data-level="1.1" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#priprava"><i class="fa fa-check"></i><b>1.1</b> Priprava</a></li>
 <li class="chapter" data-level="1.2" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#sodobna-razpredelnica-tibble"><i class="fa fa-check"></i><b>1.2</b> Sodobna razpredelnica: <code>tibble</code></a></li>
 <li class="chapter" data-level="1.3" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#urejeno-ovrednotenje"><i class="fa fa-check"></i><b>1.3</b> Urejeno ovrednotenje</a></li>
 <li class="chapter" data-level="1.4" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#izbira-vrstic-s-filter"><i class="fa fa-check"></i><b>1.4</b> Izbira vrstic s <code>filter()</code></a>
@@ -193,7 +193,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html"><i class="fa fa-check"></i><b>2</b> Urejeni in relacijski podatki</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#predpriprava-1"><i class="fa fa-check"></i><b>2.1</b> Predpriprava</a></li>
+<li class="chapter" data-level="2.1" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#priprava-1"><i class="fa fa-check"></i><b>2.1</b> Priprava</a></li>
 <li class="chapter" data-level="2.2" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#urejeni-podatki"><i class="fa fa-check"></i><b>2.2</b> Urejeni podatki</a></li>
 <li class="chapter" data-level="2.3" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#pivot_longer-pretvorba-v-daljšo-obliko"><i class="fa fa-check"></i><b>2.3</b> <code>pivot_longer()</code>: pretvorba v daljšo obliko</a></li>
 <li class="chapter" data-level="2.4" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#pivot_wider-pretvorba-v-širšo-obliko"><i class="fa fa-check"></i><b>2.4</b> <code>pivot_wider()</code>: pretvorba v širšo obliko</a></li>
@@ -256,8 +256,8 @@ div.csl-indent {
 <h1><span class="header-section-number">Poglavje 2</span> Urejeni in relacijski podatki</h1>
 <p>Kaj pravzaprav so urejeni podatki? Ali to pomeni, da se v stolpcih ne mešajo različni podatkovni tipi? Da nimamo manjkajočih vrednosti? Da so podatki, ki opisujejo enako zadevo, v eni sami razpredelnici in niso raztreseni po večih razpredelnicah? Da so letnice v vrstnem redu? Verjetno bi lahko to vprašanje zastavili 100 ljudem in bi dobili 100 različnih odgovorov. Seveda je to popolnoma normalno, na prvi pogled je besedna zveza “urejeni podatki” zelo relativna. Na srečo pa za odgovor ne rabimo povpraševati naokoli in poiskati nekega skupnega mnenja, saj obstaja koncept <strong>urejenih podatkov</strong> (ang. <strong>tidy data</strong>), ki ga bomo spoznali v tem poglavju. Podatke, ki so strukturirani v urejeni obliki, lahko veliko lažje transformiramo in pripravljamo na nadaljnjo analizo. Tudi funkcije v tidyverse so implementirane tako, da na vhod prejmejo urejene podatke in takšne tudi vrnejo.</p>
 <p>Relacijski podatki pa predstavljajo primere, ko so podatki o različnih entitetah (na primer podjetje, delavec, službeno vozilo, klient) shranjeni v različnih razpredelnicah. Kadar želimo analizirati takšne podatke moramo razumeti povezave med njimi in z njimi tudi znati delati. Spoznali bomo koncept relacijskih podatkovnih zbirk in kako uporabiti tidyverse za delo z njimi.</p>
-<div id="predpriprava-1" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Predpriprava</h2>
+<div id="priprava-1" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Priprava</h2>
 <p>Na tem predavanju bomo spoznali kako podatke pretvarjamo med daljšo in krajšo obliko ter kako delamo z relacijskimi podatki. Kaj vsi ti koncepti pomenijo in kako so povezani z urejenimi podatki bomo predelali na predavanju, na tem mestu se bomo le naučili glavnih funkcij s katerimi bomo utrjevali te koncepte.</p>
 <p>Pri pretvorbi podatkov v daljšo obliko gre za pretvorbo, kjer vrednosti večih stolpcev združimo v en stolpec. Kdaj je takšna transformacija smiselna bomo spoznali na samem predavanju. Poglejmo si razpredelnico, kjer imamo shranjene podatke za več let:</p>
 <div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="urejeni-in-relacijski-podatki.html#cb137-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>

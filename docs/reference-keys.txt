@@ -1,5 +1,5 @@
 slovnica-urejanja-podatkov
-predpriprava
+priprava
 sodobna-razpredelnica-tibble
 urejeno-ovrednotenje
 izbira-vrstic-s-filter
@@ -20,7 +20,7 @@ summarise-in-group-unpeeling
 ali-želite-izvedeti-več
 domača-naloga
 urejeni-in-relacijski-podatki
-predpriprava-1
+priprava-1
 urejeni-podatki
 pivot_longer-pretvorba-v-daljšo-obliko
 pivot_wider-pretvorba-v-širšo-obliko
@@ -47,4 +47,3 @@ računanje-z-datumi-in-časi
 shranjevanje-in-branje-podatkov
 delo-z-binarnimi-datotekami
 branje-in-shranjevanje-z-ostalimi-datotekami
-priprava
