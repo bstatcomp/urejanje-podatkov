@@ -47,3 +47,4 @@ računanje-z-datumi-in-časi
 shranjevanje-in-branje-podatkov
 delo-z-binarnimi-datotekami
 branje-in-shranjevanje-z-ostalimi-datotekami
+priprava

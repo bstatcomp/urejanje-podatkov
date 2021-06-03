@@ -53,8 +53,8 @@ $(document).ready(function() {
 </script>
 
 
-## Predpriprava
-V predpripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice urejanja podatkov. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo si podatke:
+## Priprava
+V pripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice urejanja podatkov. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo si podatke:
 
 ```{r, message=FALSE}
 library(tidyverse)  # Nalozimo celotno zbirko paketov tidyverse.
