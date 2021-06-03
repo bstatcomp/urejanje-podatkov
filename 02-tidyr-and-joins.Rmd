@@ -1,0 +1,716 @@
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  error = TRUE, # do not interrupt in case of errors
+  warnings = FALSE,
+  message = FALSE
+)
+library(tidyverse)
+```
+
+
+# Urejeni in relacijski podatki
+Kaj pravzaprav so urejeni podatki? Ali to pomeni, da se v stolpcih ne mešajo različni podatkovni tipi? Da nimamo manjkajočih vrednosti? Da so podatki, ki opisujejo enako zadevo, v eni sami razpredelnici in niso raztreseni po večih razpredelnicah? Da so letnice v vrstnem redu? Verjetno bi lahko to vprašanje zastavili 100 ljudem in bi dobili 100 različnih odgovorov. Seveda je to popolnoma normalno, na prvi pogled je besedna zveza "urejeni podatki" zelo relativna. Na srečo pa za odgovor ne rabimo povpraševati naokoli in poiskati nekega skupnega mnenja, saj obstaja koncept **urejenih podatkov** (ang. **tidy data**), ki ga bomo spoznali v tem poglavju. Podatke, ki so strukturirani v urejeni obliki, lahko veliko lažje transformiramo in pripravljamo na nadaljnjo analizo. Tudi funkcije v tidyverse so implementirane tako, da na vhod prejmejo urejene podatke in takšne tudi vrnejo.
+
+Relacijski podatki pa predstavljajo primere, ko so podatki o različnih entitetah (na primer podjetje, delavec, službeno vozilo, klient) shranjeni v različnih razpredelnicah. Kadar želimo analizirati takšne podatke moramo razumeti povezave med njimi in z njimi tudi znati delati. Spoznali bomo koncept relacijskih podatkovnih zbirk in kako uporabiti tidyverse za delo z njimi.
+
+
+## Predpriprava
+Na tem predavanju bomo spoznali kako podatke pretvarjamo med daljšo in krajšo obliko ter kako delamo z relacijskimi podatki. Kaj vsi ti koncepti pomenijo in kako so povezani z urejenimi podatki bomo predelali na predavanju, na tem mestu se bomo le naučili glavnih funkcij s katerimi bomo utrjevali te koncepte.
+
+Pri pretvorbi podatkov v daljšo obliko gre za pretvorbo, kjer vrednosti večih stolpcev združimo v en stolpec. Kdaj je takšna transformacija smiselna bomo spoznali na samem predavanju. Poglejmo si razpredelnico, kjer imamo shranjene podatke za več let:
+
+```{r}
+df <- tibble(
+  ime = c("Mojca", "Miha", "Mateja"),
+  `2018` = c(5.5, 4.6, 8.7),
+  `2019` = c(5.8, 4.2, 9)
+)
+df
+```
+
+Recimo, da želimo stolpca z leti spraviti v en stolpec. Uporabimo funkcijo `pivot_longer()`.
+
+```{r}
+df_longer <- pivot_longer(df, c(`2018`, `2019`), names_to = "leto", values_to = "rezultat")
+df_longer
+```
+
+Lahko naredimo tudi obratno transformacijo, torej da vrednosti enega stolpca razširimo v več stolpcev. Na primer, razširimo stolpec `ime`:
+
+```{r}
+pivot_wider(df_longer, names_from = "ime", values_from = "rezultat")
+```
+
+**Naloga**: Spodnjo razpredelnico transformirajte v daljšo obliko, tako da informacije o številu oddelkov shranite v 1 stolpec.
+```{r}
+df <- tibble(
+  podjetje = c("Podjetje A", "Podjetje A", "Podjetje B"),
+  kraj_tovarne = c("Koper", "Kranj", "Koper"),
+  prihodek = c(100000, 120000, 60000),
+  razvojni_oddelki = c(2, 3, 1),
+  prodajni_oddelki = c(3, 3, 2)
+)
+df
+```
+
+Rešitev:
+
+```{r, echo = FALSE}
+pivot_longer(df, c(razvojni_oddelki, prodajni_oddelki), names_to = "oddelek", values_to = "stevilo_oddelkov")
+# pivot_wider(df, names_from = "kraj_tovarne", values_from = "prihodek")
+```
+
+Spoznali bomo tudi relacijske podatke, pri katerih so podatki razdeljeni med več razpredelnic. Zato bomo potrebovali več funkcij, ki nam omogočajo združevanje teh razpredelnic. Poglejmo si dve razpredelnici:
+
+```{r}
+ekipe <- tibble(
+  id_ekipe = c(1, 2, 3, 4),
+  ekipa = c("Liverpool", "Manchester United", "Arsenal", "Rokova ekipa")
+)
+igralci <- tibble(
+  id_igralca = c(1, 2, 3, 4, 5, 6, 7),
+  ime = c("Henderson", "Fernandes", "Alisson", "Rashford", "Novak", "Aubameyang", "Vega"),
+  id_ekipe = c(1, 2, 1, 2, 8, 3, 8)
+)
+ekipe
+igralci
+```
+
+Za združevanje razpredelnic obstaja več funkcij, vse imajo končnico `_join`. Poglejmo si, kako jih kličemo in kaj vsaka izmed njih naredi. Več bomo o njih povedali na predavanju.
+
+`left_join()` združi razpredelnici tako, da obdrži vse primere iz prve razpredelnice:
+```{r}
+left_join(igralci, ekipe, by = "id_ekipe")
+```
+
+`right_join()` združi razpredelnici tako, da obdrži vse primere iz druge razpredelnice:
+```{r}
+right_join(igralci, ekipe, by = "id_ekipe")
+```
+
+`inner_join()` združi razpredelnici tako, da obdrži samo primere, ki se pojavijo v obeh razpredelnicah:
+```{r}
+inner_join(igralci, ekipe, by = "id_ekipe")
+```
+
+`full_join()` združi razpredelnici tako, da obdrži vse primere iz obeh razpredelnic:
+```{r}
+full_join(igralci, ekipe, by = "id_ekipe")
+```
+
+**Naloga**: Obstajata še dve operaciji združevanja, ki pa ne delujeta popolnoma enako kot zgornje funkcije. Pokličite funkciji `semi_join()` in `anti_join()` in poizkusite ugotoviti, kaj sta ti funkciji naredili. Sintaksa je enaka kot pri ostalih join funkcijah.
+
+
+Za branje podatkov iz tekstovnih datotek velikokrat uporabljamo funkcijo `read.csv()`, ali katero od preostalih izpeljank funkcije `read.table()`. Ima pa tidyverse svojo različico teh funkcij, ki pa imajo nekaj dodatne funkcionalnosti. Najbolj pomembna je ta, da se podatki avtomatsko shranijo kot tibble. To omogoča relativno enostavno branje datotek, kjer stolpci niso poimenovani v skladu s pravili programskega jezika R (na primer, lahko se začnejo s številom, lahko imajo minuse, presledke in podobno). Kot smo omenili shranjevanje podatkov, kjer imena stolpcev niso standardne oblike, ni dobra praksa. Vsekakor pa se pri realnih podatkih velikokrat zgodi, da imamo takšna imena. V tem primeru je bolje, da jih prebermo takšna kot so in jih po tem programsko spremenimo, saj s tem ne posegamo v originalne podatke. Je pa potrebno pri teh funkcijah dodatno nastaviti kodiranje, da znajo prebrati šumnike. Poglejmo si uporabo funkcije `read_csv2()` paketa `readr`, kjer bomo ustrezno nastavili kodiranje.
+
+```{r}
+df <- read_csv2("./data-raw/SLO-gradbena-dovoljenja-messy1.csv",
+                locale = readr::locale(encoding = "cp1250"))
+```
+
+Več o kodiranjih bomo povedali na zadnjem predavanju.
+
+
+## Urejeni podatki
+Omenili smo že, da se v praksi srečamo z najrazličnejšimi oblikami zapisov podatkov. Skupek paketov tidyverse je namenjen delu s tako imenovanimi **urejenimi podatki** (ang. **tidy data**). Ideja je v tem, da se ustvari enoten standard za obliko podatkov s katerim je lažje delati. V kolikor se držimo tega standarda pri vseh naših analizah nam to omogoča, da vedno uporabljamo ista orodja in se ne rabimo učiti novih orodij za vsako analizo. Povzeto lahko ta standard opišemo s 3 lastnostmi:
+
+1) Vsak stolpec je spremenljivka.
+2) Vsaka vrstica je primer podatka.
+3) Vsaka vrednost ima svojo celico.
+
+Morda se na tej točki to sliši nekoliko abstraktno. Poglejmo si zadevo v praksi. Nabrali smo podatke o številu izdanih gradbenih dovoljenj v Sloveniji, razdeljeno glede na občine. Podatke smo prenesli iz spletne strani statističnega urada Slovenije https://pxweb.stat.si/SiStat/slshranili in jih shranili na več načinov. Najprej si poglejmo podatke v takšni obliki, kot smo jih dobili naravnost iz vira.
+
+```{r, echo = FALSE}
+df <- read_csv2("./data-raw/SLO-gradbena-dovoljenja-messy1.csv",
+                # locale = "Slovenian_Slovenia.1250")
+                locale = readr::locale(encoding = "cp1250"))
+df
+```
+
+Najprej imamo na voljo spremenljivki `OBČINE` in `TIP.STAVBE`. Potem pa imamo za vsako leto naštete vrednosti, oziroma števila gradbenih dovoljenj. Podatki so velikokrat shranjeni v takšnem formatu saj ima nekatere prednosti. Na primer, tak format je bolj prijazen za prikaz človeku, saj lahko samo s pogledom na razpredelnico hitro oceni, ali obstaja kak trend v posamezni vrstici. Taki format pa ni najboljši za delo s podatki. Govorili smo že o čistih podatkih in da vse funkcije v tidyverse podpirajo operacije nad takšnimi podatki. Kot vhod bo večina teh funkcij prejela čiste podatke in takšne potem tudi vrnila. 
+
+Kaj je razlog, da ti podatki niso čisti? Ne drži, da imamo v vsakem stolpcu spremenljivko, saj imamo eno spremenljivko razvlečeno čez več stolpcev -- leto. Ta podatek vsekakor predstavlja spremenljivko, torej bi moral imeti enoten stolpec. Poglejmo si te podatke še v dveh nečistih formatih.
+
+```{r, echo = FALSE}
+df <- read_csv2("./data-raw/SLO-gradbena-dovoljenja-messy3.csv",
+                # locale = "Slovenian_Slovenia.1250")
+                locale = readr::locale(encoding = "cp1250"))
+df
+```
+
+Sedaj imamo podobno situacijo kot prej, se pravi ena spremenljivka je razvlečena preko večih stolpcev -- v tem primeru je to občina. Kot smo že omenili, so vsaki nečisti podatki nečisti na svoj način. To opazimo tudi tukaj. Podatki so popolnoma enaki kot v prejšnjem prikazu, ampak razpredelnica izgleda popolnoma drugače. Čisti podatki pa imajo samo eno pravilno obliko in torej ne more priti do takšnih dvoumnih prikazov.
+
+Poglejmo si še tretji format:
+
+```{r, echo = FALSE}
+df <- read_csv2("./data-raw/SLO-gradbena-dovoljenja-messy2.csv",
+                # locale = "Slovenian_Slovenia.1250")
+                locale = readr::locale(encoding = "cp1250"))
+df
+```
+
+Ta je morda nekoliko bližje čistim podatkom, kot prejšnja dva. Ampak še vedno ni v popolnoma pravilni obliki. V čem je težava? Dve spremenljivki imamo podani v enem stolpcu -- občino in tip. Ker gre za različni spremenljivki bi bilo dobro tudi, da se pojavita v različnih stolpcih.
+
+Poglejmo si sedaj še čiste podatke:
+
+```{r, echo = FALSE}
+df <- read_csv2("./data-raw/SLO-gradbena-dovoljenja-tidy1.csv",
+                # locale = "Slovenian_Slovenia.1250")
+                locale = readr::locale(encoding = "cp1250"))
+df
+```
+
+Sedaj ima vsaka spremenljivka (občina, tip in leto) svoj stolpec, zadnji stolpec pa je namenjen vrednostim. V tem poglavju se bomo naučili nečiste podatke spremeniti v čiste.
+
+Čisti podatki imajo običajno več vrstic kot nečisti in jim zato pravimo da so **daljši** (ang. **longer**). Nečisti pa so običajno **širši** (ang. **wider**). Izogibamo se besedam dolgi in široki, saj je ta definicija relativna, se pravi lahko uporabimo transformacijo, ki naredi podatke daljše, ne pa nujno dolge, saj morda obstaja še kakšna operacija, ki jih bo naredila še daljše.
+
+
+## `pivot_longer()`: pretvorba v daljšo obliko
+Funkcija `pivot_longer()` podatke spremeni v daljšo obliko. Ta trasformacija je pri delu s podatki bolj pogosta kot sprememba v širšo. Običajno uporabljamo to transformacijo, ko preurejamo podatke v čiste.
+
+Poglejmo si ponovno nečiste podatke, ki smo jih dobili naravnost iz vira:
+
+```{r, echo = FALSE}
+df <- read_csv2("./data-raw/SLO-gradbena-dovoljenja-messy1.csv",
+                locale = readr::locale(encoding = "cp1250"))
+df
+```
+
+Sedaj želimo te podatke spremeniti v čisto obliko. Kako to naredimo? Vse stolpce, ki prikazujejo različne vrednosti spremenljivke leto moramo zapisati v 1 stolpec. Uporabimo funkcijo `pivot_longer()`, ki prejme sledeče argumente:
+
+- `data`. Katere podatke želimo spremeniti.
+- `cols`. V katerih stolpcih imamo vrednosti spremenljivke, ki jo želimo shraniti v 1 stolpec.
+
+```{r}
+df %>% pivot_longer(cols = `2007`:`2020`)
+```
+
+Sedaj imamo leta shranjena v stolpcu, prav tako pa vrednosti. Stolpca sta dobila privzeti meni `name` in `value`. Funkcija `pivot_longer()` pa lahko prejme še več opcijskih argumentov, za nas bosta najbolj pomembna 2:
+
+- `names_to`. Ime stolpca, v katerega bomo shranili spremenljivko.
+- `value_to`. Ime stolpca, v katerega bomo shranili vrednosti.
+
+Uporabimo sedaj še ta 2 parametra:
+
+```{r}
+df_longer <- df %>% pivot_longer(cols = `2007`:`2020`, 
+                                 names_to = "Leto", 
+                                 values_to = "Število")
+df_longer
+```
+
+
+## `pivot_wider()`: pretvorba v širšo obliko
+Običajno bo ta transformacija naredila podatke nečiste. Vendar s tem ni nič narobe, kot smo povedali imajo tudi takšni podatki svoje prednosti. Na primer:
+
+- Podatki v širši obliki so človeku lažje berljivi.
+- Nekatera podjetja in področja imajo razvite standarde, v katerih potrebujemo podatke v širši obliki.
+- Nekatere metode (predvsem gre tukaj za metode strojnega učenja) delujejo bolje, ali izključno s podatki v širši obliki.
+- Če želimo podatke pretvoriti v matriko.
+
+Za pretvorbo podatkov v širšo obliko uporabimo funkcijo `pivot_wider()`, ki prejme dva argumenta:
+
+- `names_from`. Ime stolpca, katerga želimo raztegniti v širšo obliko.
+- `values_from`. Ime stolpca, v katerem so shranjene vrednosti.
+
+Pretvorimo sedaj `df_longer` v širšo obliko glede na stolpec `TIP.STAVBE`.
+
+
+```{r}
+df_wider <- df_longer %>%
+  pivot_wider(names_from = "TIP.STAVBE", values_from = "Število")
+df_wider[1:14, ]
+```
+
+S takšnim prikazom lahko relativno hitro opazimo določene trende, na primer v Ajdovščini se je gradilo veliko več stanovanjskih stavb med leti 2007 in 2014, leta 2015 pa se je očitno začelo graditi več nestanovanjskih stavb, kar bi lahko nakazovalo na gospodarsko rast tega mesta. Za dojemanje človeka je torej tak prikaz ustreznejši. Vsekakor pa bi za resno analizo oziroma poročilo v tem primeru raje uporabili vizualizacijo.
+
+
+## `separate()` in `unite()`: deljenje in združevanje stolpcev
+V uvodu tega poglavja smo prikazali podatke, kjer sta bili dve spremenljivki shranjeni v enem stolpcu. Poglejmo si te podatke še enkrat:
+
+```{r}
+df <- read_csv2("./data-raw/SLO-gradbena-dovoljenja-messy2.csv",
+                locale = readr::locale(encoding = "cp1250"))
+df
+```
+
+Včasih se srečamo celo z dvema vrednostima v istem stolpcu. Da ločimo ti spremenljivki na dva stolpca uporabimo funkcijo `separate()`:
+
+```{r, eval = FALSE}
+separate(<podatki>, col = <ime-stolpca>, into = <ime-novih-stolpcev>, sep = <znak-ki-locuje>)
+```
+
+Uporabimo sedaj to funkcijo da pretvorimo `df` v čisto obliko:
+
+```{r}
+df_tidy <- df %>%
+  separate(col = "OBČINA_TIP", into = c("OBČINA", "TIP"), sep = "_")
+df_tidy
+```
+
+Obstaja pa tudi obratna operacija `unite()`, ki združi dva stolpca:
+
+```{r, eval = FALSE}
+unite(<podatki>, <stolpec1>, <stolpec2>, ..., sep = <znak-ki-locuje>)
+```
+
+Pri tem tri pikice prestavljajo morebitne preostale stolpce, saj jih lahko združimo več.
+
+Za primer si poglejmo, kako bi v eno spremenljivko shranili podatke o številu stanovanjskih in nestanovanjskih gradbenih dovoljenj. Najprej pretvorimo podatke v širšo obliko glede na tip, potem pa ta nova stolpca združimo s funkcijo `unite()`.
+
+```{r}
+df_wider <- df_tidy %>%
+  pivot_wider(names_from = TIP, values_from = Število.gradbenih.dovoljenj) %>%
+  unite("Stanovanjske/Nestanovanjske", 
+        "Stanovanjske stavbe", 
+        "Nestanovanjske stavbe", 
+        sep = "/")
+df_wider
+```
+
+
+## Relacijske zbirke podatkov
+Velikokrat se pri analizi podatkov srečamo z večimi razpredelnicami, ki pa so med seboj logično povezane. Nekaj primerov:
+
+- V spletni trgovini lahko hranimo podatke v 3 razpredelnicah o produktih, kupcih in nakupih. Razpredelnice so med seboj povezane, na primer razpredelnica o nakupih vsebuje ID kupca in produkta. 
+- Baze podatkov o filmih, kot je IMDB, imajo na primer podatke o filmih, ocenjevalcih, igralcih in ocenah. Filmi povezujejo vse preostale razpredelnice. 
+- Biološke podatkovne zbirke lahko imajo razpredelnice atomov, molekul in vezi.
+- Pri železniškem omrežju imamo razpredelnice z vlaki, vagoni, železniškimi postajami, prihodi in odhodi.
+- Pri nogometu imamo razpredelnice z igralci, klubi in odigranimi tekmami.
+
+Zgoraj smo navedli le nekaj ilustrativnih primerov, seveda bi prave podatkovne baze običajno vsebovale več razpredelnic. Vsekakor pa se s takimi podatki lahko srečamo na raznovrstnih področjih.
+
+Takšnim podatkovnim zbirkam pravimo **relacijske zbirke podatkov**, saj so poleg samih podatkov v razpredelnicah pomembne tudi relacije oziroma povezave med razpredelnicami. Zaenkrat smo se naučili, kako urejati podatke v eni razpredelnici. Če želimo analizirati relacijske podatke, moramo znati upoštevati tudi povezave med njimi in jih ustrezno združevati. V tem poglavju bomo predelali operacije, ki nam to omogočajo. Morda ste se že srečali z jezikom **SQL**, ki se običajno uporablja za urejanje podatkov v sistemih za **upravljanje relacijskih podatkovnih baz** (ang. relational database management systems, RDBMS). Paket dplyr ima podobno sintakso kot SQL, vendar pa ni popolnoma enaka. Je tudi enostavnejši za uporabo pri analizi podatkov, saj je ustvarjen prav s tem namenom. 
+
+
+## Primer: Bančni podatki
+V tem poglavju bomo delali s podatki češke banke (https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions, https://relational.fit.cvut.cz/dataset/Financial). Gre za realno anonimizirano podatkovno zbirko, ki je bila uporabljena v izzivu PKDD'99 Discovery Challenge (https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm). Cilj izziva je bil odkriti dobre in slabe kliente z namenom izboljšanja ponudbe. Mi se na tem mestu ne bomo ukvarjali preveč s samo analizo, ampak bomo te podatke uporabili za ilustracijo operacij na relacijski zbirki podatkov. Seveda pa zainteresirane udeležence spodbujamo, da samostojno analizirajo podatke, v kolikor se jim tema zdi zanimiva!
+
+Poglejmo si sedaj te podatke. V mapi *data_raw/financial* se nahaja 5 razpredelnic v csv formatu: account.csv, client.csv, disp.csv, loan.csv in transaction-smaller.csv. Originalni podatki vsebujejo še nekaj razpredelnic, vendar jih bomo z namenom učinkovitega prikaza izpustili. Prav tako smo pri razpredelnici transaction.csv naključno izbrali 20000 vrstic, saj originalna datoteka vsebuje preko milijon vrstic, kar bi upočasnilo izvajanje ukazov in zasedlo veliko prostora na repozitoriju. V kolikor želite raziskati celotno zbirko, predlagamo da si podatke prenesete iz vira. Poglejmo si sedaj vsako izmed razpredelnic.
+
+Razpredelnica `account` vsebuje podatke o računih na banki.
+```{r}
+account <- read_csv2("./data-raw/financial/account.csv")
+account
+```
+
+Razpredelnica `client` vsebuje podatke o strankah.
+```{r}
+client <- read_csv2("./data-raw/financial/client.csv")
+client
+```
+
+Razpredelnica `disp` poveže podatke o osebah in računih, torej katere osebe imajo pravico opravljati s katerimi računi.
+```{r}
+disp <- read_csv2("./data-raw/financial/disp.csv")
+disp
+```
+
+Razpredelnica `loan` vsebuje podatke o posojilih.
+```{r}
+loan <- read_csv2("./data-raw/financial/loan.csv")
+loan
+```
+
+Razpredelnica `trans` vsebuje podatke o transakcijah.
+```{r}
+trans <- read_csv2("./data-raw/financial/transaction-smaller.csv")
+trans
+```
+
+Imamo 5 razpredelnice, vse pa so med seboj povezane. Razpredelnici `account` in `client` sta povezani preko razpredelnice `disp`. Razpredelnici `loan` in `trans`sta povezani z razpredelnico `account` preko spremenljivke `account_id`. To strukturo najbolje prikažemo z **relacijskim diagramom**. 
+
+![Relacijski diagram](./png/financial1.png)
+
+## Ključi
+Spremenljivkam, ki povezujejo razpredelnice, pravimo **ključi**. Te spremenljivke (ali zbirke spremenljivk) edinstveno definirajo podatke. Lahko gre za eno spremenljivko, kot je na primer `account_id` v razpredelnici `account`. Lahko pa obstaja več spremenljivk, ki definirajo en podate. Na primer, če imamo razpredelnico s temperaturami za vsak dan in uro. Potem ni nujno, da ima vsaka vrstica svoj ID, lahko pa jih edinstveno ločimo na podlagi dveh spremenljivk -- dneva in ure. V tem primeru gre torej za ključ, ki je sestavljen iz dveh spremenljivk.
+
+Poznamo dva glavna tipa ključev:
+
+- **Primarni ključ**. Ta ključ edinstveno definira podatek v razpredelnici. Na primer, `trans_id` v razpredelnici `trans`. V urejenih podatkih ima vsaka tabela svoj primarni ključ.
+- **Tuj ključ**. To je ključ v razpredelnici, ki je primarni ključ v eni od preostalih razpredelnic. Na primer, `account_id` v razpredelnici `trans`. Vrednosti tujih ključev se lahko podvajajo. Na primer, več transakcij lahko ima isto vrednost tujega ključa za `account_id`, saj se na enem bančnem računu izvede več transakcij.
+
+V kolikor razpredelnica nima primarnega ključa lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer `mutate(row_number())`.
+
+<span style="color:red">Bi bilo potrebno dodati kak primer s sestavljenim kjučem in nadomestnim ključem? je sicer eden v domači nalogi, ampak morda bi bilo potrebno kakega tu prikazat? Kaj misliš?</span>
+
+Primarni in tuj ključ skupaj tvorita relacijo med razpredelnicama. Na primer `account_id` predstavlja relacijo med razpredelnicama `trans` in `account`. Relacije so lahko ena-proti-ena (ena država ima enega predsednika in ena oseba je lahko predsednik samo ene države), ena-proti-mnogo (en igralec lahko igra za en klub, ampak en klub ima več igralcev) ali mnogo-proti-mnogo (en avtor lahko napiše več knjig in ena knjiga je lahko napisana s strani večih avtorjev).
+
+Kadar imamo opravka z relacijskimi podatki je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.
+
+```{r}
+df_list <- list(account, client, disp, trans, loan)
+id_vec  <- c("account_id", "client_id", "disp_id", "trans_id", "loan_id")
+for (i in 1:length(df_list)) {
+  tmp <- df_list[[i]] %>%
+    group_by(.data[[id_vec[i]]]) %>%
+    summarise(n = n()) %>%
+    filter(n > 1)
+  print(tmp)
+}
+```
+
+V prejšnjem klicu kode se pojavi nova sintaksa, in sicer `.data[[id_vec[i]]]`. Kaj smo s tem naredili? Funkcija `group_by()` uporablja t. i. *tidyselect*, s katerim izbiramo stolpce brez da bi jih dali v narekovaje. To pa predstavlja težavo, kadar so imena stolpcev shranjena v neki spremenljivki, kot v tem primeru. Tidyverse je ustvarjen na načelu da bolj pogoste operacije olajša (na primer, enostavno uporaba `group_by()` pri urejanju posamezne razpredelnice), za ceno težje izvedbe manj pogostih operacij (na primer, uporaba `group_by()` v for zanki). Veliko večino urejanja podatkov bomo lahko z uporabo tidyverse naredili brez uporabe zank ali naprednih lastnih funkcij. In za to veliko večino urejanja bo tidyselect koristen. V kolikor se boste lotili bolj programerskega pristopa, pa predlagamo, da si preberete navodila za programiranje z dplyr, ki jih dobite tako, da v konzoli kličete `vignette('programming')`. Na tej delavnici ne bomo predstavili podrobnosti teh pristopov. Zaenkrat je dovolj da poznamo samo zgornji klic. Torej, če imamo imena stolpcev shranjena v neki spremenljivki, potem moramo znotraj tidyselecta uporabiti `.data[[<spremenljivka-z-imeni-stolpcev>]]`.
+
+
+
+## Združevanja
+Kadar imamo opravka z večimi razpredelnicami potrebujemo orodja, s katerimi lahko posamezne pare razpredelnic združimo. Vešči uporabniki R morda že poznajo funkcijo `merge`, ki je del osnovne različice R in je namenjena splošnemu združevanju razpredelnic. Seveda pa tidyverse premore svoje različice podobnih funkcij, ki premorejo enake lastnosti kot preostale funkcije v tej zbirki -- prejmejo in vrnejo podatke v enakem formatu in sicer tibblu. Poleg tega so funkcije iz paketa dplyr tudi hitrejše od `merge`, kar ima pomembno vlogo, kadar imamo opravka z nekoliko večjimi podatkovnimi množicami.
+
+Združevanja podatkovnih razpredelnic lahko ločimo na 3 sklope:
+
+- **Mutirajoča združevanja** (ang. **mutating joins**). Dodajo nove stolpce k razpredelnici iz ujemajočih vrstic druge razpredelnice.
+- **Filtrirajoča združevanja** (ang. **filtering joins**). Izberejo vrstice ene razpredenice glede na to, ali se te ujemajo z vrsticami v drugi razpredelnici.
+- **Operacije nad množicami**. Operirajo nad vrsticami kot da so ti deli množice.
+
+<font color='red'>Ali so ti prevodi OK? Jaz bi rekel da ne, ampak se trenutno ne spomnim boljših.</font>
+
+
+### Mutirajoča združevanja
+Mutirajoča združevanja so verjetno najbolj pogosta operacija, ki jo uporabljamo pri delu z relacijskimi podatki. Te operacije združijo dve (ali več) razpredelnici glede na vrednosti stolpcev. Obstajajo 4 takšne operacije:
+
+- `left_join()`. Ohrani vse vrstice prve (leve) razpredelnice in poveže ustrezne vrstice iz druge razpredelnice s temi vrsticami.
+- `right_join()`. Ohrani vse vrstice druge (desne) razpredelnice in poveže ustrezne vrstice iz prve rapredelnice s temi vrsticami.
+- `full_join()`. Ohrani vse vrstice obeh razpredelnic.
+- `inner_join()`. Ohrani samo tiste vrstice, ki se pojavijo v obeh razpredelnicah.
+
+Prvi trije so tako imenovani zunanji stiki (*outer join*), saj uporabijo vrstice, ki se pojavijo vsaj v eni razpredelnici. Za lažje razumevanje bomo najprej prikazali uporabo stikov na podatkih, ki jih bomo ustvarili sami. Sintaksa pri vseh združevanjih je:
+
+```{r, eval = FALSE}
+left_join(<razpredelnica1>, <razpredelnica2>)
+```
+
+Ustvarimo dva tibbla:
+
+```{r}
+df1 <- tibble(
+  id = c("id1", "id2", "id3", "id4"),
+  x = c(4, 6, 1, 2)
+)
+
+df2 <- tibble(
+  id = c("id1", "id3", "id4", "id5"),
+  y = c(20, 52, 11, 21)
+)
+df1
+df2
+```
+
+- `left_join()` obdrži tibble `df1` takšen kot je in mu pripne stolpec `y` iz tibbla `df2`, kjer so vrednosti spremenljivke `id` enake. Za tiste vrstice `df1`, ki nimajo ustreznega `id` v `df2` se vrednosti v spremenljivki `y` nastavijo na `NA`.
+
+```{r}
+left_join(df1, df2)
+```
+
+- `right_join()` obdrži tibble `df2` takšen kot je in mu pripne stolpec `x` iz tibbla `df1`, kjer so vrednosti spremenljivke `id` enake. Za tiste vrstice `df2`, ki nimajo ustreznega `id` v `df1` se vrednosti v spremenljivki `y` nastavijo na `NA`.
+
+```{r}
+right_join(df1, df2)
+```
+
+- `inner_join()` obdrži samo tiste podatke, kjer se `id` nahaja v obeh razpredelnicah (torej 1, 3 in 4). Vse preostale vrstice zavrže.
+
+```{r}
+inner_join(df1, df2)
+```
+
+- `full_join()` obdrži vse podatke iz `df1` in `df2`. Kjer ni ustreznega `id` v nasprotni razpredelnici se vrednosti nastavijo na `NA`.
+
+```{r}
+full_join(df1, df2)
+```
+
+
+Najbolj pogosto bomo uporabljali `left_join()`, kadar bo cilj obdržati originalno razpredelnico kot je, ali `inner_join()`, kadar bomo želeli podatke brez manjkajočih vrednosti. Stik `right_join()` je samo drugače usmerjen `left_join()`.
+
+Do sedaj smo prikazovali kako združimo razpredelnice glede na primarni ključ, za katerega predpostavljamo da je unikaten, se pravi vsaka vrstica ima svoj ključ, ki se v razpredelnici ne ponovi. Včasih pa razpredelnice združujemo glede na sekundarni ključ. V tem primeru se lahko zgodi, da imamo relacijo ena-proti-mnogo. Če vzamemo bančne podatke od zgoraj, en račun lahko ima več skrbnikov. Kaj se zgodi v tem primeru? Kaj pa če združimo transakcije in osebe glede na račun? En račun lahko ima več transakcij in prav tako več skrbnikov. Ker pri obeh razpredelnicah uporabimo sekundarni ključ bomo najverjetneje dobili podvojene vrednosti pri obeh. Poglejmo si sedaj na primeru podatkov, ki jih generiramo sami.
+
+```{r}
+df3 <- tibble(
+  id1 = c("id1", "id2", "id3", "id4"),
+  id2 = c("id1", "id1", "id3", "id4"),
+  x = c(5, 6, 1, 2)
+)
+df4 <- tibble(
+  id2 = c("id1", "id2", "id3"),
+  y = c(20, 52, 11)
+)
+df5 <- tibble(
+  id3 = c("id1", "id2", "id3", "id4"),
+  id2 = c("id1", "id1", "id4", "id5"),
+  z = c(5, 1, 23, 5)
+)
+df3
+df4
+df5
+```
+
+`df3` in `df5` imata podvojen sekundarni ključ. Združimo sedaj `df3` in `df4` z uporabo `inner_join()`.
+
+```{r}
+inner_join(df3, df4)
+```
+
+Ključ torej ostane podvojen. Kaj pa se zgodi, če imata obe razpredelnici podvojene ključe? V tem primeru dobimo kartezični produkt vseh podvojenih vrednosti:
+
+```{r}
+inner_join(df3, df5)
+```
+
+`df3` in `df5` imata podvojeno vrednost ključa `id1`. Torej dobimo vse kombinacije preostalih vrednosti (5, 5), (5, 1), (6, 5) in (6, 1).
+
+
+### Argument `by`
+Združevanja, ki smo jih spoznali, privzeto združijo razpredelnici glede na vrednosti v vseh stolpcih, ki imajo enaka imena -- tamu pravimo tudi **naravno združevanje** (ang. **natural join**). Lahko pa tudi sami določimo, po katerih stolpcih želimo združiti podatke. To naredimo tako, da pri združevanjih uporabimo argument `by`. Sintaksa združevanj je potem:
+
+```{r, eval = FALSE}
+inner_join(<razpredelnica1>, <razpredelnica2>, by = <vektor-imen-stolpcev>)
+```
+
+`inner_join()` dveh razpredelnic bi potem zapisali kot:
+
+```{r}
+inner_join(df3, df4, by = "id2")
+```
+Ta primer služi samo kot ilustracija in je uporaba `by` nepotrebna. Seveda pa se pri realnih podatkih velikokrat srečamo s stanjem, kjer ta argument potrebujemo. Prav tako je koda s parametrom `by` bolj robustna, saj sami definiramo, glede na katere stolpce naj se razpredelnice združujejo in ne more priti do kakšnih napak pri ponovljivosti.
+
+Razpredelnici lahko združimo tudi po stolpcih, ki nimajo istega imena. Ni nenavadno, da imamo dve razpredelnici z enakimi spremenljivkami, ki pa so poimenovane drugače. Če bi želeli taki razpredelnici združiti glede na to spremenljivko, potem bi jo morali načeloma v eni razpredelnici preimenovati. S paketom dplyr pa lahko to naredimo tudi drugače. Združimo sedaj `df3` in `df5` glede na stolpca `x` in `z` ter skupni stolpec `id2`.
+
+```{r}
+inner_join(df3, df5, by = c("x" = "z", "id2"))
+```
+
+### Filtrirajoča združevanja
+Pri filtrirajočih združevanjih ne gre toliko za združevanja, kolikor gre za izbiro posameznih vrstic, glede na ujemanje vrednotsti stolpcev v neki drugi razpredelnici. Poznamo 2 takšni združevanji:
+
+- `semi_join()`. Obdrži vse vrstice v prvi razpredelnici, ki ustrezajo vrsticam v drugi razpredelnici.
+- `anti_join()`. Izloči vse vrstice v prvi razpredelnici, ki ustrezajo vrsticam v drugi razpredelnici.
+
+Poglejmo si uporabo teh združevanj na naših generiranih razpredelnicah.
+
+```{r}
+df1
+df2
+semi_join(df1, df2)
+```
+`semi_join()` je torej izločil vrstico z `id2`, saj se ta ne pojavi v `df2`.
+
+```{r}
+anti_join(df1, df2)
+```
+`semi_join()` je torej izločil vse vrstice, ki se pojavijo tudi v `df2`. Ostane torej samo vrstica z `id2`.
+
+
+### Združevanja na realnih podatkih
+Sedaj, ko smo spoznali glavne lastnosti različnih združevanj na primerih, ki so nam omogočali lažjo predstavo, pa se posvetimo realnim podatkom, ki smo jih predstavili v začetku tega poglavja. Imamo torej podatke o bančnih računih, transakcijah, posojilih, skrbnikih računov in povezovalno razpredelnico med računi in skrbniki. Lotimo se sedaj relativno enostavne analize, kjer bomo naredili sledeče:
+
+1) Ustvarili novo razpredelnico, kjer bomo imeli podatke o vseh bančnih računih in o lastnikih teh računov. Lastnik računa je lahko samo en, medtem ko je skrbnikov lahko več. 
+2) Filtrirali razpredelnico iz točke 1), v kateri bodo samo tisti, ki imajo posojila nad 100000 kron.
+3) Ustvarili novo razpredelnico klientov, kjer bomo imeli podatke o klientih in posojilih in bodo zajeti samo klienti s posojili.
+4) Izračunali kateri klienti, ki imajo posojilo, imajo tudi največ transakcij.
+
+Za vsakega izmed teh korakov bomo morali uporabiti eno od združevanj, ki smo jih spoznali. Na primer, v samih razpredelnicah nimamo direktne povezave med komitenti in transakcijami, tako da bomo morali zadeve nekako združiti. Podobno velja za ostale alineje.
+
+Najprej želimo združiti razpredelnici `account` in `client`. Za to bomo potrebovali povezovalno razpredelnico `disp` v kateri se tudi nahaja informacija o tem, ali je klient lastnik ali samo skrbnik računa. Najprej povežemo razpredelnico `account` z razpredelnico `disp` in filtriramo glede na tip klienta:
+
+```{r}
+account_disp <- left_join(account, disp) %>%
+  filter(type == "OWNER")
+account_disp
+```
+
+Sedaj lahko to novo razpredelnico povežemo z razpredelnico `client`.
+
+```{r}
+account_client <- left_join(account_disp, client)
+```
+S tem smo dobili željeno razpredelnico, v kateri imamo za vsak račun tudi informacijo o lastniku. Kot drugi korak želimo ustvariti razpredelnico, v kateri bodo samo podatki o klientih, ki imajo posojila v vrednosti več kot 100000 kron. Najprej ustvarimo razpredelnico, v kateri so samo takšna posojila, nato pa uporabimo `semi_join()`, ki bo iz razpredelnice `account_client` izbral samo vrstice, ki se bodo ujemale z vrsticami v tej novi razpredelnici posojil.
+
+```{r}
+loan_100k <- loan %>%
+  filter(amount > 100000)
+account_100k <- semi_join(account_client, loan_100k)
+account_100k
+```
+
+Hm...dobili smo prazen tibble, čeprav obstajajo tako velika posojila. Zakaj je do tega prišlo? V obeh razpredelnicah se nahajata spremenjivki `account_id` in `date`. Ampak spremenljivka `date` ni ista spremenljivka, pri razpredelnici `account_client` predstavlja, kdaj je bil račun odprt, pri `loan_100k` pa predstavlja kdaj je bilo posojilo odobreno. Torej po tej spremenljivki ne smemo združevati. Uporabimo `by`: 
+
+
+```{r}
+account_100k <- semi_join(account_client, loan_100k, by = "account_id")
+account_100k
+```
+
+V naslednjem koraku želimo imeti podatke o klientih in posojilih. Najprej bomo morali združiti razpredelnici `client` in `disp`, nato pa dodati še razpredelnico `loan`. Ustvarimo to novo razpredelnico kar z uporabo operatorja `%>%`:
+
+```{r}
+client_loan <- client %>%
+  left_join(disp) %>%
+  inner_join(loan, by = "account_id")
+client_loan
+```
+
+Na koncu preverimo še, kateri klienti, ki imajo posojilo, imajo največ transakcij. Za to bomo morali najprej izračunati število transakcij na vsakem bančnem računu. Uporabimo znanje, ki smo ga pridobili na prvem predavanju:
+
+
+```{r}
+trans_count <- trans %>%
+  group_by(account_id) %>%
+  summarise(n_trans = n())
+trans_count
+```
+
+```{r}
+left_join(client_loan, trans_count) %>%
+  arrange(desc(n_trans))
+```
+
+
+## Operacije nad množicami
+V tem poglavju si bomo ogledali operacije nad množicami. Te delujejo nad vektorji, prav tako pa nad `data.frame` oziroma nad tibbli. Poznamo 3 glavne operacije:
+
+- **Unija**. Vrne vse elemente, ki se pojavijo v eni ali drugi množici. 
+- **Presek**. Vrne vse elemente, ki se pojavijo v obeh množicah.
+- **Razlika**. Vrne vse elemente prve množice, ki se ne pojavijo v drugi množici.
+
+Poglejmo si uporabo teh operacij nad tibbli.
+
+```{r}
+df1 <- tibble(
+  id = c("id1", "id2"),
+  x = c(4, 6)
+)
+
+df2 <- tibble(
+  id = c("id1", "id3"),
+  x = c(4, 52)
+)
+df1
+df2
+union(df1, df2)
+intersect(df1, df2)
+setdiff(df1, df2)
+setdiff(df2, df1)
+```
+
+
+## Nadaljnje branje
+Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: https://vita.had.co.nz/papers/tidy-data.pdf, ki je vsekakor vreden branja. Za več informacij o neurejenih podatkih in v katerih primerih so lahko celo bolj zaželjeni predlagamo ta blog: https://simplystatistics.org/2016/02/17/non-tidy-data/.
+
+## Domača naloga
+1) Spodaj imamo podatke o stroških za 4 osebe. Razpredelnica je v neurejeni obliki. Vaša naloga je, da jo pretvorite v urejeno obliko.
+
+    ```{r}
+    podatki_o_stroskih <- tibble(
+      ime = c("Miha", "Ana", "Andrej", "Maja"),
+      april_2019 = c(400, 200, 300, 350),
+      maj_2019 = c(390, 250, 280, 400),
+      april_2020 = c(410, 150, 500, 400),
+      maj_2020 = c(300, 320, 550, 320)
+    )
+    ```
+    
+    Rešitev:
+    
+    ```{r, echo = FALSE}
+    podatki_o_stroskih %>% pivot_longer(april_2019:maj_2020, names_to = "datum", values_to = "strosek") %>%
+      separate(datum, sep = "_", into = c("mesec", "leto"))
+    ```
+
+2) V mapi *data-raw* se nahajajo podatki o predsedniških volitvah v ZDA. Najprej izberite samo podmnožico vrstic, kjer sta kandidata Joe Biden ali Donald Trump in izločite stolpec `party`. Nato pretvorite podatke v širšo obliko, tako da bo vsak izmed kandidatov imel svoj stolpec.
+    ```{r, echo = FALSE}
+    df <- read_csv("./data-raw/president_county_candidate.csv")
+    df %>% filter(candidate %in% c("Joe Biden", "Donald Trump")) %>%
+      select(- party) %>%
+      pivot_wider(names_from = "candidate", values_from = "votes")
+    ```
+
+3) Pri bančnih podatkih smo zaenkrat delali samo s petimi razpredelnicami. Celotna zbirka je nekoliko večja, saj vsebuje še 3 razpredelnice. V mapi *data-raw/financial-hw/* se nahajajo še preostale razpredelnice. Pri nalogi bomo uporabili razpredelnico *district*, ki vsebuje podatke o okrajih. Vsekakor pa se lahko za lastno vajo poigrate še s preostalima dvema. Vaše naloge so:
+
+- Preberite podatke o okrajih v R.
+- Ugotovite, kaj je primarni ključ te razpredelnice.
+- Ustrezno dopolnite entitetni diagram. To lahko naredite ročno, v kolikor pa se želite naučiti narediti bolj profesionalne diagrame pa predlagamo spletno orodje https://app.diagrams.net/. V mapi *support-files* se nahaja naš diagram. Tega lahko enostavno naložite v to orodje in ga dopolnite.
+- Poiščite 3 pokrajine (A3) z največjo povprečno vrednostjo posojil.
+    ```{r, echo = FALSE}
+# Primarni ključ te razpredelnice je `district_id`.
+
+district <- read_csv2("./data-raw/financial-hw/district.csv")
+
+district_smaller <- district %>%
+  select(district_id, A3)
+
+account_district_loan <- account %>%
+  left_join(district_smaller, by = "district_id") %>%
+  inner_join(loan, by = "account_id")
+account_district_loan %>%
+  group_by(A3) %>%
+  summarize(mean_loan = mean(amount)) %>%
+  arrange(desc(mean_loan)) %>%
+  head(3)
+```
+
+4) **Težka naloga**. Namestite paket *nycflights13*. Gre za relacijsko podatkovno zbirko o letih iz New Yorka v letu 2013. Naložite podatke z `library(nycflights13)`. Uporabljali bomo štiri razpredelnice: flights, weather, airlines in planes. Vaša naloga je:
+
+- Poizkusite najti primarni ključ za razpredelnico `flights`. Ali gre za primarni ključ lahko preverite tako, da preverite ali ta ključ unikatno določa vrstico v podatkih, torej da preštejete podatke, grupirane glede na ta ključ. Ključ je lahko sestavljen tudi iz večih spremenljivk. Na prvi pogled bi rekli, da je primarni ključ številka leta, ampak temu ni tako (preverimo s štetjem). Ali je morda kakšna druga kombinacija spremenljivk? Lahko da razpredelnica nima primarnega ključa. V tem primeru določite nadomestni ključ tako, da dodate stolpec ID z `mutate(ID = row_number())`.
+- Ugotovite kaj so primarni in kaj tuji ključi preostalih razpredelnic. Pri nekaterih razpredelnicah v tej zbirki bomo imeli sestavljene ključe, torej bodo ključi sestavljeni iz večih stolpcev. Namig: Pri vremenu je manjša napaka v podatkih in se tudi primarni ključ ponovi v zanemarljivem številu primerov. Vsekakor so napake v realnih podatkih pričakovane in moramo na to biti pozorni!
+- Narišite relacijski diagram.
+- Ustvarite novo razpredelnico tako da razpredelnici `flights` dodate podrobnosti o lastnostih letal za vsak let.
+    ```{r, echo = FALSE}
+    library(nycflights13)
+    # Razpredelnica flights izgleda kot da nima primarnega ključa, saj nobena kombinacija 
+    # spremenljivk ne definira primera edinstveno. Morda bi si lahko vzeli mesec, dan, uro
+    # in številko leta, ampak temu ni tako. Tudi če zamenjamo število leta v številko
+    # letala ne dobimo vrstic, ki se ne ponovijo. Zato bomo dodali ID.
+    flights <- mutate(flights, ID = row_number()) %>%
+      relocate(ID)
+    
+    # Relacijski diagram lahko najdete v mapi support-files.
+    
+    flights_plane   <- left_join(flights, planes, by = "tailnum")
+    flights_plane
+    ```
+- Ustvarite novo razpredelnico tako da razpredelnici `flights` dodate podrobnosti o vremenu na letališču vsak let.
+    ```{r, echo = FALSE}
+    flights_weather <- left_join(flights, weather, by = c("year", "month", "day", "hour", "origin"))
+    flights_weather
+    ```
+- Poiščite vsa letala, ki so v New York priletela 5. aprila iz letališča Chicago Ohare Intl.
+    ```{r, echo = FALSE}
+    airports_ORD <- filter(airports, name == "Chicago Ohare Intl")
+    planes_ORD   <- flights_plane %>%
+      filter(engines == 2, month == 4, day == 5) %>%
+      inner_join(airports_ORD, by = c("dest" = "faa"))
+    planes_ORD
+    ```
+
+
+5) **Zelo težka naloga**. V mapi *data-raw* se nahajajo podatki o kreditnih karticah v Tajvanu *default of credit card clients.xlsx*. Pridobili smo jih iz UCI Machine Learning repozitorija [@Dua2019]. Podatki so bili uporabljeni v znanstveni raziskavi [@Yeh2009], kjer so napovedovali verjetnosti neplačil v odvisnosti od preteklih transakcij na kartici in podatkov o lastnikih. Podatki so v xlsx datoteki. Bodite pozorni, da je prva vrstica datoteke nepomembna in se glava začne komaj v drugi vrstici. Trenutno so podatki v obliki, v kateri so zelo primerni kot vhodni podatek za kak model, na primer linearno regresijo. Vsekakor pa niso v primerni obliki za učinkotivo urejanje in hranjenje. Vaša naloga je, da podatke preberete v R in razpredelnico pretvorite v urejeno obliko. 
+
+    Predlagamo, da nalogo poizkusite rešiti sami. Naloga zahteva precej razmisleka in tudi nekaj samostojne raziskave (na primer, kaj posamezni stolpci pomenijo -- pomagate si lahko s spletno stranjo, iz katere smo prenesli podatke). V kolikor se vam zatakne, smo vam spodaj pripravili nekaj namigov:
+
+  - Najprej je potrebno razmisliti, kaj so spremenljivke. Na primer, ali sta `PAY_1` in `PAY_2` 2 spremenljivki, ali predstavljata 1 spremenljivko, ki pa je razdeljena glede na neko drugo spremenljivko?
+  - Predlagamo da začnete ukaze tako, da razpredelnico spremenite v daljšo obliko, kjer vse spremenljivke, ki se pojavijo v večih stolpcih, shranite v 1 stolpec.
+  - V novem stolpcu so celice sestavljene iz 2 spremenljivk. Ena od teh je ID meseca. Torej moramo ta stolpec ločiti na 2 stolpca. Katero funkcijo uporabimo za to? Pri tem bo prav prišel tudi argument te funkcije `sep = -1`, ki bo stolpec ločil na zadnji znak v besedi in vse preostalo (na primer, "beseda3" bo razdelil na "beseda" in "3"). -1 predstavlja pri koliko znakih od konca proti začetku naredimo ločitev besede.
+  - V enem od teh dveh preostalih stolpcev imamo še vedno shranjene 3 spremenljivke, za katere bi bilo bolje, če so v 3 stolpcih. Ustrezno pretvorite tabelo. Na tej točki smo že skoraj pri koncu.
+  - ID mesecev žal ne sovpada z zaporednimi števili mesecev v letu. Predlagamo, da si ustvarite novo razpredelnico, ki bo mapirala ID mesecev v njihova zaporedna števila. Potem pa to razpredelnico povežete z razpredelnico, kjer hranimo podatke. Kako naredimo to? Kadar združujemo razpredelnice moramo tudi biti pozorni na to, da so stolpci, ki jih združujemo, istega tipa.
+    ```{r, echo = FALSE}
+library(openxlsx)
+df <- read.xlsx("./data-raw/default of credit card clients.xlsx", startRow = 2)
+df <- as_tibble(df)
+df_tidy <- df %>% 
+  pivot_longer(starts_with("PAY") | starts_with("BILL"), names_to = "VAR", values_to = "VALUE") %>%
+  separate(VAR, sep = -1, into = c("TYPE", "MONTH_ID")) %>%
+  pivot_wider(names_from = "TYPE", values_from = "VALUE") %>%
+  rename("PAY" = "PAY_") %>%
+  mutate(MONTH_ID = as.numeric(MONTH_ID))
+df_months <- tibble(
+  MONTH_ID = 1:6,
+  MONTH = 9:4
+)
+df_tidy <- df_tidy %>%
+  left_join(df_months, by = "MONTH_ID") %>%
+  select(-MONTH_ID) %>%
+  relocate(ID, LIMIT_BAL, SEX, EDUCATION, MARRIAGE, AGE, MONTH, PAY, PAY_AMT, BILL_AMT)
+df_tidy
+```
+

@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="fr" xml:lang="fr">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Poglavje 1 Slovnica urejanja podatkov | Urejanje podatkov</title>
+  <meta name="description" content="Gradivo za delavnico Urejanje podatkov pobude DataScience@UL-FRI." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Poglavje 1 Slovnica urejanja podatkov | Urejanje podatkov" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Gradivo za delavnico Urejanje podatkov pobude DataScience@UL-FRI." />
+  <meta name="github-repo" content="bstatcomp/urejanje-podatkov" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Poglavje 1 Slovnica urejanja podatkov | Urejanje podatkov" />
+  
+  <meta name="twitter:description" content="Gradivo za delavnico Urejanje podatkov pobude DataScience@UL-FRI." />
+  
+
+<meta name="author" content="Gregor Pirš, Matej Pičulin in Erik Štrumbelj" />
+
+
+<meta name="date" content="2021-06-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="urejeni-in-relacijski-podatki.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Urejanje podatkov</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Uvod</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#struktura-te-knjige"><i class="fa fa-check"></i>Struktura te knjige</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#stil-programske-kode"><i class="fa fa-check"></i>Stil programske kode</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html"><i class="fa fa-check"></i><b>1</b> Slovnica urejanja podatkov</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#predpriprava"><i class="fa fa-check"></i><b>1.1</b> Predpriprava</a></li>
+<li class="chapter" data-level="1.2" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#sodobna-razpredelnica-tibble"><i class="fa fa-check"></i><b>1.2</b> Sodobna razpredelnica: <code>tibble</code></a></li>
+<li class="chapter" data-level="1.3" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#urejeno-ovrednotenje"><i class="fa fa-check"></i><b>1.3</b> Urejeno ovrednotenje</a></li>
+<li class="chapter" data-level="1.4" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#izbira-vrstic-s-filter"><i class="fa fa-check"></i><b>1.4</b> Izbira vrstic s <code>filter()</code></a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#manjkajoče-vrednosti"><i class="fa fa-check"></i><b>1.4.1</b> Manjkajoče vrednosti</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#izbira-stolpcev-s-select"><i class="fa fa-check"></i><b>1.5</b> Izbira stolpcev s <code>select()</code></a></li>
+<li class="chapter" data-level="1.6" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#urejanje-vrstic-z-arrange"><i class="fa fa-check"></i><b>1.6</b> Urejanje vrstic z <code>arrange()</code></a></li>
+<li class="chapter" data-level="1.7" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#dodajanje-novih-spremenljivk-z-mutate"><i class="fa fa-check"></i><b>1.7</b> Dodajanje novih spremenljivk z <code>mutate()</code></a></li>
+<li class="chapter" data-level="1.8" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#povzemanje-vrednosti-s-summarise"><i class="fa fa-check"></i><b>1.8</b> Povzemanje vrednosti s <code>summarise()</code></a></li>
+<li class="chapter" data-level="1.9" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#pipe"><i class="fa fa-check"></i><b>1.9</b> Pipe</a></li>
+<li class="chapter" data-level="1.10" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#filter-in-mutate-na-združenih-podatkih"><i class="fa fa-check"></i><b>1.10</b> <code>filter()</code> in <code>mutate()</code> na združenih podatkih</a></li>
+<li class="chapter" data-level="1.11" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#izvajanje-operacij-nad-večimi-stolpci-z-across"><i class="fa fa-check"></i><b>1.11</b> Izvajanje operacij nad večimi stolpci z <code>across()</code></a></li>
+<li class="chapter" data-level="1.12" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#povzemanje-stolpcev"><i class="fa fa-check"></i><b>1.12</b> Povzemanje stolpcev</a></li>
+<li class="chapter" data-level="1.13" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#povzemanje-vrstic"><i class="fa fa-check"></i><b>1.13</b> Povzemanje vrstic</a></li>
+<li class="chapter" data-level="1.14" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#dodatek"><i class="fa fa-check"></i><b>1.14</b> Dodatek</a>
+<ul>
+<li class="chapter" data-level="1.14.1" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#zamenjava-vrstnega-reda-stolpcev"><i class="fa fa-check"></i><b>1.14.1</b> Zamenjava vrstnega reda stolpcev</a></li>
+<li class="chapter" data-level="1.14.2" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#preimenovanje-stolpcev"><i class="fa fa-check"></i><b>1.14.2</b> Preimenovanje stolpcev</a></li>
+<li class="chapter" data-level="1.14.3" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#summarise-in-group-unpeeling"><i class="fa fa-check"></i><b>1.14.3</b> Summarise in group unpeeling</a></li>
+</ul></li>
+<li class="chapter" data-level="1.15" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#ali-želite-izvedeti-več"><i class="fa fa-check"></i><b>1.15</b> Ali želite izvedeti več?</a></li>
+<li class="chapter" data-level="1.16" data-path="slovnica-urejanja-podatkov.html"><a href="slovnica-urejanja-podatkov.html#domača-naloga"><i class="fa fa-check"></i><b>1.16</b> Domača naloga</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html"><i class="fa fa-check"></i><b>2</b> Urejeni in relacijski podatki</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#predpriprava-1"><i class="fa fa-check"></i><b>2.1</b> Predpriprava</a></li>
+<li class="chapter" data-level="2.2" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#urejeni-podatki"><i class="fa fa-check"></i><b>2.2</b> Urejeni podatki</a></li>
+<li class="chapter" data-level="2.3" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#pivot_longer-pretvorba-v-daljšo-obliko"><i class="fa fa-check"></i><b>2.3</b> <code>pivot_longer()</code>: pretvorba v daljšo obliko</a></li>
+<li class="chapter" data-level="2.4" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#pivot_wider-pretvorba-v-širšo-obliko"><i class="fa fa-check"></i><b>2.4</b> <code>pivot_wider()</code>: pretvorba v širšo obliko</a></li>
+<li class="chapter" data-level="2.5" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#separate-in-unite-deljenje-in-združevanje-stolpcev"><i class="fa fa-check"></i><b>2.5</b> <code>separate()</code> in <code>unite()</code>: deljenje in združevanje stolpcev</a></li>
+<li class="chapter" data-level="2.6" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#relacijske-zbirke-podatkov"><i class="fa fa-check"></i><b>2.6</b> Relacijske zbirke podatkov</a></li>
+<li class="chapter" data-level="2.7" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#primer-bančni-podatki"><i class="fa fa-check"></i><b>2.7</b> Primer: Bančni podatki</a></li>
+<li class="chapter" data-level="2.8" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#ključi"><i class="fa fa-check"></i><b>2.8</b> Ključi</a></li>
+<li class="chapter" data-level="2.9" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#združevanja"><i class="fa fa-check"></i><b>2.9</b> Združevanja</a>
+<ul>
+<li class="chapter" data-level="2.9.1" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#mutirajoča-združevanja"><i class="fa fa-check"></i><b>2.9.1</b> Mutirajoča združevanja</a></li>
+<li class="chapter" data-level="2.9.2" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#argument-by"><i class="fa fa-check"></i><b>2.9.2</b> Argument <code>by</code></a></li>
+<li class="chapter" data-level="2.9.3" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#filtrirajoča-združevanja"><i class="fa fa-check"></i><b>2.9.3</b> Filtrirajoča združevanja</a></li>
+<li class="chapter" data-level="2.9.4" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#združevanja-na-realnih-podatkih"><i class="fa fa-check"></i><b>2.9.4</b> Združevanja na realnih podatkih</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#operacije-nad-množicami"><i class="fa fa-check"></i><b>2.10</b> Operacije nad množicami</a></li>
+<li class="chapter" data-level="2.11" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#nadaljnje-branje"><i class="fa fa-check"></i><b>2.11</b> Nadaljnje branje</a></li>
+<li class="chapter" data-level="2.12" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#domača-naloga-1"><i class="fa fa-check"></i><b>2.12</b> Domača naloga</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><i class="fa fa-check"></i><b>3</b> Nizi, kategorične spremenljivke in datumi (OSNUTEK)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#nizi"><i class="fa fa-check"></i><b>3.1</b> Nizi</a></li>
+<li class="chapter" data-level="3.2" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#kategorične-spremenljivke"><i class="fa fa-check"></i><b>3.2</b> Kategorične spremenljivke</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#sprememba-razvrstitve-faktorja"><i class="fa fa-check"></i><b>3.2.1</b> Sprememba razvrstitve faktorja</a></li>
+<li class="chapter" data-level="3.2.2" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#preimenivanje-obstoječih-in-določanje-novih-nivojev"><i class="fa fa-check"></i><b>3.2.2</b> Preimenivanje obstoječih in določanje novih nivojev</a></li>
+<li class="chapter" data-level="3.2.3" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#razbitje-numerične-spremenljivke-na-intervale"><i class="fa fa-check"></i><b>3.2.3</b> Razbitje numerične spremenljivke na intervale</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#datumi-in-ure"><i class="fa fa-check"></i><b>3.3</b> Datumi in ure</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#računanje-z-datumi-in-časi"><i class="fa fa-check"></i><b>3.3.1</b> Računanje z datumi in časi</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#shranjevanje-in-branje-podatkov"><i class="fa fa-check"></i><b>3.4</b> Shranjevanje in branje podatkov</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#delo-z-binarnimi-datotekami"><i class="fa fa-check"></i><b>3.4.1</b> Delo z binarnimi datotekami</a></li>
+<li class="chapter" data-level="3.4.2" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#branje-in-shranjevanje-z-ostalimi-datotekami"><i class="fa fa-check"></i><b>3.4.2</b> Branje in shranjevanje z ostalimi datotekami</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="reference.html"><a href="reference.html"><i class="fa fa-check"></i>Reference</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Urejanje podatkov</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="slovnica-urejanja-podatkov" class="section level1" number="1">
+<h1><span class="header-section-number">Poglavje 1</span> Slovnica urejanja podatkov</h1>
+<p>V tem predavanju se bomo osredotočili na temeljne operacije, ki jih izvajamo nad podatki. Te operacije so nepogrešljive pri vsaki analizi:</p>
+<ul>
+<li>izbira podmnožice vrstic,</li>
+<li>izbira podmnožice stolpcev,</li>
+<li>dodajanje stolpcev, ki so lahko izpeljani iz obstoječih stolpcev,</li>
+<li>urejanje razpredelnice glede na vrednosti stolpcev,</li>
+<li>povzemanje razpredelnic, na primer povprečja in vsote.</li>
+</ul>
+<p>Paket <strong>dplyr</strong> vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Paket dplyr uvede t. i. <strong>slovnico urejanja podatkov</strong> (ang. <strong>grammar of data manipulation</strong>), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku.</p>
+<p>Pri slovnici urejanja podatkov poznamo 5 osnovnih glagolov, s katerimi preoblikujemo podatke. Vsak glagol ustreza eni izmed temeljnih operacij, ki smo jih omenili zgoraj. Programska koda se potem bere podobno kot naravni jezik – glagoli programskemu jeziku povedo, kaj naj s podatki naredi. Ti glagoli so implementirani v obliki funkcij:</p>
+<ul>
+<li><code>filter()</code> Izbira podmnožice vrstic glede na izbrane pogoje.</li>
+<li><code>select()</code> Izbira podmnožice stolpcev, glede na imena stolpcev.</li>
+<li><code>mutate()</code> Dodajanje stolpcev, ki so lahko izpeljani iz obstoječih stolpcev.</li>
+<li><code>summarise()</code> Povzemanje podatkov v razpredelnici.</li>
+<li><code>arrange()</code> Urejanje razpredelnice.</li>
+</ul>
+<p>V tem predavanju bomo bolj podrobno spoznali vsakega izmed teh glagolov. Po tem pa si bomo ogledali še dva uporabna povzetka – povzemanje po vrsticah in povzemanje po stolpcih.</p>
+<style>
+.fold-btn { 
+  float: right; 
+  margin: 5px 5px 0 0;
+}
+.fold { 
+  border: 1px solid black;
+  min-height: 40px;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+  $folds = $(".fold");
+  $folds.wrapInner("<div class=\"fold-blck\">"); // wrap a div container around content
+  $folds.prepend("<button class=\"fold-btn\">Unfold</button>");  // add a button
+  $(".fold-blck").toggle();  // fold all blocks
+  $(".fold-btn").on("click", function() {  // add onClick event
+    $(this).text($(this).text() === "Fold" ? "Unfold" : "Fold");  // if the text equals "Fold", change it to "Unfold"or else to "Fold" 
+    $(this).next(".fold-blck").toggle("linear");  // "swing" is the default easing function. This can be further customized in its speed or the overall animation itself.
+  })
+});
+</script>
+<div id="predpriprava" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Predpriprava</h2>
+<p>V predpripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice urejanja podatkov. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo si podatke:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="slovnica-urejanja-podatkov.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># Nalozimo celotno zbirko paketov tidyverse.</span></span>
+<span id="cb3-2"><a href="slovnica-urejanja-podatkov.html#cb3-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-3"><a href="slovnica-urejanja-podatkov.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Maja&quot;</span>, <span class="st">&quot;Ales&quot;</span>, <span class="st">&quot;Tom&quot;</span>, <span class="st">&quot;Barbara&quot;</span>, <span class="st">&quot;Simon&quot;</span>, <span class="st">&quot;Tina&quot;</span>),</span>
+<span id="cb3-4"><a href="slovnica-urejanja-podatkov.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">spol =</span> <span class="fu">c</span>(<span class="st">&quot;z&quot;</span>, <span class="st">&quot;m&quot;</span>, <span class="st">&quot;m&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;m&quot;</span>, <span class="st">&quot;z&quot;</span>),</span>
+<span id="cb3-5"><a href="slovnica-urejanja-podatkov.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">starost =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">54</span>, <span class="dv">21</span>, <span class="dv">35</span>, <span class="dv">53</span>, <span class="dv">21</span>),</span>
+<span id="cb3-6"><a href="slovnica-urejanja-podatkov.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">visina =</span> <span class="fu">c</span>(<span class="dv">170</span>, <span class="dv">180</span>, <span class="dv">192</span>, <span class="dv">168</span>, <span class="dv">177</span>, <span class="dv">182</span>)</span>
+<span id="cb3-7"><a href="slovnica-urejanja-podatkov.html#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>S funkcijo <code>filter()</code> izberemo podmnožico vrstic v razpredelnici glede na izbrane pogoje. Izberimo ženske nižje od 180 centimetrov.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="slovnica-urejanja-podatkov.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Osnovni R:</span></span>
+<span id="cb4-2"><a href="slovnica-urejanja-podatkov.html#cb4-2" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>spol <span class="sc">==</span> <span class="st">&quot;z&quot;</span> <span class="sc">&amp;</span> df<span class="sc">$</span>visina <span class="sc">&lt;</span> <span class="dv">180</span>, ]</span></code></pre></div>
+<pre><code>##       ime spol starost visina
+## 1    Maja    z      23    170
+## 4 Barbara    z      35    168</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="slovnica-urejanja-podatkov.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr:</span></span>
+<span id="cb6-2"><a href="slovnica-urejanja-podatkov.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df, spol <span class="sc">==</span> <span class="st">&quot;z&quot;</span>, visina <span class="sc">&lt;</span> <span class="dv">180</span>)</span></code></pre></div>
+<pre><code>##       ime spol starost visina
+## 1    Maja    z      23    170
+## 2 Barbara    z      35    168</code></pre>
+<p>Opazimo, da z uporabo dplyr ni potrebno vsakič pisati <code>df$</code> pred imenom spremenljivke. Tukaj gre za t. i. <strong>maskiranje podatkov</strong> (ang. <strong>data masking</strong>). Več o tem v jedru poglavja.</p>
+<p>S funkcijo <code>select()</code> izberemo podmnožico stolpcev. Izberimo stolpce <code>ime</code>, <code>spol</code> in <code>visina</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="slovnica-urejanja-podatkov.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Osnovni R:</span></span>
+<span id="cb8-2"><a href="slovnica-urejanja-podatkov.html#cb8-2" aria-hidden="true" tabindex="-1"></a>df[ , <span class="fu">c</span>(<span class="st">&quot;ime&quot;</span>, <span class="st">&quot;spol&quot;</span>, <span class="st">&quot;visina&quot;</span>)]</span></code></pre></div>
+<pre><code>##       ime spol visina
+## 1    Maja    z    170
+## 2    Ales    m    180
+## 3     Tom    m    192
+## 4 Barbara    z    168
+## 5   Simon    m    177
+## 6    Tina    z    182</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="slovnica-urejanja-podatkov.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr:</span></span>
+<span id="cb10-2"><a href="slovnica-urejanja-podatkov.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(df, ime, spol, visina)</span></code></pre></div>
+<pre><code>##       ime spol visina
+## 1    Maja    z    170
+## 2    Ales    m    180
+## 3     Tom    m    192
+## 4 Barbara    z    168
+## 5   Simon    m    177
+## 6    Tina    z    182</code></pre>
+<p>Opazimo, da nam pri uporabi dplyr stolpcev ni potrebno pisati v narekovajih. Tukaj gre za t. i. <strong>urejeno izbiranje</strong> (ang. <strong>tidy selection</strong>). Več o tem v jedru poglavja.</p>
+<p>S funkcijo <code>mutate()</code> dodajamo stolpce. Dodajmo višino v metrih:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="slovnica-urejanja-podatkov.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Osnovni R:</span></span>
+<span id="cb12-2"><a href="slovnica-urejanja-podatkov.html#cb12-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> df</span>
+<span id="cb12-3"><a href="slovnica-urejanja-podatkov.html#cb12-3" aria-hidden="true" tabindex="-1"></a>df2<span class="sc">$</span>visina_v_metrih <span class="ot">&lt;-</span> df2<span class="sc">$</span>visina <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb12-4"><a href="slovnica-urejanja-podatkov.html#cb12-4" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
+<pre><code>##       ime spol starost visina visina_v_metrih
+## 1    Maja    z      23    170            1.70
+## 2    Ales    m      54    180            1.80
+## 3     Tom    m      21    192            1.92
+## 4 Barbara    z      35    168            1.68
+## 5   Simon    m      53    177            1.77
+## 6    Tina    z      21    182            1.82</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="slovnica-urejanja-podatkov.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr:</span></span>
+<span id="cb14-2"><a href="slovnica-urejanja-podatkov.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(df, <span class="at">visina_v_metrih =</span> visina <span class="sc">/</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>##       ime spol starost visina visina_v_metrih
+## 1    Maja    z      23    170            1.70
+## 2    Ales    m      54    180            1.80
+## 3     Tom    m      21    192            1.92
+## 4 Barbara    z      35    168            1.68
+## 5   Simon    m      53    177            1.77
+## 6    Tina    z      21    182            1.82</code></pre>
+<p>S funkcijo <code>arrange()</code> urejamo razpredelnico. Uredimo osebe po starosti:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="slovnica-urejanja-podatkov.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Osnovni R:</span></span>
+<span id="cb16-2"><a href="slovnica-urejanja-podatkov.html#cb16-2" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">order</span>(df<span class="sc">$</span>starost), ]</span></code></pre></div>
+<pre><code>##       ime spol starost visina
+## 3     Tom    m      21    192
+## 6    Tina    z      21    182
+## 1    Maja    z      23    170
+## 4 Barbara    z      35    168
+## 5   Simon    m      53    177
+## 2    Ales    m      54    180</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="slovnica-urejanja-podatkov.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr:</span></span>
+<span id="cb18-2"><a href="slovnica-urejanja-podatkov.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(df, starost)</span></code></pre></div>
+<pre><code>##       ime spol starost visina
+## 1     Tom    m      21    192
+## 2    Tina    z      21    182
+## 3    Maja    z      23    170
+## 4 Barbara    z      35    168
+## 5   Simon    m      53    177
+## 6    Ales    m      54    180</code></pre>
+<p>S funkcijo <code>summarise()</code> povzamemo podatke. Običajno se uporablja v kombinaciji z <code>group_by()</code>. Izračunajmo povprečno višino glede na spol:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="slovnica-urejanja-podatkov.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Osnovni R:</span></span>
+<span id="cb20-2"><a href="slovnica-urejanja-podatkov.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(visina <span class="sc">~</span> spol, <span class="at">data =</span> df, <span class="at">FUN =</span> mean)</span></code></pre></div>
+<pre><code>##   spol   visina
+## 1    m 183.0000
+## 2    z 173.3333</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="slovnica-urejanja-podatkov.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr:</span></span>
+<span id="cb22-2"><a href="slovnica-urejanja-podatkov.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="fu">group_by</span>(df, spol), <span class="at">povp_visina =</span> <span class="fu">mean</span>(visina))</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   spol  povp_visina
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 m            183 
+## 2 z            173.</code></pre>
+<p><strong>Naloga:</strong> Poglejmo si nov primer podatkov.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="slovnica-urejanja-podatkov.html#cb24-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb24-2"><a href="slovnica-urejanja-podatkov.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">podjetje =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>),</span>
+<span id="cb24-3"><a href="slovnica-urejanja-podatkov.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">panoga =</span> <span class="fu">c</span>(<span class="st">&quot;proizvodnja&quot;</span>, <span class="st">&quot;gostinstvo&quot;</span>, <span class="st">&quot;proizvodnja&quot;</span>, <span class="st">&quot;gostinstvo&quot;</span>, <span class="st">&quot;proizvodnja&quot;</span>),</span>
+<span id="cb24-4"><a href="slovnica-urejanja-podatkov.html#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">st_zaposlenih =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">20</span>, <span class="dv">110</span>, <span class="dv">15</span>, <span class="dv">20</span>),</span>
+<span id="cb24-5"><a href="slovnica-urejanja-podatkov.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dobicek =</span> <span class="fu">c</span>(<span class="dv">100000</span>, <span class="dv">10000</span>, <span class="dv">12000</span>, <span class="dv">1000</span>, <span class="dv">0</span>)</span>
+<span id="cb24-6"><a href="slovnica-urejanja-podatkov.html#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Z uporabo dplyr:</p>
+<ul>
+<li>Izberite vrstice, ki imajo med (vključno) 10000 in 20000 dobička.</li>
+</ul>
+<pre><code>##   podjetje      panoga st_zaposlenih dobicek
+## 1        B  gostinstvo            20   10000
+## 2        C proizvodnja           110   12000</code></pre>
+<ul>
+<li>Izberite drugi in četrti stolpec.</li>
+</ul>
+<pre><code>##        panoga dobicek
+## 1 proizvodnja  100000
+## 2  gostinstvo   10000
+## 3 proizvodnja   12000
+## 4  gostinstvo    1000
+## 5 proizvodnja       0</code></pre>
+<ul>
+<li>Dodajte stolpec, ki bo prikazal dobiček na zaposlenega.</li>
+</ul>
+<pre><code>##   podjetje      panoga st_zaposlenih dobicek dobicek_na_zaposlenega
+## 1        A proizvodnja           100  100000             1000.00000
+## 2        B  gostinstvo            20   10000              500.00000
+## 3        C proizvodnja           110   12000              109.09091
+## 4        D  gostinstvo            15    1000               66.66667
+## 5        E proizvodnja            20       0                0.00000</code></pre>
+<ul>
+<li>Uredite podjetja po številu zaposlenih.</li>
+</ul>
+<pre><code>##   podjetje      panoga st_zaposlenih dobicek
+## 1        D  gostinstvo            15    1000
+## 2        B  gostinstvo            20   10000
+## 3        E proizvodnja            20       0
+## 4        A proizvodnja           100  100000
+## 5        C proizvodnja           110   12000</code></pre>
+<ul>
+<li>Poiščite maksimalno število zaposlenih glede na panogo.</li>
+</ul>
+<pre><code>## # A tibble: 2 x 2
+##   panoga      max_st_zaposlenih
+##   &lt;chr&gt;                   &lt;dbl&gt;
+## 1 gostinstvo                 20
+## 2 proizvodnja               110</code></pre>
+</div>
+<div id="sodobna-razpredelnica-tibble" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Sodobna razpredelnica: <code>tibble</code></h2>
+<p>Najprej si poglejmo podatke, na katerih se bomo naučili osnovnih konceptov slovnice urejanja podatkov. V mapi <em>data-raw</em> se nahajajo podatki <em>DS-jobs.csv</em>. Gre za rezultate ankete, ki so jo v povezavi z industrijo izvedli na spletni strani Kaggle (<a href="https://www.kaggle.com/kaggle/kaggle-survey-2017" class="uri">https://www.kaggle.com/kaggle/kaggle-survey-2017</a>) leta 2017 z namenom raziskati trg dela na področju podatkovnih ved in strojnega učenja. Podatki so shranjeni v tekstovni datoteki, kjer so elementi ločeni s podpičjem. Preberimo podatke v našo sejo R:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="slovnica-urejanja-podatkov.html#cb30-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;./data-raw/DS-jobs.csv&quot;</span>)</span>
+<span id="cb30-2"><a href="slovnica-urejanja-podatkov.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds_jobs)</span></code></pre></div>
+<pre><code>##   Gender        Country Age   EmploymentStatus
+## 1 Female      Australia  43 Employed full-time
+## 2   Male         Russia  33 Employed full-time
+## 3   Male         Taiwan  26 Employed full-time
+## 4   Male  United States  25 Employed part-time
+## 5   Male  United States  33 Employed full-time
+## 6   Male Czech Republic  21 Employed part-time
+##                        CurrentJobTitle LanguageRecommendation
+## 1                     Business Analyst                 Python
+## 2 Software Developer/Software Engineer                 Python
+## 3 Software Developer/Software Engineer                 Python
+## 4                           Researcher                 Python
+## 5                 Scientist/Researcher                 Matlab
+## 6                                Other                 Python
+##                                                     FormalEducation
+## 1                                                 Bachelor&#39;s degree
+## 2                                                 Bachelor&#39;s degree
+## 3                                                   Master&#39;s degree
+## 4                                                 Bachelor&#39;s degree
+## 5                                                   Doctoral degree
+## 6 Some college/university study without earning a bachelor&#39;s degree
+##                    Major CompensationAmount CompensationCurrency
+## 1                                     80000                  AUD
+## 2                  Other            1200000                  RUB
+## 3       Computer Science            1100000                  TWD
+## 4                Physics              20000                  USD
+## 5 Electrical Engineering             100000                  USD
+## 6       Computer Science              20000                  CZK
+##   TimeGatheringData TimeModelBuilding TimeProduction TimeVisualizing
+## 1                60                10              5              15
+## 2                40                30             15              10
+## 3                35                20             25              10
+## 4                 0                80              0              20
+## 5                 0                 0              0               0
+## 6                20                60             20               0
+##   TimeFindingInsights TimeOtherSelect ExchangeRate
+## 1                  10               0     0.802310
+## 2                   5               0     0.017402
+## 3                  10               0     0.033304
+## 4                   0               0     1.000000
+## 5                   0               0     1.000000
+## 6                   0               0     0.045820</code></pre>
+<p>Spremenljivka <code>ds_jobs</code> je tipa <code>data.frame</code>. To je osnovna oblika, v kateri v R hranimo razpredelnice. V tidyverse obstaja paket <strong>tibble</strong>, ki je namenjen sodobni predstavitvi razpredelnice. Glavna funkcionalnost tega paketa je objekt <code>tibble</code>, ki predstavlja nadgradnjo data frame. V preostanku knjige bomo za objekte <code>data.frame</code> uporabljali izraz “data frame” in za objekte tipa <code>tibble</code> izraz “tibble”. Večina funkcij v tidyverse sicer lahko kot vhodni podatek prejme data frame, ampak ga nekatere potem samodejno pretvorijo v tibble. Kot dobro prakso predlagamo delo izključno s tibble. Poleg kompatibilnosti s funkcijami tidyverse je še nekaj drugih razlik v primerjavi z data frame, večino le-teh bomo spoznali v preostanku knjige.</p>
+<p>Pretvorimo sedaj ta data frame v tibble s funkcijo <code>as_tibble()</code>.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="slovnica-urejanja-podatkov.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb32-2"><a href="slovnica-urejanja-podatkov.html#cb32-2" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(ds_jobs)</span>
+<span id="cb32-3"><a href="slovnica-urejanja-podatkov.html#cb32-3" aria-hidden="true" tabindex="-1"></a>ds_jobs</span></code></pre></div>
+<pre><code>## # A tibble: 4,523 x 17
+##    Gender Country    Age EmploymentStatus     CurrentJobTitle   LanguageRecomme~
+##    &lt;chr&gt;  &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;             &lt;chr&gt;           
+##  1 Female Austral~    43 Employed full-time   Business Analyst  Python          
+##  2 Male   Russia      33 Employed full-time   Software Develop~ Python          
+##  3 Male   Taiwan      26 Employed full-time   Software Develop~ Python          
+##  4 Male   United ~    25 Employed part-time   Researcher        Python          
+##  5 Male   United ~    33 Employed full-time   Scientist/Resear~ Matlab          
+##  6 Male   Czech R~    21 Employed part-time   Other             Python          
+##  7 Male   Russia      22 Employed full-time   Data Analyst      Python          
+##  8 Male   Netherl~    51 Employed full-time   Engineer          R               
+##  9 Male   Colombia    34 Employed full-time   Data Scientist    Python          
+## 10 Male   Germany     41 Independent contrac~ Data Scientist    Python          
+## # ... with 4,513 more rows, and 11 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;, CompensationAmount &lt;dbl&gt;, CompensationCurrency &lt;chr&gt;,
+## #   TimeGatheringData &lt;int&gt;, TimeModelBuilding &lt;dbl&gt;, TimeProduction &lt;dbl&gt;,
+## #   TimeVisualizing &lt;dbl&gt;, TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;int&gt;,
+## #   ExchangeRate &lt;dbl&gt;</code></pre>
+<p>Opazimo, da je oblika prikaza podatkov sedaj nekoliko drugačna. Najbolj očitna razlika je, da imamo na zaslonu prikazanih samo toliko stolpcev, kot jih je možno prikazati na zaslonu. Preostali stolpci so samo zapisani zaporedno z imeni, da lahko vidimo, katere stolpce še imamo v podatkih. S tem preprečimo, da bi izpis postal nepregleden. Še vedno lahko vidimo vse oziroma več stolpcev z uporabo <code>View()</code> ali pa če tibble izpišemo s pomočjo <code>print()</code> in ustrezno nastavitvijo širine, na primer <code>print(ds_jobs, width = 120)</code>. Izpis tibble pa nam nudi še nekaj dodatnih informacij v primerjavi z data frame. V prvi vrstici imamo izpisano dimenzijo podatkov – število vrstic in število stolpcev. Pod vsako spremenljivko je zapisan tudi njen tip. Tibble tudi dopušča imena stolpcev, ki niso standardna za R (na primer vsebujejo <code>-</code> in podobno), čeprav uporaba takih imen ni dobra praksa. Več o tem bomo povedali kasneje.</p>
+</div>
+<div id="urejeno-ovrednotenje" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Urejeno ovrednotenje</h2>
+<p>Preden začnemo resneje delati z glagoli slovnice urejanja podatkov, spoznajmo t. i. <strong>urejeno ovrednotenje</strong> (ang. <strong>tidy evaluation</strong>). To je posebnost tidyverse in večina glagolov v dplyr ga uporablja. Kaj pa je urejeno ovrednotenje? To je nestandarden pristop k ovrednotenju izrazov v programskem jeziku R. V predpripravi smo že srečali dva primera:</p>
+<ul>
+<li>Pri funkciji <code>filter()</code> ni bilo potrebno vsakič navesti <code>df$</code> za izbiro spremenljivk iz razpredelnice.</li>
+<li>Pri funkciji <code>select()</code> nismo potrebovali narekovajev.</li>
+</ul>
+<p>Oba sta primera dveh vrst urejenega ovrednotenja:</p>
+<ul>
+<li>Pri nekaterih glagolih v dplyr lahko uporabimo spremenljivke (stolpce) tibbla (ali razpredelnice), kot da bi bile spremenljivke v globalnem okolju (torej lahko uporabimo <code>moja_spremenljivka</code> namesto <code>df$moja_spremenljivka</code>). Temu pravimo <strong>maskiranje podatkov</strong> (ang. <strong>data masking</strong>). Funkcije, ki podpirajo to strukturo in jih bomo spoznali v nadaljevanju so: <code>arrange()</code>, <code>count()</code>, <code>filter()</code>, <code>group_by()</code>, <code>mutate()</code> in <code>summarise()</code>.</li>
+<li>Pri nekaterih glagolih v dplyr lahko na lažji način izberemo spremenljivke (stolpce) glede na njihovo pozicijo, ime ali tip (na primer izbira stolpcev po imenu brez narekovajev, izbira stolpcev ki se začnejo na določen niz, izbira samo številskih stolpcev). Temu pravimo <strong>urejeno izbiranje</strong> (ang. <strong>tidy selection</strong>). Funkcije, ki podpirajo to strukturo so: <code>across()</code>, <code>count()</code>, <code>rename()</code>, <code>select()</code> in <code>pull()</code>.</li>
+</ul>
+<p>Informacije o tem, ali funkcija vsebuje maskiranje podatkov ali urejeno izbiranje, lahko najdemo v datoteki s pomočjo pod razdelkom <em>Arguments</em>.</p>
+</div>
+<div id="izbira-vrstic-s-filter" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Izbira vrstic s <code>filter()</code></h2>
+<p>S funkcijo <code>filter()</code> izbiramo podmnožico vrstic glede na izbrane pogoje. Sintaksa je:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="slovnica-urejanja-podatkov.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="sc">&lt;</span>tibble<span class="sc">&gt;</span>, <span class="sc">&lt;</span>pogoj1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>pogoj2<span class="sc">&gt;</span>, ...)</span></code></pre></div>
+<p>Kot prvi argument podamo tibble s podatki, potem pa z vejicami ločene pogoje. Izberimo vse osebe mlajše od 30 let:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="slovnica-urejanja-podatkov.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb35-2"><a href="slovnica-urejanja-podatkov.html#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ds_jobs, Age <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1,729 x 17
+##    Gender Country     Age EmploymentStatus CurrentJobTitle     LanguageRecommen~
+##    &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;            
+##  1 Male   Taiwan       26 Employed full-t~ Software Developer~ Python           
+##  2 Male   United S~    25 Employed part-t~ Researcher          Python           
+##  3 Male   Czech Re~    21 Employed part-t~ Other               Python           
+##  4 Male   Russia       22 Employed full-t~ Data Analyst        Python           
+##  5 Male   Poland       29 Employed full-t~ Software Developer~ Python           
+##  6 Male   Other        28 Employed full-t~ Data Scientist      R                
+##  7 Male   Mexico       26 Employed part-t~ Data Scientist      Python           
+##  8 Male   Singapore    24 Employed full-t~ Data Analyst        Python           
+##  9 Male   India        29 Employed full-t~ Data Scientist      R                
+## 10 Male   United S~    25 Employed full-t~ Engineer            Python           
+## # ... with 1,719 more rows, and 11 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;, CompensationAmount &lt;dbl&gt;, CompensationCurrency &lt;chr&gt;,
+## #   TimeGatheringData &lt;int&gt;, TimeModelBuilding &lt;dbl&gt;, TimeProduction &lt;dbl&gt;,
+## #   TimeVisualizing &lt;dbl&gt;, TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;int&gt;,
+## #   ExchangeRate &lt;dbl&gt;</code></pre>
+<p>Več pogojev ločimo z vejico, kadar želimo, da veljajo vsi pogoji (enakovredno uporabi operatorja <em>in</em> – <code>&amp;</code> pri naštevanju pogojev). Poglejmo si vse osebe mlajše od 30 let, ki prihajajo iz Nemčije:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="slovnica-urejanja-podatkov.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ds_jobs, Age <span class="sc">&lt;</span> <span class="dv">30</span>, Country <span class="sc">==</span> <span class="st">&quot;Germany&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 42 x 17
+##    Gender Country   Age EmploymentStatus      CurrentJobTitle   LanguageRecomme~
+##    &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;                 &lt;chr&gt;             &lt;chr&gt;           
+##  1 Female Germany    24 Employed part-time    Scientist/Resear~ R               
+##  2 Male   Germany    28 Employed full-time    Scientist/Resear~ Python          
+##  3 Male   Germany    24 Independent contract~ Data Scientist    Python          
+##  4 Female Germany    29 Employed full-time    Business Analyst  SQL             
+##  5 Male   Germany    26 Employed part-time    Researcher        Python          
+##  6 Male   Germany    27 Employed full-time    Data Scientist    Python          
+##  7 Female Germany    26 Employed part-time    Statistician      R               
+##  8 Male   Germany    26 Independent contract~ Data Scientist    Python          
+##  9 Male   Germany    29 Employed full-time    Machine Learning~ Python          
+## 10 Male   Germany    25 Employed full-time    Data Scientist    Python          
+## # ... with 32 more rows, and 11 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;, CompensationAmount &lt;dbl&gt;, CompensationCurrency &lt;chr&gt;,
+## #   TimeGatheringData &lt;int&gt;, TimeModelBuilding &lt;dbl&gt;, TimeProduction &lt;dbl&gt;,
+## #   TimeVisualizing &lt;dbl&gt;, TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;int&gt;,
+## #   ExchangeRate &lt;dbl&gt;</code></pre>
+<p>V kolikor želimo, da velja vsaj eden izmed pogojev, moramo uporabiti operator <em>ali</em> – <code>|</code>. Poglejmo si vse osebe mlajše od 30 ali starejše od 50 let:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="slovnica-urejanja-podatkov.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ds_jobs, Age <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">|</span> Age <span class="sc">&gt;</span> <span class="dv">50</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 2,006 x 17
+##    Gender Country     Age EmploymentStatus CurrentJobTitle     LanguageRecommen~
+##    &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;            
+##  1 Male   Taiwan       26 Employed full-t~ Software Developer~ Python           
+##  2 Male   United S~    25 Employed part-t~ Researcher          Python           
+##  3 Male   Czech Re~    21 Employed part-t~ Other               Python           
+##  4 Male   Russia       22 Employed full-t~ Data Analyst        Python           
+##  5 Male   Netherla~    51 Employed full-t~ Engineer            R                
+##  6 Male   Poland       29 Employed full-t~ Software Developer~ Python           
+##  7 Male   Other        28 Employed full-t~ Data Scientist      R                
+##  8 Male   Mexico       26 Employed part-t~ Data Scientist      Python           
+##  9 Male   Singapore    24 Employed full-t~ Data Analyst        Python           
+## 10 Male   India        29 Employed full-t~ Data Scientist      R                
+## # ... with 1,996 more rows, and 11 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;, CompensationAmount &lt;dbl&gt;, CompensationCurrency &lt;chr&gt;,
+## #   TimeGatheringData &lt;int&gt;, TimeModelBuilding &lt;dbl&gt;, TimeProduction &lt;dbl&gt;,
+## #   TimeVisualizing &lt;dbl&gt;, TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;int&gt;,
+## #   ExchangeRate &lt;dbl&gt;</code></pre>
+<p>Če želimo nek kategorični stolpec pogojiti z večimi vrednostmi (na primer udeležence iz večih držav), lahko namesto večih <code>|</code> uporabimo operator <code>%in%</code>, ki preveri, če je element del množice:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="slovnica-urejanja-podatkov.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ds_jobs, Country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;Canada&quot;</span>, <span class="st">&quot;Ireland&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 306 x 17
+##    Gender   Country   Age EmploymentStatus     CurrentJobTitle  LanguageRecomme~
+##    &lt;chr&gt;    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;            &lt;chr&gt;           
+##  1 Male     Germany    41 Independent contrac~ Data Scientist   Python          
+##  2 Female   Germany    49 Employed part-time   Scientist/Resea~ Python          
+##  3 Male     Germany    44 Employed full-time   Other            Python          
+##  4 A diffe~ Canada     23 Employed full-time   Scientist/Resea~ Python          
+##  5 Female   Germany    24 Employed part-time   Scientist/Resea~ R               
+##  6 Male     Canada     52 Employed full-time   Software Develo~ Python          
+##  7 Male     Ireland    27 Employed full-time   Data Scientist   Python          
+##  8 Male     Canada     24 Employed full-time   Business Analyst Python          
+##  9 Male     Canada     46 Employed full-time   Data Scientist   Python          
+## 10 Male     Canada     31 Employed full-time   Data Analyst     R               
+## # ... with 296 more rows, and 11 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;, CompensationAmount &lt;dbl&gt;, CompensationCurrency &lt;chr&gt;,
+## #   TimeGatheringData &lt;int&gt;, TimeModelBuilding &lt;dbl&gt;, TimeProduction &lt;dbl&gt;,
+## #   TimeVisualizing &lt;dbl&gt;, TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;int&gt;,
+## #   ExchangeRate &lt;dbl&gt;</code></pre>
+<div id="manjkajoče-vrednosti" class="section level3" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> Manjkajoče vrednosti</h3>
+<p>Vrstice pogosto filtriramo na podlagi manjkajočih vrednosti. Včasih so te pomembne za samo analizo, saj nas lahko zanimajo razlogi za njihov pojav. Včasih pa so to nepomembne vrstice, saj nam ne prinesejo dodatne informacije. V tem primeru jih običajno kar izločimo iz nadaljnje analize.</p>
+<p>V nadaljevanju bomo spoznali, kako dodati nov stolpec, in to ilustrirali na izračunu plače v dolarjih. Za to bomo potrebovali stolpca <code>CompensationAmount</code> in <code>ExchangeRate</code>. V slednjem je kar nekaj manjkajočih vrednosti. Takšne vrstice bodo za analizo plač neuporabne, zato jih bomo sedaj izločili iz podatkov. Ali je vrednost enaka <code>NA</code> (objekt, ki predstavlja manjkajočo vrednost v R) preverimo s funkcijo <code>is.na()</code>. Izločimo sedaj te vrstice:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="slovnica-urejanja-podatkov.html#cb43-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> <span class="fu">filter</span>(ds_jobs, <span class="sc">!</span><span class="fu">is.na</span>(ExchangeRate))</span></code></pre></div>
+<p>Podobno kot v zgornjem primeru lahko v pogoju nastopa poljubna funkcija.</p>
+</div>
+</div>
+<div id="izbira-stolpcev-s-select" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Izbira stolpcev s <code>select()</code></h2>
+<p>S funkcijo <code>select()</code> izbiramo podmnožico stolpcev. Osnovna sintaksa je:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="slovnica-urejanja-podatkov.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="sc">&lt;</span>tibble<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec2<span class="sc">&gt;</span>, ...)</span></code></pre></div>
+<p>Izberimo sedaj stolpce <code>Country</code>, <code>Age</code> in <code>EmploymentStatus</code>.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="slovnica-urejanja-podatkov.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ds_jobs, Country, Age, EmploymentStatus)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 3
+##    Country          Age EmploymentStatus                                    
+##    &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;                                               
+##  1 Australia         43 Employed full-time                                  
+##  2 Russia            33 Employed full-time                                  
+##  3 Taiwan            26 Employed full-time                                  
+##  4 United States     25 Employed part-time                                  
+##  5 United States     33 Employed full-time                                  
+##  6 Czech Republic    21 Employed part-time                                  
+##  7 Russia            22 Employed full-time                                  
+##  8 Colombia          34 Employed full-time                                  
+##  9 Germany           41 Independent contractor, freelancer, or self-employed
+## 10 Poland            29 Employed full-time                                  
+## # ... with 3,771 more rows</code></pre>
+<p>Izberimo vse stolpce razen teh treh stolpcev. Za to enostavno dodamo minus pred imenom stolpca, ki ga želimo izločiti:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="slovnica-urejanja-podatkov.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ds_jobs, <span class="sc">-</span>Country, <span class="sc">-</span>Age, <span class="sc">-</span>EmploymentStatus)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 14
+##    Gender CurrentJobTitle    LanguageRecommen~ FormalEducation       Major      
+##    &lt;chr&gt;  &lt;chr&gt;              &lt;chr&gt;             &lt;chr&gt;                 &lt;chr&gt;      
+##  1 Female Business Analyst   Python            Bachelor&#39;s degree     &quot;&quot;         
+##  2 Male   Software Develope~ Python            Bachelor&#39;s degree     &quot;Other&quot;    
+##  3 Male   Software Develope~ Python            Master&#39;s degree       &quot;Computer ~
+##  4 Male   Researcher         Python            Bachelor&#39;s degree     &quot;Physics&quot;  
+##  5 Male   Scientist/Researc~ Matlab            Doctoral degree       &quot;Electrica~
+##  6 Male   Other              Python            Some college/univers~ &quot;Computer ~
+##  7 Male   Data Analyst       Python            Bachelor&#39;s degree     &quot;Informati~
+##  8 Male   Data Scientist     Python            Master&#39;s degree       &quot;Computer ~
+##  9 Male   Data Scientist     Python            I did not complete a~ &quot;&quot;         
+## 10 Male   Software Develope~ Python            Master&#39;s degree       &quot;Computer ~
+## # ... with 3,771 more rows, and 9 more variables: CompensationAmount &lt;dbl&gt;,
+## #   CompensationCurrency &lt;chr&gt;, TimeGatheringData &lt;int&gt;,
+## #   TimeModelBuilding &lt;dbl&gt;, TimeProduction &lt;dbl&gt;, TimeVisualizing &lt;dbl&gt;,
+## #   TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;int&gt;, ExchangeRate &lt;dbl&gt;</code></pre>
+<p>Izberimo vse stolpce med <code>Country</code> in <code>Major</code>. Podobno kot v R <code>1:10</code> našteje vsa cela števila med 1 in 10, operator <code>:</code> v tidyverse izbere vse stolpce med <code>Country</code> in <code>Major</code>:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="slovnica-urejanja-podatkov.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ds_jobs, Country<span class="sc">:</span>Major)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 7
+##    Country     Age EmploymentStatus        CurrentJobTitle     LanguageRecommen~
+##    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;                   &lt;chr&gt;               &lt;chr&gt;            
+##  1 Australia    43 Employed full-time      Business Analyst    Python           
+##  2 Russia       33 Employed full-time      Software Developer~ Python           
+##  3 Taiwan       26 Employed full-time      Software Developer~ Python           
+##  4 United S~    25 Employed part-time      Researcher          Python           
+##  5 United S~    33 Employed full-time      Scientist/Research~ Matlab           
+##  6 Czech Re~    21 Employed part-time      Other               Python           
+##  7 Russia       22 Employed full-time      Data Analyst        Python           
+##  8 Colombia     34 Employed full-time      Data Scientist      Python           
+##  9 Germany      41 Independent contractor~ Data Scientist      Python           
+## 10 Poland       29 Employed full-time      Software Developer~ Python           
+## # ... with 3,771 more rows, and 2 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;</code></pre>
+<p>Izberimo vse stolpce, ki se začnejo z besedo <code>Time</code>. Za to bomo uporabili funkcijo <code>starts_with()</code>. Ta funkcija je t. i. <em>selection helper</em>, kar pomeni, da jo lahko uporabimo le znotraj funkcij, ki omogočajo urejeno ovrednotenje in nam omogoča lažjo izbiro na podlagi nekega pogoja. V tem primeru je ta pogoj, da se beseda začne na določen niz:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="slovnica-urejanja-podatkov.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ds_jobs, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 6
+##    TimeGatheringData TimeModelBuilding TimeProduction TimeVisualizing
+##                &lt;int&gt;             &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;
+##  1                60                10              5              15
+##  2                40                30             15              10
+##  3                35                20             25              10
+##  4                 0                80              0              20
+##  5                 0                 0              0               0
+##  6                20                60             20               0
+##  7                50                20             10               5
+##  8                60                10             20               5
+##  9                50                10             20              10
+## 10                25                20             25              20
+## # ... with 3,771 more rows, and 2 more variables: TimeFindingInsights &lt;dbl&gt;,
+## #   TimeOtherSelect &lt;int&gt;</code></pre>
+<p>Poleg <code>starts_with()</code> dplyr vsebuje še več takšnih funkcij:</p>
+<ul>
+<li><code>ends_with()</code> Ali se ime stolpca konča na določen niz?</li>
+<li><code>contains()</code> Ali ime stolpca vsebuje niz?</li>
+<li><code>matches()</code> Ali ime stolpca ustreza regularnemu izrazu? Več o regularnih izrazih bomo povedali v 3. predavanju.</li>
+<li><code>num_range()</code> Ali ime stolpca vsebuje števila znotraj množice števil? Na primer, če imamo stolpce, ki v imenu vsebujejo števila – <em>stolpec1</em>, <em>stolpec2</em>, in tako naprej.</li>
+</ul>
+</div>
+<div id="urejanje-vrstic-z-arrange" class="section level2" number="1.6">
+<h2><span class="header-section-number">1.6</span> Urejanje vrstic z <code>arrange()</code></h2>
+<p>Vrstice lahko tudi uredimo glede na vrednosti v posameznih stolpcih. Za to uporabimo funkcijo <code>arrange()</code>. Sintaksa te funkcije je:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="slovnica-urejanja-podatkov.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="sc">&lt;</span>tibble<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec2<span class="sc">&gt;</span>, ...)</span></code></pre></div>
+<p>kjer stolpci predstavljajo vrednosti, po katerih želimo urediti tibble.</p>
+<p>Ustvarimo najprej nov tibble, v katerem bomo izbrali podmnožico stolpcev.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="slovnica-urejanja-podatkov.html#cb54-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_tmp <span class="ot">&lt;-</span> <span class="fu">select</span>(ds_jobs, CurrentJobTitle, Country, </span>
+<span id="cb54-2"><a href="slovnica-urejanja-podatkov.html#cb54-2" aria-hidden="true" tabindex="-1"></a>                      CompensationCurrency, Age, CompensationAmount)</span></code></pre></div>
+<p>Uredimo sedaj podatke glede na leta:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="slovnica-urejanja-podatkov.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ds_jobs_tmp, Age)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 5
+##    CurrentJobTitle          Country    CompensationCurre~   Age CompensationAmo~
+##    &lt;chr&gt;                    &lt;chr&gt;      &lt;chr&gt;              &lt;int&gt;            &lt;dbl&gt;
+##  1 Predictive Modeler       Australia  AUD                    0            78000
+##  2 Scientist/Researcher     United St~ USD                    1           100000
+##  3 Programmer               Other      GBP                   11                0
+##  4 Data Scientist           United St~ USD                   16            50000
+##  5 Software Developer/Soft~ Russia     USD                   18            40000
+##  6 Programmer               Other      USD                   18             1000
+##  7 Machine Learning Engine~ Other      USD                   19            30000
+##  8 Programmer               Russia     USD                   19            40000
+##  9 Scientist/Researcher     Canada     CAD                   19                0
+## 10 Computer Scientist       Brazil     BRL                   19              400
+## # ... with 3,771 more rows</code></pre>
+<p>Opazimo, da imamo nekaj neveljavnih starosti, na primer 0 in 1, najverjetneje tudi 11. Prav tako imamo nekaj nesmiselnih vrednosti v stolpcu o plači. Pri celostni analizi bi seveda raziskali, zakaj je prišlo do takih vrednosti, oziroma bi jih izločili iz analize. Za namen spoznavanja urejanja podatkov in dplyr to ni pomembno, tako da temu ne bomo posvečali pozornosti. Bralcem pa predlagamo, naj razmislijo, kako bi se tega lotili z že naučenimi koncepti.</p>
+<p>Če želimo podatke urediti padajoče, potem uporabimo funkcijo <code>desc()</code>:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="slovnica-urejanja-podatkov.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ds_jobs_tmp, <span class="fu">desc</span>(Age))</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 5
+##    CurrentJobTitle          Country    CompensationCurre~   Age CompensationAmo~
+##    &lt;chr&gt;                    &lt;chr&gt;      &lt;chr&gt;              &lt;int&gt;            &lt;dbl&gt;
+##  1 Statistician             United Ki~ ILS                  100     100000000000
+##  2 Other                    Other      EUR                   99            15000
+##  3 Researcher               Portugal   EUR                   78            63000
+##  4 Data Scientist           Canada     USD                   75              110
+##  5 Software Developer/Soft~ Netherlan~ EUR                   73            40000
+##  6 Data Analyst             Russia     USD                   70            14000
+##  7 Business Analyst         United St~ USD                   70           130000
+##  8 Machine Learning Engine~ United Ki~ GBP                   70            40000
+##  9 Scientist/Researcher     United St~ USD                   69           200000
+## 10 Business Analyst         United St~ USD                   68           125000
+## # ... with 3,771 more rows</code></pre>
+<p>Uredimo lahko tudi glede na več stolpcev, kjer se najprej uredi po prvem zapisanem, nato drugem, itd.:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="slovnica-urejanja-podatkov.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ds_jobs_tmp, Age, CompensationAmount)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 5
+##    CurrentJobTitle          Country    CompensationCurre~   Age CompensationAmo~
+##    &lt;chr&gt;                    &lt;chr&gt;      &lt;chr&gt;              &lt;int&gt;            &lt;dbl&gt;
+##  1 Predictive Modeler       Australia  AUD                    0            78000
+##  2 Scientist/Researcher     United St~ USD                    1           100000
+##  3 Programmer               Other      GBP                   11                0
+##  4 Data Scientist           United St~ USD                   16            50000
+##  5 Programmer               Other      USD                   18             1000
+##  6 Software Developer/Soft~ Russia     USD                   18            40000
+##  7 Scientist/Researcher     Canada     CAD                   19                0
+##  8 Computer Scientist       Brazil     BRL                   19              400
+##  9 Machine Learning Engine~ Other      USD                   19            30000
+## 10 Programmer               Russia     USD                   19            40000
+## # ... with 3,771 more rows</code></pre>
+</div>
+<div id="dodajanje-novih-spremenljivk-z-mutate" class="section level2" number="1.7">
+<h2><span class="header-section-number">1.7</span> Dodajanje novih spremenljivk z <code>mutate()</code></h2>
+<p>Pogosto želimo ustvariti nove stolpce, ki so izpeljani iz obstoječih stolpcev. Pri naših podatkih imamo stolpec <code>CompensationAmount</code>, ki predstavlja letno plačo in <code>ExchangeRate</code>, ki predstavlja menjalni tečaj lokalne valute v ameriški dolar. Če želimo imeti primerljive podatke, moramo izračunati vrednosti v dolarjih za vse podatke. Za to uporabimo funkcijo <code>mutate()</code>, ki doda stolpec (ali več stolpcev). Sintaksa funkcije je:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="slovnica-urejanja-podatkov.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>tibble<span class="sc">&gt;</span> <span class="er">&lt;</span><span class="sc">-</span> <span class="fu">mutate</span>(<span class="sc">&lt;</span>tibble<span class="sc">&gt;</span>, <span class="sc">&lt;</span>ime<span class="sc">-</span>novega<span class="sc">-</span>stolpca<span class="sc">&gt;</span> <span class="er">=</span> <span class="er">&lt;</span>funkcija<span class="sc">-</span>obstoječih<span class="sc">-</span>stolpcev<span class="sc">&gt;</span>, ...)</span></code></pre></div>
+<p>Dodajmo stolpec <code>CompensationUSD</code>, ki bo prikazal letno plačo v USD:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="slovnica-urejanja-podatkov.html#cb62-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ds_jobs, <span class="at">CompensationUSD =</span> CompensationAmount <span class="sc">*</span> ExchangeRate)</span>
+<span id="cb62-2"><a href="slovnica-urejanja-podatkov.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ds_jobs, CompensationAmount, ExchangeRate, CompensationUSD)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 3
+##    CompensationAmount ExchangeRate CompensationUSD
+##                 &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;
+##  1              80000     0.802             64185.
+##  2            1200000     0.0174            20882.
+##  3            1100000     0.0333            36634.
+##  4              20000     1                 20000 
+##  5             100000     1                100000 
+##  6              20000     0.0458              916.
+##  7             624000     0.0174            10859.
+##  8          156000000     0.000342          53352 
+##  9             150000     1.20             179374.
+## 10             126000     0.281             35419.
+## # ... with 3,771 more rows</code></pre>
+<p>Znotraj klica <code>mutate()</code> lahko uporabimo stolpce, ki smo jih ustvarili v istem klicu v preteklih vrsticah. Recimo, da želimo poleg plače v USD izračunati še mesečno plačo v USD:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="slovnica-urejanja-podatkov.html#cb64-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ds_jobs, </span>
+<span id="cb64-2"><a href="slovnica-urejanja-podatkov.html#cb64-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">CompensationUSD =</span> CompensationAmount <span class="sc">*</span> ExchangeRate,</span>
+<span id="cb64-3"><a href="slovnica-urejanja-podatkov.html#cb64-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">MonthlyCompUSD  =</span> CompensationUSD <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb64-4"><a href="slovnica-urejanja-podatkov.html#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ds_jobs, CompensationAmount, ExchangeRate, CompensationUSD, MonthlyCompUSD)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 4
+##    CompensationAmount ExchangeRate CompensationUSD MonthlyCompUSD
+##                 &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+##  1              80000     0.802             64185.         5349. 
+##  2            1200000     0.0174            20882.         1740. 
+##  3            1100000     0.0333            36634.         3053. 
+##  4              20000     1                 20000          1667. 
+##  5             100000     1                100000          8333. 
+##  6              20000     0.0458              916.           76.4
+##  7             624000     0.0174            10859.          905. 
+##  8          156000000     0.000342          53352          4446  
+##  9             150000     1.20             179374.        14948. 
+## 10             126000     0.281             35419.         2952. 
+## # ... with 3,771 more rows</code></pre>
+</div>
+<div id="povzemanje-vrednosti-s-summarise" class="section level2" number="1.8">
+<h2><span class="header-section-number">1.8</span> Povzemanje vrednosti s <code>summarise()</code></h2>
+<p>Funkcija <code>summarise()</code> se uporablja za povzemanje vrednosti (na primer povprečja, vsote, števci, …). Sintaksa funkcije je:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="slovnica-urejanja-podatkov.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="sc">&lt;</span>tibble<span class="sc">&gt;</span>, <span class="sc">&lt;</span>ime<span class="sc">-</span>povzetka<span class="sc">&gt;</span> <span class="er">=</span> <span class="er">&lt;</span>funkcija<span class="sc">-</span>ki<span class="sc">-</span>povzame<span class="sc">-</span>stolpec<span class="sc">&gt;</span>, ...)</span></code></pre></div>
+<p>Najprej poglejmo delovanje te funkcije, tako da povzamemo povprečen čas priprave podatkov:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="slovnica-urejanja-podatkov.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(ds_jobs, <span class="at">MeanDataCleaning =</span> <span class="fu">mean</span>(TimeGatheringData))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   MeanDataCleaning
+##              &lt;dbl&gt;
+## 1             37.3</code></pre>
+<p>Funkcija enostavno vrne povprečje stolpca <code>TimeGatheringData</code>. Ta informacija je sicer uporabna, ampak to ni edina funkcionalnost te funkcije in je običajno ne uporabljamo v tej obliki. Njena moč se izrazi, ko jo uporabimo v kombinaciji z ukazom <code>group_by()</code>. Ta ukaz združi vrstice glede na vrednosti v podanih stolpcih. Združene vrednosti imajo posebno funkcijo v paketu dplyr in vplivajo na funkcionalnosti funkcij <code>summarise()</code>, <code>mutate()</code> in <code>filter()</code>. Vpliv grupiranja na <code>mutate()</code> in <code>filter()</code> si bomo ogledali nekoliko kasneje, poglejmo sedaj vpliv na <code>summarise()</code>. Recimo, da nas zanima, v katerih službah je potrebnega največ čiščenja podatkov. Najprej podatke združimo po stolpcu <code>CurrentJobTitle</code>, potem pa uporabimo <code>summarise()</code>:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="slovnica-urejanja-podatkov.html#cb69-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_grouped <span class="ot">&lt;-</span> <span class="fu">group_by</span>(ds_jobs, CurrentJobTitle)</span>
+<span id="cb69-2"><a href="slovnica-urejanja-podatkov.html#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(ds_jobs_grouped, <span class="at">MeanDataCleaning =</span> <span class="fu">mean</span>(TimeGatheringData))</span></code></pre></div>
+<pre><code>## # A tibble: 17 x 2
+##    CurrentJobTitle                        MeanDataCleaning
+##    &lt;chr&gt;                                             &lt;dbl&gt;
+##  1 &quot;&quot;                                                 40  
+##  2 &quot;Business Analyst&quot;                                 37.9
+##  3 &quot;Computer Scientist&quot;                               33.3
+##  4 &quot;Data Analyst&quot;                                     41.2
+##  5 &quot;Data Miner&quot;                                       48.0
+##  6 &quot;Data Scientist&quot;                                   39.4
+##  7 &quot;DBA/Database Engineer&quot;                            37.7
+##  8 &quot;Engineer&quot;                                         36.4
+##  9 &quot;Machine Learning Engineer&quot;                        34.7
+## 10 &quot;Operations Research Practitioner&quot;                 37.8
+## 11 &quot;Other&quot;                                            36.3
+## 12 &quot;Predictive Modeler&quot;                               37.1
+## 13 &quot;Programmer&quot;                                       35.8
+## 14 &quot;Researcher&quot;                                       31.3
+## 15 &quot;Scientist/Researcher&quot;                             33.5
+## 16 &quot;Software Developer/Software Engineer&quot;             36.9
+## 17 &quot;Statistician&quot;                                     34.7</code></pre>
+<p>Izgleda, da so povprečja kar blizu – čas čiščenja podatkov je relativno neodvisen od delovnega mesta.</p>
+<p>Povzemamo lahko tudi preko večih stolpcev. Poglejmo si število ljudi z različnimi statusi zaposlitve v kombinaciji z izobrazbo. Da preštejemo število vrstic, ki ustrezajo grupiranju, uporabimo funkcijo <code>n()</code>:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="slovnica-urejanja-podatkov.html#cb71-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_grouped <span class="ot">&lt;-</span> <span class="fu">group_by</span>(ds_jobs, FormalEducation, EmploymentStatus)</span>
+<span id="cb71-2"><a href="slovnica-urejanja-podatkov.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(ds_jobs_grouped, <span class="at">Count =</span> <span class="fu">n</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 21 x 3
+## # Groups:   FormalEducation [8]
+##    FormalEducation                       EmploymentStatus                  Count
+##    &lt;chr&gt;                                 &lt;chr&gt;                             &lt;int&gt;
+##  1 &quot;&quot;                                    Employed full-time                    1
+##  2 &quot;Bachelor&#39;s degree&quot;                   Employed full-time                  857
+##  3 &quot;Bachelor&#39;s degree&quot;                   Employed part-time                   52
+##  4 &quot;Bachelor&#39;s degree&quot;                   Independent contractor, freelanc~    76
+##  5 &quot;Doctoral degree&quot;                     Employed full-time                  719
+##  6 &quot;Doctoral degree&quot;                     Employed part-time                   26
+##  7 &quot;Doctoral degree&quot;                     Independent contractor, freelanc~    50
+##  8 &quot;I did not complete any formal educa~ Employed full-time                   13
+##  9 &quot;I did not complete any formal educa~ Employed part-time                    2
+## 10 &quot;I did not complete any formal educa~ Independent contractor, freelanc~    10
+## # ... with 11 more rows</code></pre>
+<p>Ker je štetje primerov zelo pogosta operacija, obstaja tudi funkcija <code>count()</code>, ki naredi enako kot kombinacija <code>group_by()</code> in <code>summarise()</code>:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="slovnica-urejanja-podatkov.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(ds_jobs, FormalEducation, EmploymentStatus)</span></code></pre></div>
+<pre><code>## # A tibble: 21 x 3
+##    FormalEducation                       EmploymentStatus                      n
+##    &lt;chr&gt;                                 &lt;chr&gt;                             &lt;int&gt;
+##  1 &quot;&quot;                                    Employed full-time                    1
+##  2 &quot;Bachelor&#39;s degree&quot;                   Employed full-time                  857
+##  3 &quot;Bachelor&#39;s degree&quot;                   Employed part-time                   52
+##  4 &quot;Bachelor&#39;s degree&quot;                   Independent contractor, freelanc~    76
+##  5 &quot;Doctoral degree&quot;                     Employed full-time                  719
+##  6 &quot;Doctoral degree&quot;                     Employed part-time                   26
+##  7 &quot;Doctoral degree&quot;                     Independent contractor, freelanc~    50
+##  8 &quot;I did not complete any formal educa~ Employed full-time                   13
+##  9 &quot;I did not complete any formal educa~ Employed part-time                    2
+## 10 &quot;I did not complete any formal educa~ Independent contractor, freelanc~    10
+## # ... with 11 more rows</code></pre>
+</div>
+<div id="pipe" class="section level2" number="1.9">
+<h2><span class="header-section-number">1.9</span> Pipe</h2>
+<p>V praksi urejanje podatkov zajame večino, če ne kar vseh funkcij, ki smo jih predstavili do sedaj. Če želimo sproti shranjevati naše spremembe, moramo po vsaki uporabi funkcije spremenjene podatke ponovno shraniti v spremenljivko. To lahko postane nekoliko nepregledno. Poglejmo si potek dela, kjer bomo nad osnovnimi podatki izvedli te operacije:</p>
+<ul>
+<li>Izbrali bomo vrstice, kjer so osebe starejše od 30 let in država ni <code>Other</code> ali prazen niz.</li>
+<li>Izločili vse stolpce, ki vsebujejo niz <code>Time</code>.</li>
+<li>Izračunali stolpec s plačo v ameriških dolarjih.</li>
+<li>Povzeli plačo glede na državo.</li>
+</ul>
+<p>Z uporabo shranjevanja podatkov v spremenljivko, kot smo navajeni iz osnovne različice R, bi s funkcijami iz dplyr izgledalo takole:</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="slovnica-urejanja-podatkov.html#cb75-1" aria-hidden="true" tabindex="-1"></a>ds_jobs2 <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;./data-raw/DS-jobs.csv&quot;</span>)</span>
+<span id="cb75-2"><a href="slovnica-urejanja-podatkov.html#cb75-2" aria-hidden="true" tabindex="-1"></a>ds_jobs2 <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(ds_jobs2)</span>
+<span id="cb75-3"><a href="slovnica-urejanja-podatkov.html#cb75-3" aria-hidden="true" tabindex="-1"></a>ds_jobs2 <span class="ot">&lt;-</span> <span class="fu">filter</span>(ds_jobs2, Age <span class="sc">&gt;</span> <span class="dv">30</span>, <span class="sc">!</span>(Country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Other&quot;</span>, <span class="st">&quot;&quot;</span>)))</span>
+<span id="cb75-4"><a href="slovnica-urejanja-podatkov.html#cb75-4" aria-hidden="true" tabindex="-1"></a>ds_jobs2 <span class="ot">&lt;-</span> <span class="fu">select</span>(ds_jobs2, <span class="sc">-</span><span class="fu">contains</span>(<span class="st">&quot;Time&quot;</span>))</span>
+<span id="cb75-5"><a href="slovnica-urejanja-podatkov.html#cb75-5" aria-hidden="true" tabindex="-1"></a>ds_jobs2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ds_jobs2, <span class="at">CompensationUSD =</span> CompensationAmount <span class="sc">*</span> ExchangeRate)</span>
+<span id="cb75-6"><a href="slovnica-urejanja-podatkov.html#cb75-6" aria-hidden="true" tabindex="-1"></a>ds_jobs2 <span class="ot">&lt;-</span> <span class="fu">group_by</span>(ds_jobs2, Country)</span>
+<span id="cb75-7"><a href="slovnica-urejanja-podatkov.html#cb75-7" aria-hidden="true" tabindex="-1"></a>ds_jobs2_summarised <span class="ot">&lt;-</span> <span class="fu">summarise</span>(ds_jobs2, <span class="at">MeanCompensation =</span> <span class="fu">mean</span>(CompensationUSD, <span class="at">na.rm =</span> T))</span>
+<span id="cb75-8"><a href="slovnica-urejanja-podatkov.html#cb75-8" aria-hidden="true" tabindex="-1"></a>ds_jobs2_summarised</span></code></pre></div>
+<pre><code>## # A tibble: 51 x 2
+##    Country        MeanCompensation
+##    &lt;chr&gt;                     &lt;dbl&gt;
+##  1 Argentina                39282.
+##  2 Australia               112800.
+##  3 Belarus                  33500 
+##  4 Belgium                  74141.
+##  5 Brazil                   47799.
+##  6 Canada                   85471.
+##  7 Chile                    44152.
+##  8 Colombia                 43303.
+##  9 Czech Republic           50223.
+## 10 Denmark                  88136.
+## # ... with 41 more rows</code></pre>
+<p>Pri računanju povprečja smo uporabili argument <code>na.rm = T</code>, s katerim smo manjkajoče vrednosti ignorirali. Celoten postopek je vseboval kar nekaj prepisovanja. Predvsem spremenljivko <code>ds_jobs2</code> smo morali prepisati kar 6-krat. Dplyr pa vsebuje poseben operator, ki ga imenujemo <em>pipe</em> in ga označimo z <code>%&gt;%</code>. S tem operatorjem funkcije povežemo v sosledje. Poglejmo si, kako deluje:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="slovnica-urejanja-podatkov.html#cb77-1" aria-hidden="true" tabindex="-1"></a>ds_jobs2 <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;./data-raw/DS-jobs.csv&quot;</span>)</span>
+<span id="cb77-2"><a href="slovnica-urejanja-podatkov.html#cb77-2" aria-hidden="true" tabindex="-1"></a>ds_jobs2_summarised <span class="ot">&lt;-</span> ds_jobs2 <span class="sc">%&gt;%</span></span>
+<span id="cb77-3"><a href="slovnica-urejanja-podatkov.html#cb77-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Age <span class="sc">&gt;</span> <span class="dv">30</span>, <span class="sc">!</span>(Country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Other&quot;</span>, <span class="st">&quot;&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb77-4"><a href="slovnica-urejanja-podatkov.html#cb77-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="st">&quot;Time&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb77-5"><a href="slovnica-urejanja-podatkov.html#cb77-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CompensationUSD =</span> CompensationAmount <span class="sc">*</span> ExchangeRate) <span class="sc">%&gt;%</span></span>
+<span id="cb77-6"><a href="slovnica-urejanja-podatkov.html#cb77-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
+<span id="cb77-7"><a href="slovnica-urejanja-podatkov.html#cb77-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">MeanCompensation =</span> <span class="fu">mean</span>(CompensationUSD, <span class="at">na.rm =</span> T))</span>
+<span id="cb77-8"><a href="slovnica-urejanja-podatkov.html#cb77-8" aria-hidden="true" tabindex="-1"></a>ds_jobs2_summarised</span></code></pre></div>
+<pre><code>## # A tibble: 51 x 2
+##    Country        MeanCompensation
+##    &lt;chr&gt;                     &lt;dbl&gt;
+##  1 Argentina                39282.
+##  2 Australia               112800.
+##  3 Belarus                  33500 
+##  4 Belgium                  74141.
+##  5 Brazil                   47799.
+##  6 Canada                   85471.
+##  7 Chile                    44152.
+##  8 Colombia                 43303.
+##  9 Czech Republic           50223.
+## 10 Denmark                  88136.
+## # ... with 41 more rows</code></pre>
+<p>Sedaj smo do povzetka prišli z zaporednim izvajanjem operacij nad spremenljivko <code>ds_jobs</code>. Ta način je bolj pregleden, saj bralec kode takoj opazi, da se je vse izvajalo nad istimi podatki. Opazimo tudi, zakaj gre za <strong>slovnico</strong> urejanja podatkov. Programska koda zapisana zgoraj se bere skoraj kot naravni jezik. Na primer, <strong>izberi vrstice</strong>, kjer so leta večja od 30 in država ni v ustrezni množici. Zatem <strong>izberi stolpce</strong>, ki ne vsebujejo besede Time. <strong>Dodaj</strong> novo spremenljivko, <strong>združi</strong> podatke in jih <strong>povzemi</strong>.</p>
+</div>
+<div id="filter-in-mutate-na-združenih-podatkih" class="section level2" number="1.10">
+<h2><span class="header-section-number">1.10</span> <code>filter()</code> in <code>mutate()</code> na združenih podatkih</h2>
+<p>Spoznali smo, kako funkcija <code>group_by()</code> vpliva na povzemanje podatkov. Uporabimo pa jo lahko tudi v povezavi s <code>filter()</code> in <code>mutate()</code>. Kombinacija z izbiro vrstic pride prav, kadar želimo pogojno izbiro na nek drugi stolpec. Kot primer si poglejmo, kako bi iz podatkov za vsako državo filtrirali top 3 anketirance, ki prejmejo najvišjo plačo. Najprej bomo podatke grupirali, nato pa uporabili filter:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="slovnica-urejanja-podatkov.html#cb79-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb79-2"><a href="slovnica-urejanja-podatkov.html#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, Age, CurrentJobTitle, CompensationUSD) <span class="sc">%&gt;%</span></span>
+<span id="cb79-3"><a href="slovnica-urejanja-podatkov.html#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
+<span id="cb79-4"><a href="slovnica-urejanja-podatkov.html#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">rank</span>(<span class="fu">desc</span>(CompensationUSD)) <span class="sc">&lt;=</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb79-5"><a href="slovnica-urejanja-podatkov.html#cb79-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Country)</span></code></pre></div>
+<pre><code>## # A tibble: 154 x 4
+## # Groups:   Country [53]
+##    Country       Age CurrentJobTitle                      CompensationUSD
+##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                                          &lt;dbl&gt;
+##  1 &quot;&quot;             NA Data Scientist                               107624.
+##  2 &quot;&quot;             63 Machine Learning Engineer                    160000 
+##  3 &quot;&quot;             NA Operations Research Practitioner             120000 
+##  4 &quot;Argentina&quot;    55 Data Scientist                               100000 
+##  5 &quot;Argentina&quot;    26 Data Scientist                                65000 
+##  6 &quot;Argentina&quot;    26 Data Scientist                                80000 
+##  7 &quot;Australia&quot;    39 Data Scientist                               280808.
+##  8 &quot;Australia&quot;    50 Data Miner                                   248716.
+##  9 &quot;Australia&quot;    37 Software Developer/Software Engineer         400000 
+## 10 &quot;Belarus&quot;      22 Data Scientist                                10800 
+## # ... with 144 more rows</code></pre>
+<p>Kombinacija <code>group_by()</code> in <code>mutate()</code> je uporabna, kadar želimo ustvariti novo spremenljivko, pri kateri bomo pri izračunu potrebovali kak povzetek vrednosti znotraj posamezne skupine. Primer takšne transformacije je na primer standardiziranje znotraj skupine. Standardna ocena je:</p>
+<p><span class="math display">\[
+z_i = \frac{x_i - \bar{x}}{S_x},
+\]</span></p>
+<p>kjer je <span class="math inline">\(\bar{x}\)</span> povprečje vektorja <span class="math inline">\(x\)</span> in <span class="math inline">\(S_x\)</span> njegov vzorčni standardni odklon.</p>
+<p>Poskusimo za vsako državo izračunati vzorčno povprečno vrednost in standardni odklon, ter s tema vrednostima ustrezno transformirati plačo v USD. Da pa bo funkcija <code>mutate()</code> vedela, katere vrednosti naj vzame za računanje teh dveh statistie moramo podatke najprej grupirati glede na državo:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="slovnica-urejanja-podatkov.html#cb81-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb81-2"><a href="slovnica-urejanja-podatkov.html#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, Age, CurrentJobTitle, CompensationUSD) <span class="sc">%&gt;%</span></span>
+<span id="cb81-3"><a href="slovnica-urejanja-podatkov.html#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
+<span id="cb81-4"><a href="slovnica-urejanja-podatkov.html#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CompensationStand =</span> (CompensationUSD <span class="sc">-</span> <span class="fu">mean</span>(CompensationUSD)) <span class="sc">/</span> </span>
+<span id="cb81-5"><a href="slovnica-urejanja-podatkov.html#cb81-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">sd</span>(CompensationUSD))</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 5
+## # Groups:   Country [53]
+##    Country       Age CurrentJobTitle            CompensationUSD CompensationSta~
+##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                                &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Australia      43 Business Analyst                    64185.          -0.617 
+##  2 Russia         33 Software Developer/Softwa~          20882.          -0.136 
+##  3 Taiwan         26 Software Developer/Softwa~          36634.           0.0566
+##  4 United Sta~    25 Researcher                          20000           -0.0468
+##  5 United Sta~    33 Scientist/Researcher               100000           -0.0347
+##  6 Czech Repu~    21 Other                                 916.          -0.907 
+##  7 Russia         22 Data Analyst                        10859.          -0.417 
+##  8 Colombia       34 Data Scientist                      53352            0.770 
+##  9 Germany        41 Data Scientist                     179374.           2.35  
+## 10 Poland         29 Software Developer/Softwa~          35419.           0.486 
+## # ... with 3,771 more rows</code></pre>
+<p>Če ta tibble shranimo v novo spremenljivko, se bo informacija o združevanju ohranila.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="slovnica-urejanja-podatkov.html#cb83-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_grouped <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb83-2"><a href="slovnica-urejanja-podatkov.html#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, Age, CurrentJobTitle, CompensationUSD) <span class="sc">%&gt;%</span></span>
+<span id="cb83-3"><a href="slovnica-urejanja-podatkov.html#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country, CurrentJobTitle)</span>
+<span id="cb83-4"><a href="slovnica-urejanja-podatkov.html#cb83-4" aria-hidden="true" tabindex="-1"></a>ds_jobs_grouped</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 4
+## # Groups:   Country, CurrentJobTitle [543]
+##    Country          Age CurrentJobTitle                      CompensationUSD
+##    &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;                                          &lt;dbl&gt;
+##  1 Australia         43 Business Analyst                              64185.
+##  2 Russia            33 Software Developer/Software Engineer          20882.
+##  3 Taiwan            26 Software Developer/Software Engineer          36634.
+##  4 United States     25 Researcher                                    20000 
+##  5 United States     33 Scientist/Researcher                         100000 
+##  6 Czech Republic    21 Other                                           916.
+##  7 Russia            22 Data Analyst                                  10859.
+##  8 Colombia          34 Data Scientist                                53352 
+##  9 Germany           41 Data Scientist                               179374.
+## 10 Poland            29 Software Developer/Software Engineer          35419.
+## # ... with 3,771 more rows</code></pre>
+<p>Opazimo, da ima ta tibble dodatno informacijo v drugi vrstici, ki nam sporoča, da je združen glede na spremenljivki <code>Country</code> in <code>CurrentJobTitle</code>. Poleg tega je v oglatih oklepajih zapisano število unikatnih skupin. Pri tem so vsi pari države in trenutne pozicije, za katere nimamo nobenega podatka, izpuščeni. Informacija o tem, da je ta tibble grupiran, je pomembna, saj se bodo vse nadaljnje operacije nad njim izvajale nad skupinami. Če tega ne želimo, lahko uporabimo funkcijo <code>ungroup()</code>.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="slovnica-urejanja-podatkov.html#cb85-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_ungrouped <span class="ot">&lt;-</span> ds_jobs_grouped <span class="sc">%&gt;%</span></span>
+<span id="cb85-2"><a href="slovnica-urejanja-podatkov.html#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb85-3"><a href="slovnica-urejanja-podatkov.html#cb85-3" aria-hidden="true" tabindex="-1"></a>ds_jobs_ungrouped</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 4
+##    Country          Age CurrentJobTitle                      CompensationUSD
+##    &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;                                          &lt;dbl&gt;
+##  1 Australia         43 Business Analyst                              64185.
+##  2 Russia            33 Software Developer/Software Engineer          20882.
+##  3 Taiwan            26 Software Developer/Software Engineer          36634.
+##  4 United States     25 Researcher                                    20000 
+##  5 United States     33 Scientist/Researcher                         100000 
+##  6 Czech Republic    21 Other                                           916.
+##  7 Russia            22 Data Analyst                                  10859.
+##  8 Colombia          34 Data Scientist                                53352 
+##  9 Germany           41 Data Scientist                               179374.
+## 10 Poland            29 Software Developer/Software Engineer          35419.
+## # ... with 3,771 more rows</code></pre>
+</div>
+<div id="izvajanje-operacij-nad-večimi-stolpci-z-across" class="section level2" number="1.11">
+<h2><span class="header-section-number">1.11</span> Izvajanje operacij nad večimi stolpci z <code>across()</code></h2>
+<p>S kombinacijo funkcij <code>mutate()</code> in <code>across()</code> lahko izvajamo isto operacijo hkrati na več stolpcih. Znotraj funkcije <code>across()</code> lahko uporabljamo iste funkcije za izbiro kot znotraj <code>select()</code>. Spremenimo vrednosti stolpcev, ki se začnejo s <code>Time</code>, v deleže tako, da jih pomnožimo z 0.01. Na tem mestu bomo uporabili dva nova operatorja: <code>.</code> in <code>~</code>. Operator <code>.</code> v dplyr igra vlogo podatkov, nad katerimi operiramo. Operator <code>~</code> je nekakšna bližnjica, ki ustvari funkcijo. Na primer <code>~ x^2</code> je bližnjica za zapis <code>function(x) {x^2}</code>. To je uporabno predvsem, ko funkcijo potrebujemo samo na enem mestu znotraj našega poteka dela in jo tako lahko na krajši način zapišemo. Poglejmo si sedaj spremembo stolpcev v deleže:</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="slovnica-urejanja-podatkov.html#cb87-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb87-2"><a href="slovnica-urejanja-podatkov.html#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>), <span class="sc">~</span> . <span class="sc">*</span> <span class="fl">0.01</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb87-3"><a href="slovnica-urejanja-podatkov.html#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, CurrentJobTitle, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 8
+##    Country   CurrentJobTitle    TimeGatheringDa~ TimeModelBuildi~ TimeProduction
+##    &lt;chr&gt;     &lt;chr&gt;                         &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Australia Business Analyst               0.6               0.1           0.05
+##  2 Russia    Software Develope~             0.4               0.3           0.15
+##  3 Taiwan    Software Develope~             0.35              0.2           0.25
+##  4 United S~ Researcher                     0                 0.8           0   
+##  5 United S~ Scientist/Researc~             0                 0             0   
+##  6 Czech Re~ Other                          0.2               0.6           0.2 
+##  7 Russia    Data Analyst                   0.5               0.2           0.1 
+##  8 Colombia  Data Scientist                 0.6               0.1           0.2 
+##  9 Germany   Data Scientist                 0.5               0.1           0.2 
+## 10 Poland    Software Develope~             0.25              0.2           0.25
+## # ... with 3,771 more rows, and 3 more variables: TimeVisualizing &lt;dbl&gt;,
+## #   TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;dbl&gt;</code></pre>
+<p>Funkciji <code>across()</code> smo najprej podali stolpce, na katerih želimo izvajati izračune, nato pa funkcijo, ki jo želimo izvesti.</p>
+</div>
+<div id="povzemanje-stolpcev" class="section level2" number="1.12">
+<h2><span class="header-section-number">1.12</span> Povzemanje stolpcev</h2>
+<p>Pogosto želimo dobiti numerične povzetke glede na vrednosti v stolpcih. Z uporabo osnovne različice R to lahko naredimo s funkcijo <code>apply()</code>, ki ji podamo tibble numeričnih vrednosti (lahko tudi <code>data.frame</code> ali matriko), določimo dimenzijo 2, ki predstavlja stolpce, ter podamo kateri povzetek želimo (na primer povprečje, varianco, maksimalno vrednost, …). Izračunajmo povprečja in standardne odklone stolpcev, ki se začnejo s <code>Time</code>:</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="slovnica-urejanja-podatkov.html#cb89-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_times <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb89-2"><a href="slovnica-urejanja-podatkov.html#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>))</span>
+<span id="cb89-3"><a href="slovnica-urejanja-podatkov.html#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(ds_jobs_times, <span class="dv">2</span>, mean, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>##   TimeGatheringData   TimeModelBuilding      TimeProduction     TimeVisualizing 
+##           37.341973           21.085472           11.172853           14.190924 
+## TimeFindingInsights     TimeOtherSelect 
+##           13.375298            2.202176</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="slovnica-urejanja-podatkov.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(ds_jobs_times, <span class="dv">2</span>, sd, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>##   TimeGatheringData   TimeModelBuilding      TimeProduction     TimeVisualizing 
+##            20.96041            15.19101            12.03243            10.99431 
+## TimeFindingInsights     TimeOtherSelect 
+##            12.01139            11.18898</code></pre>
+<p><code>apply()</code> nam v teh primerih vrne vektor, čeprav smo operacijo izvajali na tibble. Ideja paketa tidyverse je, da so izhodni podatki enakega tipa kot vhodni – v tem primeru tibble. Če želimo izračunati povzetke za vsak stolpec, lahko v paketu dplyr uporabimo kombinacijo funkcije <code>summarise()</code> in <code>across()</code>. Kot smo že spoznali, nam funkcija <code>across()</code> omogoča izvajanje operacij nad večimi stolpci.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="slovnica-urejanja-podatkov.html#cb93-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb93-2"><a href="slovnica-urejanja-podatkov.html#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>), mean, <span class="at">na.rm =</span> T))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 6
+##   TimeGatheringData TimeModelBuilding TimeProduction TimeVisualizing
+##               &lt;dbl&gt;             &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;
+## 1              37.3              21.1           11.2            14.2
+## # ... with 2 more variables: TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;dbl&gt;</code></pre>
+<p>Povzetke lahko enostavno izračunamo tudi za različne skupine z uporabo funkcije <code>group_by()</code>:</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="slovnica-urejanja-podatkov.html#cb95-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb95-2"><a href="slovnica-urejanja-podatkov.html#cb95-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(EmploymentStatus) <span class="sc">%&gt;%</span></span>
+<span id="cb95-3"><a href="slovnica-urejanja-podatkov.html#cb95-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>), mean, <span class="at">na.rm =</span> T))</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 7
+##   EmploymentStatus              TimeGatheringDa~ TimeModelBuildi~ TimeProduction
+##   &lt;chr&gt;                                    &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;
+## 1 Employed full-time                        37.6             20.6           11.0
+## 2 Employed part-time                        37.4             26.1           10.3
+## 3 Independent contractor, free~             34.8             23.0           12.8
+## # ... with 3 more variables: TimeVisualizing &lt;dbl&gt;, TimeFindingInsights &lt;dbl&gt;,
+## #   TimeOtherSelect &lt;dbl&gt;</code></pre>
+</div>
+<div id="povzemanje-vrstic" class="section level2" number="1.13">
+<h2><span class="header-section-number">1.13</span> Povzemanje vrstic</h2>
+<p>Kadar analiziramo podatke, preverimo, ali so vnešeni podatki smiselni. Na primer, v stolpcih, ki se začnejo s <code>Time</code>, so odstotkovne vrednosti časa, ki ga anketiranci porabijo za posamezne naloge. Te bi se morale sešteti v 100 in v primeru, ko se ne, se lahko odločimo, da takšne vrstice izbrišemo. Na tem primeru si bomo sedaj pogledali še operacije nad stolpci. Naš cilj bo, da dodamo temu tibblu še en stolpec, v katerem bomo sešteli vse te stolpce.</p>
+<p>Funkcija <code>apply</code> deluje tudi nad stolpci, če spremenimo drugi argument:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="slovnica-urejanja-podatkov.html#cb97-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb97-2"><a href="slovnica-urejanja-podatkov.html#cb97-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>))</span>
+<span id="cb97-3"><a href="slovnica-urejanja-podatkov.html#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">apply</span>(tmp, <span class="dv">1</span>, sum, <span class="at">na.rm =</span> T))</span></code></pre></div>
+<pre><code>## [1] 100 100 100 100   0 100</code></pre>
+<p>Kako pa to naredimo z dplyr, tako da se bo naravno vključilo v potek dela? Prva ideja bi morda bila, da enostavno naštejemo vse stolpce.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="slovnica-urejanja-podatkov.html#cb99-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb99-2"><a href="slovnica-urejanja-podatkov.html#cb99-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, CurrentJobTitle, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb99-3"><a href="slovnica-urejanja-podatkov.html#cb99-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TotalTime =</span> TimeGatheringData <span class="sc">+</span> TimeModelBuilding <span class="sc">+</span> TimeProduction <span class="sc">+</span> </span>
+<span id="cb99-4"><a href="slovnica-urejanja-podatkov.html#cb99-4" aria-hidden="true" tabindex="-1"></a>           TimeVisualizing <span class="sc">+</span> TimeFindingInsights <span class="sc">+</span> TimeOtherSelect) <span class="sc">%&gt;%</span></span>
+<span id="cb99-5"><a href="slovnica-urejanja-podatkov.html#cb99-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)) <span class="co"># Ta vrstica je samo za lepši izpis.</span></span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 3
+##    Country        CurrentJobTitle                      TotalTime
+##    &lt;chr&gt;          &lt;chr&gt;                                    &lt;dbl&gt;
+##  1 Australia      Business Analyst                           100
+##  2 Russia         Software Developer/Software Engineer       100
+##  3 Taiwan         Software Developer/Software Engineer       100
+##  4 United States  Researcher                                 100
+##  5 United States  Scientist/Researcher                         0
+##  6 Czech Republic Other                                      100
+##  7 Russia         Data Analyst                               100
+##  8 Colombia       Data Scientist                             100
+##  9 Germany        Data Scientist                             100
+## 10 Poland         Software Developer/Software Engineer       100
+## # ... with 3,771 more rows</code></pre>
+<p>Sicer je to v našem primeru bilo izvedljivo, saj smo imeli samo 6 stolpcev. Kako pa bi to naredili z večimi stolpci? Morda lahko uporabimo <code>starts_with()</code>:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="slovnica-urejanja-podatkov.html#cb101-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb101-2"><a href="slovnica-urejanja-podatkov.html#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, CurrentJobTitle, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb101-3"><a href="slovnica-urejanja-podatkov.html#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TimeTotal =</span> <span class="fu">sum</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>), <span class="at">na.rm =</span> T))</span></code></pre></div>
+<pre><code>## Error: Problem with `mutate()` column `TimeTotal`.
+## i `TimeTotal = sum(starts_with(&quot;Time&quot;), na.rm = T)`.
+## x `starts_with()` must be used within a *selecting* function.
+## i See &lt;https://tidyselect.r-lib.org/reference/faq-selection-context.html&gt;.</code></pre>
+<p>R vrne napako in nas opozori, da se lahko <code>starts_with()</code> uporabi le znotraj izbire. Če želimo v tem primeru omogočiti tidy izbiro stolpcev, uporabimo funkcijo <code>c_across()</code>. Ta funkcija je po funkcionalnosti bolj podobna funkciji <code>c()</code> ali <code>select()</code>, kot pa funkciji <code>across()</code>, tako da jih ne smemo zamenjati:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="slovnica-urejanja-podatkov.html#cb103-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb103-2"><a href="slovnica-urejanja-podatkov.html#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, CurrentJobTitle, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb103-3"><a href="slovnica-urejanja-podatkov.html#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TotalTime =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb103-4"><a href="slovnica-urejanja-podatkov.html#cb103-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 3
+##    Country        CurrentJobTitle                      TotalTime
+##    &lt;chr&gt;          &lt;chr&gt;                                    &lt;dbl&gt;
+##  1 Australia      Business Analyst                        375462
+##  2 Russia         Software Developer/Software Engineer    375462
+##  3 Taiwan         Software Developer/Software Engineer    375462
+##  4 United States  Researcher                              375462
+##  5 United States  Scientist/Researcher                    375462
+##  6 Czech Republic Other                                   375462
+##  7 Russia         Data Analyst                            375462
+##  8 Colombia       Data Scientist                          375462
+##  9 Germany        Data Scientist                          375462
+## 10 Poland         Software Developer/Software Engineer    375462
+## # ... with 3,771 more rows</code></pre>
+<p>Sedaj smo dobili nek rezultat, ki pa še vedno ni pravilen. V čem je težava? Če <code>sum()</code> uporabimo znotraj <code>mutate()</code>, ta vrne vsoto znotraj skupin, določenih z <code>group_by()</code>. Ker podatkov nismo grupirali, vrne vsoto kar čez celotne podatke (bralca vzpodbujamo, da to preveri tudi sam). Rešitev se torej skriva v ustreznem združevanju vrstic. V dplyr obstaja funkcija, ki celoten tibble grupira po posameznih vrsticah in to je <code>rowwise()</code>:</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="slovnica-urejanja-podatkov.html#cb105-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb105-2"><a href="slovnica-urejanja-podatkov.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, CurrentJobTitle, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb105-3"><a href="slovnica-urejanja-podatkov.html#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb105-4"><a href="slovnica-urejanja-podatkov.html#cb105-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TotalTime =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb105-5"><a href="slovnica-urejanja-podatkov.html#cb105-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 3
+## # Rowwise: 
+##    Country        CurrentJobTitle                      TotalTime
+##    &lt;chr&gt;          &lt;chr&gt;                                    &lt;dbl&gt;
+##  1 Australia      Business Analyst                           100
+##  2 Russia         Software Developer/Software Engineer       100
+##  3 Taiwan         Software Developer/Software Engineer       100
+##  4 United States  Researcher                                 100
+##  5 United States  Scientist/Researcher                         0
+##  6 Czech Republic Other                                      100
+##  7 Russia         Data Analyst                               100
+##  8 Colombia       Data Scientist                             100
+##  9 Germany        Data Scientist                             100
+## 10 Poland         Software Developer/Software Engineer       100
+## # ... with 3,771 more rows</code></pre>
+</div>
+<div id="dodatek" class="section level2" number="1.14">
+<h2><span class="header-section-number">1.14</span> Dodatek</h2>
+<div id="zamenjava-vrstnega-reda-stolpcev" class="section level3" number="1.14.1">
+<h3><span class="header-section-number">1.14.1</span> Zamenjava vrstnega reda stolpcev</h3>
+<p>Vrstni red stolpcev zamenjamo s funkcijo <code>relocate()</code>. Ustvarimo najprej manjši tibble:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="slovnica-urejanja-podatkov.html#cb107-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_select <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb107-2"><a href="slovnica-urejanja-podatkov.html#cb107-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Gender<span class="sc">:</span>Major)</span>
+<span id="cb107-3"><a href="slovnica-urejanja-podatkov.html#cb107-3" aria-hidden="true" tabindex="-1"></a>ds_jobs_select</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 8
+##    Gender Country    Age EmploymentStatus     CurrentJobTitle   LanguageRecomme~
+##    &lt;chr&gt;  &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;             &lt;chr&gt;           
+##  1 Female Austral~    43 Employed full-time   Business Analyst  Python          
+##  2 Male   Russia      33 Employed full-time   Software Develop~ Python          
+##  3 Male   Taiwan      26 Employed full-time   Software Develop~ Python          
+##  4 Male   United ~    25 Employed part-time   Researcher        Python          
+##  5 Male   United ~    33 Employed full-time   Scientist/Resear~ Matlab          
+##  6 Male   Czech R~    21 Employed part-time   Other             Python          
+##  7 Male   Russia      22 Employed full-time   Data Analyst      Python          
+##  8 Male   Colombia    34 Employed full-time   Data Scientist    Python          
+##  9 Male   Germany     41 Independent contrac~ Data Scientist    Python          
+## 10 Male   Poland      29 Employed full-time   Software Develop~ Python          
+## # ... with 3,771 more rows, and 2 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;</code></pre>
+<p>Če želimo določene stolpce premakniti na začetek, jih enostavno podamo funkciji <code>relocate()</code>. Dajmo na prvo mesto stolpca <code>Major</code> in <code>Age</code>:</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="slovnica-urejanja-podatkov.html#cb109-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_select <span class="sc">%&gt;%</span></span>
+<span id="cb109-2"><a href="slovnica-urejanja-podatkov.html#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(Major, Age)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 8
+##    Major    Age Gender Country EmploymentStatus CurrentJobTitle LanguageRecomme~
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;           
+##  1 &quot;&quot;        43 Female Austra~ Employed full-t~ Business Analy~ Python          
+##  2 &quot;Othe~    33 Male   Russia  Employed full-t~ Software Devel~ Python          
+##  3 &quot;Comp~    26 Male   Taiwan  Employed full-t~ Software Devel~ Python          
+##  4 &quot;Phys~    25 Male   United~ Employed part-t~ Researcher      Python          
+##  5 &quot;Elec~    33 Male   United~ Employed full-t~ Scientist/Rese~ Matlab          
+##  6 &quot;Comp~    21 Male   Czech ~ Employed part-t~ Other           Python          
+##  7 &quot;Info~    22 Male   Russia  Employed full-t~ Data Analyst    Python          
+##  8 &quot;Comp~    34 Male   Colomb~ Employed full-t~ Data Scientist  Python          
+##  9 &quot;&quot;        41 Male   Germany Independent con~ Data Scientist  Python          
+## 10 &quot;Comp~    29 Male   Poland  Employed full-t~ Software Devel~ Python          
+## # ... with 3,771 more rows, and 1 more variable: FormalEducation &lt;chr&gt;</code></pre>
+<p>Poljubno ureditev dobimo tako, da enostavno zapišemo vrstni red stolpcev, kot ga želimo. Funkcija <code>relocate()</code> omogoča še nekatere možnosti urejanja, kot na primer, glede na tip spremenljivke. Za več informacij o različnih načinih urejanja stolpcev bralcu predlagamo uporabo pomoči <code>?relocate</code>.</p>
+</div>
+<div id="preimenovanje-stolpcev" class="section level3" number="1.14.2">
+<h3><span class="header-section-number">1.14.2</span> Preimenovanje stolpcev</h3>
+<p>Stolpce preimenujemo s funkcijo <code>rename()</code>.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="slovnica-urejanja-podatkov.html#cb111-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_select <span class="sc">%&gt;%</span></span>
+<span id="cb111-2"><a href="slovnica-urejanja-podatkov.html#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">employment_status =</span> EmploymentStatus,</span>
+<span id="cb111-3"><a href="slovnica-urejanja-podatkov.html#cb111-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">current_job_title =</span> CurrentJobTitle)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 8
+##    Gender Country    Age employment_status    current_job_title LanguageRecomme~
+##    &lt;chr&gt;  &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;             &lt;chr&gt;           
+##  1 Female Austral~    43 Employed full-time   Business Analyst  Python          
+##  2 Male   Russia      33 Employed full-time   Software Develop~ Python          
+##  3 Male   Taiwan      26 Employed full-time   Software Develop~ Python          
+##  4 Male   United ~    25 Employed part-time   Researcher        Python          
+##  5 Male   United ~    33 Employed full-time   Scientist/Resear~ Matlab          
+##  6 Male   Czech R~    21 Employed part-time   Other             Python          
+##  7 Male   Russia      22 Employed full-time   Data Analyst      Python          
+##  8 Male   Colombia    34 Employed full-time   Data Scientist    Python          
+##  9 Male   Germany     41 Independent contrac~ Data Scientist    Python          
+## 10 Male   Poland      29 Employed full-time   Software Develop~ Python          
+## # ... with 3,771 more rows, and 2 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;</code></pre>
+<p>Tibble lahko vsebuje tudi imena stolpcev, ki niso veljavna za spremenljivke v R. V tem primeru jih moramo zapisati znotraj <code>`</code>. Na primer, spremenljivki v R ne moremo prirediti imena z minusom. Poizkusimo to narediti v tibblu:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="slovnica-urejanja-podatkov.html#cb113-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_select <span class="sc">%&gt;%</span></span>
+<span id="cb113-2"><a href="slovnica-urejanja-podatkov.html#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">employment-status</span><span class="st">`</span> <span class="ot">=</span> EmploymentStatus,</span>
+<span id="cb113-3"><a href="slovnica-urejanja-podatkov.html#cb113-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">current-job-title</span><span class="st">`</span> <span class="ot">=</span> CurrentJobTitle)</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 8
+##    Gender Country    Age `employment-status`  `current-job-tit~ LanguageRecomme~
+##    &lt;chr&gt;  &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;             &lt;chr&gt;           
+##  1 Female Austral~    43 Employed full-time   Business Analyst  Python          
+##  2 Male   Russia      33 Employed full-time   Software Develop~ Python          
+##  3 Male   Taiwan      26 Employed full-time   Software Develop~ Python          
+##  4 Male   United ~    25 Employed part-time   Researcher        Python          
+##  5 Male   United ~    33 Employed full-time   Scientist/Resear~ Matlab          
+##  6 Male   Czech R~    21 Employed part-time   Other             Python          
+##  7 Male   Russia      22 Employed full-time   Data Analyst      Python          
+##  8 Male   Colombia    34 Employed full-time   Data Scientist    Python          
+##  9 Male   Germany     41 Independent contrac~ Data Scientist    Python          
+## 10 Male   Poland      29 Employed full-time   Software Develop~ Python          
+## # ... with 3,771 more rows, and 2 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;</code></pre>
+</div>
+<div id="summarise-in-group-unpeeling" class="section level3" number="1.14.3">
+<h3><span class="header-section-number">1.14.3</span> Summarise in group unpeeling</h3>
+<p>Kot smo že spoznali je funkcija <code>summarise()</code> najbolj uporabna v kombinaciji z <code>group_by()</code>. Pogljemo si sedaj bolj podrobno, kakšen tibble je rezultat te kombinacije. Najprej samo grupirajmo <code>ds_jobs</code>:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="slovnica-urejanja-podatkov.html#cb115-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_grouped <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb115-2"><a href="slovnica-urejanja-podatkov.html#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(FormalEducation, EmploymentStatus)</span>
+<span id="cb115-3"><a href="slovnica-urejanja-podatkov.html#cb115-3" aria-hidden="true" tabindex="-1"></a>ds_jobs_grouped</span></code></pre></div>
+<pre><code>## # A tibble: 3,781 x 19
+## # Groups:   FormalEducation, EmploymentStatus [21]
+##    Gender Country    Age EmploymentStatus     CurrentJobTitle   LanguageRecomme~
+##    &lt;chr&gt;  &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;             &lt;chr&gt;           
+##  1 Female Austral~    43 Employed full-time   Business Analyst  Python          
+##  2 Male   Russia      33 Employed full-time   Software Develop~ Python          
+##  3 Male   Taiwan      26 Employed full-time   Software Develop~ Python          
+##  4 Male   United ~    25 Employed part-time   Researcher        Python          
+##  5 Male   United ~    33 Employed full-time   Scientist/Resear~ Matlab          
+##  6 Male   Czech R~    21 Employed part-time   Other             Python          
+##  7 Male   Russia      22 Employed full-time   Data Analyst      Python          
+##  8 Male   Colombia    34 Employed full-time   Data Scientist    Python          
+##  9 Male   Germany     41 Independent contrac~ Data Scientist    Python          
+## 10 Male   Poland      29 Employed full-time   Software Develop~ Python          
+## # ... with 3,771 more rows, and 13 more variables: FormalEducation &lt;chr&gt;,
+## #   Major &lt;chr&gt;, CompensationAmount &lt;dbl&gt;, CompensationCurrency &lt;chr&gt;,
+## #   TimeGatheringData &lt;int&gt;, TimeModelBuilding &lt;dbl&gt;, TimeProduction &lt;dbl&gt;,
+## #   TimeVisualizing &lt;dbl&gt;, TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;int&gt;,
+## #   ExchangeRate &lt;dbl&gt;, CompensationUSD &lt;dbl&gt;, MonthlyCompUSD &lt;dbl&gt;</code></pre>
+<p>V drugi vrstici vidimo, da je ta tibble grupiran po spremenljivkah <code>FormalEducation</code> in <code>EmploymentStatus</code>. Poglejmo kaj se zgodi, ko uporabimo <code>summarise()</code>:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="slovnica-urejanja-podatkov.html#cb117-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_summarised <span class="ot">&lt;-</span> ds_jobs_grouped <span class="sc">%&gt;%</span></span>
+<span id="cb117-2"><a href="slovnica-urejanja-podatkov.html#cb117-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Count =</span> <span class="fu">n</span>())</span>
+<span id="cb117-3"><a href="slovnica-urejanja-podatkov.html#cb117-3" aria-hidden="true" tabindex="-1"></a>ds_jobs_summarised</span></code></pre></div>
+<pre><code>## # A tibble: 21 x 3
+## # Groups:   FormalEducation [8]
+##    FormalEducation                       EmploymentStatus                  Count
+##    &lt;chr&gt;                                 &lt;chr&gt;                             &lt;int&gt;
+##  1 &quot;&quot;                                    Employed full-time                    1
+##  2 &quot;Bachelor&#39;s degree&quot;                   Employed full-time                  857
+##  3 &quot;Bachelor&#39;s degree&quot;                   Employed part-time                   52
+##  4 &quot;Bachelor&#39;s degree&quot;                   Independent contractor, freelanc~    76
+##  5 &quot;Doctoral degree&quot;                     Employed full-time                  719
+##  6 &quot;Doctoral degree&quot;                     Employed part-time                   26
+##  7 &quot;Doctoral degree&quot;                     Independent contractor, freelanc~    50
+##  8 &quot;I did not complete any formal educa~ Employed full-time                   13
+##  9 &quot;I did not complete any formal educa~ Employed part-time                    2
+## 10 &quot;I did not complete any formal educa~ Independent contractor, freelanc~    10
+## # ... with 11 more rows</code></pre>
+<p>Opazimo, da je ta novi tibble grupiran samo po spremenljivki <code>FormalEducation</code>. Privzeto <code>summarise()</code> vedno odstrani zadnje grupiranje. Če tega ne želimo, lahko uporabimo dodaten parameter <code>.groups = "keep"</code>.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="slovnica-urejanja-podatkov.html#cb119-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_summarised <span class="ot">&lt;-</span> ds_jobs_grouped <span class="sc">%&gt;%</span></span>
+<span id="cb119-2"><a href="slovnica-urejanja-podatkov.html#cb119-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;keep&quot;</span>)</span>
+<span id="cb119-3"><a href="slovnica-urejanja-podatkov.html#cb119-3" aria-hidden="true" tabindex="-1"></a>ds_jobs_summarised</span></code></pre></div>
+<pre><code>## # A tibble: 21 x 3
+## # Groups:   FormalEducation, EmploymentStatus [21]
+##    FormalEducation                       EmploymentStatus                  Count
+##    &lt;chr&gt;                                 &lt;chr&gt;                             &lt;int&gt;
+##  1 &quot;&quot;                                    Employed full-time                    1
+##  2 &quot;Bachelor&#39;s degree&quot;                   Employed full-time                  857
+##  3 &quot;Bachelor&#39;s degree&quot;                   Employed part-time                   52
+##  4 &quot;Bachelor&#39;s degree&quot;                   Independent contractor, freelanc~    76
+##  5 &quot;Doctoral degree&quot;                     Employed full-time                  719
+##  6 &quot;Doctoral degree&quot;                     Employed part-time                   26
+##  7 &quot;Doctoral degree&quot;                     Independent contractor, freelanc~    50
+##  8 &quot;I did not complete any formal educa~ Employed full-time                   13
+##  9 &quot;I did not complete any formal educa~ Employed part-time                    2
+## 10 &quot;I did not complete any formal educa~ Independent contractor, freelanc~    10
+## # ... with 11 more rows</code></pre>
+</div>
+</div>
+<div id="ali-želite-izvedeti-več" class="section level2" number="1.15">
+<h2><span class="header-section-number">1.15</span> Ali želite izvedeti več?</h2>
+<p>V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementacijo v R paketu dplyr. Opis vseh funkcij v dplyr najdemo tukaj: <a href="https://dplyr.tidyverse.org/reference/index.html" class="uri">https://dplyr.tidyverse.org/reference/index.html</a>. Jedrnat povzetek pa je na voljo tukaj: <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf" class="uri">https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf</a>.</p>
+</div>
+<div id="domača-naloga" class="section level2" number="1.16">
+<h2><span class="header-section-number">1.16</span> Domača naloga</h2>
+<ol style="list-style-type: decimal">
+<li><p>Začeli bomo z relativno preprosto nalogo, kjer bomo ponovili osnovne ukaze iz slovnice urejanja podatkov. Osnovna različica programskega jezika R že vsebuje nekatere podatkovne zbirke. Z ukazom <code>data()</code> dobimo opis vseh zbirk. V tej nalogi bomo uporabili podatkovno zbirko <code>mtcars</code>:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="slovnica-urejanja-podatkov.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span></code></pre></div>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<p>Za podrobnejši opis podatkov uporabite pomoč <code>?mtcars</code>. Najprej ustvarite novo spremenljivko <code>mtcars_tib</code>, v katero shranite razpredelnico <code>mtcars</code> kot tibble. Nato vsako izmed spodnjih nalog izvedite posebej (torej v vsaki točki izvedite ukaz na <code>mtcars_tib</code>, ampak tako spremenjenega tibbla ne shranite nazaj v to spremenljivko), razen če je v nalogi eksplicitno navedeno drugače. Vaše naloge so sledeče:</p>
+<ul>
+<li>Ustvarite novo spremenljivko <code>mtcars_tib</code>, v katero shranite razpredelnico <code>mtcars</code> kot tibble.</li>
+<li>Izberite vse vrstice avtomobilov z avtomatskim menjalnikom.</li>
+</ul>
+<pre><code>## # A tibble: 19 x 11
+##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+##  2  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+##  3  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+##  4  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+##  5  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+##  6  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+##  7  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+##  8  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
+##  9  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+## 10  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
+## 11  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+## 12  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+## 13  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+## 14  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+## 15  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1
+## 16  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+## 17  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+## 18  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+## 19  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2</code></pre>
+<ul>
+<li>Izberite vse vrstice, kjer je poraba manjša od 15 galon na miljo ali večja od 20 galon na miljo in je motor oblike V.</li>
+</ul>
+<pre><code>## # A tibble: 8 x 11
+##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+## 2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+## 3  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+## 4  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+## 5  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+## 6  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+## 7  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+## 8  26       4  120.    91  4.43  2.14  16.7     0     1     5     2</code></pre>
+<ul>
+<li>Izberite vse stolpce, kjer ime stolpca vsebuje črko a.</li>
+</ul>
+<pre><code>## # A tibble: 32 x 4
+##     drat    am  gear  carb
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  3.9      1     4     4
+##  2  3.9      1     4     4
+##  3  3.85     1     4     1
+##  4  3.08     0     3     1
+##  5  3.15     0     3     2
+##  6  2.76     0     3     1
+##  7  3.21     0     3     4
+##  8  3.69     0     4     2
+##  9  3.92     0     4     2
+## 10  3.92     0     4     4
+## # ... with 22 more rows</code></pre>
+<ul>
+<li>Izberite zadnje 4 stolpce.</li>
+</ul>
+<pre><code>## # A tibble: 32 x 4
+##       vs    am  gear  carb
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     0     1     4     4
+##  2     0     1     4     4
+##  3     1     1     4     1
+##  4     1     0     3     1
+##  5     0     0     3     2
+##  6     1     0     3     1
+##  7     0     0     3     4
+##  8     1     0     4     2
+##  9     1     0     4     2
+## 10     1     0     4     4
+## # ... with 22 more rows</code></pre>
+<ul>
+<li><p>V tibble <code>mtcars_tib</code> dodajte stolpca, kjer bosta izračunani število litrov na 100 kilometrov in teža v kilogramih (v tisočicah). 1 milja je približno 1.61 kilometra, 1 galona 3.79 litra in 1 funt 0.45 kilograma.</p></li>
+<li><p>Izračunajte povprečno porabo avtomobilov v odvisnosti števila cilindrov.</p></li>
+</ul>
+<pre><code>## # A tibble: 3 x 2
+##     cyl mean_mpg
+##   &lt;dbl&gt;    &lt;dbl&gt;
+## 1     4     26.7
+## 2     6     19.7
+## 3     8     15.1</code></pre>
+<ul>
+<li>Izračunajte povprečno konjsko moč v odvisnosti od oblike motorja in ali je avtomobil avtomatik ali ne.</li>
+</ul>
+<pre><code>## # A tibble: 4 x 3
+## # Groups:   vs [2]
+##      vs    am mean_hp
+##   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1     0     0   194. 
+## 2     0     1   181. 
+## 3     1     0   102. 
+## 4     1     1    80.6</code></pre>
+<ul>
+<li>Normalizirajte vse stolpce, ki vsebujejo decimalna števila, na interval [0, 1]. To naredimo tako, da vrednostim odštejemo minimalno vrednost in delimo z razliko med maksimalno in minimalno vrednostjo:
+<span class="math display">\[
+ x_i&#39; = \frac{x_i - \min(x)}{\max(x) - \min(x)}.
+ \]</span></li>
+</ul>
+<pre><code>## # A tibble: 32 x 13
+##      mpg   cyl   disp    hp  drat    wt  qsec    vs    am  gear  carb lp100km
+##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1 0.451     6 0.222    110 0.525 0.283 0.233     0     1     4     4   11.2 
+##  2 0.451     6 0.222    110 0.525 0.348 0.3       0     1     4     4   11.2 
+##  3 0.528     4 0.0920    93 0.502 0.206 0.489     1     1     4     1   10.3 
+##  4 0.468     6 0.466    110 0.147 0.435 0.588     1     0     3     1   11.0 
+##  5 0.353     8 0.721    175 0.180 0.493 0.3       0     0     3     2   12.6 
+##  6 0.328     6 0.384    105 0     0.498 0.681     1     0     3     1   13.0 
+##  7 0.166     8 0.721    245 0.207 0.526 0.160     0     0     3     4   16.5 
+##  8 0.596     4 0.189     62 0.429 0.429 0.655     1     0     4     2    9.65
+##  9 0.528     4 0.174     95 0.535 0.419 1         1     0     4     2   10.3 
+## 10 0.374     6 0.241    123 0.535 0.493 0.452     1     0     4     4   12.3 
+## # ... with 22 more rows, and 1 more variable: wt_in_kg &lt;dbl&gt;</code></pre>
+<ul>
+<li>Izračunajte povprečne vrednosti vseh stolpcev.</li>
+</ul>
+<pre><code>## # A tibble: 1 x 13
+##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb lp100km
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1  20.1  6.19  231.  147.  3.60  3.22  17.8 0.438 0.406  3.69  2.81    12.8
+## # ... with 1 more variable: wt_in_kg &lt;dbl&gt;</code></pre></li>
+<li><p><strong>Težja naloga</strong>. V mapi <em>data-raw</em> se nahajajo podatki o gozdnih požarih na Portugalskem. Podatki so bili uporabljeni v znanstvenem članku <span class="citation">(<a href="reference.html#ref-Cortez2007" role="doc-biblioref">Cortez et Morais 2007</a>)</span>, kjer so napovedovali velikost požganega območja v odvisnosti od meteoroloških in drugih podatkov. Vrednosti 0 za požgano območje predstavljajo požare, kjer je pogorelo manj kot 100 kvadratnih metrov.</p>
+<ul>
+<li>Preberite podatke in jih shranite kot tibble.</li>
+<li>Preverite, v katerem mesecu je največ požarov in jih uredite padajoče od tistega z največ požari do tistega z najmanj.</li>
+</ul>
+<pre><code>## # A tibble: 12 x 2
+##    month     n
+##    &lt;chr&gt; &lt;int&gt;
+##  1 aug     184
+##  2 sep     172
+##  3 mar      54
+##  4 jul      32
+##  5 feb      20
+##  6 jun      17
+##  7 oct      15
+##  8 apr       9
+##  9 dec       9
+## 10 jan       2
+## 11 may       2
+## 12 nov       1</code></pre>
+<ul>
+<li>Preverite, ali obstajajo območja v parku, kjer se bolj pogosto pojavljajo požari. Za vsako kombinacijo koordinat bomo torej izračunali število požarov. Rezultat lahko predstavimo z razpredelnico. Glede na to, da imamo dvodimenzionalne podatke, bi jih morda bilo smiselno predstaviti vizualno. V kolikor poznate paket ggplot2, predlagamo da si pogledate funkcijo <code>geom_tile()</code>.</li>
+</ul>
+<pre><code>## # A tibble: 36 x 3
+##        X     Y     n
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+##  1     1     2    19
+##  2     1     3    10
+##  3     1     4    15
+##  4     1     5     4
+##  5     2     2    25
+##  6     2     3     1
+##  7     2     4    27
+##  8     2     5    20
+##  9     3     3     1
+## 10     3     4    43
+## # ... with 26 more rows</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<ul>
+<li>Dodajte stolpec, ki bo za vsak požar izračunal delež požganega območja glede na vse požare na posameznih koordinatah. Za tem smiselno filtrirajte podatke (ali smo v novem stolpcu dobili kakšne nepričakovane, oziroma neveljavne vrednosti?).</li>
+</ul>
+<pre><code>## # A tibble: 509 x 5
+##        X     Y month day   area_by_coord
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;
+##  1     7     5 mar   fri               0
+##  2     7     4 oct   tue               0
+##  3     7     4 oct   sat               0
+##  4     8     6 mar   fri               0
+##  5     8     6 mar   sun               0
+##  6     8     6 aug   sun               0
+##  7     8     6 aug   mon               0
+##  8     8     6 aug   mon               0
+##  9     8     6 sep   tue               0
+## 10     7     5 sep   sat               0
+## # ... with 499 more rows</code></pre>
+<ul>
+<li>Preverite, ali ob vročem vremenu in nizki vlažnosti pogori večji delež območja, ki smo ga izračunali v prejšnji točki, tako da izberete vrstice, kjer je temperatura višja od 0.8 kvantila temperature in vlažnost nižja od 0.2 kvantila vlažnosti ter izračunate povprečje. <span class="math inline">\(q\)</span>-ti kvantil je ocena števila, za katerega velja, da je <span class="math inline">\(q\)</span> vrednosti manjših od tega števila. Za računanje kvantilov uporabite funkcijo <code>quantile()</code>. Za primerjavo izračunajte še povprečje te spremenljivke za vse preostale vrstice. Ali se rezultati skladajo z vašo intuicijo?</li>
+</ul>
+<pre><code>## # A tibble: 1 x 1
+##   mean_area_by_coord
+##                &lt;dbl&gt;
+## 1              0.153</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_area_by_coord
+##                &lt;dbl&gt;
+## 1             0.0555</code></pre>
+<ul>
+<li>Izračunajte povprečje standardiziranih indeksov in ga vstavite kot stolpec pred prvo spremenljivko, ki predstavlja indeks.</li>
+</ul>
+<pre><code>## # A tibble: 509 x 15
+## # Rowwise: 
+##        X     Y month day   mean_indices FFMC_index DMC_index DC_index ISI_index
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     7     5 mar   fri        -1.21     -0.796      -1.32    -1.86   -0.859  
+##  2     7     4 oct   tue        -0.304    -0.00502    -1.18     0.480  -0.510  
+##  3     7     4 oct   sat        -0.254    -0.00502    -1.05     0.552  -0.510  
+##  4     8     6 mar   fri        -0.739     0.193      -1.21    -1.92   -0.00890
+##  5     8     6 mar   sun        -0.719    -0.239      -0.934   -1.82    0.122  
+##  6     8     6 aug   sun         0.218     0.301      -0.405   -0.256   1.23   
+##  7     8     6 aug   mon        -0.0979    0.301      -0.349   -0.225  -0.118  
+##  8     8     6 aug   mon         0.320     0.157       0.530    0.232   0.361  
+##  9     8     6 sep   tue         0.120     0.0669      0.283    0.575  -0.445  
+## 10     7     5 sep   sat         0.0375    0.337      -0.363    0.599  -0.423  
+## # ... with 499 more rows, and 6 more variables: temp &lt;dbl&gt;, RH &lt;dbl&gt;,
+## #   wind &lt;dbl&gt;, rain &lt;dbl&gt;, area &lt;dbl&gt;, area_by_coord &lt;dbl&gt;</code></pre></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="urejeni-in-relacijski-podatki.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-data-manipulation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+_publish.R
+_book
+_bookdown_files
+rsconnect
+ignore-me/
+_book.rar
+tmp-relational.R
+my-saved-files/my-x.rds

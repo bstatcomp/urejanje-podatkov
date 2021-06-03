@@ -1,0 +1,10 @@
+book_filename: "bookdown-demo"
+language:
+  ui:
+    chapter_name: "Poglavje "
+    references_name: "Reference"
+delete_merged_file: true
+bookdown::gitbook:
+  split_bib: no
+biblio-style: apalike
+output_dir: "docs"

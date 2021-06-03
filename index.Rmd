@@ -1,0 +1,68 @@
+--- 
+title: "Urejanje podatkov"
+author: "Gregor Pirš, Matej Pičulin in Erik Štrumbelj"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: bstatcomp/urejanje-podatkov
+description: "Gradivo za delavnico Urejanje podatkov pobude DataScience@UL-FRI."
+lang: fr
+---
+
+# Uvod {-}
+Pri delu s podatki se srečujemo z različnimi izzivi. Prvi izziv je zbiranje do podatkov. Takoj za tem pa se soočimo z drugim izzivom, ki običajno zahteva največ našega časa -- čiščenje in urejanje podatkov. V večini primerov so podatki v izvorni obliki namreč **neurejeni** (ang. **messy** data).
+
+Ta knjiga je namenjena spoznanju osnovnih konceptov čiščenja in urejanja podatkov, ki nam bodo olajšali nadaljnjo analizo in vizualizacijo. Vse koncepte bomo prikazali v programskem jeziku R. Podatkovne množice in izvorne datoteke te knjige so objavljene na Github repozitoriju: https://github.com/bstatcomp/urejanje-podatkov. Cilj delavnice je spoznati:
+
+1) Najbolj uporabne funkcije za urejanje podatkov;
+2) Koncept t. i. **urejenih** (ang. **tidy**) podatkov;
+3) Dobre prakse dela z datumi, nizi in kategoričnimi spremenljivkami.
+
+Za sistematično delo s podatki v R-ju je bil razvit skupek paketov, ki se imenuje **tidyverse**. Sestavljen je iz 8 temeljnih paketov:
+
+- **ggplot2**. Vizualizacija podatkov s **slovnico grafike** (ang. **grammar of graphics**).
+- **dplyr**. Lažje urejanje podatkov, na primer izbiranje vrstic in stolpcev, dodajanje stolpcev, povzemanje in urejanje podatkov. Ta paket je glavna tema 1. predavanja.
+- **tidyr**. Preoblikovanje podatkov med dolgo in široko obliko, oziroma preoblikovanje podatkov v urejeno obliko. Več o tem bomo povedali na 2. predavanju.
+- **readr**. Učinkovito branje in shranjevanje podatkov.
+- **purrr**. Funkcijsko programiranje v R.
+- **tibble**. Moderna verzija `data.frame`. Tema 1. predavanja.
+- **stringr**. Preprostejše delo z nizi. Tema 3. predavanja.
+- **forcats**. Preprostejše delo s kategoričnimi spremenljivkami. Tema 3. predavanja.
+
+Vseh 8 paketov lahko namestimo z enim ukazom:
+
+```{r, eval = FALSE}
+install.packages("tidyverse")
+```
+
+Lahko pa namestimo tudi samo posamezne pakete:
+
+```{r, eval = FALSE}
+install.packages("dplyr")
+```
+
+## Struktura te knjige {-}
+Vsako poglavje ima 3 sklope:
+
+1) **Priprava.** Ta sklop je namenjen temu, da se udeleženci pripravijo na predavanje. Ker bodo le-ta intenzivna in namenjena predstavitvi glavnih konceptov ter uporabi funkcij na praktičnih primerih, je dobro, da poznamo osnovne klice uporabljenih funkcij. V pripravi si bomo na preprostih podatkih pogledali, kako izvajati osnovne klice funkcij v tidyverse. Za vsako pripravo je na voljo video. Priprava traja največ 30 minut.
+
+2) **Jedro.** V tem sklopu je zajeta vsebina posameznega predavanja in včasih dodatna snov, ki jo predelamo samostojno. Podrobneje opišemo posamezne koncepte in funkcije ter demonstriramo na praktičnih primerih.
+
+3) **Domača naloga.** Na koncu vsakega predavanja so vaje za utrjevanje. Poskusimo jih rešiti sami. V tej knjigi bodo prikazani samo rezultati rešitev brez postopka oziroma programske kode. V kolikor se nam zatakne, lahko preverimo rešitev v izvornih datotekah Rmd, ki se nahajajo na repozitoriju. Nekatere naloge od nas zahtevaj, da kaj raziščemo sami, z uporabo vgrajene pomoči ali spleta, kot smo to navajeni pri vsakodnevnem programerskem delu. Domača naloga vsakega sklopa je sestavljena iz nekaj osnovnih nalog, ki ponovijo snov predavanj. Poleg teh pa so tudi težje naloge, pri kateri je potrebno koncepte uporabiti na realni podatkovni množici ali samostojno rešiti probleme, ki jih na predavanju ne bomo predelali.
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  error = TRUE, # do not interrupt in case of errors
+  warnings = FALSE,
+  message = FALSE
+)
+```
+
+
+## Stil programske kode {-}
+V tej knjigi bomo predelali potrebne koncepte za urejanje podatkov, kar nam bo omogočilo bolj kvalitetno in učinkovito delo s podatki. Poleg poznavanja teh orodij in konceptov pa nam analizo olajša tudi konsistenten stil programiranja. Dober stil programiranja za naše delo ni nujen, je pa vsekakor dobrodošel, saj je programska koda bolj berljiva. Zbirka paketov tidyverse ima tudi svoj stilski vodnik: https://style.tidyverse.org/. Vsak stilski vodnik vsebuje pravila, ki so določena dokaj arbitrarno, oziroma glede na preference avtorja. Najbolj pomembno je, da smo pri pisanju programske kode konsistentni in stilski vodnik nam to nudi.
+

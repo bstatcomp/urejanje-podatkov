@@ -1,0 +1,732 @@
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  error = TRUE, # do not interrupt in case of errors
+  warnings = FALSE,
+  message = FALSE
+)
+```
+
+# Slovnica urejanja podatkov
+V tem predavanju se bomo osredotočili na temeljne operacije, ki jih izvajamo nad podatki. Te operacije so nepogrešljive pri vsaki analizi:
+
+- izbira podmnožice vrstic,
+- izbira podmnožice stolpcev,
+- dodajanje stolpcev, ki so lahko izpeljani iz obstoječih stolpcev,
+- urejanje razpredelnice glede na vrednosti stolpcev,
+- povzemanje razpredelnic, na primer povprečja in vsote.
+
+Paket **dplyr** vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Paket dplyr uvede t. i. **slovnico urejanja podatkov** (ang. **grammar of data manipulation**), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku. 
+
+Pri slovnici urejanja podatkov poznamo 5 osnovnih glagolov, s katerimi preoblikujemo podatke. Vsak glagol ustreza eni izmed temeljnih operacij, ki smo jih omenili zgoraj. Programska koda se potem bere podobno kot naravni jezik -- glagoli programskemu jeziku povedo, kaj naj s podatki naredi. Ti glagoli so implementirani v obliki funkcij:
+
+- `filter()` Izbira podmnožice vrstic glede na izbrane pogoje.
+- `select()` Izbira podmnožice stolpcev, glede na imena stolpcev.
+- `mutate()` Dodajanje stolpcev, ki so lahko izpeljani iz obstoječih stolpcev.
+- `summarise()` Povzemanje podatkov v razpredelnici.
+- `arrange()` Urejanje razpredelnice.
+
+V tem predavanju bomo bolj podrobno spoznali vsakega izmed teh glagolov. Po tem pa si bomo ogledali še dva uporabna povzetka -- povzemanje po vrsticah in povzemanje po stolpcih.
+
+
+<style>
+.fold-btn { 
+  float: right; 
+  margin: 5px 5px 0 0;
+}
+.fold { 
+  border: 1px solid black;
+  min-height: 40px;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $folds = $(".fold");
+  $folds.wrapInner("<div class=\"fold-blck\">"); // wrap a div container around content
+  $folds.prepend("<button class=\"fold-btn\">Unfold</button>");  // add a button
+  $(".fold-blck").toggle();  // fold all blocks
+  $(".fold-btn").on("click", function() {  // add onClick event
+    $(this).text($(this).text() === "Fold" ? "Unfold" : "Fold");  // if the text equals "Fold", change it to "Unfold"or else to "Fold" 
+    $(this).next(".fold-blck").toggle("linear");  // "swing" is the default easing function. This can be further customized in its speed or the overall animation itself.
+  })
+});
+</script>
+
+
+## Predpriprava
+V predpripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice urejanja podatkov. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo si podatke:
+
+```{r, message=FALSE}
+library(tidyverse)  # Nalozimo celotno zbirko paketov tidyverse.
+df <- data.frame(
+  ime = c("Maja", "Ales", "Tom", "Barbara", "Simon", "Tina"),
+  spol = c("z", "m", "m", "z", "m", "z"),
+  starost = c(23, 54, 21, 35, 53, 21),
+  visina = c(170, 180, 192, 168, 177, 182)
+)
+```
+
+S funkcijo `filter()` izberemo podmnožico vrstic v razpredelnici glede na izbrane pogoje. Izberimo ženske nižje od 180 centimetrov.
+
+```{r}
+# Osnovni R:
+df[df$spol == "z" & df$visina < 180, ]
+
+# dplyr:
+filter(df, spol == "z", visina < 180)
+```
+
+Opazimo, da z uporabo dplyr ni potrebno vsakič pisati `df$` pred imenom spremenljivke. Tukaj gre za t. i. **maskiranje podatkov** (ang. **data masking**). Več o tem v jedru poglavja.
+
+S funkcijo `select()` izberemo podmnožico stolpcev. Izberimo stolpce `ime`, `spol` in `visina`:
+
+```{r}
+# Osnovni R:
+df[ , c("ime", "spol", "visina")]
+
+# dplyr:
+select(df, ime, spol, visina)
+```
+
+Opazimo, da nam pri uporabi dplyr stolpcev ni potrebno pisati v narekovajih. Tukaj gre za t. i. **urejeno izbiranje** (ang. **tidy selection**). Več o tem v jedru poglavja.
+
+S funkcijo `mutate()` dodajamo stolpce. Dodajmo višino v metrih:
+
+```{r}
+# Osnovni R:
+df2 <- df
+df2$visina_v_metrih <- df2$visina / 100
+df2
+
+# dplyr:
+mutate(df, visina_v_metrih = visina / 100)
+```
+
+S funkcijo `arrange()` urejamo razpredelnico. Uredimo osebe po starosti:
+
+```{r}
+# Osnovni R:
+df[order(df$starost), ]
+
+# dplyr:
+arrange(df, starost)
+```
+
+S funkcijo `summarise()` povzamemo podatke. Običajno se uporablja v kombinaciji z `group_by()`. Izračunajmo povprečno višino glede na spol:
+
+```{r}
+# Osnovni R:
+aggregate(visina ~ spol, data = df, FUN = mean)
+
+# dplyr:
+summarise(group_by(df, spol), povp_visina = mean(visina))
+```
+
+**Naloga:** Poglejmo si nov primer podatkov.
+
+```{r}
+df <- data.frame(
+  podjetje = c("A", "B", "C", "D", "E"),
+  panoga = c("proizvodnja", "gostinstvo", "proizvodnja", "gostinstvo", "proizvodnja"),
+  st_zaposlenih = c(100, 20, 110, 15, 20),
+  dobicek = c(100000, 10000, 12000, 1000, 0)
+)
+```
+
+Z uporabo dplyr:
+
+- Izberite vrstice, ki imajo med (vključno) 10000 in 20000 dobička.
+```{r, echo = FALSE}
+filter(df, dobicek >= 10000, dobicek <= 20000)
+```
+
+- Izberite drugi in četrti stolpec.
+```{r, echo = FALSE}
+select(df, panoga, dobicek)
+```
+
+- Dodajte stolpec, ki bo prikazal dobiček na zaposlenega.
+```{r, echo = FALSE}
+mutate(df, dobicek_na_zaposlenega = dobicek / st_zaposlenih)
+```
+
+- Uredite podjetja po številu zaposlenih.
+```{r, echo = FALSE}
+arrange(df, st_zaposlenih)
+```
+
+- Poiščite maksimalno število zaposlenih glede na panogo.
+```{r, echo = FALSE}
+summarise(group_by(df, panoga), max_st_zaposlenih = max(st_zaposlenih))
+```
+
+
+
+
+
+
+## Sodobna razpredelnica: `tibble`
+Najprej si poglejmo podatke, na katerih se bomo naučili osnovnih konceptov slovnice urejanja podatkov. V mapi *data-raw* se nahajajo podatki *DS-jobs.csv*. Gre za rezultate ankete, ki so jo v povezavi z industrijo izvedli na spletni strani Kaggle (https://www.kaggle.com/kaggle/kaggle-survey-2017) leta 2017 z namenom raziskati trg dela na področju podatkovnih ved in strojnega učenja. Podatki so shranjeni v tekstovni datoteki, kjer so elementi ločeni s podpičjem. Preberimo podatke v našo sejo R:
+
+```{r}
+ds_jobs <- read.csv2("./data-raw/DS-jobs.csv")
+head(ds_jobs)
+```
+
+Spremenljivka `ds_jobs` je tipa `data.frame`. To je osnovna oblika, v kateri v R hranimo razpredelnice. V tidyverse obstaja paket **tibble**, ki je namenjen sodobni predstavitvi razpredelnice. Glavna funkcionalnost tega paketa je objekt `tibble`, ki predstavlja nadgradnjo data frame. V preostanku knjige bomo za objekte `data.frame` uporabljali izraz "data frame" in za objekte tipa `tibble` izraz "tibble". Večina funkcij v tidyverse sicer lahko kot vhodni podatek prejme data frame, ampak ga nekatere potem samodejno pretvorijo v tibble. Kot dobro prakso predlagamo delo izključno s tibble. Poleg kompatibilnosti s funkcijami tidyverse je še nekaj drugih razlik v primerjavi z data frame, večino le-teh bomo spoznali v preostanku knjige.
+
+Pretvorimo sedaj ta data frame v tibble s funkcijo `as_tibble()`.
+
+```{r}
+library(tidyverse)
+ds_jobs <- as_tibble(ds_jobs)
+ds_jobs
+```
+
+Opazimo, da je oblika prikaza podatkov sedaj nekoliko drugačna. Najbolj očitna razlika je, da imamo na zaslonu prikazanih samo toliko stolpcev, kot jih je možno prikazati na zaslonu. Preostali stolpci so samo zapisani zaporedno z imeni, da lahko vidimo, katere stolpce še imamo v podatkih. S tem preprečimo, da bi izpis postal nepregleden. Še vedno lahko vidimo vse oziroma več stolpcev z uporabo `View()` ali pa če tibble izpišemo s pomočjo `print()` in ustrezno nastavitvijo širine, na primer `print(ds_jobs, width = 120)`. Izpis tibble pa nam nudi še nekaj dodatnih informacij v primerjavi z data frame. V prvi vrstici imamo izpisano dimenzijo podatkov -- število vrstic in število stolpcev. Pod vsako spremenljivko je zapisan tudi njen tip. Tibble tudi dopušča imena stolpcev, ki niso standardna za R (na primer vsebujejo `-` in podobno), čeprav uporaba takih imen ni dobra praksa. Več o tem bomo povedali kasneje.
+
+
+## Urejeno ovrednotenje
+Preden začnemo resneje delati z glagoli slovnice urejanja podatkov, spoznajmo t. i. **urejeno ovrednotenje** (ang. **tidy evaluation**). To je posebnost tidyverse in večina glagolov v dplyr ga uporablja. Kaj pa je urejeno ovrednotenje? To je nestandarden pristop k ovrednotenju izrazov v programskem jeziku R. V predpripravi smo že srečali dva primera:
+
+- Pri funkciji `filter()` ni bilo potrebno vsakič navesti `df$` za izbiro spremenljivk iz razpredelnice.
+- Pri funkciji `select()` nismo potrebovali narekovajev.
+
+Oba sta primera dveh vrst urejenega ovrednotenja:
+
+- Pri nekaterih glagolih v dplyr lahko uporabimo spremenljivke (stolpce) tibbla (ali razpredelnice), kot da bi bile spremenljivke v globalnem okolju (torej lahko uporabimo `moja_spremenljivka` namesto `df$moja_spremenljivka`). Temu pravimo **maskiranje podatkov** (ang. **data masking**). Funkcije, ki podpirajo to strukturo in jih bomo spoznali v nadaljevanju so: `arrange()`, `count()`, `filter()`, `group_by()`, `mutate()` in `summarise()`.
+- Pri nekaterih glagolih v dplyr lahko na lažji način izberemo spremenljivke (stolpce) glede na njihovo pozicijo, ime ali tip (na primer izbira stolpcev po imenu brez narekovajev, izbira stolpcev ki se začnejo na določen niz, izbira samo številskih stolpcev). Temu pravimo **urejeno izbiranje** (ang. **tidy selection**). Funkcije, ki podpirajo to strukturo so: `across()`, `count()`, `rename()`, `select()` in `pull()`.
+
+Informacije o tem, ali funkcija vsebuje maskiranje podatkov ali urejeno izbiranje, lahko najdemo v datoteki s pomočjo pod razdelkom *Arguments*.
+
+
+## Izbira vrstic s `filter()`
+S funkcijo `filter()` izbiramo podmnožico vrstic glede na izbrane pogoje. Sintaksa je:
+
+```{r, eval = FALSE}
+filter(<tibble>, <pogoj1>, <pogoj2>, ...)
+```
+
+Kot prvi argument podamo tibble s podatki, potem pa z vejicami ločene pogoje. Izberimo vse osebe mlajše od 30 let:
+
+
+```{r}
+library(dplyr)
+filter(ds_jobs, Age < 30)
+```
+
+Več pogojev ločimo z vejico, kadar želimo, da veljajo vsi pogoji (enakovredno uporabi operatorja *in* -- `&` pri naštevanju pogojev). Poglejmo si vse osebe mlajše od 30 let, ki prihajajo iz Nemčije:
+
+```{r}
+filter(ds_jobs, Age < 30, Country == "Germany")
+```
+
+V kolikor želimo, da velja vsaj eden izmed pogojev, moramo uporabiti operator *ali* -- `|`. Poglejmo si vse osebe mlajše od 30 ali starejše od 50 let:
+
+
+```{r}
+filter(ds_jobs, Age < 30 | Age > 50)
+```
+Če želimo nek kategorični stolpec pogojiti z večimi vrednostmi (na primer udeležence iz večih držav), lahko namesto večih `|` uporabimo operator `%in%`, ki preveri, če je element del množice:
+
+```{r}
+filter(ds_jobs, Country %in% c("Germany", "Canada", "Ireland"))
+```
+
+### Manjkajoče vrednosti
+Vrstice pogosto filtriramo na podlagi manjkajočih vrednosti. Včasih so te pomembne za samo analizo, saj nas lahko zanimajo razlogi za njihov pojav. Včasih pa so to nepomembne vrstice, saj nam ne prinesejo dodatne informacije. V tem primeru jih običajno kar izločimo iz nadaljnje analize. 
+
+V nadaljevanju bomo spoznali, kako dodati nov stolpec, in to ilustrirali na izračunu plače v dolarjih. Za to bomo potrebovali stolpca `CompensationAmount` in `ExchangeRate`. V slednjem je kar nekaj manjkajočih vrednosti. Takšne vrstice bodo za analizo plač neuporabne, zato jih bomo sedaj izločili iz podatkov. Ali je vrednost enaka `NA` (objekt, ki predstavlja manjkajočo vrednost v R) preverimo s funkcijo `is.na()`. Izločimo sedaj te vrstice:
+
+```{r}
+ds_jobs <- filter(ds_jobs, !is.na(ExchangeRate))
+```
+
+Podobno kot v zgornjem primeru lahko v pogoju nastopa poljubna funkcija.
+
+
+## Izbira stolpcev s `select()`
+S funkcijo `select()` izbiramo podmnožico stolpcev. Osnovna sintaksa je:
+
+```{r, eval = FALSE}
+filter(<tibble>, <stolpec1>, <stolpec2>, ...)
+```
+
+Izberimo sedaj stolpce `Country`, `Age` in `EmploymentStatus`.
+
+```{r}
+select(ds_jobs, Country, Age, EmploymentStatus)
+```
+
+Izberimo vse stolpce razen teh treh stolpcev. Za to enostavno dodamo minus pred imenom stolpca, ki ga želimo izločiti:
+
+```{r}
+select(ds_jobs, -Country, -Age, -EmploymentStatus)
+```
+
+Izberimo vse stolpce med `Country` in `Major`. Podobno kot v R `1:10` našteje vsa cela števila med 1 in 10, operator `:` v tidyverse izbere vse stolpce med `Country` in `Major`:
+
+```{r}
+select(ds_jobs, Country:Major)
+```
+
+Izberimo vse stolpce, ki se začnejo z besedo `Time`. Za to bomo uporabili funkcijo `starts_with()`. Ta funkcija je t. i. *selection helper*, kar pomeni, da jo lahko uporabimo le znotraj funkcij, ki omogočajo urejeno ovrednotenje in nam omogoča lažjo izbiro na podlagi nekega pogoja. V tem primeru je ta pogoj, da se beseda začne na določen niz:
+
+
+```{r}
+select(ds_jobs, starts_with("Time"))
+```
+
+Poleg `starts_with()` dplyr vsebuje še več takšnih funkcij:
+
+- `ends_with()` Ali se ime stolpca konča na določen niz?
+- `contains()` Ali ime stolpca vsebuje niz?
+- `matches()` Ali ime stolpca ustreza regularnemu izrazu? Več o regularnih izrazih bomo povedali v 3. predavanju.
+- `num_range()` Ali ime stolpca vsebuje števila znotraj množice števil? Na primer, če imamo stolpce, ki v imenu vsebujejo števila -- *stolpec1*, *stolpec2*, in tako naprej. 
+
+
+## Urejanje vrstic z `arrange()`
+Vrstice lahko tudi uredimo glede na vrednosti v posameznih stolpcih. Za to uporabimo funkcijo `arrange()`. Sintaksa te funkcije je:
+
+```{r, eval = FALSE}
+filter(<tibble>, <stolpec1>, <stolpec2>, ...)
+```
+
+kjer stolpci predstavljajo vrednosti, po katerih želimo urediti tibble. 
+
+
+Ustvarimo najprej nov tibble, v katerem bomo izbrali podmnožico stolpcev.
+
+```{r}
+ds_jobs_tmp <- select(ds_jobs, CurrentJobTitle, Country, 
+                      CompensationCurrency, Age, CompensationAmount)
+```
+
+Uredimo sedaj podatke glede na leta:
+
+```{r}
+arrange(ds_jobs_tmp, Age)
+```
+
+Opazimo, da imamo nekaj neveljavnih starosti, na primer 0 in 1, najverjetneje tudi 11. Prav tako imamo nekaj nesmiselnih vrednosti v stolpcu o plači. Pri celostni analizi bi seveda raziskali, zakaj je prišlo do takih vrednosti, oziroma bi jih izločili iz analize. Za namen spoznavanja urejanja podatkov in dplyr to ni pomembno, tako da temu ne bomo posvečali pozornosti. Bralcem pa predlagamo, naj razmislijo, kako bi se tega lotili z že naučenimi koncepti.
+
+Če želimo podatke urediti padajoče, potem uporabimo funkcijo `desc()`:
+
+```{r}
+arrange(ds_jobs_tmp, desc(Age))
+```
+
+Uredimo lahko tudi glede na več stolpcev, kjer se najprej uredi po prvem zapisanem, nato drugem, itd.:
+
+```{r}
+arrange(ds_jobs_tmp, Age, CompensationAmount)
+```
+
+## Dodajanje novih spremenljivk z `mutate()`
+Pogosto želimo ustvariti nove stolpce, ki so izpeljani iz obstoječih stolpcev. Pri naših podatkih imamo stolpec `CompensationAmount`, ki predstavlja letno plačo in `ExchangeRate`, ki predstavlja menjalni tečaj lokalne valute v ameriški dolar. Če želimo imeti primerljive podatke, moramo izračunati vrednosti v dolarjih za vse podatke. Za to uporabimo funkcijo `mutate()`, ki doda stolpec (ali več stolpcev). Sintaksa funkcije je:
+
+```{r, eval = FALSE}
+<tibble> <- mutate(<tibble>, <ime-novega-stolpca> = <funkcija-obstoječih-stolpcev>, ...)
+```
+
+Dodajmo stolpec `CompensationUSD`, ki bo prikazal letno plačo v USD:
+
+```{r}
+ds_jobs <- mutate(ds_jobs, CompensationUSD = CompensationAmount * ExchangeRate)
+select(ds_jobs, CompensationAmount, ExchangeRate, CompensationUSD)
+```
+
+Znotraj klica `mutate()` lahko uporabimo stolpce, ki smo jih ustvarili v istem klicu v preteklih vrsticah. Recimo, da želimo poleg plače v USD izračunati še mesečno plačo v USD:
+
+```{r}
+ds_jobs <- mutate(ds_jobs, 
+                  CompensationUSD = CompensationAmount * ExchangeRate,
+                  MonthlyCompUSD  = CompensationUSD / 12)
+select(ds_jobs, CompensationAmount, ExchangeRate, CompensationUSD, MonthlyCompUSD)
+```
+
+
+## Povzemanje vrednosti s `summarise()`
+Funkcija `summarise()` se uporablja za povzemanje vrednosti (na primer povprečja, vsote, števci, ...). Sintaksa funkcije je: 
+
+```{r, eval = FALSE}
+summarise(<tibble>, <ime-povzetka> = <funkcija-ki-povzame-stolpec>, ...)
+```
+
+Najprej poglejmo delovanje te funkcije, tako da povzamemo povprečen čas priprave podatkov:
+
+```{r}
+summarise(ds_jobs, MeanDataCleaning = mean(TimeGatheringData))
+```
+Funkcija enostavno vrne povprečje stolpca `TimeGatheringData`. Ta informacija je sicer uporabna, ampak to ni edina funkcionalnost te funkcije in je običajno ne uporabljamo v tej obliki. Njena moč se izrazi, ko jo uporabimo v kombinaciji z ukazom `group_by()`. Ta ukaz združi vrstice glede na vrednosti v podanih stolpcih. Združene vrednosti imajo posebno funkcijo v paketu dplyr in vplivajo na funkcionalnosti funkcij `summarise()`, `mutate()` in `filter()`. Vpliv grupiranja na `mutate()` in `filter()` si bomo ogledali nekoliko kasneje, poglejmo sedaj vpliv na `summarise()`. Recimo, da nas zanima, v katerih službah je potrebnega največ čiščenja podatkov. Najprej podatke združimo po stolpcu `CurrentJobTitle`, potem pa uporabimo `summarise()`:
+
+```{r}
+ds_jobs_grouped <- group_by(ds_jobs, CurrentJobTitle)
+summarise(ds_jobs_grouped, MeanDataCleaning = mean(TimeGatheringData))
+```
+
+Izgleda, da so povprečja kar blizu -- čas čiščenja podatkov je relativno neodvisen od delovnega mesta.
+
+Povzemamo lahko tudi preko večih stolpcev. Poglejmo si število ljudi z različnimi statusi zaposlitve v kombinaciji z izobrazbo. Da preštejemo število vrstic, ki ustrezajo grupiranju, uporabimo funkcijo `n()`:
+
+```{r}
+ds_jobs_grouped <- group_by(ds_jobs, FormalEducation, EmploymentStatus)
+summarise(ds_jobs_grouped, Count = n())
+```
+
+Ker je štetje primerov zelo pogosta operacija, obstaja tudi funkcija `count()`, ki naredi enako kot kombinacija `group_by()` in `summarise()`:
+
+```{r}
+count(ds_jobs, FormalEducation, EmploymentStatus)
+```
+
+
+
+## Pipe
+V praksi urejanje podatkov zajame večino, če ne kar vseh funkcij, ki smo jih predstavili do sedaj. Če želimo sproti shranjevati naše spremembe, moramo po vsaki uporabi funkcije spremenjene podatke ponovno shraniti v spremenljivko. To lahko postane nekoliko nepregledno. Poglejmo si potek dela, kjer bomo nad osnovnimi podatki izvedli te operacije:
+
+- Izbrali bomo vrstice, kjer so osebe starejše od 30 let in država ni `Other` ali prazen niz.
+- Izločili vse stolpce, ki vsebujejo niz `Time`.
+- Izračunali stolpec s plačo v ameriških dolarjih.
+- Povzeli plačo glede na državo.
+
+Z uporabo shranjevanja podatkov v spremenljivko, kot smo navajeni iz osnovne različice R, bi s funkcijami iz dplyr izgledalo takole:
+
+```{r}
+ds_jobs2 <- read.csv2("./data-raw/DS-jobs.csv")
+ds_jobs2 <- as_tibble(ds_jobs2)
+ds_jobs2 <- filter(ds_jobs2, Age > 30, !(Country %in% c("Other", "")))
+ds_jobs2 <- select(ds_jobs2, -contains("Time"))
+ds_jobs2 <- mutate(ds_jobs2, CompensationUSD = CompensationAmount * ExchangeRate)
+ds_jobs2 <- group_by(ds_jobs2, Country)
+ds_jobs2_summarised <- summarise(ds_jobs2, MeanCompensation = mean(CompensationUSD, na.rm = T))
+ds_jobs2_summarised
+```
+
+Pri računanju povprečja smo uporabili argument `na.rm = T`, s katerim smo manjkajoče vrednosti ignorirali. Celoten postopek je vseboval kar nekaj prepisovanja. Predvsem spremenljivko `ds_jobs2` smo morali prepisati kar 6-krat. Dplyr pa vsebuje poseben operator, ki ga imenujemo *pipe* in ga označimo z `%>%`. S tem operatorjem funkcije povežemo v sosledje. Poglejmo si, kako deluje:
+
+```{r}
+ds_jobs2 <- read.csv2("./data-raw/DS-jobs.csv")
+ds_jobs2_summarised <- ds_jobs2 %>%
+  filter(Age > 30, !(Country %in% c("Other", ""))) %>%
+  select(-contains("Time")) %>%
+  mutate(CompensationUSD = CompensationAmount * ExchangeRate) %>%
+  group_by(Country) %>%
+  summarise(MeanCompensation = mean(CompensationUSD, na.rm = T))
+ds_jobs2_summarised
+```
+
+Sedaj smo do povzetka prišli z zaporednim izvajanjem operacij nad spremenljivko `ds_jobs`. Ta način je bolj pregleden, saj bralec kode takoj opazi, da se je vse izvajalo nad istimi podatki. Opazimo tudi, zakaj gre za **slovnico** urejanja podatkov. Programska koda zapisana zgoraj se bere skoraj kot naravni jezik. Na primer, **izberi vrstice**, kjer so leta večja od 30 in država ni v ustrezni množici. Zatem **izberi stolpce**, ki ne vsebujejo besede Time. **Dodaj** novo spremenljivko, **združi** podatke in jih **povzemi**.
+
+
+## `filter()` in `mutate()` na združenih podatkih
+Spoznali smo, kako funkcija `group_by()` vpliva na povzemanje podatkov. Uporabimo pa jo lahko tudi v povezavi s `filter()` in `mutate()`. Kombinacija z izbiro vrstic pride prav, kadar želimo pogojno izbiro na nek drugi stolpec. Kot primer si poglejmo, kako bi iz podatkov za vsako državo filtrirali top 3 anketirance, ki prejmejo najvišjo plačo. Najprej bomo podatke grupirali, nato pa uporabili filter:
+
+```{r}
+ds_jobs %>%
+  select(Country, Age, CurrentJobTitle, CompensationUSD) %>%
+  group_by(Country) %>%
+  filter(rank(desc(CompensationUSD)) <= 3) %>%
+  arrange(Country)
+```
+
+Kombinacija `group_by()` in `mutate()` je uporabna, kadar želimo ustvariti novo spremenljivko, pri kateri bomo pri izračunu potrebovali kak povzetek vrednosti znotraj posamezne skupine. Primer takšne transformacije je na primer standardiziranje znotraj skupine. Standardna ocena je: 
+
+$$
+z_i = \frac{x_i - \bar{x}}{S_x},
+$$
+
+kjer je $\bar{x}$ povprečje vektorja $x$ in $S_x$ njegov vzorčni standardni odklon.
+
+Poskusimo za vsako državo izračunati vzorčno povprečno vrednost in standardni odklon, ter s tema vrednostima ustrezno transformirati plačo v USD. Da pa bo funkcija `mutate()` vedela, katere vrednosti naj vzame za računanje teh dveh statistie moramo podatke najprej grupirati glede na državo:
+
+```{r}
+ds_jobs %>%
+  select(Country, Age, CurrentJobTitle, CompensationUSD) %>%
+  group_by(Country) %>%
+  mutate(CompensationStand = (CompensationUSD - mean(CompensationUSD)) / 
+           sd(CompensationUSD))
+```
+
+Če ta tibble shranimo v novo spremenljivko, se bo informacija o združevanju ohranila.
+
+```{r}
+ds_jobs_grouped <- ds_jobs %>%
+  select(Country, Age, CurrentJobTitle, CompensationUSD) %>%
+  group_by(Country, CurrentJobTitle)
+ds_jobs_grouped
+```
+
+Opazimo, da ima ta tibble dodatno informacijo v drugi vrstici, ki nam sporoča, da je združen glede na spremenljivki `Country` in `CurrentJobTitle`. Poleg tega je v oglatih oklepajih zapisano število unikatnih skupin. Pri tem so vsi pari države in trenutne pozicije, za katere nimamo nobenega podatka, izpuščeni. Informacija o tem, da je ta tibble grupiran, je pomembna, saj se bodo vse nadaljnje operacije nad njim izvajale nad skupinami. Če tega ne želimo, lahko uporabimo funkcijo `ungroup()`.
+
+```{r}
+ds_jobs_ungrouped <- ds_jobs_grouped %>%
+  ungroup()
+ds_jobs_ungrouped
+```
+
+
+
+## Izvajanje operacij nad večimi stolpci z `across()`
+S kombinacijo funkcij `mutate()` in `across()` lahko izvajamo isto operacijo hkrati na več stolpcih. Znotraj funkcije `across()` lahko uporabljamo iste funkcije za izbiro kot znotraj `select()`. Spremenimo vrednosti stolpcev, ki se začnejo s `Time`, v deleže tako, da jih pomnožimo z 0.01. Na tem mestu bomo uporabili dva nova operatorja: `.` in `~`. Operator `.` v dplyr igra vlogo podatkov, nad katerimi operiramo. Operator `~` je nekakšna bližnjica, ki ustvari funkcijo. Na primer `~ x^2` je bližnjica za zapis `function(x) {x^2}`. To je uporabno predvsem, ko funkcijo potrebujemo samo na enem mestu znotraj našega poteka dela in jo tako lahko na krajši način zapišemo. Poglejmo si sedaj spremembo stolpcev v deleže:
+
+```{r}
+ds_jobs %>%
+  mutate(across(starts_with("Time"), ~ . * 0.01)) %>%
+  select(Country, CurrentJobTitle, starts_with("Time"))
+```
+Funkciji `across()` smo najprej podali stolpce, na katerih želimo izvajati izračune, nato pa funkcijo, ki jo želimo izvesti.
+
+
+## Povzemanje stolpcev
+Pogosto želimo dobiti numerične povzetke glede na vrednosti v stolpcih. Z uporabo osnovne različice R to lahko naredimo s funkcijo `apply()`, ki ji podamo tibble numeričnih vrednosti (lahko tudi `data.frame` ali matriko), določimo dimenzijo 2, ki predstavlja stolpce, ter podamo kateri povzetek želimo (na primer povprečje, varianco, maksimalno vrednost, ...). Izračunajmo povprečja in standardne odklone stolpcev, ki se začnejo s `Time`:
+
+```{r}
+ds_jobs_times <- ds_jobs %>%
+  select(starts_with("Time"))
+apply(ds_jobs_times, 2, mean, na.rm = T)
+apply(ds_jobs_times, 2, sd, na.rm = T)
+```
+
+`apply()` nam v teh primerih vrne vektor, čeprav smo operacijo izvajali na tibble. Ideja paketa tidyverse je, da so izhodni podatki enakega tipa kot vhodni -- v tem primeru tibble. Če želimo izračunati povzetke za vsak stolpec, lahko v paketu dplyr uporabimo kombinacijo funkcije `summarise()` in `across()`. Kot smo že spoznali, nam funkcija `across()` omogoča izvajanje operacij nad večimi stolpci.
+
+```{r}
+ds_jobs %>%
+  summarise(across(starts_with("Time"), mean, na.rm = T))
+```
+
+Povzetke lahko enostavno izračunamo tudi za različne skupine z uporabo funkcije `group_by()`:
+
+```{r}
+ds_jobs %>%
+  group_by(EmploymentStatus) %>%
+  summarise(across(starts_with("Time"), mean, na.rm = T))
+```
+
+## Povzemanje vrstic
+Kadar analiziramo podatke, preverimo, ali so vnešeni podatki smiselni. Na primer, v stolpcih, ki se začnejo s `Time`, so odstotkovne vrednosti časa, ki ga anketiranci porabijo za posamezne naloge. Te bi se morale sešteti v 100 in v primeru, ko se ne, se lahko odločimo, da takšne vrstice izbrišemo. Na tem primeru si bomo sedaj pogledali še operacije nad stolpci. Naš cilj bo, da dodamo temu tibblu še en stolpec, v katerem bomo sešteli vse te stolpce.
+
+Funkcija `apply` deluje tudi nad stolpci, če spremenimo drugi argument:
+
+```{r}
+tmp <- ds_jobs %>%
+  select(starts_with("Time"))
+head(apply(tmp, 1, sum, na.rm = T))
+```
+
+Kako pa to naredimo z dplyr, tako da se bo naravno vključilo v potek dela? Prva ideja bi morda bila, da enostavno naštejemo vse stolpce.
+
+```{r}
+ds_jobs %>%
+  select(Country, CurrentJobTitle, starts_with("Time")) %>%
+  mutate(TotalTime = TimeGatheringData + TimeModelBuilding + TimeProduction + 
+           TimeVisualizing + TimeFindingInsights + TimeOtherSelect) %>%
+  select(!starts_with("Time")) # Ta vrstica je samo za lepši izpis.
+```
+
+Sicer je to v našem primeru bilo izvedljivo, saj smo imeli samo 6 stolpcev. Kako pa bi to naredili z večimi stolpci? Morda lahko uporabimo `starts_with()`:
+
+```{r}
+ds_jobs %>%
+  select(Country, CurrentJobTitle, starts_with("Time")) %>%
+  mutate(TimeTotal = sum(starts_with("Time"), na.rm = T))
+```
+
+R vrne napako in nas opozori, da se lahko `starts_with()` uporabi le znotraj izbire. Če želimo v tem primeru omogočiti tidy izbiro stolpcev, uporabimo funkcijo `c_across()`. Ta funkcija je po funkcionalnosti bolj podobna funkciji `c()` ali `select()`, kot pa funkciji `across()`, tako da jih ne smemo zamenjati:
+
+```{r}
+ds_jobs %>%
+  select(Country, CurrentJobTitle, starts_with("Time")) %>%
+  mutate(TotalTime = sum(c_across(starts_with("Time")), na.rm = T)) %>%
+  select(!starts_with("Time"))
+```
+
+Sedaj smo dobili nek rezultat, ki pa še vedno ni pravilen. V čem je težava? Če `sum()` uporabimo znotraj `mutate()`, ta vrne vsoto znotraj skupin, določenih z `group_by()`. Ker podatkov nismo grupirali, vrne vsoto kar čez celotne podatke (bralca vzpodbujamo, da to preveri tudi sam). Rešitev se torej skriva v ustreznem združevanju vrstic. V dplyr obstaja funkcija, ki celoten tibble grupira po posameznih vrsticah in to je `rowwise()`:
+
+```{r}
+ds_jobs %>%
+  select(Country, CurrentJobTitle, starts_with("Time")) %>%
+  rowwise() %>%
+  mutate(TotalTime = sum(c_across(starts_with("Time")), na.rm = T)) %>%
+  select(!starts_with("Time"))
+```
+
+
+## Dodatek
+
+### Zamenjava vrstnega reda stolpcev
+Vrstni red stolpcev zamenjamo s funkcijo `relocate()`. Ustvarimo najprej  manjši tibble:
+
+```{r}
+ds_jobs_select <- ds_jobs %>%
+  select(Gender:Major)
+ds_jobs_select
+```
+
+Če želimo določene stolpce premakniti na začetek, jih enostavno podamo funkciji `relocate()`. Dajmo na prvo mesto stolpca `Major` in `Age`:
+
+```{r}
+ds_jobs_select %>%
+  relocate(Major, Age)
+```
+
+Poljubno ureditev dobimo tako, da enostavno zapišemo vrstni red stolpcev, kot ga želimo. Funkcija `relocate()` omogoča še nekatere možnosti urejanja, kot na primer, glede na tip spremenljivke. Za več informacij o različnih načinih urejanja stolpcev bralcu predlagamo uporabo pomoči `?relocate`.
+
+
+### Preimenovanje stolpcev
+Stolpce preimenujemo s funkcijo `rename()`.
+
+```{r}
+ds_jobs_select %>%
+  rename(employment_status = EmploymentStatus,
+         current_job_title = CurrentJobTitle)
+```
+
+Tibble lahko vsebuje tudi imena stolpcev, ki niso veljavna za spremenljivke v R. V tem primeru jih moramo zapisati znotraj `` ` ``. Na primer, spremenljivki v R ne moremo prirediti imena z minusom. Poizkusimo to narediti v tibblu:
+
+```{r}
+ds_jobs_select %>%
+  rename(`employment-status` = EmploymentStatus,
+         `current-job-title` = CurrentJobTitle)
+```
+
+
+### Summarise in group unpeeling
+Kot smo že spoznali je funkcija `summarise()` najbolj uporabna v kombinaciji z `group_by()`. Pogljemo si sedaj bolj podrobno, kakšen tibble je rezultat te kombinacije. Najprej samo grupirajmo `ds_jobs`:
+
+```{r}
+ds_jobs_grouped <- ds_jobs %>%
+  group_by(FormalEducation, EmploymentStatus)
+ds_jobs_grouped
+```
+
+V drugi vrstici vidimo, da je ta tibble grupiran po spremenljivkah `FormalEducation` in `EmploymentStatus`. Poglejmo kaj se zgodi, ko uporabimo `summarise()`:
+
+```{r}
+ds_jobs_summarised <- ds_jobs_grouped %>%
+  summarise(Count = n())
+ds_jobs_summarised
+```
+
+Opazimo, da je ta novi tibble grupiran samo po spremenljivki `FormalEducation`. Privzeto `summarise()` vedno odstrani zadnje grupiranje. Če tega ne želimo, lahko uporabimo dodaten parameter `.groups = "keep"`.
+
+```{r}
+ds_jobs_summarised <- ds_jobs_grouped %>%
+  summarise(Count = n(), .groups = "keep")
+ds_jobs_summarised
+```
+
+
+## Ali želite izvedeti več?
+V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementacijo v R paketu dplyr. Opis vseh funkcij v dplyr najdemo tukaj: https://dplyr.tidyverse.org/reference/index.html. Jedrnat povzetek pa je na voljo tukaj: https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf.
+
+
+## Domača naloga
+
+1) Začeli bomo z relativno preprosto nalogo, kjer bomo ponovili osnovne ukaze iz slovnice urejanja podatkov. Osnovna različica programskega jezika R že vsebuje nekatere podatkovne zbirke. Z ukazom `data()` dobimo opis vseh zbirk. V tej nalogi bomo uporabili podatkovno zbirko `mtcars`:
+
+    ```{r}
+head(mtcars)
+```
+
+    Za podrobnejši opis podatkov uporabite pomoč `?mtcars`. Najprej ustvarite novo spremenljivko `mtcars_tib`, v katero shranite razpredelnico `mtcars` kot tibble. Nato vsako izmed spodnjih nalog izvedite posebej (torej v vsaki točki izvedite ukaz na `mtcars_tib`, ampak tako spremenjenega tibbla ne shranite nazaj v to spremenljivko), razen če je v nalogi eksplicitno navedeno drugače. Vaše naloge so sledeče:
+    
+    - Ustvarite novo spremenljivko `mtcars_tib`, v katero shranite razpredelnico `mtcars` kot tibble.
+    - Izberite vse vrstice avtomobilov z avtomatskim menjalnikom.
+    ```{r, echo = FALSE}
+    mtcars_tib <- as_tibble(mtcars)
+    filter(mtcars_tib, am == 0)
+    ```
+    - Izberite vse vrstice, kjer je poraba manjša od 15 galon na miljo ali večja od 20 galon na miljo in je motor oblike V.
+    ```{r, echo = FALSE}
+    filter(mtcars_tib, (mpg < 15 | mpg > 20), vs == 0)
+    ```
+    - Izberite vse stolpce, kjer ime stolpca vsebuje črko a.
+    ```{r, echo = FALSE}
+    select(mtcars_tib, contains("a"))
+    ```
+    - Izberite zadnje 4 stolpce.
+    ```{r, echo = FALSE}
+    select(mtcars_tib, last_col(3:0))
+    ```
+    - V tibble `mtcars_tib` dodajte stolpca, kjer bosta izračunani število litrov na 100 kilometrov in teža v kilogramih (v tisočicah). 1 milja je približno 1.61 kilometra, 1 galona 3.79 litra in 1 funt 0.45 kilograma. 
+    ```{r, echo = FALSE}
+    mtcars_tib <- mutate(mtcars_tib, lp100km = 100 / (mpg * (1.61 / 3.79)), wt_in_kg = wt * 0.45)
+    ```
+    - Izračunajte povprečno porabo avtomobilov v odvisnosti števila cilindrov.
+    ```{r, echo = FALSE}
+    mtcars_tib %>%
+      group_by(cyl) %>%
+      summarise(mean_mpg = mean(mpg))
+    ```
+    - Izračunajte povprečno konjsko moč v odvisnosti od oblike motorja in ali je avtomobil avtomatik ali ne.
+    ```{r, echo = FALSE}
+    mtcars_tib %>%
+      group_by(vs, am) %>%
+      summarise(mean_hp = mean(hp))
+    ```
+    - Normalizirajte vse stolpce, ki vsebujejo decimalna števila, na interval [0, 1]. To naredimo tako, da vrednostim odštejemo minimalno vrednost in delimo z razliko med maksimalno in minimalno vrednostjo:
+    $$
+    x_i' = \frac{x_i - \min(x)}{\max(x) - \min(x)}.
+    $$
+    ```{r, echo = FALSE}
+    mtcars_tib %>%
+      mutate(across(c(mpg, disp, drat:qsec), ~ (. - min(.)) / (max(.) - min(.))))
+    ```
+    - Izračunajte povprečne vrednosti vseh stolpcev.
+    ```{r, echo = FALSE}
+    mtcars_tib %>%
+      summarise(across(everything(), mean))
+    ```
+
+    
+
+2) **Težja naloga**. V mapi *data-raw* se nahajajo podatki o gozdnih požarih na Portugalskem. Podatki so bili uporabljeni v znanstvenem članku [@Cortez2007], kjer so napovedovali velikost požganega območja v odvisnosti od meteoroloških in drugih podatkov. Vrednosti 0 za požgano območje predstavljajo požare, kjer je pogorelo manj kot 100 kvadratnih metrov.
+
+    - Preberite podatke in jih shranite kot tibble.
+    - Preverite, v katerem mesecu je največ požarov in jih uredite padajoče od tistega z največ požari do tistega z najmanj.
+    ```{r, echo = FALSE}
+    df <- read_csv2("./data-raw/forest-fires.csv")
+    df_month <- df %>%
+      count(month) %>%
+      arrange(desc(n))
+    df_month
+    ```
+    
+    - Preverite, ali obstajajo območja v parku, kjer se bolj pogosto pojavljajo požari. Za vsako kombinacijo koordinat bomo torej izračunali število požarov. Rezultat lahko predstavimo z razpredelnico. Glede na to, da imamo dvodimenzionalne podatke, bi jih morda bilo smiselno predstaviti vizualno. V kolikor poznate paket ggplot2, predlagamo da si pogledate funkcijo `geom_tile()`.
+    ```{r, echo = FALSE}
+    df_coord <- df %>%
+      count(X, Y)
+    df_coord
+    ggplot(df_coord, aes(x = X, y = Y, fill = n)) + geom_tile()
+    ```
+    
+    - Dodajte stolpec, ki bo za vsak požar izračunal delež požganega območja glede na vse požare na posameznih koordinatah. Za tem smiselno filtrirajte podatke (ali smo v novem stolpcu dobili kakšne nepričakovane, oziroma neveljavne vrednosti?).
+    ```{r, echo = FALSE}
+    df <- df %>%
+      group_by(X, Y) %>%
+      mutate(area_by_coord = area / sum(area)) %>%
+      ungroup() %>%
+      filter(!is.nan(area_by_coord))
+    df %>% select(X, Y, month, day, area_by_coord)
+    ```
+    
+    - Preverite, ali ob vročem vremenu in nizki vlažnosti pogori večji delež območja, ki smo ga izračunali v prejšnji točki, tako da izberete vrstice, kjer je temperatura višja od 0.8 kvantila temperature in vlažnost nižja od 0.2 kvantila vlažnosti ter izračunate povprečje. $q$-ti kvantil je ocena števila, za katerega velja, da je $q$ vrednosti manjših od tega števila. Za računanje kvantilov uporabite funkcijo `quantile()`. Za primerjavo izračunajte še povprečje te spremenljivke za vse preostale vrstice. Ali se rezultati skladajo z vašo intuicijo?
+    ```{r, echo = FALSE}
+    df %>%
+      filter(temp > quantile(temp, 0.8), RH < quantile(RH, 0.2)) %>%
+      summarise(mean_area_by_coord = mean(area_by_coord))
+    
+    df %>%
+      filter(temp < quantile(temp, 0.8) | RH > quantile(RH, 0.2)) %>%
+      summarise(mean_area_by_coord = mean(area_by_coord))
+    ```
+    
+    - Izračunajte povprečje standardiziranih indeksov in ga vstavite kot stolpec pred prvo spremenljivko, ki predstavlja indeks.
+    ```{r, echo = FALSE}
+    df %>%
+      mutate(across(contains("_index"), ~ (. - mean(.)) / sd(.))) %>%
+      rowwise() %>%
+      mutate(mean_indices = mean(c_across(contains("_index")))) %>%
+      relocate(mean_indices, .before = FFMC_index)
+    ```
