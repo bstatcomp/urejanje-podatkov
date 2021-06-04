@@ -34,7 +34,7 @@ argument-by
 filtrirajoča-združevanja
 združevanja-na-realnih-podatkih
 operacije-nad-množicami
-nadaljnje-branje
+ali-želite-izvedeti-več-1
 domača-naloga-1
 nizi-kategorične-spremenljivke-in-datumi-osnutek
 nizi

@@ -24,7 +24,7 @@
 <meta name="author" content="Gregor Pirš, Matej Pičulin in Erik Štrumbelj" />
 
 
-<meta name="date" content="2021-06-03" />
+<meta name="date" content="2021-06-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -209,7 +209,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.9.4" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#združevanja-na-realnih-podatkih"><i class="fa fa-check"></i><b>2.9.4</b> Združevanja na realnih podatkih</a></li>
 </ul></li>
 <li class="chapter" data-level="2.10" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#operacije-nad-množicami"><i class="fa fa-check"></i><b>2.10</b> Operacije nad množicami</a></li>
-<li class="chapter" data-level="2.11" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#nadaljnje-branje"><i class="fa fa-check"></i><b>2.11</b> Nadaljnje branje</a></li>
+<li class="chapter" data-level="2.11" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#ali-želite-izvedeti-več-1"><i class="fa fa-check"></i><b>2.11</b> Ali želite izvedeti več?</a></li>
 <li class="chapter" data-level="2.12" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#domača-naloga-1"><i class="fa fa-check"></i><b>2.12</b> Domača naloga</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><i class="fa fa-check"></i><b>3</b> Nizi, kategorične spremenljivke in datumi (OSNUTEK)</a>
@@ -254,13 +254,13 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="urejeni-in-relacijski-podatki" class="section level1" number="2">
 <h1><span class="header-section-number">Poglavje 2</span> Urejeni in relacijski podatki</h1>
-<p>Pri kakršnemkoli delu smo običajno zelo ciljno naravnani. Dobimo neko nalogo in jo želimo čimprej in čimbolje opraviti. Z namenom učinkovitosti se običajno poslužimo znanih orodij in postopkov, ki jih prilagodimo samemu problemu. Pri delu s podatki se ciljna naravnanost običajno izrazi tako, da želimo čimprej priti do analize in zaključkov, samemu urejanju podatkov pa ne posvetimo pretirane pozornosti, oziroma le toliko, kot je nujno potrebno (kar je še vedno lahko dolgotrajno). Na kratek rok to deluje v redu in celo prihranimo nekaj časa. Na dolgi rok pa običajno zahteva veliko več časa, saj se moramo pri vsaki novi nalogi na novo prilagajati podatkom. Boljši pristop bi bil, da bi problem prilagodili ustaljenemu postopku. Običajno lahko večino podatkov uredimo do te mere, da so si po obliki podobni. V kolikor se naučimo narediti to za neko splošno podatkovno zbirko, lahko potem vsakič pristopimo do nadaljnjega dela na podoben način. V praksi s tem na dolgi rok prihranimo veliko časa, poleg tega pa je naša programska koda bolj berljiva in robustna.</p>
-<p>Kaj pravzaprav so urejeni podatki? Ali to pomeni, da se v stolpcih ne mešajo različni podatkovni tipi? Da nimamo manjkajočih vrednosti? Da so podatki, ki opisujejo enako zadevo, v eni sami razpredelnici in niso raztreseni po večih razpredelnicah? Da so letnice v vrstnem redu? Verjetno bi lahko to vprašanje zastavili 100 ljudem in bi dobili 100 različnih odgovorov. Seveda je to popolnoma normalno, na prvi pogled je besedna zveza “urejeni podatki” zelo relativna. Na srečo pa za odgovor ne rabimo povpraševati naokoli in poiskati nekega skupnega mnenja, saj obstaja koncept <strong>urejenih podatkov</strong> (ang. <strong>tidy data</strong>), ki ga bomo spoznali v tem poglavju. Podatke, ki so strukturirani v urejeni obliki, lahko veliko lažje transformiramo in pripravljamo na nadaljnjo analizo. Tudi funkcije v tidyverse so implementirane tako, da na vhod prejmejo urejene podatke in takšne tudi vrnejo.</p>
-<p>Relacijski podatki pa predstavljajo primere, ko so podatki o različnih entitetah (na primer podjetje, delavec, službeno vozilo, klient) shranjeni v različnih razpredelnicah. Kadar želimo analizirati takšne podatke moramo razumeti povezave med njimi in z njimi tudi znati delati. Spoznali bomo koncept relacijskih podatkovnih zbirk in kako uporabiti tidyverse za delo z njimi.</p>
+<p>Pri kakršnemkoli delu smo običajno zelo ciljno naravnani. Dobimo nalogo in jo želimo čimprej in čimbolje opraviti. Z namenom učinkovitosti se običajno poslužimo znanih orodij in postopkov, ki jih prilagodimo samemu problemu. Pri delu s podatki se ciljna naravnanost običajno izrazi tako, da želimo čimprej priti do analize in zaključkov, samemu urejanju podatkov pa ne posvetimo pretirane pozornosti, oziroma le toliko, kot je nujno potrebno (kar je še vedno lahko dolgotrajno). Na kratek rok to deluje v redu in celo prihranimo nekaj časa. Na dolgi rok pa običajno zahteva veliko več časa, saj se moramo pri vsaki novi nalogi na novo prilagajati podatkom. Boljši pristop bi bil, da bi problem prilagodili ustaljenemu postopku. Običajno lahko večino podatkov uredimo do te mere, da so si po obliki podobni. V kolikor se naučimo narediti to za neko splošno podatkovno zbirko, lahko potem vsakič pristopimo do nadaljnjega dela na podoben način. V praksi s tem na dolgi rok prihranimo veliko časa.</p>
+<p>Koncept <strong>urejenih podatkov</strong> (ang. <strong>tidy data</strong>), ki ga bomo spoznali v tem poglavju, je formalizacija intuitivne predstavke kaj podatki so. Podatke, ki so <strong>urejeni</strong>, lahko veliko lažje transformiramo in pripravimo na nadaljnjo analizo. Tudi funkcije v tidyverse so implementirane tako, da na vhod prejmejo urejene podatke in takšne tudi vrnejo. Z drugimi besedami ohranjajo urejenost.</p>
+<p>Relacijski podatki pa so podatki o različnih entitetah (na primer podjetje, delavec, službeno vozilo, klient), ki so shranjeni v različnih razpredelnicah. Kadar želimo analizirati relacijske podatke moramo razumeti povezave med njimi in kako delati z njimi. Spoznali bomo koncept relacijskih podatkovnih zbirk in kako uporabiti tidyverse za delo z njimi.</p>
 <div id="priprava-1" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Priprava</h2>
-<p>Na tem predavanju bomo spoznali kako podatke pretvarjamo med daljšo in krajšo obliko ter kako delamo z relacijskimi podatki. Kaj vsi ti koncepti pomenijo in kako so povezani z urejenimi podatki bomo predelali na predavanju, na tem mestu se bomo le naučili glavnih funkcij s katerimi bomo utrjevali te koncepte.</p>
-<p>Pri pretvorbi podatkov v daljšo obliko gre za pretvorbo, kjer vrednosti večih stolpcev združimo v en stolpec. Kdaj je takšna transformacija smiselna bomo spoznali na samem predavanju. Poglejmo si razpredelnico, kjer imamo shranjene podatke za več let:</p>
+<p>V tem poglavju bomo spoznali, kako podatke pretvorimo iz daljše v krajšo obliko (in obratno) ter kako delamo z relacijskimi podatki. Kaj vsi ti koncepti pomenijo in kako so povezani z urejenimi podatki, bomo predelali v jedru poglavja.</p>
+<p>Pri pretvorbi podatkov v daljšo obliko gre za pretvorbo, kjer vrednosti večih stolpcev združimo v en stolpec. Poglejmo si razpredelnico, kjer imamo shranjene podatke za več let:</p>
 <div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="urejeni-in-relacijski-podatki.html#cb137-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb137-2"><a href="urejeni-in-relacijski-podatki.html#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Mojca&quot;</span>, <span class="st">&quot;Miha&quot;</span>, <span class="st">&quot;Mateja&quot;</span>),</span>
 <span id="cb137-3"><a href="urejeni-in-relacijski-podatki.html#cb137-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">2018</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.6</span>, <span class="fl">8.7</span>),</span>
@@ -393,21 +393,21 @@ div.csl-indent {
 ## 6          6 Aubameyang        3 Arsenal          
 ## 7          7 Vega              8 &lt;NA&gt;             
 ## 8         NA &lt;NA&gt;              4 Rokova ekipa</code></pre>
-<p><strong>Naloga</strong>: Obstajata še dve operaciji združevanja, ki pa ne delujeta popolnoma enako kot zgornje funkcije. Pokličite funkciji <code>semi_join()</code> in <code>anti_join()</code> in poizkusite ugotoviti, kaj sta ti funkciji naredili. Sintaksa je enaka kot pri ostalih join funkcijah.</p>
-<p>Za branje podatkov iz tekstovnih datotek velikokrat uporabljamo funkcijo <code>read.csv()</code>, ali katero od preostalih izpeljank funkcije <code>read.table()</code>. Ima pa tidyverse svojo različico teh funkcij, ki pa imajo nekaj dodatne funkcionalnosti. Najbolj pomembna je ta, da se podatki avtomatsko shranijo kot tibble. To omogoča relativno enostavno branje datotek, kjer stolpci niso poimenovani v skladu s pravili programskega jezika R (na primer, lahko se začnejo s številom, lahko imajo minuse, presledke in podobno). Kot smo omenili shranjevanje podatkov, kjer imena stolpcev niso standardne oblike, ni dobra praksa. Vsekakor pa se pri realnih podatkih velikokrat zgodi, da imamo takšna imena. V tem primeru je bolje, da jih prebermo takšna kot so in jih po tem programsko spremenimo, saj s tem ne posegamo v originalne podatke. Je pa potrebno pri teh funkcijah dodatno nastaviti kodiranje, da znajo prebrati šumnike. Poglejmo si uporabo funkcije <code>read_csv2()</code> paketa <code>readr</code>, kjer bomo ustrezno nastavili kodiranje.</p>
+<p><strong>Naloga</strong>: Obstajata še dve operaciji združevanja, ki pa ne delujeta popolnoma enako kot zgornje funkcije. Pokličite funkciji <code>semi_join()</code> in <code>anti_join()</code> in poizkusite ugotoviti, kaj sta ti funkciji naredili. Sintaksa je enaka kot pri ostalih funkcijah join.</p>
+<p>Za branje podatkov iz tekstovnih datotek velikokrat uporabljamo funkcijo <code>read.csv()</code> ali katero od preostalih izpeljank funkcije <code>read.table()</code>. Tidyverse ima svojo različico teh funkcij, ki pa imajo nekaj dodatne funkcionalnosti. Najbolj pomembna je ta, da se podatki samodejno shranijo kot tibble. To omogoča relativno enostavno branje datotek, kjer stolpci niso poimenovani v skladu s pravili programskega jezika R (na primer, lahko se začnejo s številom, lahko imajo minuse, presledke in podobno). Kot smo omenili shranjevanje podatkov, kjer imena stolpcev niso standardne oblike, ni dobra praksa. Vsekakor pa se pri realnih podatkih velikokrat zgodi, da imamo takšna imena. V tem primeru je bolje, da jih prebermo takšna kot so in jih programsko spremenimo, saj s tem ne posegamo v izvirne podatke. Je pa potrebno pri teh funkcijah dodatno nastaviti kodiranje, da znajo prebrati šumnike. Poglejmo si uporabo funkcije <code>read_csv2()</code> paketa <code>readr</code>, kjer bomo ustrezno nastavili kodiranje.</p>
 <div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="urejeni-in-relacijski-podatki.html#cb158-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/SLO-gradbena-dovoljenja-messy1.csv&quot;</span>,</span>
 <span id="cb158-2"><a href="urejeni-in-relacijski-podatki.html#cb158-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">locale =</span> readr<span class="sc">::</span><span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">&quot;cp1250&quot;</span>))</span></code></pre></div>
 <p>Več o kodiranjih bomo povedali na zadnjem predavanju.</p>
 </div>
 <div id="urejeni-podatki" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Urejeni podatki</h2>
-<p>Omenili smo že, da se v praksi srečamo z najrazličnejšimi oblikami zapisov podatkov. Skupek paketov tidyverse je namenjen delu s tako imenovanimi <strong>urejenimi podatki</strong> (ang. <strong>tidy data</strong>). Ideja je v tem, da se ustvari enoten standard za obliko podatkov s katerim je lažje delati. V kolikor se držimo tega standarda pri vseh naših analizah nam to omogoča, da vedno uporabljamo ista orodja in se ne rabimo učiti novih orodij za vsako analizo. Povzeto lahko ta standard opišemo s 3 lastnostmi:</p>
+<p>Omenili smo že, da se v praksi srečamo z najrazličnejšimi oblikami zapisov podatkov. Skupek paketov tidyverse je namenjen delu s tako imenovanimi <strong>urejenimi podatki</strong> (ang. <strong>tidy data</strong>). Ideja je, da se ustvari enoten standard za obliko podatkov, s katero je lažje delati. V kolikor se držimo tega standarda pri vseh naših analizah, nam to omogoča, da vedno uporabljamo ista orodja (na primer, ggplot2) in se nam ni potrebno učiti novih orodij za vsako analizo. Standard lahko povzamemo s 3 lastnostmi:</p>
 <ol style="list-style-type: decimal">
-<li>Vsak stolpec je spremenljivka.</li>
-<li>Vsaka vrstica je primer podatka.</li>
-<li>Vsaka vrednost ima svojo celico.</li>
+<li>vsak stolpec je spremenljivka,</li>
+<li>vsaka vrstica je primer podatka,</li>
+<li>vsaka vrednost ima svojo celico.</li>
 </ol>
-<p>Morda se na tej točki to sliši nekoliko abstraktno. Poglejmo si zadevo v praksi. Nabrali smo podatke o številu izdanih gradbenih dovoljenj v Sloveniji, razdeljeno glede na občine. Podatke smo prenesli iz spletne strani statističnega urada Slovenije <a href="https://pxweb.stat.si/SiStat/slshranili" class="uri">https://pxweb.stat.si/SiStat/slshranili</a> in jih shranili na več načinov. Najprej si poglejmo podatke v takšni obliki, kot smo jih dobili naravnost iz vira.</p>
+<p>Morda se na tej točki to sliši nekoliko abstraktno. Poglejmo si praktičen primer. Nabrali smo podatke o številu izdanih gradbenih dovoljenj v Sloveniji, razdeljeno glede na občine. Podatke smo prenesli s spletne strani statističnega urada Slovenije <a href="https://pxweb.stat.si/SiStat/slshranili" class="uri">https://pxweb.stat.si/SiStat/slshranili</a> in jih shranili na več načinov. Najprej si poglejmo podatke v takšni obliki, kot smo jih dobili naravnost iz vira.</p>
 <pre><code>## # A tibble: 424 x 16
 ##    OBČINE   TIP.STAVBE   `2007` `2008` `2009` `2010` `2011` `2012` `2013` `2014`
 ##    &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
@@ -423,7 +423,7 @@ div.csl-indent {
 ## 10 Benedikt Nestanovanj~      3      2      1      3      5      3      4      3
 ## # ... with 414 more rows, and 6 more variables: 2015 &lt;dbl&gt;, 2016 &lt;dbl&gt;,
 ## #   2017 &lt;dbl&gt;, 2018 &lt;dbl&gt;, 2019 &lt;dbl&gt;, 2020 &lt;dbl&gt;</code></pre>
-<p>Najprej imamo na voljo spremenljivki <code>OBČINE</code> in <code>TIP.STAVBE</code>. Potem pa imamo za vsako leto naštete vrednosti, oziroma števila gradbenih dovoljenj. Podatki so velikokrat shranjeni v takšnem formatu saj ima nekatere prednosti. Na primer, tak format je bolj prijazen za prikaz človeku, saj lahko samo s pogledom na razpredelnico hitro oceni, ali obstaja kak trend v posamezni vrstici. Taki format pa ni najboljši za delo s podatki. Govorili smo že o čistih podatkih in da vse funkcije v tidyverse podpirajo operacije nad takšnimi podatki. Kot vhod bo večina teh funkcij prejela čiste podatke in takšne potem tudi vrnila.</p>
+<p>Najprej imamo na voljo spremenljivki <code>OBČINE</code> in <code>TIP.STAVBE</code>. Potem pa imamo za vsako leto naštete vrednosti, oziroma števila gradbenih dovoljenj. Podatki so velikokrat shranjeni v takšnem formatu, saj ima določene prednosti. Tak format je bolj prijazen za prikaz človeku, saj lahko samo s pogledom na razpredelnico hitro oceni, ali obstaja trend v posamezni vrstici. Format pa ni najboljši za delo s podatki. Govorili smo že o čistih podatkih in da vse funkcije v tidyverse podpirajo operacije nad takšnimi podatki. Kot vhod bo večina teh funkcij prejela čiste podatke in takšne potem tudi vrnila.</p>
 <p>Kaj je razlog, da ti podatki niso čisti? Ne drži, da imamo v vsakem stolpcu spremenljivko, saj imamo eno spremenljivko razvlečeno čez več stolpcev – leto. Ta podatek vsekakor predstavlja spremenljivko, torej bi moral imeti enoten stolpec. Poglejmo si te podatke še v dveh nečistih formatih.</p>
 <pre><code>## # A tibble: 28 x 214
 ##    TIP.STAVBE          Leto Ajdovščina `Ankaran/Ancaran~ Apače Beltinci Benedikt
@@ -464,7 +464,7 @@ div.csl-indent {
 ## #   Markovci &lt;dbl&gt;, Medvode &lt;dbl&gt;, Mengeš &lt;dbl&gt;, Metlika &lt;dbl&gt;, Mežica &lt;dbl&gt;,
 ## #   Miklavž na Dravskem polju &lt;dbl&gt;, Miren - Kostanjevica &lt;dbl&gt;, Mirna &lt;dbl&gt;,
 ## #   Mirna Peč &lt;dbl&gt;, Mislinja &lt;dbl&gt;, ...</code></pre>
-<p>Sedaj imamo podobno situacijo kot prej, se pravi ena spremenljivka je razvlečena preko večih stolpcev – v tem primeru je to občina. Kot smo že omenili, so vsaki nečisti podatki nečisti na svoj način. To opazimo tudi tukaj. Podatki so popolnoma enaki kot v prejšnjem prikazu, ampak razpredelnica izgleda popolnoma drugače. Čisti podatki pa imajo samo eno pravilno obliko in torej ne more priti do takšnih dvoumnih prikazov.</p>
+<p>Sedaj imamo podobno situacijo kot prej – ena spremenljivka je razvlečena preko več stolpcev – v tem primeru je to občina. Kot smo že omenili, so vsaki nečisti podatki nečisti na svoj način. Podatki so popolnoma enaki kot v prejšnjem prikazu, ampak razpredelnica izgleda popolnoma drugače. Čisti podatki pa imajo samo eno pravilno obliko, torej ne more priti do takšnih dvoumnih prikazov.</p>
 <p>Poglejmo si še tretji format:</p>
 <pre><code>## # A tibble: 5,936 x 3
 ##    OBČINA_TIP                      Leto Število.gradbenih.dovoljenj
@@ -480,7 +480,7 @@ div.csl-indent {
 ##  9 Ajdovščina_Stanovanjske stavbe  2015                          38
 ## 10 Ajdovščina_Stanovanjske stavbe  2016                          31
 ## # ... with 5,926 more rows</code></pre>
-<p>Ta je morda nekoliko bližje čistim podatkom, kot prejšnja dva. Ampak še vedno ni v popolnoma pravilni obliki. V čem je težava? Dve spremenljivki imamo podani v enem stolpcu – občino in tip. Ker gre za različni spremenljivki bi bilo dobro tudi, da se pojavita v različnih stolpcih.</p>
+<p>Ta je morda nekoliko bližje čistim podatkom, kot prejšnja dva, ampak še vedno ni v popolnoma pravilni obliki. V čem je težava? Dve spremenljivki imamo podani v enem stolpcu – občino in tip. Ker gre za različni spremenljivki, bi bilo dobro, da se pojavita v različnih stolpcih.</p>
 <p>Poglejmo si sedaj še čiste podatke:</p>
 <pre><code>## # A tibble: 5,936 x 4
 ##    OBČINE     TIP.STAVBE           Leto Število.gradbenih.dovoljenj
@@ -518,7 +518,7 @@ div.csl-indent {
 ## 10 Benedikt Nestanovanj~      3      2      1      3      5      3      4      3
 ## # ... with 414 more rows, and 6 more variables: 2015 &lt;dbl&gt;, 2016 &lt;dbl&gt;,
 ## #   2017 &lt;dbl&gt;, 2018 &lt;dbl&gt;, 2019 &lt;dbl&gt;, 2020 &lt;dbl&gt;</code></pre>
-<p>Sedaj želimo te podatke spremeniti v čisto obliko. Kako to naredimo? Vse stolpce, ki prikazujejo različne vrednosti spremenljivke leto moramo zapisati v 1 stolpec. Uporabimo funkcijo <code>pivot_longer()</code>, ki prejme sledeče argumente:</p>
+<p>Sedaj želimo te podatke spremeniti v čisto obliko. Vse stolpce, ki prikazujejo različne vrednosti spremenljivke leto, moramo zapisati v 1 stolpec. Uporabimo funkcijo <code>pivot_longer()</code>, ki prejme argumente:</p>
 <ul>
 <li><code>data</code>. Katere podatke želimo spremeniti.</li>
 <li><code>cols</code>. V katerih stolpcih imamo vrednosti spremenljivke, ki jo želimo shraniti v 1 stolpec.</li>
@@ -565,11 +565,11 @@ div.csl-indent {
 </div>
 <div id="pivot_wider-pretvorba-v-širšo-obliko" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> <code>pivot_wider()</code>: pretvorba v širšo obliko</h2>
-<p>Običajno bo ta transformacija naredila podatke nečiste. Vendar s tem ni nič narobe, kot smo povedali imajo tudi takšni podatki svoje prednosti. Na primer:</p>
+<p>Običajno bo ta transformacija naredila podatke nečiste, vendar s tem ni nič narobe, saj imajo tudi takšni podatki svoje prednosti:</p>
 <ul>
 <li>Podatki v širši obliki so človeku lažje berljivi.</li>
 <li>Nekatera podjetja in področja imajo razvite standarde, v katerih potrebujemo podatke v širši obliki.</li>
-<li>Nekatere metode (predvsem gre tukaj za metode strojnega učenja) delujejo bolje, ali izključno s podatki v širši obliki.</li>
+<li>Nekatere metode, predvsem gre tukaj za metode strojnega učenja, delujejo bolje ali izključno s podatki v širši obliki.</li>
 <li>Če želimo podatke pretvoriti v matriko.</li>
 </ul>
 <p>Za pretvorbo podatkov v širšo obliko uporabimo funkcijo <code>pivot_wider()</code>, ki prejme dva argumenta:</p>
@@ -598,7 +598,7 @@ div.csl-indent {
 ## 12 Ajdovščina 2018                     42                      36
 ## 13 Ajdovščina 2019                     38                      39
 ## 14 Ajdovščina 2020                     42                      46</code></pre>
-<p>S takšnim prikazom lahko relativno hitro opazimo določene trende, na primer v Ajdovščini se je gradilo veliko več stanovanjskih stavb med leti 2007 in 2014, leta 2015 pa se je očitno začelo graditi več nestanovanjskih stavb, kar bi lahko nakazovalo na gospodarsko rast tega mesta. Za dojemanje človeka je torej tak prikaz ustreznejši. Vsekakor pa bi za resno analizo oziroma poročilo v tem primeru raje uporabili vizualizacijo.</p>
+<p>S takšnim prikazom lahko relativno hitro opazimo določene trende. Na primer v Ajdovščini se je gradilo veliko več stanovanjskih stavb med leti 2007 in 2014, leta 2015 pa se je očitno začelo graditi več nestanovanjskih stavb, kar bi lahko nakazovalo na gospodarsko rast tega mesta. Za človeka je torej tak prikaz boljši. Vsekakor pa bi v tem primeru raje uporabili vizualizacijo.</p>
 </div>
 <div id="separate-in-unite-deljenje-in-združevanje-stolpcev" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> <code>separate()</code> in <code>unite()</code>: deljenje in združevanje stolpcev</h2>
@@ -668,7 +668,7 @@ div.csl-indent {
 </div>
 <div id="relacijske-zbirke-podatkov" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Relacijske zbirke podatkov</h2>
-<p>Velikokrat se pri analizi podatkov srečamo z večimi razpredelnicami, ki pa so med seboj logično povezane. Nekaj primerov:</p>
+<p>Pogosto se pri analizi podatkov srečamo z razpredelnicami, ki so med seboj logično povezane. Nekaj primerov:</p>
 <ul>
 <li>V spletni trgovini lahko hranimo podatke v 3 razpredelnicah o produktih, kupcih in nakupih. Razpredelnice so med seboj povezane, na primer razpredelnica o nakupih vsebuje ID kupca in produkta.</li>
 <li>Baze podatkov o filmih, kot je IMDB, imajo na primer podatke o filmih, ocenjevalcih, igralcih in ocenah. Filmi povezujejo vse preostale razpredelnice.</li>
@@ -676,13 +676,12 @@ div.csl-indent {
 <li>Pri železniškem omrežju imamo razpredelnice z vlaki, vagoni, železniškimi postajami, prihodi in odhodi.</li>
 <li>Pri nogometu imamo razpredelnice z igralci, klubi in odigranimi tekmami.</li>
 </ul>
-<p>Zgoraj smo navedli le nekaj ilustrativnih primerov, seveda bi prave podatkovne baze običajno vsebovale več razpredelnic. Vsekakor pa se s takimi podatki lahko srečamo na raznovrstnih področjih.</p>
-<p>Takšnim podatkovnim zbirkam pravimo <strong>relacijske zbirke podatkov</strong>, saj so poleg samih podatkov v razpredelnicah pomembne tudi relacije oziroma povezave med razpredelnicami. Zaenkrat smo se naučili, kako urejati podatke v eni razpredelnici. Če želimo analizirati relacijske podatke, moramo znati upoštevati tudi povezave med njimi in jih ustrezno združevati. V tem poglavju bomo predelali operacije, ki nam to omogočajo. Morda ste se že srečali z jezikom <strong>SQL</strong>, ki se običajno uporablja za urejanje podatkov v sistemih za <strong>upravljanje relacijskih podatkovnih baz</strong> (ang. relational database management systems, RDBMS). Paket dplyr ima podobno sintakso kot SQL, vendar pa ni popolnoma enaka. Je tudi enostavnejši za uporabo pri analizi podatkov, saj je ustvarjen prav s tem namenom.</p>
+<p>Takšnim podatkovnim zbirkam pravimo <strong>relacijske zbirke podatkov</strong>, saj so poleg podatkov v razpredelnicah pomembne tudi relacije oziroma povezave med razpredelnicami. Zaenkrat smo se naučili, kako urejati podatke v eni razpredelnici. Če želimo analizirati relacijske podatke, moramo znati upoštevati tudi povezave med njimi in jih ustrezno združevati. V tem poglavju bomo predelali operacije, ki nam to omogočajo. Morda ste se že srečali z jezikom <strong>SQL</strong>, ki se običajno uporablja za urejanje podatkov v sistemih za <strong>upravljanje relacijskih podatkovnih baz</strong> (ang. relational database management systems, RDBMS). Paket dplyr ima podobno sintakso kot SQL, vendar pa ni popolnoma enaka. Je tudi enostavnejši za uporabo pri analizi podatkov, saj je ustvarjen prav s tem namenom.</p>
 </div>
 <div id="primer-bančni-podatki" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> Primer: Bančni podatki</h2>
-<p>V tem poglavju bomo delali s podatki češke banke (<a href="https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions" class="uri">https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions</a>, <a href="https://relational.fit.cvut.cz/dataset/Financial" class="uri">https://relational.fit.cvut.cz/dataset/Financial</a>). Gre za realno anonimizirano podatkovno zbirko, ki je bila uporabljena v izzivu PKDD’99 Discovery Challenge (<a href="https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm" class="uri">https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm</a>). Cilj izziva je bil odkriti dobre in slabe kliente z namenom izboljšanja ponudbe. Mi se na tem mestu ne bomo ukvarjali preveč s samo analizo, ampak bomo te podatke uporabili za ilustracijo operacij na relacijski zbirki podatkov. Seveda pa zainteresirane udeležence spodbujamo, da samostojno analizirajo podatke, v kolikor se jim tema zdi zanimiva!</p>
-<p>Poglejmo si sedaj te podatke. V mapi <em>data_raw/financial</em> se nahaja 5 razpredelnic v csv formatu: account.csv, client.csv, disp.csv, loan.csv in transaction-smaller.csv. Originalni podatki vsebujejo še nekaj razpredelnic, vendar jih bomo z namenom učinkovitega prikaza izpustili. Prav tako smo pri razpredelnici transaction.csv naključno izbrali 20000 vrstic, saj originalna datoteka vsebuje preko milijon vrstic, kar bi upočasnilo izvajanje ukazov in zasedlo veliko prostora na repozitoriju. V kolikor želite raziskati celotno zbirko, predlagamo da si podatke prenesete iz vira. Poglejmo si sedaj vsako izmed razpredelnic.</p>
+<p>V tem poglavju bomo delali s podatki češke banke (<a href="https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions" class="uri">https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions</a>, <a href="https://relational.fit.cvut.cz/dataset/Financial" class="uri">https://relational.fit.cvut.cz/dataset/Financial</a>). Gre za realno anonimizirano podatkovno zbirko, ki je bila uporabljena v izzivu PKDD’99 Discovery Challenge (<a href="https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm" class="uri">https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm</a>). Cilj izziva je bil odkriti dobre in slabe kliente z namenom izboljšanja ponudbe. Mi bomo te podatke uporabili za ilustracijo operacij na relacijski zbirki podatkov.</p>
+<p>V mapi <em>data_raw/financial</em> se nahaja 5 razpredelnic v csv formatu: account.csv, client.csv, disp.csv, loan.csv in transaction-smaller.csv. Izvirni podatki vsebujejo še nekaj razpredelnic, vendar jih bomo z namenom učinkovitega prikaza izpustili. Prav tako smo pri razpredelnici transaction.csv naključno izbrali 20000 vrstic, saj originalna datoteka vsebuje preko milijon vrstic, kar bi upočasnilo izvajanje ukazov in zasedlo veliko prostora na repozitoriju. V kolikor želite raziskati celotno zbirko, predlagamo, da si podatke prenesete iz vira. Poglejmo si sedaj vsako izmed razpredelnic.</p>
 <p>Razpredelnica <code>account</code> vsebuje podatke o računih na banki.</p>
 <div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="urejeni-in-relacijski-podatki.html#cb178-1" aria-hidden="true" tabindex="-1"></a>account <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/account.csv&quot;</span>)</span>
 <span id="cb178-2"><a href="urejeni-in-relacijski-podatki.html#cb178-2" aria-hidden="true" tabindex="-1"></a>account</span></code></pre></div>
@@ -717,7 +716,7 @@ div.csl-indent {
 ##  9         9 M      1935-10-16          60
 ## 10        10 M      1943-05-01          57
 ## # ... with 5,359 more rows</code></pre>
-<p>Razpredelnica <code>disp</code> poveže podatke o osebah in računih, torej katere osebe imajo pravico opravljati s katerimi računi.</p>
+<p>Razpredelnica <code>disp</code> poveže podatke o osebah in računih, torej, katere osebe imajo pravico opravljati s katerimi računi.</p>
 <div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="urejeni-in-relacijski-podatki.html#cb182-1" aria-hidden="true" tabindex="-1"></a>disp <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/disp.csv&quot;</span>)</span>
 <span id="cb182-2"><a href="urejeni-in-relacijski-podatki.html#cb182-2" aria-hidden="true" tabindex="-1"></a>disp</span></code></pre></div>
 <pre><code>## # A tibble: 5,369 x 4
@@ -776,15 +775,15 @@ div.csl-indent {
 </div>
 <div id="ključi" class="section level2" number="2.8">
 <h2><span class="header-section-number">2.8</span> Ključi</h2>
-<p>Spremenljivkam, ki povezujejo razpredelnice, pravimo <strong>ključi</strong>. Te spremenljivke (ali zbirke spremenljivk) edinstveno definirajo podatke. Lahko gre za eno spremenljivko, kot je na primer <code>account_id</code> v razpredelnici <code>account</code>. Lahko pa obstaja več spremenljivk, ki definirajo en podate. Na primer, če imamo razpredelnico s temperaturami za vsak dan in uro. Potem ni nujno, da ima vsaka vrstica svoj ID, lahko pa jih edinstveno ločimo na podlagi dveh spremenljivk – dneva in ure. V tem primeru gre torej za ključ, ki je sestavljen iz dveh spremenljivk.</p>
+<p>Spremenljivkam, ki povezujejo razpredelnice, pravimo <strong>ključi</strong>. Te spremenljivke (ali zbirke spremenljivk) edinstveno definirajo podatke. Lahko gre za eno spremenljivko, kot je na primer <code>account_id</code> v razpredelnici <code>account</code>. Lahko pa obstaja več spremenljivk, ki definirajo en podatek. Na primer, če imamo razpredelnico s temperaturami za vsak dan in uro. Potem ni nujno, da ima vsaka vrstica svoj ID, lahko pa jih edinstveno ločimo na podlagi dveh spremenljivk – dneva in ure. V tem primeru gre torej za ključ, ki je sestavljen iz dveh spremenljivk.</p>
 <p>Poznamo dva glavna tipa ključev:</p>
 <ul>
 <li><strong>Primarni ključ</strong>. Ta ključ edinstveno definira podatek v razpredelnici. Na primer, <code>trans_id</code> v razpredelnici <code>trans</code>. V urejenih podatkih ima vsaka tabela svoj primarni ključ.</li>
 <li><strong>Tuj ključ</strong>. To je ključ v razpredelnici, ki je primarni ključ v eni od preostalih razpredelnic. Na primer, <code>account_id</code> v razpredelnici <code>trans</code>. Vrednosti tujih ključev se lahko podvajajo. Na primer, več transakcij lahko ima isto vrednost tujega ključa za <code>account_id</code>, saj se na enem bančnem računu izvede več transakcij.</li>
 </ul>
-<p>V kolikor razpredelnica nima primarnega ključa lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer <code>mutate(row_number())</code>.</p>
+<p>V kolikor razpredelnica nima primarnega ključa, lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer <code>mutate(row_number())</code>.</p>
 <p>Primarni in tuj ključ skupaj tvorita relacijo med razpredelnicama. Na primer <code>account_id</code> predstavlja relacijo med razpredelnicama <code>trans</code> in <code>account</code>. Relacije so lahko ena-proti-ena (ena država ima enega predsednika in ena oseba je lahko predsednik samo ene države), ena-proti-mnogo (en igralec lahko igra za en klub, ampak en klub ima več igralcev) ali mnogo-proti-mnogo (en avtor lahko napiše več knjig in ena knjiga je lahko napisana s strani večih avtorjev).</p>
-<p>Kadar imamo opravka z relacijskimi podatki je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.</p>
+<p>Kadar imamo opravka z relacijskimi podatki, je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="urejeni-in-relacijski-podatki.html#cb188-1" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>(account, client, disp, trans, loan)</span>
 <span id="cb188-2"><a href="urejeni-in-relacijski-podatki.html#cb188-2" aria-hidden="true" tabindex="-1"></a>id_vec  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;account_id&quot;</span>, <span class="st">&quot;client_id&quot;</span>, <span class="st">&quot;disp_id&quot;</span>, <span class="st">&quot;trans_id&quot;</span>, <span class="st">&quot;loan_id&quot;</span>)</span>
 <span id="cb188-3"><a href="urejeni-in-relacijski-podatki.html#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df_list)) {</span>
@@ -804,7 +803,7 @@ div.csl-indent {
 ## # ... with 2 variables: trans_id &lt;dbl&gt;, n &lt;int&gt;
 ## # A tibble: 0 x 2
 ## # ... with 2 variables: loan_id &lt;dbl&gt;, n &lt;int&gt;</code></pre>
-<p>V prejšnjem klicu kode se pojavi nova sintaksa, in sicer <code>.data[[id_vec[i]]]</code>. Kaj smo s tem naredili? Funkcija <code>group_by()</code> uporablja t. i. <em>tidyselect</em>, s katerim izbiramo stolpce brez da bi jih dali v narekovaje. To pa predstavlja težavo, kadar so imena stolpcev shranjena v neki spremenljivki, kot v tem primeru. Tidyverse je ustvarjen na načelu da bolj pogoste operacije olajša (na primer, enostavno uporaba <code>group_by()</code> pri urejanju posamezne razpredelnice), za ceno težje izvedbe manj pogostih operacij (na primer, uporaba <code>group_by()</code> v for zanki). Veliko večino urejanja podatkov bomo lahko z uporabo tidyverse naredili brez uporabe zank ali naprednih lastnih funkcij. In za to veliko večino urejanja bo tidyselect koristen. V kolikor se boste lotili bolj programerskega pristopa, pa predlagamo, da si preberete navodila za programiranje z dplyr, ki jih dobite tako, da v konzoli kličete <code>vignette('programming')</code>. Na tej delavnici ne bomo predstavili podrobnosti teh pristopov. Zaenkrat je dovolj da poznamo samo zgornji klic. Torej, če imamo imena stolpcev shranjena v neki spremenljivki, potem moramo znotraj tidyselecta uporabiti <code>.data[[&lt;spremenljivka-z-imeni-stolpcev&gt;]]</code>.</p>
+<p>V prejšnjem klicu kode se pojavi nova sintaksa, in sicer <code>.data[[id_vec[i]]]</code>. Funkcija <code>group_by()</code> uporablja t. i. <em>tidyselect</em>, s katerim izbiramo stolpce brez da bi jih dali v narekovaje. To pa predstavlja težavo, kadar so imena stolpcev shranjena v neki spremenljivki, kot v tem primeru. Tidyverse je ustvarjen na načelu, da olajša bolj pogoste operacije (na primer, enostavno uporaba <code>group_by()</code> pri urejanju posamezne razpredelnice), za ceno težje izvedbe manj pogostih operacij (na primer, uporaba <code>group_by()</code> v zanki for). Veliko večino urejanja podatkov bomo lahko z uporabo tidyverse naredili brez uporabe zank ali naprednih lastnih funkcij. V kolikor se boste lotili bolj programerskega pristopa, pa predlagamo, da si preberete navodila za programiranje z dplyr, ki jih dobite tako, da v konzoli kličete <code>vignette('programming')</code>. Na tej delavnici ne bomo predstavili podrobnosti teh pristopov. Zaenkrat je dovolj, da poznamo samo zgornji klic. Torej, če imamo imena stolpcev shranjena v neki spremenljivki, potem moramo znotraj tidyselecta uporabiti <code>.data[[&lt;spremenljivka-z-imeni-stolpcev&gt;]]</code>.</p>
 </div>
 <div id="združevanja" class="section level2" number="2.9">
 <h2><span class="header-section-number">2.9</span> Združevanja</h2>
@@ -813,11 +812,11 @@ div.csl-indent {
 <ul>
 <li><strong>Mutirajoča združevanja</strong> (ang. <strong>mutating joins</strong>). Dodajo nove stolpce k razpredelnici iz ujemajočih vrstic druge razpredelnice.</li>
 <li><strong>Filtrirajoča združevanja</strong> (ang. <strong>filtering joins</strong>). Izberejo vrstice ene razpredenice glede na to, ali se te ujemajo z vrsticami v drugi razpredelnici.</li>
-<li><strong>Operacije nad množicami</strong>. Operirajo nad vrsticami kot da so ti deli množice.</li>
+<li><strong>Operacije nad množicami</strong>. Operirajo nad vrsticami, kot da so ti deli množice.</li>
 </ul>
 <div id="mutirajoča-združevanja" class="section level3" number="2.9.1">
 <h3><span class="header-section-number">2.9.1</span> Mutirajoča združevanja</h3>
-<p>Mutirajoča združevanja so verjetno najbolj pogosta operacija, ki jo uporabljamo pri delu z relacijskimi podatki. Te operacije združijo dve (ali več) razpredelnici glede na vrednosti stolpcev. Obstajajo 4 takšne operacije:</p>
+<p>Mutirajoča združevanja so pogosta operacija pri delu z relacijskimi podatki. Te operacije združijo dve (ali več) razpredelnici glede na vrednosti stolpcev. Obstajajo 4 takšne operacije:</p>
 <ul>
 <li><code>left_join()</code>. Ohrani vse vrstice prve (leve) razpredelnice in poveže ustrezne vrstice iz druge razpredelnice s temi vrsticami.</li>
 <li><code>right_join()</code>. Ohrani vse vrstice druge (desne) razpredelnice in poveže ustrezne vrstice iz prve rapredelnice s temi vrsticami.</li>
@@ -864,7 +863,7 @@ div.csl-indent {
 ## 3 id3       1    52
 ## 4 id4       2    11</code></pre>
 <ul>
-<li><code>right_join()</code> obdrži tibble <code>df2</code> takšen kot je in mu pripne stolpec <code>x</code> iz tibbla <code>df1</code>, kjer so vrednosti spremenljivke <code>id</code> enake. Za tiste vrstice <code>df2</code>, ki nimajo ustreznega <code>id</code> v <code>df1</code> se vrednosti v spremenljivki <code>y</code> nastavijo na <code>NA</code>.</li>
+<li><code>right_join()</code> obdrži tibble <code>df2</code> takšen kot je in mu pripne stolpec <code>x</code> iz tibbla <code>df1</code>, kjer so vrednosti spremenljivke <code>id</code> enake. Za tiste vrstice <code>df2</code>, ki nimajo ustreznega <code>id</code> v <code>df1</code>, se vrednosti v spremenljivki <code>y</code> nastavijo na <code>NA</code>.</li>
 </ul>
 <div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="urejeni-in-relacijski-podatki.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
@@ -896,8 +895,8 @@ div.csl-indent {
 ## 3 id3       1    52
 ## 4 id4       2    11
 ## 5 id5      NA    21</code></pre>
-<p>Najbolj pogosto bomo uporabljali <code>left_join()</code>, kadar bo cilj obdržati originalno razpredelnico kot je, ali <code>inner_join()</code>, kadar bomo želeli podatke brez manjkajočih vrednosti. Stik <code>right_join()</code> je samo drugače usmerjen <code>left_join()</code>.</p>
-<p>Do sedaj smo prikazovali kako združimo razpredelnice glede na primarni ključ, za katerega predpostavljamo da je unikaten, se pravi vsaka vrstica ima svoj ključ, ki se v razpredelnici ne ponovi. Včasih pa razpredelnice združujemo glede na sekundarni ključ. V tem primeru se lahko zgodi, da imamo relacijo ena-proti-mnogo. Če vzamemo bančne podatke od zgoraj, en račun lahko ima več skrbnikov. Kaj se zgodi v tem primeru? Kaj pa če združimo transakcije in osebe glede na račun? En račun lahko ima več transakcij in prav tako več skrbnikov. Ker pri obeh razpredelnicah uporabimo sekundarni ključ bomo najverjetneje dobili podvojene vrednosti pri obeh. Poglejmo si sedaj na primeru podatkov, ki jih generiramo sami.</p>
+<p>Najbolj pogosto bomo uporabljali <code>left_join()</code>, kadar bo cilj obdržati originalno razpredelnico, kot je, ali <code>inner_join()</code>, kadar bomo želeli podatke brez manjkajočih vrednosti. Stik <code>right_join()</code> je samo drugače usmerjen <code>left_join()</code>.</p>
+<p>Do sedaj smo prikazovali, kako združimo razpredelnice glede na primarni ključ, za katerega predpostavljamo, da je unikaten. Torej vsaka vrstica ima svoj ključ, ki se v razpredelnici ne ponovi. Včasih pa razpredelnice združujemo glede na sekundarni ključ. V tem primeru se lahko zgodi, da imamo relacijo ena-proti-mnogo. Če vzamemo bančne podatke od zgoraj ima lahko en račun več skrbnikov. Kaj se zgodi v tem primeru? Kaj pa če združimo transakcije in osebe glede na račun? En račun ima lahko več transakcij in več skrbnikov. Ker pri obeh razpredelnicah uporabimo sekundarni ključ, bomo najverjetneje dobili podvojene vrednosti pri obeh. Poglejmo si sedaj na primeru podatkov, ki jih generiramo sami.</p>
 <div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="urejeni-in-relacijski-podatki.html#cb203-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb203-2"><a href="urejeni-in-relacijski-podatki.html#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id1 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
 <span id="cb203-3"><a href="urejeni-in-relacijski-podatki.html#cb203-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">id2 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
@@ -1181,9 +1180,9 @@ div.csl-indent {
 ##   &lt;chr&gt; &lt;dbl&gt;
 ## 1 id3      52</code></pre>
 </div>
-<div id="nadaljnje-branje" class="section level2" number="2.11">
-<h2><span class="header-section-number">2.11</span> Nadaljnje branje</h2>
-<p>Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: <a href="https://vita.had.co.nz/papers/tidy-data.pdf" class="uri">https://vita.had.co.nz/papers/tidy-data.pdf</a>, ki je vsekakor vreden branja. Za več informacij o neurejenih podatkih in v katerih primerih so lahko celo bolj zaželjeni predlagamo ta blog: <a href="https://simplystatistics.org/2016/02/17/non-tidy-data/" class="uri">https://simplystatistics.org/2016/02/17/non-tidy-data/</a>.</p>
+<div id="ali-želite-izvedeti-več-1" class="section level2" number="2.11">
+<h2><span class="header-section-number">2.11</span> Ali želite izvedeti več?</h2>
+<p>Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: <a href="https://vita.had.co.nz/papers/tidy-data.pdf" class="uri">https://vita.had.co.nz/papers/tidy-data.pdf</a>, ki je vsekakor vreden branja. Za več informacij o neurejenih podatkih in v katerih primerih so lahko celo bolj zaželjeni, predlagamo ta blog: <a href="https://simplystatistics.org/2016/02/17/non-tidy-data/" class="uri">https://simplystatistics.org/2016/02/17/non-tidy-data/</a>.</p>
 </div>
 <div id="domača-naloga-1" class="section level2" number="2.12">
 <h2><span class="header-section-number">2.12</span> Domača naloga</h2>
@@ -1216,7 +1215,7 @@ div.csl-indent {
 ## 14 Maja   maj   2019      400
 ## 15 Maja   april 2020      400
 ## 16 Maja   maj   2020      320</code></pre></li>
-<li><p>V mapi <em>data-raw</em> se nahajajo podatki o predsedniških volitvah v ZDA. Najprej izberite samo podmnožico vrstic, kjer sta kandidata Joe Biden ali Donald Trump in izločite stolpec <code>party</code>. Nato pretvorite podatke v širšo obliko, tako da bo vsak izmed kandidatov imel svoj stolpec.</p>
+<li><p>V mapi <em>data-raw</em> se nahajajo podatki o predsedniških volitvah v ZDA. Najprej izberite samo podmnožico vrstic, kjer sta kandidata Joe Biden ali Donald Trump, in izločite stolpec <code>party</code>. Nato pretvorite podatke v širšo obliko, tako da bo vsak izmed kandidatov imel svoj stolpec.</p>
 <pre><code>## # A tibble: 4,633 x 4
 ##    state                county               `Joe Biden` `Donald Trump`
 ##    &lt;chr&gt;                &lt;chr&gt;                      &lt;dbl&gt;          &lt;dbl&gt;
@@ -1250,7 +1249,7 @@ div.csl-indent {
 </ol>
 <ul>
 <li><p>Poizkusite najti primarni ključ za razpredelnico <code>flights</code>. Ali gre za primarni ključ lahko preverite tako, da preverite ali ta ključ unikatno določa vrstico v podatkih, torej da preštejete podatke, grupirane glede na ta ključ. Ključ je lahko sestavljen tudi iz večih spremenljivk. Na prvi pogled bi rekli, da je primarni ključ številka leta, ampak temu ni tako (preverimo s štetjem). Ali je morda kakšna druga kombinacija spremenljivk? Lahko da razpredelnica nima primarnega ključa. V tem primeru določite nadomestni ključ tako, da dodate stolpec ID z <code>mutate(ID = row_number())</code>.</p></li>
-<li><p>Ugotovite kaj so primarni in kaj tuji ključi preostalih razpredelnic. Pri nekaterih razpredelnicah v tej zbirki bomo imeli sestavljene ključe, torej bodo ključi sestavljeni iz večih stolpcev. Namig: Pri vremenu je manjša napaka v podatkih in se tudi primarni ključ ponovi v zanemarljivem številu primerov. Vsekakor so napake v realnih podatkih pričakovane in moramo na to biti pozorni!</p></li>
+<li><p>Ugotovite, kaj so primarni in kaj tuji ključi preostalih razpredelnic. Pri nekaterih razpredelnicah v tej zbirki bomo imeli sestavljene ključe, torej bodo ključi sestavljeni iz večih stolpcev. Namig: Pri vremenu je manjša napaka v podatkih in se tudi primarni ključ ponovi v zanemarljivem številu primerov. Vsekakor so napake v realnih podatkih pričakovane in moramo na to biti pozorni!</p></li>
 <li><p>Narišite relacijski diagram.</p></li>
 <li><p>Ustvarite novo razpredelnico tako da razpredelnici <code>flights</code> dodate podrobnosti o lastnostih letal za vsak let.</p>
 <pre><code>## Error in library(nycflights13): there is no package called &#39;nycflights13&#39;</code></pre>

@@ -124,7 +124,7 @@
 
 \title{Urejanje podatkov}
 \author{Gregor Pirš, Matej Pičulin in Erik Štrumbelj}
-\date{2021-06-03}
+\date{2021-06-04}
 
 \begin{document}
 \maketitle
@@ -2171,18 +2171,18 @@ V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementa
 \hypertarget{urejeni-in-relacijski-podatki}{%
 \chapter{Urejeni in relacijski podatki}\label{urejeni-in-relacijski-podatki}}
 
-Pri kakršnemkoli delu smo običajno zelo ciljno naravnani. Dobimo neko nalogo in jo želimo čimprej in čimbolje opraviti. Z namenom učinkovitosti se običajno poslužimo znanih orodij in postopkov, ki jih prilagodimo samemu problemu. Pri delu s podatki se ciljna naravnanost običajno izrazi tako, da želimo čimprej priti do analize in zaključkov, samemu urejanju podatkov pa ne posvetimo pretirane pozornosti, oziroma le toliko, kot je nujno potrebno (kar je še vedno lahko dolgotrajno). Na kratek rok to deluje v redu in celo prihranimo nekaj časa. Na dolgi rok pa običajno zahteva veliko več časa, saj se moramo pri vsaki novi nalogi na novo prilagajati podatkom. Boljši pristop bi bil, da bi problem prilagodili ustaljenemu postopku. Običajno lahko večino podatkov uredimo do te mere, da so si po obliki podobni. V kolikor se naučimo narediti to za neko splošno podatkovno zbirko, lahko potem vsakič pristopimo do nadaljnjega dela na podoben način. V praksi s tem na dolgi rok prihranimo veliko časa, poleg tega pa je naša programska koda bolj berljiva in robustna.
+Pri kakršnemkoli delu smo običajno zelo ciljno naravnani. Dobimo nalogo in jo želimo čimprej in čimbolje opraviti. Z namenom učinkovitosti se običajno poslužimo znanih orodij in postopkov, ki jih prilagodimo samemu problemu. Pri delu s podatki se ciljna naravnanost običajno izrazi tako, da želimo čimprej priti do analize in zaključkov, samemu urejanju podatkov pa ne posvetimo pretirane pozornosti, oziroma le toliko, kot je nujno potrebno (kar je še vedno lahko dolgotrajno). Na kratek rok to deluje v redu in celo prihranimo nekaj časa. Na dolgi rok pa običajno zahteva veliko več časa, saj se moramo pri vsaki novi nalogi na novo prilagajati podatkom. Boljši pristop bi bil, da bi problem prilagodili ustaljenemu postopku. Običajno lahko večino podatkov uredimo do te mere, da so si po obliki podobni. V kolikor se naučimo narediti to za neko splošno podatkovno zbirko, lahko potem vsakič pristopimo do nadaljnjega dela na podoben način. V praksi s tem na dolgi rok prihranimo veliko časa.
 
-Kaj pravzaprav so urejeni podatki? Ali to pomeni, da se v stolpcih ne mešajo različni podatkovni tipi? Da nimamo manjkajočih vrednosti? Da so podatki, ki opisujejo enako zadevo, v eni sami razpredelnici in niso raztreseni po večih razpredelnicah? Da so letnice v vrstnem redu? Verjetno bi lahko to vprašanje zastavili 100 ljudem in bi dobili 100 različnih odgovorov. Seveda je to popolnoma normalno, na prvi pogled je besedna zveza ``urejeni podatki'' zelo relativna. Na srečo pa za odgovor ne rabimo povpraševati naokoli in poiskati nekega skupnega mnenja, saj obstaja koncept \textbf{urejenih podatkov} (ang. \textbf{tidy data}), ki ga bomo spoznali v tem poglavju. Podatke, ki so strukturirani v urejeni obliki, lahko veliko lažje transformiramo in pripravljamo na nadaljnjo analizo. Tudi funkcije v tidyverse so implementirane tako, da na vhod prejmejo urejene podatke in takšne tudi vrnejo.
+Koncept \textbf{urejenih podatkov} (ang. \textbf{tidy data}), ki ga bomo spoznali v tem poglavju, je formalizacija intuitivne predstavke kaj podatki so. Podatke, ki so \textbf{urejeni}, lahko veliko lažje transformiramo in pripravimo na nadaljnjo analizo. Tudi funkcije v tidyverse so implementirane tako, da na vhod prejmejo urejene podatke in takšne tudi vrnejo. Z drugimi besedami ohranjajo urejenost.
 
-Relacijski podatki pa predstavljajo primere, ko so podatki o različnih entitetah (na primer podjetje, delavec, službeno vozilo, klient) shranjeni v različnih razpredelnicah. Kadar želimo analizirati takšne podatke moramo razumeti povezave med njimi in z njimi tudi znati delati. Spoznali bomo koncept relacijskih podatkovnih zbirk in kako uporabiti tidyverse za delo z njimi.
+Relacijski podatki pa so podatki o različnih entitetah (na primer podjetje, delavec, službeno vozilo, klient), ki so shranjeni v različnih razpredelnicah. Kadar želimo analizirati relacijske podatke moramo razumeti povezave med njimi in kako delati z njimi. Spoznali bomo koncept relacijskih podatkovnih zbirk in kako uporabiti tidyverse za delo z njimi.
 
 \hypertarget{priprava-1}{%
 \section{Priprava}\label{priprava-1}}
 
-Na tem predavanju bomo spoznali kako podatke pretvarjamo med daljšo in krajšo obliko ter kako delamo z relacijskimi podatki. Kaj vsi ti koncepti pomenijo in kako so povezani z urejenimi podatki bomo predelali na predavanju, na tem mestu se bomo le naučili glavnih funkcij s katerimi bomo utrjevali te koncepte.
+V tem poglavju bomo spoznali, kako podatke pretvorimo iz daljše v krajšo obliko (in obratno) ter kako delamo z relacijskimi podatki. Kaj vsi ti koncepti pomenijo in kako so povezani z urejenimi podatki, bomo predelali v jedru poglavja.
 
-Pri pretvorbi podatkov v daljšo obliko gre za pretvorbo, kjer vrednosti večih stolpcev združimo v en stolpec. Kdaj je takšna transformacija smiselna bomo spoznali na samem predavanju. Poglejmo si razpredelnico, kjer imamo shranjene podatke za več let:
+Pri pretvorbi podatkov v daljšo obliko gre za pretvorbo, kjer vrednosti večih stolpcev združimo v en stolpec. Poglejmo si razpredelnico, kjer imamo shranjene podatke za več let:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2409,9 +2409,9 @@ Za združevanje razpredelnic obstaja več funkcij, vse imajo končnico \texttt{\
 ## 8         NA <NA>              4 Rokova ekipa
 \end{verbatim}
 
-\textbf{Naloga}: Obstajata še dve operaciji združevanja, ki pa ne delujeta popolnoma enako kot zgornje funkcije. Pokličite funkciji \texttt{semi\_join()} in \texttt{anti\_join()} in poizkusite ugotoviti, kaj sta ti funkciji naredili. Sintaksa je enaka kot pri ostalih join funkcijah.
+\textbf{Naloga}: Obstajata še dve operaciji združevanja, ki pa ne delujeta popolnoma enako kot zgornje funkcije. Pokličite funkciji \texttt{semi\_join()} in \texttt{anti\_join()} in poizkusite ugotoviti, kaj sta ti funkciji naredili. Sintaksa je enaka kot pri ostalih funkcijah join.
 
-Za branje podatkov iz tekstovnih datotek velikokrat uporabljamo funkcijo \texttt{read.csv()}, ali katero od preostalih izpeljank funkcije \texttt{read.table()}. Ima pa tidyverse svojo različico teh funkcij, ki pa imajo nekaj dodatne funkcionalnosti. Najbolj pomembna je ta, da se podatki avtomatsko shranijo kot tibble. To omogoča relativno enostavno branje datotek, kjer stolpci niso poimenovani v skladu s pravili programskega jezika R (na primer, lahko se začnejo s številom, lahko imajo minuse, presledke in podobno). Kot smo omenili shranjevanje podatkov, kjer imena stolpcev niso standardne oblike, ni dobra praksa. Vsekakor pa se pri realnih podatkih velikokrat zgodi, da imamo takšna imena. V tem primeru je bolje, da jih prebermo takšna kot so in jih po tem programsko spremenimo, saj s tem ne posegamo v originalne podatke. Je pa potrebno pri teh funkcijah dodatno nastaviti kodiranje, da znajo prebrati šumnike. Poglejmo si uporabo funkcije \texttt{read\_csv2()} paketa \texttt{readr}, kjer bomo ustrezno nastavili kodiranje.
+Za branje podatkov iz tekstovnih datotek velikokrat uporabljamo funkcijo \texttt{read.csv()} ali katero od preostalih izpeljank funkcije \texttt{read.table()}. Tidyverse ima svojo različico teh funkcij, ki pa imajo nekaj dodatne funkcionalnosti. Najbolj pomembna je ta, da se podatki samodejno shranijo kot tibble. To omogoča relativno enostavno branje datotek, kjer stolpci niso poimenovani v skladu s pravili programskega jezika R (na primer, lahko se začnejo s številom, lahko imajo minuse, presledke in podobno). Kot smo omenili shranjevanje podatkov, kjer imena stolpcev niso standardne oblike, ni dobra praksa. Vsekakor pa se pri realnih podatkih velikokrat zgodi, da imamo takšna imena. V tem primeru je bolje, da jih prebermo takšna kot so in jih programsko spremenimo, saj s tem ne posegamo v izvirne podatke. Je pa potrebno pri teh funkcijah dodatno nastaviti kodiranje, da znajo prebrati šumnike. Poglejmo si uporabo funkcije \texttt{read\_csv2()} paketa \texttt{readr}, kjer bomo ustrezno nastavili kodiranje.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2425,20 +2425,20 @@ Več o kodiranjih bomo povedali na zadnjem predavanju.
 \hypertarget{urejeni-podatki}{%
 \section{Urejeni podatki}\label{urejeni-podatki}}
 
-Omenili smo že, da se v praksi srečamo z najrazličnejšimi oblikami zapisov podatkov. Skupek paketov tidyverse je namenjen delu s tako imenovanimi \textbf{urejenimi podatki} (ang. \textbf{tidy data}). Ideja je v tem, da se ustvari enoten standard za obliko podatkov s katerim je lažje delati. V kolikor se držimo tega standarda pri vseh naših analizah nam to omogoča, da vedno uporabljamo ista orodja in se ne rabimo učiti novih orodij za vsako analizo. Povzeto lahko ta standard opišemo s 3 lastnostmi:
+Omenili smo že, da se v praksi srečamo z najrazličnejšimi oblikami zapisov podatkov. Skupek paketov tidyverse je namenjen delu s tako imenovanimi \textbf{urejenimi podatki} (ang. \textbf{tidy data}). Ideja je, da se ustvari enoten standard za obliko podatkov, s katero je lažje delati. V kolikor se držimo tega standarda pri vseh naših analizah, nam to omogoča, da vedno uporabljamo ista orodja (na primer, ggplot2) in se nam ni potrebno učiti novih orodij za vsako analizo. Standard lahko povzamemo s 3 lastnostmi:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
 \tightlist
 \item
-  Vsak stolpec je spremenljivka.
+  vsak stolpec je spremenljivka,
 \item
-  Vsaka vrstica je primer podatka.
+  vsaka vrstica je primer podatka,
 \item
-  Vsaka vrednost ima svojo celico.
+  vsaka vrednost ima svojo celico.
 \end{enumerate}
 
-Morda se na tej točki to sliši nekoliko abstraktno. Poglejmo si zadevo v praksi. Nabrali smo podatke o številu izdanih gradbenih dovoljenj v Sloveniji, razdeljeno glede na občine. Podatke smo prenesli iz spletne strani statističnega urada Slovenije \url{https://pxweb.stat.si/SiStat/slshranili} in jih shranili na več načinov. Najprej si poglejmo podatke v takšni obliki, kot smo jih dobili naravnost iz vira.
+Morda se na tej točki to sliši nekoliko abstraktno. Poglejmo si praktičen primer. Nabrali smo podatke o številu izdanih gradbenih dovoljenj v Sloveniji, razdeljeno glede na občine. Podatke smo prenesli s spletne strani statističnega urada Slovenije \url{https://pxweb.stat.si/SiStat/slshranili} in jih shranili na več načinov. Najprej si poglejmo podatke v takšni obliki, kot smo jih dobili naravnost iz vira.
 
 \begin{verbatim}
 ## # A tibble: 424 x 16
@@ -2458,7 +2458,7 @@ Morda se na tej točki to sliši nekoliko abstraktno. Poglejmo si zadevo v praks
 ## #   2017 <dbl>, 2018 <dbl>, 2019 <dbl>, 2020 <dbl>
 \end{verbatim}
 
-Najprej imamo na voljo spremenljivki \texttt{OBČINE} in \texttt{TIP.STAVBE}. Potem pa imamo za vsako leto naštete vrednosti, oziroma števila gradbenih dovoljenj. Podatki so velikokrat shranjeni v takšnem formatu saj ima nekatere prednosti. Na primer, tak format je bolj prijazen za prikaz človeku, saj lahko samo s pogledom na razpredelnico hitro oceni, ali obstaja kak trend v posamezni vrstici. Taki format pa ni najboljši za delo s podatki. Govorili smo že o čistih podatkih in da vse funkcije v tidyverse podpirajo operacije nad takšnimi podatki. Kot vhod bo večina teh funkcij prejela čiste podatke in takšne potem tudi vrnila.
+Najprej imamo na voljo spremenljivki \texttt{OBČINE} in \texttt{TIP.STAVBE}. Potem pa imamo za vsako leto naštete vrednosti, oziroma števila gradbenih dovoljenj. Podatki so velikokrat shranjeni v takšnem formatu, saj ima določene prednosti. Tak format je bolj prijazen za prikaz človeku, saj lahko samo s pogledom na razpredelnico hitro oceni, ali obstaja trend v posamezni vrstici. Format pa ni najboljši za delo s podatki. Govorili smo že o čistih podatkih in da vse funkcije v tidyverse podpirajo operacije nad takšnimi podatki. Kot vhod bo večina teh funkcij prejela čiste podatke in takšne potem tudi vrnila.
 
 Kaj je razlog, da ti podatki niso čisti? Ne drži, da imamo v vsakem stolpcu spremenljivko, saj imamo eno spremenljivko razvlečeno čez več stolpcev -- leto. Ta podatek vsekakor predstavlja spremenljivko, torej bi moral imeti enoten stolpec. Poglejmo si te podatke še v dveh nečistih formatih.
 
@@ -2504,7 +2504,7 @@ Kaj je razlog, da ti podatki niso čisti? Ne drži, da imamo v vsakem stolpcu sp
 ## #   Mirna Peč <dbl>, Mislinja <dbl>, ...
 \end{verbatim}
 
-Sedaj imamo podobno situacijo kot prej, se pravi ena spremenljivka je razvlečena preko večih stolpcev -- v tem primeru je to občina. Kot smo že omenili, so vsaki nečisti podatki nečisti na svoj način. To opazimo tudi tukaj. Podatki so popolnoma enaki kot v prejšnjem prikazu, ampak razpredelnica izgleda popolnoma drugače. Čisti podatki pa imajo samo eno pravilno obliko in torej ne more priti do takšnih dvoumnih prikazov.
+Sedaj imamo podobno situacijo kot prej -- ena spremenljivka je razvlečena preko več stolpcev -- v tem primeru je to občina. Kot smo že omenili, so vsaki nečisti podatki nečisti na svoj način. Podatki so popolnoma enaki kot v prejšnjem prikazu, ampak razpredelnica izgleda popolnoma drugače. Čisti podatki pa imajo samo eno pravilno obliko, torej ne more priti do takšnih dvoumnih prikazov.
 
 Poglejmo si še tretji format:
 
@@ -2525,7 +2525,7 @@ Poglejmo si še tretji format:
 ## # ... with 5,926 more rows
 \end{verbatim}
 
-Ta je morda nekoliko bližje čistim podatkom, kot prejšnja dva. Ampak še vedno ni v popolnoma pravilni obliki. V čem je težava? Dve spremenljivki imamo podani v enem stolpcu -- občino in tip. Ker gre za različni spremenljivki bi bilo dobro tudi, da se pojavita v različnih stolpcih.
+Ta je morda nekoliko bližje čistim podatkom, kot prejšnja dva, ampak še vedno ni v popolnoma pravilni obliki. V čem je težava? Dve spremenljivki imamo podani v enem stolpcu -- občino in tip. Ker gre za različni spremenljivki, bi bilo dobro, da se pojavita v različnih stolpcih.
 
 Poglejmo si sedaj še čiste podatke:
 
@@ -2575,7 +2575,7 @@ Poglejmo si ponovno nečiste podatke, ki smo jih dobili naravnost iz vira:
 ## #   2017 <dbl>, 2018 <dbl>, 2019 <dbl>, 2020 <dbl>
 \end{verbatim}
 
-Sedaj želimo te podatke spremeniti v čisto obliko. Kako to naredimo? Vse stolpce, ki prikazujejo različne vrednosti spremenljivke leto moramo zapisati v 1 stolpec. Uporabimo funkcijo \texttt{pivot\_longer()}, ki prejme sledeče argumente:
+Sedaj želimo te podatke spremeniti v čisto obliko. Vse stolpce, ki prikazujejo različne vrednosti spremenljivke leto, moramo zapisati v 1 stolpec. Uporabimo funkcijo \texttt{pivot\_longer()}, ki prejme argumente:
 
 \begin{itemize}
 \tightlist
@@ -2649,7 +2649,7 @@ Uporabimo sedaj še ta 2 parametra:
 \hypertarget{pivot_wider-pretvorba-v-ux161irux161o-obliko}{%
 \section{\texorpdfstring{\texttt{pivot\_wider()}: pretvorba v širšo obliko}{pivot\_wider(): pretvorba v širšo obliko}}\label{pivot_wider-pretvorba-v-ux161irux161o-obliko}}
 
-Običajno bo ta transformacija naredila podatke nečiste. Vendar s tem ni nič narobe, kot smo povedali imajo tudi takšni podatki svoje prednosti. Na primer:
+Običajno bo ta transformacija naredila podatke nečiste, vendar s tem ni nič narobe, saj imajo tudi takšni podatki svoje prednosti:
 
 \begin{itemize}
 \tightlist
@@ -2658,7 +2658,7 @@ Običajno bo ta transformacija naredila podatke nečiste. Vendar s tem ni nič n
 \item
   Nekatera podjetja in področja imajo razvite standarde, v katerih potrebujemo podatke v širši obliki.
 \item
-  Nekatere metode (predvsem gre tukaj za metode strojnega učenja) delujejo bolje, ali izključno s podatki v širši obliki.
+  Nekatere metode, predvsem gre tukaj za metode strojnega učenja, delujejo bolje ali izključno s podatki v širši obliki.
 \item
   Če želimo podatke pretvoriti v matriko.
 \end{itemize}
@@ -2703,7 +2703,7 @@ Pretvorimo sedaj \texttt{df\_longer} v širšo obliko glede na stolpec \texttt{T
 ## 14 Ajdovščina 2020                     42                      46
 \end{verbatim}
 
-S takšnim prikazom lahko relativno hitro opazimo določene trende, na primer v Ajdovščini se je gradilo veliko več stanovanjskih stavb med leti 2007 in 2014, leta 2015 pa se je očitno začelo graditi več nestanovanjskih stavb, kar bi lahko nakazovalo na gospodarsko rast tega mesta. Za dojemanje človeka je torej tak prikaz ustreznejši. Vsekakor pa bi za resno analizo oziroma poročilo v tem primeru raje uporabili vizualizacijo.
+S takšnim prikazom lahko relativno hitro opazimo določene trende. Na primer v Ajdovščini se je gradilo veliko več stanovanjskih stavb med leti 2007 in 2014, leta 2015 pa se je očitno začelo graditi več nestanovanjskih stavb, kar bi lahko nakazovalo na gospodarsko rast tega mesta. Za človeka je torej tak prikaz boljši. Vsekakor pa bi v tem primeru raje uporabili vizualizacijo.
 
 \hypertarget{separate-in-unite-deljenje-in-zdruux17eevanje-stolpcev}{%
 \section{\texorpdfstring{\texttt{separate()} in \texttt{unite()}: deljenje in združevanje stolpcev}{separate() in unite(): deljenje in združevanje stolpcev}}\label{separate-in-unite-deljenje-in-zdruux17eevanje-stolpcev}}
@@ -2814,7 +2814,7 @@ Za primer si poglejmo, kako bi v eno spremenljivko shranili podatke o številu s
 \hypertarget{relacijske-zbirke-podatkov}{%
 \section{Relacijske zbirke podatkov}\label{relacijske-zbirke-podatkov}}
 
-Velikokrat se pri analizi podatkov srečamo z večimi razpredelnicami, ki pa so med seboj logično povezane. Nekaj primerov:
+Pogosto se pri analizi podatkov srečamo z razpredelnicami, ki so med seboj logično povezane. Nekaj primerov:
 
 \begin{itemize}
 \tightlist
@@ -2830,16 +2830,14 @@ Velikokrat se pri analizi podatkov srečamo z večimi razpredelnicami, ki pa so 
   Pri nogometu imamo razpredelnice z igralci, klubi in odigranimi tekmami.
 \end{itemize}
 
-Zgoraj smo navedli le nekaj ilustrativnih primerov, seveda bi prave podatkovne baze običajno vsebovale več razpredelnic. Vsekakor pa se s takimi podatki lahko srečamo na raznovrstnih področjih.
-
-Takšnim podatkovnim zbirkam pravimo \textbf{relacijske zbirke podatkov}, saj so poleg samih podatkov v razpredelnicah pomembne tudi relacije oziroma povezave med razpredelnicami. Zaenkrat smo se naučili, kako urejati podatke v eni razpredelnici. Če želimo analizirati relacijske podatke, moramo znati upoštevati tudi povezave med njimi in jih ustrezno združevati. V tem poglavju bomo predelali operacije, ki nam to omogočajo. Morda ste se že srečali z jezikom \textbf{SQL}, ki se običajno uporablja za urejanje podatkov v sistemih za \textbf{upravljanje relacijskih podatkovnih baz} (ang. relational database management systems, RDBMS). Paket dplyr ima podobno sintakso kot SQL, vendar pa ni popolnoma enaka. Je tudi enostavnejši za uporabo pri analizi podatkov, saj je ustvarjen prav s tem namenom.
+Takšnim podatkovnim zbirkam pravimo \textbf{relacijske zbirke podatkov}, saj so poleg podatkov v razpredelnicah pomembne tudi relacije oziroma povezave med razpredelnicami. Zaenkrat smo se naučili, kako urejati podatke v eni razpredelnici. Če želimo analizirati relacijske podatke, moramo znati upoštevati tudi povezave med njimi in jih ustrezno združevati. V tem poglavju bomo predelali operacije, ki nam to omogočajo. Morda ste se že srečali z jezikom \textbf{SQL}, ki se običajno uporablja za urejanje podatkov v sistemih za \textbf{upravljanje relacijskih podatkovnih baz} (ang. relational database management systems, RDBMS). Paket dplyr ima podobno sintakso kot SQL, vendar pa ni popolnoma enaka. Je tudi enostavnejši za uporabo pri analizi podatkov, saj je ustvarjen prav s tem namenom.
 
 \hypertarget{primer-banux10dni-podatki}{%
 \section{Primer: Bančni podatki}\label{primer-banux10dni-podatki}}
 
-V tem poglavju bomo delali s podatki češke banke (\url{https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions}, \url{https://relational.fit.cvut.cz/dataset/Financial}). Gre za realno anonimizirano podatkovno zbirko, ki je bila uporabljena v izzivu PKDD'99 Discovery Challenge (\url{https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm}). Cilj izziva je bil odkriti dobre in slabe kliente z namenom izboljšanja ponudbe. Mi se na tem mestu ne bomo ukvarjali preveč s samo analizo, ampak bomo te podatke uporabili za ilustracijo operacij na relacijski zbirki podatkov. Seveda pa zainteresirane udeležence spodbujamo, da samostojno analizirajo podatke, v kolikor se jim tema zdi zanimiva!
+V tem poglavju bomo delali s podatki češke banke (\url{https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions}, \url{https://relational.fit.cvut.cz/dataset/Financial}). Gre za realno anonimizirano podatkovno zbirko, ki je bila uporabljena v izzivu PKDD'99 Discovery Challenge (\url{https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm}). Cilj izziva je bil odkriti dobre in slabe kliente z namenom izboljšanja ponudbe. Mi bomo te podatke uporabili za ilustracijo operacij na relacijski zbirki podatkov.
 
-Poglejmo si sedaj te podatke. V mapi \emph{data\_raw/financial} se nahaja 5 razpredelnic v csv formatu: account.csv, client.csv, disp.csv, loan.csv in transaction-smaller.csv. Originalni podatki vsebujejo še nekaj razpredelnic, vendar jih bomo z namenom učinkovitega prikaza izpustili. Prav tako smo pri razpredelnici transaction.csv naključno izbrali 20000 vrstic, saj originalna datoteka vsebuje preko milijon vrstic, kar bi upočasnilo izvajanje ukazov in zasedlo veliko prostora na repozitoriju. V kolikor želite raziskati celotno zbirko, predlagamo da si podatke prenesete iz vira. Poglejmo si sedaj vsako izmed razpredelnic.
+V mapi \emph{data\_raw/financial} se nahaja 5 razpredelnic v csv formatu: account.csv, client.csv, disp.csv, loan.csv in transaction-smaller.csv. Izvirni podatki vsebujejo še nekaj razpredelnic, vendar jih bomo z namenom učinkovitega prikaza izpustili. Prav tako smo pri razpredelnici transaction.csv naključno izbrali 20000 vrstic, saj originalna datoteka vsebuje preko milijon vrstic, kar bi upočasnilo izvajanje ukazov in zasedlo veliko prostora na repozitoriju. V kolikor želite raziskati celotno zbirko, predlagamo, da si podatke prenesete iz vira. Poglejmo si sedaj vsako izmed razpredelnic.
 
 Razpredelnica \texttt{account} vsebuje podatke o računih na banki.
 
@@ -2893,7 +2891,7 @@ Razpredelnica \texttt{client} vsebuje podatke o strankah.
 ## # ... with 5,359 more rows
 \end{verbatim}
 
-Razpredelnica \texttt{disp} poveže podatke o osebah in računih, torej katere osebe imajo pravico opravljati s katerimi računi.
+Razpredelnica \texttt{disp} poveže podatke o osebah in računih, torej, katere osebe imajo pravico opravljati s katerimi računi.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2982,7 +2980,7 @@ Imamo 5 razpredelnice, vse pa so med seboj povezane. Razpredelnici \texttt{accou
 \hypertarget{kljuux10di}{%
 \section{Ključi}\label{kljuux10di}}
 
-Spremenljivkam, ki povezujejo razpredelnice, pravimo \textbf{ključi}. Te spremenljivke (ali zbirke spremenljivk) edinstveno definirajo podatke. Lahko gre za eno spremenljivko, kot je na primer \texttt{account\_id} v razpredelnici \texttt{account}. Lahko pa obstaja več spremenljivk, ki definirajo en podate. Na primer, če imamo razpredelnico s temperaturami za vsak dan in uro. Potem ni nujno, da ima vsaka vrstica svoj ID, lahko pa jih edinstveno ločimo na podlagi dveh spremenljivk -- dneva in ure. V tem primeru gre torej za ključ, ki je sestavljen iz dveh spremenljivk.
+Spremenljivkam, ki povezujejo razpredelnice, pravimo \textbf{ključi}. Te spremenljivke (ali zbirke spremenljivk) edinstveno definirajo podatke. Lahko gre za eno spremenljivko, kot je na primer \texttt{account\_id} v razpredelnici \texttt{account}. Lahko pa obstaja več spremenljivk, ki definirajo en podatek. Na primer, če imamo razpredelnico s temperaturami za vsak dan in uro. Potem ni nujno, da ima vsaka vrstica svoj ID, lahko pa jih edinstveno ločimo na podlagi dveh spremenljivk -- dneva in ure. V tem primeru gre torej za ključ, ki je sestavljen iz dveh spremenljivk.
 
 Poznamo dva glavna tipa ključev:
 
@@ -2994,11 +2992,11 @@ Poznamo dva glavna tipa ključev:
   \textbf{Tuj ključ}. To je ključ v razpredelnici, ki je primarni ključ v eni od preostalih razpredelnic. Na primer, \texttt{account\_id} v razpredelnici \texttt{trans}. Vrednosti tujih ključev se lahko podvajajo. Na primer, več transakcij lahko ima isto vrednost tujega ključa za \texttt{account\_id}, saj se na enem bančnem računu izvede več transakcij.
 \end{itemize}
 
-V kolikor razpredelnica nima primarnega ključa lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer \texttt{mutate(row\_number())}.
+V kolikor razpredelnica nima primarnega ključa, lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer \texttt{mutate(row\_number())}.
 
 Primarni in tuj ključ skupaj tvorita relacijo med razpredelnicama. Na primer \texttt{account\_id} predstavlja relacijo med razpredelnicama \texttt{trans} in \texttt{account}. Relacije so lahko ena-proti-ena (ena država ima enega predsednika in ena oseba je lahko predsednik samo ene države), ena-proti-mnogo (en igralec lahko igra za en klub, ampak en klub ima več igralcev) ali mnogo-proti-mnogo (en avtor lahko napiše več knjig in ena knjiga je lahko napisana s strani večih avtorjev).
 
-Kadar imamo opravka z relacijskimi podatki je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.
+Kadar imamo opravka z relacijskimi podatki, je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3027,7 +3025,7 @@ Kadar imamo opravka z relacijskimi podatki je smiselno preveriti, ali je primarn
 ## # ... with 2 variables: loan_id <dbl>, n <int>
 \end{verbatim}
 
-V prejšnjem klicu kode se pojavi nova sintaksa, in sicer \texttt{.data{[}{[}id\_vec{[}i{]}{]}{]}}. Kaj smo s tem naredili? Funkcija \texttt{group\_by()} uporablja t. i. \emph{tidyselect}, s katerim izbiramo stolpce brez da bi jih dali v narekovaje. To pa predstavlja težavo, kadar so imena stolpcev shranjena v neki spremenljivki, kot v tem primeru. Tidyverse je ustvarjen na načelu da bolj pogoste operacije olajša (na primer, enostavno uporaba \texttt{group\_by()} pri urejanju posamezne razpredelnice), za ceno težje izvedbe manj pogostih operacij (na primer, uporaba \texttt{group\_by()} v for zanki). Veliko večino urejanja podatkov bomo lahko z uporabo tidyverse naredili brez uporabe zank ali naprednih lastnih funkcij. In za to veliko večino urejanja bo tidyselect koristen. V kolikor se boste lotili bolj programerskega pristopa, pa predlagamo, da si preberete navodila za programiranje z dplyr, ki jih dobite tako, da v konzoli kličete \texttt{vignette(\textquotesingle{}programming\textquotesingle{})}. Na tej delavnici ne bomo predstavili podrobnosti teh pristopov. Zaenkrat je dovolj da poznamo samo zgornji klic. Torej, če imamo imena stolpcev shranjena v neki spremenljivki, potem moramo znotraj tidyselecta uporabiti \texttt{.data{[}{[}\textless{}spremenljivka-z-imeni-stolpcev\textgreater{}{]}{]}}.
+V prejšnjem klicu kode se pojavi nova sintaksa, in sicer \texttt{.data{[}{[}id\_vec{[}i{]}{]}{]}}. Funkcija \texttt{group\_by()} uporablja t. i. \emph{tidyselect}, s katerim izbiramo stolpce brez da bi jih dali v narekovaje. To pa predstavlja težavo, kadar so imena stolpcev shranjena v neki spremenljivki, kot v tem primeru. Tidyverse je ustvarjen na načelu, da olajša bolj pogoste operacije (na primer, enostavno uporaba \texttt{group\_by()} pri urejanju posamezne razpredelnice), za ceno težje izvedbe manj pogostih operacij (na primer, uporaba \texttt{group\_by()} v zanki for). Veliko večino urejanja podatkov bomo lahko z uporabo tidyverse naredili brez uporabe zank ali naprednih lastnih funkcij. V kolikor se boste lotili bolj programerskega pristopa, pa predlagamo, da si preberete navodila za programiranje z dplyr, ki jih dobite tako, da v konzoli kličete \texttt{vignette(\textquotesingle{}programming\textquotesingle{})}. Na tej delavnici ne bomo predstavili podrobnosti teh pristopov. Zaenkrat je dovolj, da poznamo samo zgornji klic. Torej, če imamo imena stolpcev shranjena v neki spremenljivki, potem moramo znotraj tidyselecta uporabiti \texttt{.data{[}{[}\textless{}spremenljivka-z-imeni-stolpcev\textgreater{}{]}{]}}.
 
 \hypertarget{zdruux17eevanja}{%
 \section{Združevanja}\label{zdruux17eevanja}}
@@ -3043,13 +3041,13 @@ Združevanja podatkovnih razpredelnic lahko ločimo na 3 sklope:
 \item
   \textbf{Filtrirajoča združevanja} (ang. \textbf{filtering joins}). Izberejo vrstice ene razpredenice glede na to, ali se te ujemajo z vrsticami v drugi razpredelnici.
 \item
-  \textbf{Operacije nad množicami}. Operirajo nad vrsticami kot da so ti deli množice.
+  \textbf{Operacije nad množicami}. Operirajo nad vrsticami, kot da so ti deli množice.
 \end{itemize}
 
 \hypertarget{mutirajoux10da-zdruux17eevanja}{%
 \subsection{Mutirajoča združevanja}\label{mutirajoux10da-zdruux17eevanja}}
 
-Mutirajoča združevanja so verjetno najbolj pogosta operacija, ki jo uporabljamo pri delu z relacijskimi podatki. Te operacije združijo dve (ali več) razpredelnici glede na vrednosti stolpcev. Obstajajo 4 takšne operacije:
+Mutirajoča združevanja so pogosta operacija pri delu z relacijskimi podatki. Te operacije združijo dve (ali več) razpredelnici glede na vrednosti stolpcev. Obstajajo 4 takšne operacije:
 
 \begin{itemize}
 \tightlist
@@ -3139,7 +3137,7 @@ Ustvarimo dva tibbla:
 \begin{itemize}
 \tightlist
 \item
-  \texttt{right\_join()} obdrži tibble \texttt{df2} takšen kot je in mu pripne stolpec \texttt{x} iz tibbla \texttt{df1}, kjer so vrednosti spremenljivke \texttt{id} enake. Za tiste vrstice \texttt{df2}, ki nimajo ustreznega \texttt{id} v \texttt{df1} se vrednosti v spremenljivki \texttt{y} nastavijo na \texttt{NA}.
+  \texttt{right\_join()} obdrži tibble \texttt{df2} takšen kot je in mu pripne stolpec \texttt{x} iz tibbla \texttt{df1}, kjer so vrednosti spremenljivke \texttt{id} enake. Za tiste vrstice \texttt{df2}, ki nimajo ustreznega \texttt{id} v \texttt{df1}, se vrednosti v spremenljivki \texttt{y} nastavijo na \texttt{NA}.
 \end{itemize}
 
 \begin{Shaded}
@@ -3202,9 +3200,9 @@ Ustvarimo dva tibbla:
 ## 5 id5      NA    21
 \end{verbatim}
 
-Najbolj pogosto bomo uporabljali \texttt{left\_join()}, kadar bo cilj obdržati originalno razpredelnico kot je, ali \texttt{inner\_join()}, kadar bomo želeli podatke brez manjkajočih vrednosti. Stik \texttt{right\_join()} je samo drugače usmerjen \texttt{left\_join()}.
+Najbolj pogosto bomo uporabljali \texttt{left\_join()}, kadar bo cilj obdržati originalno razpredelnico, kot je, ali \texttt{inner\_join()}, kadar bomo želeli podatke brez manjkajočih vrednosti. Stik \texttt{right\_join()} je samo drugače usmerjen \texttt{left\_join()}.
 
-Do sedaj smo prikazovali kako združimo razpredelnice glede na primarni ključ, za katerega predpostavljamo da je unikaten, se pravi vsaka vrstica ima svoj ključ, ki se v razpredelnici ne ponovi. Včasih pa razpredelnice združujemo glede na sekundarni ključ. V tem primeru se lahko zgodi, da imamo relacijo ena-proti-mnogo. Če vzamemo bančne podatke od zgoraj, en račun lahko ima več skrbnikov. Kaj se zgodi v tem primeru? Kaj pa če združimo transakcije in osebe glede na račun? En račun lahko ima več transakcij in prav tako več skrbnikov. Ker pri obeh razpredelnicah uporabimo sekundarni ključ bomo najverjetneje dobili podvojene vrednosti pri obeh. Poglejmo si sedaj na primeru podatkov, ki jih generiramo sami.
+Do sedaj smo prikazovali, kako združimo razpredelnice glede na primarni ključ, za katerega predpostavljamo, da je unikaten. Torej vsaka vrstica ima svoj ključ, ki se v razpredelnici ne ponovi. Včasih pa razpredelnice združujemo glede na sekundarni ključ. V tem primeru se lahko zgodi, da imamo relacijo ena-proti-mnogo. Če vzamemo bančne podatke od zgoraj ima lahko en račun več skrbnikov. Kaj se zgodi v tem primeru? Kaj pa če združimo transakcije in osebe glede na račun? En račun ima lahko več transakcij in več skrbnikov. Ker pri obeh razpredelnicah uporabimo sekundarni ključ, bomo najverjetneje dobili podvojene vrednosti pri obeh. Poglejmo si sedaj na primeru podatkov, ki jih generiramo sami.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3718,10 +3716,10 @@ Poglejmo si uporabo teh operacij nad tibbli.
 ## 1 id3      52
 \end{verbatim}
 
-\hypertarget{nadaljnje-branje}{%
-\section{Nadaljnje branje}\label{nadaljnje-branje}}
+\hypertarget{ali-ux17eelite-izvedeti-veux10d-1}{%
+\section{Ali želite izvedeti več?}\label{ali-ux17eelite-izvedeti-veux10d-1}}
 
-Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: \url{https://vita.had.co.nz/papers/tidy-data.pdf}, ki je vsekakor vreden branja. Za več informacij o neurejenih podatkih in v katerih primerih so lahko celo bolj zaželjeni predlagamo ta blog: \url{https://simplystatistics.org/2016/02/17/non-tidy-data/}.
+Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: \url{https://vita.had.co.nz/papers/tidy-data.pdf}, ki je vsekakor vreden branja. Za več informacij o neurejenih podatkih in v katerih primerih so lahko celo bolj zaželjeni, predlagamo ta blog: \url{https://simplystatistics.org/2016/02/17/non-tidy-data/}.
 
 \hypertarget{domaux10da-naloga-1}{%
 \section{Domača naloga}\label{domaux10da-naloga-1}}
@@ -3767,7 +3765,7 @@ Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: \url{htt
 ## 16 Maja   maj   2020      320
 \end{verbatim}
 \item
-  V mapi \emph{data-raw} se nahajajo podatki o predsedniških volitvah v ZDA. Najprej izberite samo podmnožico vrstic, kjer sta kandidata Joe Biden ali Donald Trump in izločite stolpec \texttt{party}. Nato pretvorite podatke v širšo obliko, tako da bo vsak izmed kandidatov imel svoj stolpec.
+  V mapi \emph{data-raw} se nahajajo podatki o predsedniških volitvah v ZDA. Najprej izberite samo podmnožico vrstic, kjer sta kandidata Joe Biden ali Donald Trump, in izločite stolpec \texttt{party}. Nato pretvorite podatke v širšo obliko, tako da bo vsak izmed kandidatov imel svoj stolpec.
 
 \begin{verbatim}
 ## # A tibble: 4,633 x 4
@@ -3821,7 +3819,7 @@ Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: \url{htt
 \item
   Poizkusite najti primarni ključ za razpredelnico \texttt{flights}. Ali gre za primarni ključ lahko preverite tako, da preverite ali ta ključ unikatno določa vrstico v podatkih, torej da preštejete podatke, grupirane glede na ta ključ. Ključ je lahko sestavljen tudi iz večih spremenljivk. Na prvi pogled bi rekli, da je primarni ključ številka leta, ampak temu ni tako (preverimo s štetjem). Ali je morda kakšna druga kombinacija spremenljivk? Lahko da razpredelnica nima primarnega ključa. V tem primeru določite nadomestni ključ tako, da dodate stolpec ID z \texttt{mutate(ID\ =\ row\_number())}.
 \item
-  Ugotovite kaj so primarni in kaj tuji ključi preostalih razpredelnic. Pri nekaterih razpredelnicah v tej zbirki bomo imeli sestavljene ključe, torej bodo ključi sestavljeni iz večih stolpcev. Namig: Pri vremenu je manjša napaka v podatkih in se tudi primarni ključ ponovi v zanemarljivem številu primerov. Vsekakor so napake v realnih podatkih pričakovane in moramo na to biti pozorni!
+  Ugotovite, kaj so primarni in kaj tuji ključi preostalih razpredelnic. Pri nekaterih razpredelnicah v tej zbirki bomo imeli sestavljene ključe, torej bodo ključi sestavljeni iz večih stolpcev. Namig: Pri vremenu je manjša napaka v podatkih in se tudi primarni ključ ponovi v zanemarljivem številu primerov. Vsekakor so napake v realnih podatkih pričakovane in moramo na to biti pozorni!
 \item
   Narišite relacijski diagram.
 \item
@@ -3914,6 +3912,8 @@ Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so niz
 
 \hypertarget{nizi}{%
 \section{Nizi}\label{nizi}}
+
+Poglavje o nizih.
 
 \hypertarget{kategoriux10dne-spremenljivke}{%
 \section{Kategorične spremenljivke}\label{kategoriux10dne-spremenljivke}}
@@ -4484,7 +4484,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-03 14:48:17 CEST"
+## [1] "2021-06-04 11:09:59 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4514,7 +4514,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3
+## [1] 4
 \end{verbatim}
 
 \begin{Shaded}
@@ -4524,7 +4524,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 5
+## [1] 6
 \end{verbatim}
 
 \begin{Shaded}
@@ -4534,7 +4534,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 4
+## [1] 5
 \end{verbatim}
 
 \begin{Shaded}
@@ -4544,7 +4544,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 14
+## [1] 11
 \end{verbatim}
 
 \begin{Shaded}
@@ -4554,7 +4554,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 48
+## [1] 9
 \end{verbatim}
 
 \begin{Shaded}
@@ -4564,7 +4564,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 17.67445
+## [1] 59.59935
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4577,7 +4577,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 14:48:17 CEST"
+## [1] "2021-06-05 11:09:59 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:

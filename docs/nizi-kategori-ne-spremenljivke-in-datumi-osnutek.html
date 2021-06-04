@@ -24,7 +24,7 @@
 <meta name="author" content="Gregor Pirš, Matej Pičulin in Erik Štrumbelj" />
 
 
-<meta name="date" content="2021-06-03" />
+<meta name="date" content="2021-06-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -209,7 +209,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.9.4" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#združevanja-na-realnih-podatkih"><i class="fa fa-check"></i><b>2.9.4</b> Združevanja na realnih podatkih</a></li>
 </ul></li>
 <li class="chapter" data-level="2.10" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#operacije-nad-množicami"><i class="fa fa-check"></i><b>2.10</b> Operacije nad množicami</a></li>
-<li class="chapter" data-level="2.11" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#nadaljnje-branje"><i class="fa fa-check"></i><b>2.11</b> Nadaljnje branje</a></li>
+<li class="chapter" data-level="2.11" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#ali-želite-izvedeti-več-1"><i class="fa fa-check"></i><b>2.11</b> Ali želite izvedeti več?</a></li>
 <li class="chapter" data-level="2.12" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#domača-naloga-1"><i class="fa fa-check"></i><b>2.12</b> Domača naloga</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html"><i class="fa fa-check"></i><b>3</b> Nizi, kategorične spremenljivke in datumi (OSNUTEK)</a>
@@ -257,6 +257,7 @@ div.csl-indent {
 <p>Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih funkcij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.</p>
 <div id="nizi" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Nizi</h2>
+<p>Poglavje o nizih.</p>
 </div>
 <div id="kategorične-spremenljivke" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Kategorične spremenljivke</h2>
@@ -501,27 +502,27 @@ Razvrstitev lahko uredimo tudi ročno s funkicjo <code>fct_relevel()</code>.</p>
 <p>Poglejmo sedaj kaj vračajo te funkcije:</p>
 <div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb331-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">now</span>()</span>
 <span id="cb331-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb331-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] &quot;2021-06-03 14:47:26 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2021-06-04 11:09:26 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(x)</span></code></pre></div>
 <pre><code>## [1] 2021</code></pre>
 <div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">month</span>(x)</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mday</span>(x)</span></code></pre></div>
-<pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wday</span>(x)</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wday</span>(x, <span class="at">week_start =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wday</span>(x)</span></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wday</span>(x, <span class="at">week_start =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hour</span>(x)</span></code></pre></div>
-<pre><code>## [1] 14</code></pre>
+<pre><code>## [1] 11</code></pre>
 <div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">minute</span>(x)</span></code></pre></div>
-<pre><code>## [1] 47</code></pre>
+<pre><code>## [1] 9</code></pre>
 <div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second</span>(x)</span></code></pre></div>
-<pre><code>## [1] 26.90963</code></pre>
+<pre><code>## [1] 26.27695</code></pre>
 <p>S komponentami lahko tudi spreminjamo dele časovne spremenljivke:</p>
 <div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mday</span>(x) <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb349-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi-osnutek.html#cb349-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] &quot;2021-06-05 14:47:26 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2021-06-05 11:09:26 CEST&quot;</code></pre>
 <p>Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:</p>
 <ul>
 <li><strong>trajanja</strong> (ang. duration). Čas v sekundah. Funkcije <code>dseconds()</code>, <code>dminutes()</code>, <code>ddays()</code>, <code>dweeks()</code> in <code>dyears()</code>. Pri trajanjih se vedno uporabi pretvorba, da ima vsak dan 24 ur in vsako leto 365.25 dni. Slednje predstavlja povprečno šteilo dni v letu. Tako da bo funkcija <code>dyears(4)</code> vedno vrnila število sekund, ki ustreza 4x365.25 dnem, ki imajo vsak po 24 ur.</li>
