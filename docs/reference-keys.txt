@@ -1,4 +1,4 @@
-slovnica-urejanja-podatkov
+slovnica-ravnanja-s-podatki
 priprava
 sodobna-razpredelnica-tibble
 urejeno-ovrednotenje

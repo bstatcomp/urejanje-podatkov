@@ -6,7 +6,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Slovnica urejanja podatkov
+# Slovnica ravnanja s podatki
 Pri sistematičnem delu s podatki je zelo pomembna berljivost in preglednost programske kode. Pri delu velikokrat delimo svojo programsko kodo z drugimi strokovnjaki, zato je zaželjeno, da je koda pregledna in razumljiva. Lahko se tudi zgodi, da imamo težave z razumevanjem svoje starejše kode. Zaradi tega je smiselno, da stremimo k čimvečji konsistentnosti in preglednosti. Na dolgi rok s tem prihranimo čas -- s konsistentno uporabo enakih ukazov postanemo bolj učinkoviti, prav tako pa lažje prenesemo programsko kodo iz enega problema na drugega. Naša programska koda je s tem bolj robustna in ponovljiva, kar je pomembno iz vidika iskanja napak v analizah. Dober primer konsistentnosti in razumljivosti za sporazumevanje je naraven jezik -- v kolikor dve osebi govorita enak jezik se bosta brez težav sporazumevali. Lahko si predstavljate, da ne boste imeli težav z razumevanjem teksta v slovenščini, če se bo avtor držal slovničnih in pravopisnih pravil. Tako kot se pri naravnem jeziku držimo določenih pravil, lahko podobno dosežemo tudi s programskim jezikom.
 
 V tem predavanju se bomo osredotočili na temeljne operacije, ki jih izvajamo nad podatki. Te operacije so nepogrešljive pri vsaki analizi:
@@ -17,9 +17,9 @@ V tem predavanju se bomo osredotočili na temeljne operacije, ki jih izvajamo na
 - urejanje razpredelnice glede na vrednosti stolpcev,
 - povzemanje razpredelnic, na primer povprečja in vsote.
 
-Paket **dplyr** vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Temelji na t. i. **slovnici urejanja podatkov** (ang. **grammar of data manipulation**), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku. 
+Paket **dplyr** vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Temelji na t. i. **slovnici ravnanja s podatki** (ang. **grammar of data manipulation**), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku. 
 
-Pri slovnici urejanja podatkov poznamo 5 osnovnih glagolov, s katerimi preoblikujemo podatke. Vsak glagol ustreza eni izmed temeljnih operacij, ki smo jih omenili zgoraj. Programska koda se potem bere podobno kot naravni jezik -- glagoli programskemu jeziku povedo, kaj naj s podatki naredi. Ti glagoli so implementirani v obliki funkcij:
+Pri slovnici ravnanja s podatki poznamo 5 osnovnih glagolov, s katerimi preoblikujemo podatke. Vsak glagol ustreza eni izmed temeljnih operacij, ki smo jih omenili zgoraj. Programska koda se potem bere podobno kot naravni jezik -- glagoli programskemu jeziku povedo, kaj naj s podatki naredi. Ti glagoli so implementirani v obliki funkcij:
 
 - `filter()` Izbira podmnožice vrstic glede na izbrane pogoje.
 - `select()` Izbira podmnožice stolpcev, glede na imena stolpcev.
@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 
 ## Priprava
-V pripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice urejanja podatkov. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo si podatke:
+V pripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice ravnanja s podatki. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo podatke:
 
 ```{r, message=FALSE}
 library(tidyverse)  # Nalozimo celotno zbirko paketov tidyverse.
@@ -168,7 +168,7 @@ summarise(group_by(df, panoga), max_st_zaposlenih = max(st_zaposlenih))
 
 
 ## Sodobna razpredelnica: `tibble`
-Najprej si poglejmo podatke, na katerih se bomo naučili osnovnih konceptov slovnice urejanja podatkov. V mapi *data-raw* se nahajajo podatki *DS-jobs.csv*. Gre za rezultate ankete, ki so jo v povezavi z industrijo izvedli na spletni strani Kaggle (https://www.kaggle.com/kaggle/kaggle-survey-2017) leta 2017 z namenom raziskati trg dela na področju podatkovnih ved in strojnega učenja. Podatki so shranjeni v tekstovni datoteki, kjer so elementi ločeni s podpičjem. Preberimo podatke v našo sejo R:
+Najprej si poglejmo podatke, na katerih se bomo naučili osnovnih konceptov slovnice ravnanja s podatki. V mapi *data-raw* se nahajajo podatki *DS-jobs.csv*. Gre za rezultate ankete, ki so jo v povezavi z industrijo izvedli na spletni strani Kaggle (https://www.kaggle.com/kaggle/kaggle-survey-2017) leta 2017 z namenom raziskati trg dela na področju podatkovnih ved in strojnega učenja. Podatki so shranjeni v tekstovni datoteki, kjer so elementi ločeni s podpičjem. Preberimo podatke v našo sejo R:
 
 ```{r}
 ds_jobs <- read.csv2("./data-raw/DS-jobs.csv")
@@ -189,7 +189,7 @@ Opazimo, da je oblika prikaza podatkov sedaj nekoliko drugačna. Najbolj očitna
 
 
 ## Urejeno ovrednotenje
-Preden začnemo resneje delati z glagoli slovnice urejanja podatkov, spoznajmo t. i. **urejeno ovrednotenje** (ang. **tidy evaluation**). To je posebnost tidyverse in večina glagolov v dplyr ga uporablja. Kaj pa je urejeno ovrednotenje? To je nestandarden pristop k ovrednotenju izrazov v programskem jeziku R. V predpripravi smo že srečali dva primera:
+Preden začnemo resneje delati z glagoli slovnice ravnanja s podatki, spoznajmo t. i. **urejeno ovrednotenje** (ang. **tidy evaluation**). To je posebnost tidyverse in večina glagolov v dplyr ga uporablja. Kaj pa je urejeno ovrednotenje? To je nestandarden pristop k ovrednotenju izrazov v programskem jeziku R. V pripravi smo že srečali dva primera:
 
 - Pri funkciji `filter()` ni bilo potrebno vsakič navesti `df$` za izbiro spremenljivk iz razpredelnice.
 - Pri funkciji `select()` nismo potrebovali narekovajev.
@@ -310,7 +310,7 @@ Uredimo sedaj podatke glede na leta:
 arrange(ds_jobs_tmp, Age)
 ```
 
-Opazimo, da imamo nekaj neveljavnih starosti, na primer 0 in 1, najverjetneje tudi 11. Prav tako imamo nekaj nesmiselnih vrednosti v stolpcu o plači. Pri celostni analizi bi seveda raziskali, zakaj je prišlo do takih vrednosti, oziroma bi jih izločili iz analize. Za namen spoznavanja urejanja podatkov in dplyr to ni pomembno, tako da temu ne bomo posvečali pozornosti. Bralcem pa predlagamo, naj razmislijo, kako bi se tega lotili z že naučenimi koncepti.
+Opazimo, da imamo nekaj neveljavnih starosti, na primer 0 in 1, najverjetneje tudi 11. Prav tako imamo nekaj nesmiselnih vrednosti v stolpcu o plači. Pri celostni analizi bi seveda raziskali, zakaj je prišlo do takih vrednosti, oziroma bi jih izločili iz analize. Za namen spoznavanja ravnanja s podatki in dplyr to ni pomembno, tako da temu ne bomo posvečali pozornosti. Bralcem pa predlagamo, naj razmislijo, kako bi se tega lotili z že naučenimi koncepti.
 
 Če želimo podatke urediti padajoče, potem uporabimo funkcijo `desc()`:
 
@@ -385,7 +385,7 @@ count(ds_jobs, FormalEducation, EmploymentStatus)
 
 
 ## Pipe
-V praksi urejanje podatkov zajame večino, če ne kar vseh funkcij, ki smo jih predstavili do sedaj. Če želimo sproti shranjevati naše spremembe, moramo po vsaki uporabi funkcije spremenjene podatke ponovno shraniti v spremenljivko. To lahko postane nekoliko nepregledno. Poglejmo si potek dela, kjer bomo nad osnovnimi podatki izvedli te operacije:
+V praksi ravnanje s podatki zajame večino, če ne kar vseh funkcij, ki smo jih predstavili do sedaj. Če želimo sproti shranjevati naše spremembe, moramo po vsaki uporabi funkcije spremenjene podatke ponovno shraniti v spremenljivko. To lahko postane nekoliko nepregledno. Poglejmo si potek dela, kjer bomo nad osnovnimi podatki izvedli te operacije:
 
 - Izbrali bomo vrstice, kjer so osebe starejše od 30 let in država ni `Other` ali prazen niz.
 - Izločili vse stolpce, ki vsebujejo niz `Time`.
@@ -418,7 +418,7 @@ ds_jobs2_summarised <- ds_jobs2 %>%
 ds_jobs2_summarised
 ```
 
-Sedaj smo do povzetka prišli z zaporednim izvajanjem operacij nad spremenljivko `ds_jobs`. Ta način je bolj pregleden, saj bralec kode takoj opazi, da se je vse izvajalo nad istimi podatki. Opazimo tudi, zakaj gre za **slovnico** urejanja podatkov. Programska koda zapisana zgoraj se bere skoraj kot naravni jezik. Na primer, **izberi vrstice**, kjer so leta večja od 30 in država ni v ustrezni množici. Zatem **izberi stolpce**, ki ne vsebujejo besede Time. **Dodaj** novo spremenljivko, **združi** podatke in jih **povzemi**.
+Sedaj smo do povzetka prišli z zaporednim izvajanjem operacij nad spremenljivko `ds_jobs`. Ta način je bolj pregleden, saj bralec kode takoj opazi, da se je vse izvajalo nad istimi podatki. Opazimo tudi, zakaj gre za **slovnico** ravnanja s podatki. Programska koda zapisana zgoraj se bere skoraj kot naravni jezik. Na primer, **izberi vrstice**, kjer so leta večja od 30 in država ni v ustrezni množici. Zatem **izberi stolpce**, ki ne vsebujejo besede Time. **Dodaj** novo spremenljivko, **združi** podatke in jih **povzemi**.
 
 
 ## `filter()` in `mutate()` na združenih podatkih
@@ -625,7 +625,7 @@ V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementa
 
 ## Domača naloga
 
-1) Začeli bomo z relativno preprosto nalogo, kjer bomo ponovili osnovne ukaze iz slovnice urejanja podatkov. Osnovna različica programskega jezika R že vsebuje nekatere podatkovne zbirke. Z ukazom `data()` dobimo opis vseh zbirk. V tej nalogi bomo uporabili podatkovno zbirko `mtcars`:
+1) Začeli bomo z relativno preprosto nalogo, kjer bomo ponovili osnovne ukaze iz slovnice ravnanja s podatki. Osnovna različica programskega jezika R že vsebuje nekatere podatkovne zbirke. Z ukazom `data()` dobimo opis vseh zbirk. V tej nalogi bomo uporabili podatkovno zbirko `mtcars`:
 
     ```{r}
 head(mtcars)

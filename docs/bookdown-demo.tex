@@ -212,8 +212,8 @@ Vsako poglavje ima 3 sklope:
 
 V tej knjigi bomo predelali potrebne koncepte za urejanje podatkov, kar nam bo omogočilo bolj kvalitetno in učinkovito delo s podatki. Poleg poznavanja teh orodij in konceptov pa nam analizo olajša tudi konsistenten stil programiranja. Dober stil programiranja za naše delo ni nujen, je pa vsekakor dobrodošel, saj je programska koda bolj berljiva. Zbirka paketov tidyverse ima tudi svoj \href{https://style.tidyverse.org/}{stilski vodnik}. Vsak stilski vodnik vsebuje pravila, ki so določena dokaj arbitrarno, oziroma glede na preference avtorja. Najbolj pomembno je, da smo pri pisanju programske kode konsistentni in stilski vodnik nam to nudi.
 
-\hypertarget{slovnica-urejanja-podatkov}{%
-\chapter{Slovnica urejanja podatkov}\label{slovnica-urejanja-podatkov}}
+\hypertarget{slovnica-ravnanja-s-podatki}{%
+\chapter{Slovnica ravnanja s podatki}\label{slovnica-ravnanja-s-podatki}}
 
 Pri sistematičnem delu s podatki je zelo pomembna berljivost in preglednost programske kode. Pri delu velikokrat delimo svojo programsko kodo z drugimi strokovnjaki, zato je zaželjeno, da je koda pregledna in razumljiva. Lahko se tudi zgodi, da imamo težave z razumevanjem svoje starejše kode. Zaradi tega je smiselno, da stremimo k čimvečji konsistentnosti in preglednosti. Na dolgi rok s tem prihranimo čas -- s konsistentno uporabo enakih ukazov postanemo bolj učinkoviti, prav tako pa lažje prenesemo programsko kodo iz enega problema na drugega. Naša programska koda je s tem bolj robustna in ponovljiva, kar je pomembno iz vidika iskanja napak v analizah. Dober primer konsistentnosti in razumljivosti za sporazumevanje je naraven jezik -- v kolikor dve osebi govorita enak jezik se bosta brez težav sporazumevali. Lahko si predstavljate, da ne boste imeli težav z razumevanjem teksta v slovenščini, če se bo avtor držal slovničnih in pravopisnih pravil. Tako kot se pri naravnem jeziku držimo določenih pravil, lahko podobno dosežemo tudi s programskim jezikom.
 
@@ -233,9 +233,9 @@ V tem predavanju se bomo osredotočili na temeljne operacije, ki jih izvajamo na
   povzemanje razpredelnic, na primer povprečja in vsote.
 \end{itemize}
 
-Paket \textbf{dplyr} vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Temelji na t. i. \textbf{slovnici urejanja podatkov} (ang. \textbf{grammar of data manipulation}), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku.
+Paket \textbf{dplyr} vsebuje funkcije, ki nam v primerjavi z osnovno različico R-ja, te operacije olajšajo. Temelji na t. i. \textbf{slovnici ravnanja s podatki} (ang. \textbf{grammar of data manipulation}), ki programsko kodo pretvori v nekaj podobnega naravnemu jeziku.
 
-Pri slovnici urejanja podatkov poznamo 5 osnovnih glagolov, s katerimi preoblikujemo podatke. Vsak glagol ustreza eni izmed temeljnih operacij, ki smo jih omenili zgoraj. Programska koda se potem bere podobno kot naravni jezik -- glagoli programskemu jeziku povedo, kaj naj s podatki naredi. Ti glagoli so implementirani v obliki funkcij:
+Pri slovnici ravnanja s podatki poznamo 5 osnovnih glagolov, s katerimi preoblikujemo podatke. Vsak glagol ustreza eni izmed temeljnih operacij, ki smo jih omenili zgoraj. Programska koda se potem bere podobno kot naravni jezik -- glagoli programskemu jeziku povedo, kaj naj s podatki naredi. Ti glagoli so implementirani v obliki funkcij:
 
 \begin{itemize}
 \tightlist
@@ -256,7 +256,7 @@ V tem predavanju bomo bolj podrobno spoznali vsakega izmed teh glagolov. Po tem 
 \hypertarget{priprava}{%
 \section{Priprava}\label{priprava}}
 
-V pripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice urejanja podatkov. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo si podatke:
+V pripravi se bomo naučili osnovnih klicev petih glagolov iz slovnice ravnanja s podatki. Hkrati bomo primerjali osnovno različico R-ja z uporabo paketa dplyr. Pripravimo podatke:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -531,7 +531,7 @@ Z uporabo dplyr:
 \hypertarget{sodobna-razpredelnica-tibble}{%
 \section{\texorpdfstring{Sodobna razpredelnica: \texttt{tibble}}{Sodobna razpredelnica: tibble}}\label{sodobna-razpredelnica-tibble}}
 
-Najprej si poglejmo podatke, na katerih se bomo naučili osnovnih konceptov slovnice urejanja podatkov. V mapi \emph{data-raw} se nahajajo podatki \emph{DS-jobs.csv}. Gre za rezultate ankete, ki so jo v povezavi z industrijo izvedli na spletni strani Kaggle (\url{https://www.kaggle.com/kaggle/kaggle-survey-2017}) leta 2017 z namenom raziskati trg dela na področju podatkovnih ved in strojnega učenja. Podatki so shranjeni v tekstovni datoteki, kjer so elementi ločeni s podpičjem. Preberimo podatke v našo sejo R:
+Najprej si poglejmo podatke, na katerih se bomo naučili osnovnih konceptov slovnice ravnanja s podatki. V mapi \emph{data-raw} se nahajajo podatki \emph{DS-jobs.csv}. Gre za rezultate ankete, ki so jo v povezavi z industrijo izvedli na spletni strani Kaggle (\url{https://www.kaggle.com/kaggle/kaggle-survey-2017}) leta 2017 z namenom raziskati trg dela na področju podatkovnih ved in strojnega učenja. Podatki so shranjeni v tekstovni datoteki, kjer so elementi ločeni s podpičjem. Preberimo podatke v našo sejo R:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -623,7 +623,7 @@ Opazimo, da je oblika prikaza podatkov sedaj nekoliko drugačna. Najbolj očitna
 \hypertarget{urejeno-ovrednotenje}{%
 \section{Urejeno ovrednotenje}\label{urejeno-ovrednotenje}}
 
-Preden začnemo resneje delati z glagoli slovnice urejanja podatkov, spoznajmo t. i. \textbf{urejeno ovrednotenje} (ang. \textbf{tidy evaluation}). To je posebnost tidyverse in večina glagolov v dplyr ga uporablja. Kaj pa je urejeno ovrednotenje? To je nestandarden pristop k ovrednotenju izrazov v programskem jeziku R. V predpripravi smo že srečali dva primera:
+Preden začnemo resneje delati z glagoli slovnice ravnanja s podatki, spoznajmo t. i. \textbf{urejeno ovrednotenje} (ang. \textbf{tidy evaluation}). To je posebnost tidyverse in večina glagolov v dplyr ga uporablja. Kaj pa je urejeno ovrednotenje? To je nestandarden pristop k ovrednotenju izrazov v programskem jeziku R. V pripravi smo že srečali dva primera:
 
 \begin{itemize}
 \tightlist
@@ -965,7 +965,7 @@ Uredimo sedaj podatke glede na leta:
 ## # ... with 3,771 more rows
 \end{verbatim}
 
-Opazimo, da imamo nekaj neveljavnih starosti, na primer 0 in 1, najverjetneje tudi 11. Prav tako imamo nekaj nesmiselnih vrednosti v stolpcu o plači. Pri celostni analizi bi seveda raziskali, zakaj je prišlo do takih vrednosti, oziroma bi jih izločili iz analize. Za namen spoznavanja urejanja podatkov in dplyr to ni pomembno, tako da temu ne bomo posvečali pozornosti. Bralcem pa predlagamo, naj razmislijo, kako bi se tega lotili z že naučenimi koncepti.
+Opazimo, da imamo nekaj neveljavnih starosti, na primer 0 in 1, najverjetneje tudi 11. Prav tako imamo nekaj nesmiselnih vrednosti v stolpcu o plači. Pri celostni analizi bi seveda raziskali, zakaj je prišlo do takih vrednosti, oziroma bi jih izločili iz analize. Za namen spoznavanja ravnanja s podatki in dplyr to ni pomembno, tako da temu ne bomo posvečali pozornosti. Bralcem pa predlagamo, naj razmislijo, kako bi se tega lotili z že naučenimi koncepti.
 
 Če želimo podatke urediti padajoče, potem uporabimo funkcijo \texttt{desc()}:
 
@@ -1197,7 +1197,7 @@ Ker je štetje primerov zelo pogosta operacija, obstaja tudi funkcija \texttt{co
 \hypertarget{pipe}{%
 \section{Pipe}\label{pipe}}
 
-V praksi urejanje podatkov zajame večino, če ne kar vseh funkcij, ki smo jih predstavili do sedaj. Če želimo sproti shranjevati naše spremembe, moramo po vsaki uporabi funkcije spremenjene podatke ponovno shraniti v spremenljivko. To lahko postane nekoliko nepregledno. Poglejmo si potek dela, kjer bomo nad osnovnimi podatki izvedli te operacije:
+V praksi ravnanje s podatki zajame večino, če ne kar vseh funkcij, ki smo jih predstavili do sedaj. Če želimo sproti shranjevati naše spremembe, moramo po vsaki uporabi funkcije spremenjene podatke ponovno shraniti v spremenljivko. To lahko postane nekoliko nepregledno. Poglejmo si potek dela, kjer bomo nad osnovnimi podatki izvedli te operacije:
 
 \begin{itemize}
 \tightlist
@@ -1275,7 +1275,7 @@ Pri računanju povprečja smo uporabili argument \texttt{na.rm\ =\ T}, s katerim
 ## # ... with 41 more rows
 \end{verbatim}
 
-Sedaj smo do povzetka prišli z zaporednim izvajanjem operacij nad spremenljivko \texttt{ds\_jobs}. Ta način je bolj pregleden, saj bralec kode takoj opazi, da se je vse izvajalo nad istimi podatki. Opazimo tudi, zakaj gre za \textbf{slovnico} urejanja podatkov. Programska koda zapisana zgoraj se bere skoraj kot naravni jezik. Na primer, \textbf{izberi vrstice}, kjer so leta večja od 30 in država ni v ustrezni množici. Zatem \textbf{izberi stolpce}, ki ne vsebujejo besede Time. \textbf{Dodaj} novo spremenljivko, \textbf{združi} podatke in jih \textbf{povzemi}.
+Sedaj smo do povzetka prišli z zaporednim izvajanjem operacij nad spremenljivko \texttt{ds\_jobs}. Ta način je bolj pregleden, saj bralec kode takoj opazi, da se je vse izvajalo nad istimi podatki. Opazimo tudi, zakaj gre za \textbf{slovnico} ravnanja s podatki. Programska koda zapisana zgoraj se bere skoraj kot naravni jezik. Na primer, \textbf{izberi vrstice}, kjer so leta večja od 30 in država ni v ustrezni množici. Zatem \textbf{izberi stolpce}, ki ne vsebujejo besede Time. \textbf{Dodaj} novo spremenljivko, \textbf{združi} podatke in jih \textbf{povzemi}.
 
 \hypertarget{filter-in-mutate-na-zdruux17eenih-podatkih}{%
 \section{\texorpdfstring{\texttt{filter()} in \texttt{mutate()} na združenih podatkih}{filter() in mutate() na združenih podatkih}}\label{filter-in-mutate-na-zdruux17eenih-podatkih}}
@@ -1854,7 +1854,7 @@ V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementa
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
 \item
-  Začeli bomo z relativno preprosto nalogo, kjer bomo ponovili osnovne ukaze iz slovnice urejanja podatkov. Osnovna različica programskega jezika R že vsebuje nekatere podatkovne zbirke. Z ukazom \texttt{data()} dobimo opis vseh zbirk. V tej nalogi bomo uporabili podatkovno zbirko \texttt{mtcars}:
+  Začeli bomo z relativno preprosto nalogo, kjer bomo ponovili osnovne ukaze iz slovnice ravnanja s podatki. Osnovna različica programskega jezika R že vsebuje nekatere podatkovne zbirke. Z ukazom \texttt{data()} dobimo opis vseh zbirk. V tej nalogi bomo uporabili podatkovno zbirko \texttt{mtcars}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4506,7 +4506,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-07 15:05:32 CEST"
+## [1] "2021-06-07 15:47:50 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4576,7 +4576,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 5
+## [1] 47
 \end{verbatim}
 
 \begin{Shaded}
@@ -4586,7 +4586,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 32.95986
+## [1] 50.97571
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4599,7 +4599,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 15:05:32 CEST"
+## [1] "2021-06-05 15:47:50 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:
