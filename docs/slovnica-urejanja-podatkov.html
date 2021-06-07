@@ -24,7 +24,7 @@
 <meta name="author" content="Gregor Pirš, Matej Pičulin in Erik Štrumbelj" />
 
 
-<meta name="date" content="2021-06-04" />
+<meta name="date" content="2021-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -675,7 +675,7 @@ $(document).ready(function() {
 ## 10 Poland       29 Employed full-time      Software Developer~ Python           
 ## # ... with 3,771 more rows, and 2 more variables: FormalEducation &lt;chr&gt;,
 ## #   Major &lt;chr&gt;</code></pre>
-<p>Izberimo vse stolpce, ki se začnejo z besedo <code>Time</code>. Za to bomo uporabili funkcijo <code>starts_with()</code>. Ta funkcija je t. i. <em>selection helper</em>, kar pomeni, da jo lahko uporabimo le znotraj funkcij, ki omogočajo urejeno ovrednotenje in nam omogoča lažjo izbiro na podlagi nekega pogoja. V tem primeru je ta pogoj, da se beseda začne na določen niz:</p>
+<p>Izberimo vse stolpce, ki se začnejo z besedo <code>Time</code>. Za to bomo uporabili funkcijo <code>starts_with()</code>. Ta funkcija je t. i. <em>selection helper</em>, kar pomeni, da jo lahko uporabimo le znotraj funkcij, ki omogočajo urejeno izbiro in nam omogoča lažjo izbiro na podlagi nekega pogoja. V tem primeru je ta pogoj, da se beseda začne na določen niz:</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="slovnica-urejanja-podatkov.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ds_jobs, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 3,781 x 6
 ##    TimeGatheringData TimeModelBuilding TimeProduction TimeVisualizing
@@ -703,7 +703,7 @@ $(document).ready(function() {
 <div id="urejanje-vrstic-z-arrange" class="section level2" number="1.6">
 <h2><span class="header-section-number">1.6</span> Urejanje vrstic z <code>arrange()</code></h2>
 <p>Vrstice lahko tudi uredimo glede na vrednosti v posameznih stolpcih. Za to uporabimo funkcijo <code>arrange()</code>. Sintaksa te funkcije je:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="slovnica-urejanja-podatkov.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="sc">&lt;</span>tibble<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec2<span class="sc">&gt;</span>, ...)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="slovnica-urejanja-podatkov.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(<span class="sc">&lt;</span>tibble<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec2<span class="sc">&gt;</span>, ...)</span></code></pre></div>
 <p>kjer stolpci predstavljajo vrednosti, po katerih želimo urediti tibble.</p>
 <p>Ustvarimo najprej nov tibble, v katerem bomo izbrali podmnožico stolpcev.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="slovnica-urejanja-podatkov.html#cb54-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_tmp <span class="ot">&lt;-</span> <span class="fu">select</span>(ds_jobs, CurrentJobTitle, Country, </span>
@@ -1108,7 +1108,7 @@ z_i = \frac{x_i - \bar{x}}{S_x},
 ## i `TimeTotal = sum(starts_with(&quot;Time&quot;), na.rm = T)`.
 ## x `starts_with()` must be used within a *selecting* function.
 ## i See &lt;https://tidyselect.r-lib.org/reference/faq-selection-context.html&gt;.</code></pre>
-<p>R vrne napako in nas opozori, da se lahko <code>starts_with()</code> uporabi le znotraj izbire. Če želimo v tem primeru omogočiti tidy izbiro stolpcev, uporabimo funkcijo <code>c_across()</code>. Ta funkcija je po funkcionalnosti bolj podobna funkciji <code>c()</code> ali <code>select()</code>, kot pa funkciji <code>across()</code>, tako da jih ne smemo zamenjati:</p>
+<p>R vrne napako in nas opozori, da se lahko <code>starts_with()</code> uporabi le znotraj izbire. Če želimo v tem primeru omogočiti urejeno izbiro stolpcev, uporabimo funkcijo <code>c_across()</code>. Ta funkcija je po funkcionalnosti bolj podobna funkciji <code>c()</code> ali <code>select()</code>, kot pa funkciji <code>across()</code>, tako da jih ne smemo zamenjati:</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="slovnica-urejanja-podatkov.html#cb103-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb103-2"><a href="slovnica-urejanja-podatkov.html#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, CurrentJobTitle, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb103-3"><a href="slovnica-urejanja-podatkov.html#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TotalTime =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
@@ -1127,7 +1127,7 @@ z_i = \frac{x_i - \bar{x}}{S_x},
 ##  9 Germany        Data Scientist                          375462
 ## 10 Poland         Software Developer/Software Engineer    375462
 ## # ... with 3,771 more rows</code></pre>
-<p>Sedaj smo dobili nek rezultat, ki pa še vedno ni pravilen. V čem je težava? Če <code>sum()</code> uporabimo znotraj <code>mutate()</code>, ta vrne vsoto znotraj skupin, določenih z <code>group_by()</code>. Ker podatkov nismo grupirali, vrne vsoto kar čez celotne podatke (bralca vzpodbujamo, da to preveri tudi sam). Rešitev se torej skriva v ustreznem združevanju vrstic. V dplyr obstaja funkcija, ki celoten tibble grupira po posameznih vrsticah in to je <code>rowwise()</code>:</p>
+<p>Sedaj smo dobili nek rezultat, ki pa še vedno ni pravilen. V čem je težava? Če <code>sum()</code> uporabimo znotraj <code>mutate()</code>, ta vrne vsoto znotraj skupin, določenih z <code>group_by()</code>. Ker podatkov nismo grupirali, vrne vsoto kar čez celotne podatke. Rešitev se torej skriva v ustreznem združevanju vrstic. V dplyr obstaja funkcija, ki celoten tibble grupira po posameznih vrsticah in to je <code>rowwise()</code>:</p>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="slovnica-urejanja-podatkov.html#cb105-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb105-2"><a href="slovnica-urejanja-podatkov.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Country, CurrentJobTitle, <span class="fu">starts_with</span>(<span class="st">&quot;Time&quot;</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb105-3"><a href="slovnica-urejanja-podatkov.html#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
@@ -1299,7 +1299,7 @@ z_i = \frac{x_i - \bar{x}}{S_x},
 </div>
 <div id="ali-želite-izvedeti-več" class="section level2" number="1.15">
 <h2><span class="header-section-number">1.15</span> Ali želite izvedeti več?</h2>
-<p>V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementacijo v R paketu dplyr. Opis vseh funkcij v dplyr najdemo tukaj: <a href="https://dplyr.tidyverse.org/reference/index.html" class="uri">https://dplyr.tidyverse.org/reference/index.html</a>. Jedrnat povzetek pa je na voljo tukaj: <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf" class="uri">https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf</a>.</p>
+<p>V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementacijo v R paketu dplyr. Opis vseh funkcij v dplyr najdemo tukaj: <a href="https://dplyr.tidyverse.org/reference/index.html" class="uri">https://dplyr.tidyverse.org/reference/index.html</a>. Jedrnat povzetek pa je na voljo tukaj, pod poglavjem Data Transformation Cheatsheet: <a href="https://www.rstudio.com/resources/cheatsheets/" class="uri">https://www.rstudio.com/resources/cheatsheets/</a>.</p>
 </div>
 <div id="domača-naloga" class="section level2" number="1.16">
 <h2><span class="header-section-number">1.16</span> Domača naloga</h2>
@@ -1389,8 +1389,24 @@ z_i = \frac{x_i - \bar{x}}{S_x},
 ## 10     1     0     4     4
 ## # ... with 22 more rows</code></pre>
 <ul>
-<li><p>V tibble <code>mtcars_tib</code> dodajte stolpca, kjer bosta izračunani število litrov na 100 kilometrov in teža v kilogramih (v tisočicah). 1 milja je približno 1.61 kilometra, 1 galona 3.79 litra in 1 funt 0.45 kilograma.</p></li>
-<li><p>Izračunajte povprečno porabo avtomobilov v odvisnosti števila cilindrov.</p></li>
+<li>V tibble <code>mtcars_tib</code> dodajte stolpca, kjer bosta izračunani število litrov na 100 kilometrov in teža v kilogramih (v tisočicah). 1 milja je približno 1.61 kilometra, 1 galona 3.79 litra in 1 funt 0.45 kilograma.</li>
+</ul>
+<pre><code>## # A tibble: 32 x 13
+##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb lp100km
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4   11.2 
+##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4   11.2 
+##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1   10.3 
+##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1   11.0 
+##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2   12.6 
+##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1   13.0 
+##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4   16.5 
+##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2    9.65
+##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2   10.3 
+## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4   12.3 
+## # ... with 22 more rows, and 1 more variable: wt_in_kg &lt;dbl&gt;</code></pre>
+<ul>
+<li>Izračunajte povprečno porabo avtomobilov v odvisnosti števila cilindrov.</li>
 </ul>
 <pre><code>## # A tibble: 3 x 2
 ##     cyl mean_mpg

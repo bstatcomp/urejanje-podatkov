@@ -124,7 +124,7 @@
 
 \title{Urejanje podatkov}
 \author{Gregor Pirš, Matej Pičulin in Erik Štrumbelj}
-\date{2021-06-04}
+\date{2021-06-07}
 
 \begin{document}
 \maketitle
@@ -878,7 +878,7 @@ Izberimo vse stolpce med \texttt{Country} in \texttt{Major}. Podobno kot v R \te
 ## #   Major <chr>
 \end{verbatim}
 
-Izberimo vse stolpce, ki se začnejo z besedo \texttt{Time}. Za to bomo uporabili funkcijo \texttt{starts\_with()}. Ta funkcija je t. i. \emph{selection helper}, kar pomeni, da jo lahko uporabimo le znotraj funkcij, ki omogočajo urejeno ovrednotenje in nam omogoča lažjo izbiro na podlagi nekega pogoja. V tem primeru je ta pogoj, da se beseda začne na določen niz:
+Izberimo vse stolpce, ki se začnejo z besedo \texttt{Time}. Za to bomo uporabili funkcijo \texttt{starts\_with()}. Ta funkcija je t. i. \emph{selection helper}, kar pomeni, da jo lahko uporabimo le znotraj funkcij, ki omogočajo urejeno izbiro in nam omogoča lažjo izbiro na podlagi nekega pogoja. V tem primeru je ta pogoj, da se beseda začne na določen niz:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -925,7 +925,7 @@ Vrstice lahko tudi uredimo glede na vrednosti v posameznih stolpcih. Za to upora
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{filter}\NormalTok{(}\SpecialCharTok{\textless{}}\NormalTok{tibble}\SpecialCharTok{\textgreater{}}\NormalTok{, }\SpecialCharTok{\textless{}}\NormalTok{stolpec1}\SpecialCharTok{\textgreater{}}\NormalTok{, }\SpecialCharTok{\textless{}}\NormalTok{stolpec2}\SpecialCharTok{\textgreater{}}\NormalTok{, ...)}
+\FunctionTok{arrange}\NormalTok{(}\SpecialCharTok{\textless{}}\NormalTok{tibble}\SpecialCharTok{\textgreater{}}\NormalTok{, }\SpecialCharTok{\textless{}}\NormalTok{stolpec1}\SpecialCharTok{\textgreater{}}\NormalTok{, }\SpecialCharTok{\textless{}}\NormalTok{stolpec2}\SpecialCharTok{\textgreater{}}\NormalTok{, ...)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1573,7 +1573,7 @@ Sicer je to v našem primeru bilo izvedljivo, saj smo imeli samo 6 stolpcev. Kak
 ## i See <https://tidyselect.r-lib.org/reference/faq-selection-context.html>.
 \end{verbatim}
 
-R vrne napako in nas opozori, da se lahko \texttt{starts\_with()} uporabi le znotraj izbire. Če želimo v tem primeru omogočiti tidy izbiro stolpcev, uporabimo funkcijo \texttt{c\_across()}. Ta funkcija je po funkcionalnosti bolj podobna funkciji \texttt{c()} ali \texttt{select()}, kot pa funkciji \texttt{across()}, tako da jih ne smemo zamenjati:
+R vrne napako in nas opozori, da se lahko \texttt{starts\_with()} uporabi le znotraj izbire. Če želimo v tem primeru omogočiti urejeno izbiro stolpcev, uporabimo funkcijo \texttt{c\_across()}. Ta funkcija je po funkcionalnosti bolj podobna funkciji \texttt{c()} ali \texttt{select()}, kot pa funkciji \texttt{across()}, tako da jih ne smemo zamenjati:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1601,7 +1601,7 @@ R vrne napako in nas opozori, da se lahko \texttt{starts\_with()} uporabi le zno
 ## # ... with 3,771 more rows
 \end{verbatim}
 
-Sedaj smo dobili nek rezultat, ki pa še vedno ni pravilen. V čem je težava? Če \texttt{sum()} uporabimo znotraj \texttt{mutate()}, ta vrne vsoto znotraj skupin, določenih z \texttt{group\_by()}. Ker podatkov nismo grupirali, vrne vsoto kar čez celotne podatke (bralca vzpodbujamo, da to preveri tudi sam). Rešitev se torej skriva v ustreznem združevanju vrstic. V dplyr obstaja funkcija, ki celoten tibble grupira po posameznih vrsticah in to je \texttt{rowwise()}:
+Sedaj smo dobili nek rezultat, ki pa še vedno ni pravilen. V čem je težava? Če \texttt{sum()} uporabimo znotraj \texttt{mutate()}, ta vrne vsoto znotraj skupin, določenih z \texttt{group\_by()}. Ker podatkov nismo grupirali, vrne vsoto kar čez celotne podatke. Rešitev se torej skriva v ustreznem združevanju vrstic. V dplyr obstaja funkcija, ki celoten tibble grupira po posameznih vrsticah in to je \texttt{rowwise()}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1846,7 +1846,7 @@ Opazimo, da je ta novi tibble grupiran samo po spremenljivki \texttt{FormalEduca
 \hypertarget{ali-ux17eelite-izvedeti-veux10d}{%
 \section{Ali želite izvedeti več?}\label{ali-ux17eelite-izvedeti-veux10d}}
 
-V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementacijo v R paketu dplyr. Opis vseh funkcij v dplyr najdemo tukaj: \url{https://dplyr.tidyverse.org/reference/index.html}. Jedrnat povzetek pa je na voljo tukaj: \url{https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf}.
+V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementacijo v R paketu dplyr. Opis vseh funkcij v dplyr najdemo tukaj: \url{https://dplyr.tidyverse.org/reference/index.html}. Jedrnat povzetek pa je na voljo tukaj, pod poglavjem Data Transformation Cheatsheet: \url{https://www.rstudio.com/resources/cheatsheets/}.
 
 \hypertarget{domaux10da-naloga}{%
 \section{Domača naloga}\label{domaux10da-naloga}}
@@ -1974,8 +1974,30 @@ V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementa
 \end{verbatim}
 
   \begin{itemize}
+  \tightlist
   \item
     V tibble \texttt{mtcars\_tib} dodajte stolpca, kjer bosta izračunani število litrov na 100 kilometrov in teža v kilogramih (v tisočicah). 1 milja je približno 1.61 kilometra, 1 galona 3.79 litra in 1 funt 0.45 kilograma.
+  \end{itemize}
+
+\begin{verbatim}
+## # A tibble: 32 x 13
+##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb lp100km
+##    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>
+##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4   11.2 
+##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4   11.2 
+##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1   10.3 
+##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1   11.0 
+##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2   12.6 
+##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1   13.0 
+##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4   16.5 
+##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2    9.65
+##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2   10.3 
+## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4   12.3 
+## # ... with 22 more rows, and 1 more variable: wt_in_kg <dbl>
+\end{verbatim}
+
+  \begin{itemize}
+  \tightlist
   \item
     Izračunajte povprečno porabo avtomobilov v odvisnosti števila cilindrov.
   \end{itemize}
@@ -4484,7 +4506,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-04 11:09:59 CEST"
+## [1] "2021-06-07 15:05:32 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4514,7 +4536,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 4
+## [1] 7
 \end{verbatim}
 
 \begin{Shaded}
@@ -4524,7 +4546,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 6
+## [1] 2
 \end{verbatim}
 
 \begin{Shaded}
@@ -4534,7 +4556,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 5
+## [1] 1
 \end{verbatim}
 
 \begin{Shaded}
@@ -4544,7 +4566,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 11
+## [1] 15
 \end{verbatim}
 
 \begin{Shaded}
@@ -4554,7 +4576,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 9
+## [1] 5
 \end{verbatim}
 
 \begin{Shaded}
@@ -4564,7 +4586,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 59.59935
+## [1] 32.95986
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4577,7 +4599,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 11:09:59 CEST"
+## [1] "2021-06-05 15:05:32 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:

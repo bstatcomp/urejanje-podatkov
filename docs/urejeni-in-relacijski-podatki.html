@@ -24,7 +24,7 @@
 <meta name="author" content="Gregor Pirš, Matej Pičulin in Erik Štrumbelj" />
 
 
-<meta name="date" content="2021-06-04" />
+<meta name="date" content="2021-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -261,12 +261,12 @@ div.csl-indent {
 <h2><span class="header-section-number">2.1</span> Priprava</h2>
 <p>V tem poglavju bomo spoznali, kako podatke pretvorimo iz daljše v krajšo obliko (in obratno) ter kako delamo z relacijskimi podatki. Kaj vsi ti koncepti pomenijo in kako so povezani z urejenimi podatki, bomo predelali v jedru poglavja.</p>
 <p>Pri pretvorbi podatkov v daljšo obliko gre za pretvorbo, kjer vrednosti večih stolpcev združimo v en stolpec. Poglejmo si razpredelnico, kjer imamo shranjene podatke za več let:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="urejeni-in-relacijski-podatki.html#cb137-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb137-2"><a href="urejeni-in-relacijski-podatki.html#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Mojca&quot;</span>, <span class="st">&quot;Miha&quot;</span>, <span class="st">&quot;Mateja&quot;</span>),</span>
-<span id="cb137-3"><a href="urejeni-in-relacijski-podatki.html#cb137-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">2018</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.6</span>, <span class="fl">8.7</span>),</span>
-<span id="cb137-4"><a href="urejeni-in-relacijski-podatki.html#cb137-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">2019</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">5.8</span>, <span class="fl">4.2</span>, <span class="dv">9</span>)</span>
-<span id="cb137-5"><a href="urejeni-in-relacijski-podatki.html#cb137-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb137-6"><a href="urejeni-in-relacijski-podatki.html#cb137-6" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="urejeni-in-relacijski-podatki.html#cb138-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb138-2"><a href="urejeni-in-relacijski-podatki.html#cb138-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Mojca&quot;</span>, <span class="st">&quot;Miha&quot;</span>, <span class="st">&quot;Mateja&quot;</span>),</span>
+<span id="cb138-3"><a href="urejeni-in-relacijski-podatki.html#cb138-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">2018</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.6</span>, <span class="fl">8.7</span>),</span>
+<span id="cb138-4"><a href="urejeni-in-relacijski-podatki.html#cb138-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">2019</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">5.8</span>, <span class="fl">4.2</span>, <span class="dv">9</span>)</span>
+<span id="cb138-5"><a href="urejeni-in-relacijski-podatki.html#cb138-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb138-6"><a href="urejeni-in-relacijski-podatki.html#cb138-6" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 3
 ##   ime    `2018` `2019`
 ##   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;
@@ -274,8 +274,8 @@ div.csl-indent {
 ## 2 Miha      4.6    4.2
 ## 3 Mateja    8.7    9</code></pre>
 <p>Recimo, da želimo stolpca z leti spraviti v en stolpec. Uporabimo funkcijo <code>pivot_longer()</code>.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="urejeni-in-relacijski-podatki.html#cb139-1" aria-hidden="true" tabindex="-1"></a>df_longer <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(df, <span class="fu">c</span>(<span class="st">`</span><span class="at">2018</span><span class="st">`</span>, <span class="st">`</span><span class="at">2019</span><span class="st">`</span>), <span class="at">names_to =</span> <span class="st">&quot;leto&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;rezultat&quot;</span>)</span>
-<span id="cb139-2"><a href="urejeni-in-relacijski-podatki.html#cb139-2" aria-hidden="true" tabindex="-1"></a>df_longer</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="urejeni-in-relacijski-podatki.html#cb140-1" aria-hidden="true" tabindex="-1"></a>df_longer <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(df, <span class="fu">c</span>(<span class="st">`</span><span class="at">2018</span><span class="st">`</span>, <span class="st">`</span><span class="at">2019</span><span class="st">`</span>), <span class="at">names_to =</span> <span class="st">&quot;leto&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;rezultat&quot;</span>)</span>
+<span id="cb140-2"><a href="urejeni-in-relacijski-podatki.html#cb140-2" aria-hidden="true" tabindex="-1"></a>df_longer</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   ime    leto  rezultat
 ##   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;
@@ -286,21 +286,21 @@ div.csl-indent {
 ## 5 Mateja 2018       8.7
 ## 6 Mateja 2019       9</code></pre>
 <p>Lahko naredimo tudi obratno transformacijo, torej da vrednosti enega stolpca razširimo v več stolpcev. Na primer, razširimo stolpec <code>ime</code>:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="urejeni-in-relacijski-podatki.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_wider</span>(df_longer, <span class="at">names_from =</span> <span class="st">&quot;ime&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;rezultat&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="urejeni-in-relacijski-podatki.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_wider</span>(df_longer, <span class="at">names_from =</span> <span class="st">&quot;ime&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;rezultat&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 4
 ##   leto  Mojca  Miha Mateja
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 ## 1 2018    5.5   4.6    8.7
 ## 2 2019    5.8   4.2    9</code></pre>
 <p><strong>Naloga</strong>: Spodnjo razpredelnico transformirajte v daljšo obliko, tako da informacije o številu oddelkov shranite v 1 stolpec.</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="urejeni-in-relacijski-podatki.html#cb143-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb143-2"><a href="urejeni-in-relacijski-podatki.html#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">podjetje =</span> <span class="fu">c</span>(<span class="st">&quot;Podjetje A&quot;</span>, <span class="st">&quot;Podjetje A&quot;</span>, <span class="st">&quot;Podjetje B&quot;</span>),</span>
-<span id="cb143-3"><a href="urejeni-in-relacijski-podatki.html#cb143-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">kraj_tovarne =</span> <span class="fu">c</span>(<span class="st">&quot;Koper&quot;</span>, <span class="st">&quot;Kranj&quot;</span>, <span class="st">&quot;Koper&quot;</span>),</span>
-<span id="cb143-4"><a href="urejeni-in-relacijski-podatki.html#cb143-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prihodek =</span> <span class="fu">c</span>(<span class="dv">100000</span>, <span class="dv">120000</span>, <span class="dv">60000</span>),</span>
-<span id="cb143-5"><a href="urejeni-in-relacijski-podatki.html#cb143-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">razvojni_oddelki =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>),</span>
-<span id="cb143-6"><a href="urejeni-in-relacijski-podatki.html#cb143-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">prodajni_oddelki =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
-<span id="cb143-7"><a href="urejeni-in-relacijski-podatki.html#cb143-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb143-8"><a href="urejeni-in-relacijski-podatki.html#cb143-8" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="urejeni-in-relacijski-podatki.html#cb144-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb144-2"><a href="urejeni-in-relacijski-podatki.html#cb144-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">podjetje =</span> <span class="fu">c</span>(<span class="st">&quot;Podjetje A&quot;</span>, <span class="st">&quot;Podjetje A&quot;</span>, <span class="st">&quot;Podjetje B&quot;</span>),</span>
+<span id="cb144-3"><a href="urejeni-in-relacijski-podatki.html#cb144-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">kraj_tovarne =</span> <span class="fu">c</span>(<span class="st">&quot;Koper&quot;</span>, <span class="st">&quot;Kranj&quot;</span>, <span class="st">&quot;Koper&quot;</span>),</span>
+<span id="cb144-4"><a href="urejeni-in-relacijski-podatki.html#cb144-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prihodek =</span> <span class="fu">c</span>(<span class="dv">100000</span>, <span class="dv">120000</span>, <span class="dv">60000</span>),</span>
+<span id="cb144-5"><a href="urejeni-in-relacijski-podatki.html#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">razvojni_oddelki =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb144-6"><a href="urejeni-in-relacijski-podatki.html#cb144-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">prodajni_oddelki =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb144-7"><a href="urejeni-in-relacijski-podatki.html#cb144-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb144-8"><a href="urejeni-in-relacijski-podatki.html#cb144-8" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   podjetje   kraj_tovarne prihodek razvojni_oddelki prodajni_oddelki
 ##   &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
@@ -318,16 +318,16 @@ div.csl-indent {
 ## 5 Podjetje B Koper           60000 razvojni_oddelki                1
 ## 6 Podjetje B Koper           60000 prodajni_oddelki                2</code></pre>
 <p>Spoznali bomo tudi relacijske podatke, pri katerih so podatki razdeljeni med več razpredelnic. Zato bomo potrebovali več funkcij, ki nam omogočajo združevanje teh razpredelnic. Poglejmo si dve razpredelnici:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="urejeni-in-relacijski-podatki.html#cb146-1" aria-hidden="true" tabindex="-1"></a>ekipe <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb146-2"><a href="urejeni-in-relacijski-podatki.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_ekipe =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
-<span id="cb146-3"><a href="urejeni-in-relacijski-podatki.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ekipa =</span> <span class="fu">c</span>(<span class="st">&quot;Liverpool&quot;</span>, <span class="st">&quot;Manchester United&quot;</span>, <span class="st">&quot;Arsenal&quot;</span>, <span class="st">&quot;Rokova ekipa&quot;</span>)</span>
-<span id="cb146-4"><a href="urejeni-in-relacijski-podatki.html#cb146-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb146-5"><a href="urejeni-in-relacijski-podatki.html#cb146-5" aria-hidden="true" tabindex="-1"></a>igralci <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb146-6"><a href="urejeni-in-relacijski-podatki.html#cb146-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_igralca =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>),</span>
-<span id="cb146-7"><a href="urejeni-in-relacijski-podatki.html#cb146-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Henderson&quot;</span>, <span class="st">&quot;Fernandes&quot;</span>, <span class="st">&quot;Alisson&quot;</span>, <span class="st">&quot;Rashford&quot;</span>, <span class="st">&quot;Novak&quot;</span>, <span class="st">&quot;Aubameyang&quot;</span>, <span class="st">&quot;Vega&quot;</span>),</span>
-<span id="cb146-8"><a href="urejeni-in-relacijski-podatki.html#cb146-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_ekipe =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">8</span>)</span>
-<span id="cb146-9"><a href="urejeni-in-relacijski-podatki.html#cb146-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb146-10"><a href="urejeni-in-relacijski-podatki.html#cb146-10" aria-hidden="true" tabindex="-1"></a>ekipe</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="urejeni-in-relacijski-podatki.html#cb147-1" aria-hidden="true" tabindex="-1"></a>ekipe <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb147-2"><a href="urejeni-in-relacijski-podatki.html#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_ekipe =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb147-3"><a href="urejeni-in-relacijski-podatki.html#cb147-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ekipa =</span> <span class="fu">c</span>(<span class="st">&quot;Liverpool&quot;</span>, <span class="st">&quot;Manchester United&quot;</span>, <span class="st">&quot;Arsenal&quot;</span>, <span class="st">&quot;Rokova ekipa&quot;</span>)</span>
+<span id="cb147-4"><a href="urejeni-in-relacijski-podatki.html#cb147-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb147-5"><a href="urejeni-in-relacijski-podatki.html#cb147-5" aria-hidden="true" tabindex="-1"></a>igralci <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb147-6"><a href="urejeni-in-relacijski-podatki.html#cb147-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_igralca =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>),</span>
+<span id="cb147-7"><a href="urejeni-in-relacijski-podatki.html#cb147-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Henderson&quot;</span>, <span class="st">&quot;Fernandes&quot;</span>, <span class="st">&quot;Alisson&quot;</span>, <span class="st">&quot;Rashford&quot;</span>, <span class="st">&quot;Novak&quot;</span>, <span class="st">&quot;Aubameyang&quot;</span>, <span class="st">&quot;Vega&quot;</span>),</span>
+<span id="cb147-8"><a href="urejeni-in-relacijski-podatki.html#cb147-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_ekipe =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">8</span>)</span>
+<span id="cb147-9"><a href="urejeni-in-relacijski-podatki.html#cb147-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb147-10"><a href="urejeni-in-relacijski-podatki.html#cb147-10" aria-hidden="true" tabindex="-1"></a>ekipe</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   id_ekipe ekipa            
 ##      &lt;dbl&gt; &lt;chr&gt;            
@@ -335,7 +335,7 @@ div.csl-indent {
 ## 2        2 Manchester United
 ## 3        3 Arsenal          
 ## 4        4 Rokova ekipa</code></pre>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="urejeni-in-relacijski-podatki.html#cb148-1" aria-hidden="true" tabindex="-1"></a>igralci</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="urejeni-in-relacijski-podatki.html#cb149-1" aria-hidden="true" tabindex="-1"></a>igralci</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 3
 ##   id_igralca ime        id_ekipe
 ##        &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;
@@ -348,7 +348,7 @@ div.csl-indent {
 ## 7          7 Vega              8</code></pre>
 <p>Za združevanje razpredelnic obstaja več funkcij, vse imajo končnico <code>_join</code>. Poglejmo si, kako jih kličemo in kaj vsaka izmed njih naredi. Več bomo o njih povedali na predavanju.</p>
 <p><code>left_join()</code> združi razpredelnici tako, da obdrži vse primere iz prve razpredelnice:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="urejeni-in-relacijski-podatki.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(igralci, ekipe, <span class="at">by =</span> <span class="st">&quot;id_ekipe&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="urejeni-in-relacijski-podatki.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(igralci, ekipe, <span class="at">by =</span> <span class="st">&quot;id_ekipe&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 4
 ##   id_igralca ime        id_ekipe ekipa            
 ##        &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;            
@@ -360,7 +360,7 @@ div.csl-indent {
 ## 6          6 Aubameyang        3 Arsenal          
 ## 7          7 Vega              8 &lt;NA&gt;</code></pre>
 <p><code>right_join()</code> združi razpredelnici tako, da obdrži vse primere iz druge razpredelnice:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="urejeni-in-relacijski-podatki.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(igralci, ekipe, <span class="at">by =</span> <span class="st">&quot;id_ekipe&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="urejeni-in-relacijski-podatki.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(igralci, ekipe, <span class="at">by =</span> <span class="st">&quot;id_ekipe&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 4
 ##   id_igralca ime        id_ekipe ekipa            
 ##        &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;            
@@ -371,7 +371,7 @@ div.csl-indent {
 ## 5          6 Aubameyang        3 Arsenal          
 ## 6         NA &lt;NA&gt;              4 Rokova ekipa</code></pre>
 <p><code>inner_join()</code> združi razpredelnici tako, da obdrži samo primere, ki se pojavijo v obeh razpredelnicah:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="urejeni-in-relacijski-podatki.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(igralci, ekipe, <span class="at">by =</span> <span class="st">&quot;id_ekipe&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="urejeni-in-relacijski-podatki.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(igralci, ekipe, <span class="at">by =</span> <span class="st">&quot;id_ekipe&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 4
 ##   id_igralca ime        id_ekipe ekipa            
 ##        &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;            
@@ -381,7 +381,7 @@ div.csl-indent {
 ## 4          4 Rashford          2 Manchester United
 ## 5          6 Aubameyang        3 Arsenal</code></pre>
 <p><code>full_join()</code> združi razpredelnici tako, da obdrži vse primere iz obeh razpredelnic:</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="urejeni-in-relacijski-podatki.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(igralci, ekipe, <span class="at">by =</span> <span class="st">&quot;id_ekipe&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="urejeni-in-relacijski-podatki.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(igralci, ekipe, <span class="at">by =</span> <span class="st">&quot;id_ekipe&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 8 x 4
 ##   id_igralca ime        id_ekipe ekipa            
 ##        &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;            
@@ -395,8 +395,8 @@ div.csl-indent {
 ## 8         NA &lt;NA&gt;              4 Rokova ekipa</code></pre>
 <p><strong>Naloga</strong>: Obstajata še dve operaciji združevanja, ki pa ne delujeta popolnoma enako kot zgornje funkcije. Pokličite funkciji <code>semi_join()</code> in <code>anti_join()</code> in poizkusite ugotoviti, kaj sta ti funkciji naredili. Sintaksa je enaka kot pri ostalih funkcijah join.</p>
 <p>Za branje podatkov iz tekstovnih datotek velikokrat uporabljamo funkcijo <code>read.csv()</code> ali katero od preostalih izpeljank funkcije <code>read.table()</code>. Tidyverse ima svojo različico teh funkcij, ki pa imajo nekaj dodatne funkcionalnosti. Najbolj pomembna je ta, da se podatki samodejno shranijo kot tibble. To omogoča relativno enostavno branje datotek, kjer stolpci niso poimenovani v skladu s pravili programskega jezika R (na primer, lahko se začnejo s številom, lahko imajo minuse, presledke in podobno). Kot smo omenili shranjevanje podatkov, kjer imena stolpcev niso standardne oblike, ni dobra praksa. Vsekakor pa se pri realnih podatkih velikokrat zgodi, da imamo takšna imena. V tem primeru je bolje, da jih prebermo takšna kot so in jih programsko spremenimo, saj s tem ne posegamo v izvirne podatke. Je pa potrebno pri teh funkcijah dodatno nastaviti kodiranje, da znajo prebrati šumnike. Poglejmo si uporabo funkcije <code>read_csv2()</code> paketa <code>readr</code>, kjer bomo ustrezno nastavili kodiranje.</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="urejeni-in-relacijski-podatki.html#cb158-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/SLO-gradbena-dovoljenja-messy1.csv&quot;</span>,</span>
-<span id="cb158-2"><a href="urejeni-in-relacijski-podatki.html#cb158-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">locale =</span> readr<span class="sc">::</span><span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">&quot;cp1250&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="urejeni-in-relacijski-podatki.html#cb159-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/SLO-gradbena-dovoljenja-messy1.csv&quot;</span>,</span>
+<span id="cb159-2"><a href="urejeni-in-relacijski-podatki.html#cb159-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">locale =</span> readr<span class="sc">::</span><span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">&quot;cp1250&quot;</span>))</span></code></pre></div>
 <p>Več o kodiranjih bomo povedali na zadnjem predavanju.</p>
 </div>
 <div id="urejeni-podatki" class="section level2" number="2.2">
@@ -523,7 +523,7 @@ div.csl-indent {
 <li><code>data</code>. Katere podatke želimo spremeniti.</li>
 <li><code>cols</code>. V katerih stolpcih imamo vrednosti spremenljivke, ki jo želimo shraniti v 1 stolpec.</li>
 </ul>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="urejeni-in-relacijski-podatki.html#cb164-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">2007</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2020</span><span class="st">`</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="urejeni-in-relacijski-podatki.html#cb165-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">2007</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2020</span><span class="st">`</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5,936 x 4
 ##    OBČINE     TIP.STAVBE          name  value
 ##    &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt; &lt;dbl&gt;
@@ -544,10 +544,10 @@ div.csl-indent {
 <li><code>value_to</code>. Ime stolpca, v katerega bomo shranili vrednosti.</li>
 </ul>
 <p>Uporabimo sedaj še ta 2 parametra:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="urejeni-in-relacijski-podatki.html#cb166-1" aria-hidden="true" tabindex="-1"></a>df_longer <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">2007</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2020</span><span class="st">`</span>, </span>
-<span id="cb166-2"><a href="urejeni-in-relacijski-podatki.html#cb166-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">names_to =</span> <span class="st">&quot;Leto&quot;</span>, </span>
-<span id="cb166-3"><a href="urejeni-in-relacijski-podatki.html#cb166-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">values_to =</span> <span class="st">&quot;Število&quot;</span>)</span>
-<span id="cb166-4"><a href="urejeni-in-relacijski-podatki.html#cb166-4" aria-hidden="true" tabindex="-1"></a>df_longer</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="urejeni-in-relacijski-podatki.html#cb167-1" aria-hidden="true" tabindex="-1"></a>df_longer <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">2007</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2020</span><span class="st">`</span>, </span>
+<span id="cb167-2"><a href="urejeni-in-relacijski-podatki.html#cb167-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">names_to =</span> <span class="st">&quot;Leto&quot;</span>, </span>
+<span id="cb167-3"><a href="urejeni-in-relacijski-podatki.html#cb167-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">values_to =</span> <span class="st">&quot;Število&quot;</span>)</span>
+<span id="cb167-4"><a href="urejeni-in-relacijski-podatki.html#cb167-4" aria-hidden="true" tabindex="-1"></a>df_longer</span></code></pre></div>
 <pre><code>## # A tibble: 5,936 x 4
 ##    OBČINE     TIP.STAVBE          Leto  Število
 ##    &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt;   &lt;dbl&gt;
@@ -578,9 +578,9 @@ div.csl-indent {
 <li><code>values_from</code>. Ime stolpca, v katerem so shranjene vrednosti.</li>
 </ul>
 <p>Pretvorimo sedaj <code>df_longer</code> v širšo obliko glede na stolpec <code>TIP.STAVBE</code>.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="urejeni-in-relacijski-podatki.html#cb168-1" aria-hidden="true" tabindex="-1"></a>df_wider <span class="ot">&lt;-</span> df_longer <span class="sc">%&gt;%</span></span>
-<span id="cb168-2"><a href="urejeni-in-relacijski-podatki.html#cb168-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;TIP.STAVBE&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;Število&quot;</span>)</span>
-<span id="cb168-3"><a href="urejeni-in-relacijski-podatki.html#cb168-3" aria-hidden="true" tabindex="-1"></a>df_wider[<span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="urejeni-in-relacijski-podatki.html#cb169-1" aria-hidden="true" tabindex="-1"></a>df_wider <span class="ot">&lt;-</span> df_longer <span class="sc">%&gt;%</span></span>
+<span id="cb169-2"><a href="urejeni-in-relacijski-podatki.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;TIP.STAVBE&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;Število&quot;</span>)</span>
+<span id="cb169-3"><a href="urejeni-in-relacijski-podatki.html#cb169-3" aria-hidden="true" tabindex="-1"></a>df_wider[<span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>, ]</span></code></pre></div>
 <pre><code>## # A tibble: 14 x 4
 ##    OBČINE     Leto  `Stanovanjske stavbe` `Nestanovanjske stavbe`
 ##    &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt;                   &lt;dbl&gt;
@@ -603,9 +603,9 @@ div.csl-indent {
 <div id="separate-in-unite-deljenje-in-združevanje-stolpcev" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> <code>separate()</code> in <code>unite()</code>: deljenje in združevanje stolpcev</h2>
 <p>V uvodu tega poglavja smo prikazali podatke, kjer sta bili dve spremenljivki shranjeni v enem stolpcu. Poglejmo si te podatke še enkrat:</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="urejeni-in-relacijski-podatki.html#cb170-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/SLO-gradbena-dovoljenja-messy2.csv&quot;</span>,</span>
-<span id="cb170-2"><a href="urejeni-in-relacijski-podatki.html#cb170-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">locale =</span> readr<span class="sc">::</span><span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">&quot;cp1250&quot;</span>))</span>
-<span id="cb170-3"><a href="urejeni-in-relacijski-podatki.html#cb170-3" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="urejeni-in-relacijski-podatki.html#cb171-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/SLO-gradbena-dovoljenja-messy2.csv&quot;</span>,</span>
+<span id="cb171-2"><a href="urejeni-in-relacijski-podatki.html#cb171-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">locale =</span> readr<span class="sc">::</span><span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">&quot;cp1250&quot;</span>))</span>
+<span id="cb171-3"><a href="urejeni-in-relacijski-podatki.html#cb171-3" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>## # A tibble: 5,936 x 3
 ##    OBČINA_TIP                      Leto Število.gradbenih.dovoljenj
 ##    &lt;chr&gt;                          &lt;dbl&gt;                       &lt;dbl&gt;
@@ -621,11 +621,11 @@ div.csl-indent {
 ## 10 Ajdovščina_Stanovanjske stavbe  2016                          31
 ## # ... with 5,926 more rows</code></pre>
 <p>Včasih se srečamo celo z dvema vrednostima v istem stolpcu. Da ločimo ti spremenljivki na dva stolpca uporabimo funkcijo <code>separate()</code>:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="urejeni-in-relacijski-podatki.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">separate</span>(<span class="sc">&lt;</span>podatki<span class="sc">&gt;</span>, <span class="at">col =</span> <span class="sc">&lt;</span>ime<span class="sc">-</span>stolpca<span class="sc">&gt;</span>, <span class="at">into =</span> <span class="sc">&lt;</span>ime<span class="sc">-</span>novih<span class="sc">-</span>stolpcev<span class="sc">&gt;</span>, <span class="at">sep =</span> <span class="sc">&lt;</span>znak<span class="sc">-</span>ki<span class="sc">-</span>locuje<span class="sc">&gt;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="urejeni-in-relacijski-podatki.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">separate</span>(<span class="sc">&lt;</span>podatki<span class="sc">&gt;</span>, <span class="at">col =</span> <span class="sc">&lt;</span>ime<span class="sc">-</span>stolpca<span class="sc">&gt;</span>, <span class="at">into =</span> <span class="sc">&lt;</span>ime<span class="sc">-</span>novih<span class="sc">-</span>stolpcev<span class="sc">&gt;</span>, <span class="at">sep =</span> <span class="sc">&lt;</span>znak<span class="sc">-</span>ki<span class="sc">-</span>locuje<span class="sc">&gt;</span>)</span></code></pre></div>
 <p>Uporabimo sedaj to funkcijo da pretvorimo <code>df</code> v čisto obliko:</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="urejeni-in-relacijski-podatki.html#cb173-1" aria-hidden="true" tabindex="-1"></a>df_tidy <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb173-2"><a href="urejeni-in-relacijski-podatki.html#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> <span class="st">&quot;OBČINA_TIP&quot;</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;OBČINA&quot;</span>, <span class="st">&quot;TIP&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
-<span id="cb173-3"><a href="urejeni-in-relacijski-podatki.html#cb173-3" aria-hidden="true" tabindex="-1"></a>df_tidy</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="urejeni-in-relacijski-podatki.html#cb174-1" aria-hidden="true" tabindex="-1"></a>df_tidy <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb174-2"><a href="urejeni-in-relacijski-podatki.html#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> <span class="st">&quot;OBČINA_TIP&quot;</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;OBČINA&quot;</span>, <span class="st">&quot;TIP&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb174-3"><a href="urejeni-in-relacijski-podatki.html#cb174-3" aria-hidden="true" tabindex="-1"></a>df_tidy</span></code></pre></div>
 <pre><code>## # A tibble: 5,936 x 4
 ##    OBČINA     TIP                  Leto Število.gradbenih.dovoljenj
 ##    &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt;                       &lt;dbl&gt;
@@ -641,16 +641,16 @@ div.csl-indent {
 ## 10 Ajdovščina Stanovanjske stavbe  2016                          31
 ## # ... with 5,926 more rows</code></pre>
 <p>Obstaja pa tudi obratna operacija <code>unite()</code>, ki združi dva stolpca:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="urejeni-in-relacijski-podatki.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unite</span>(<span class="sc">&lt;</span>podatki<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec2<span class="sc">&gt;</span>, ..., <span class="at">sep =</span> <span class="sc">&lt;</span>znak<span class="sc">-</span>ki<span class="sc">-</span>locuje<span class="sc">&gt;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="urejeni-in-relacijski-podatki.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unite</span>(<span class="sc">&lt;</span>podatki<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>stolpec2<span class="sc">&gt;</span>, ..., <span class="at">sep =</span> <span class="sc">&lt;</span>znak<span class="sc">-</span>ki<span class="sc">-</span>locuje<span class="sc">&gt;</span>)</span></code></pre></div>
 <p>Pri tem tri pikice prestavljajo morebitne preostale stolpce, saj jih lahko združimo več.</p>
 <p>Za primer si poglejmo, kako bi v eno spremenljivko shranili podatke o številu stanovanjskih in nestanovanjskih gradbenih dovoljenj. Najprej pretvorimo podatke v širšo obliko glede na tip, potem pa ta nova stolpca združimo s funkcijo <code>unite()</code>.</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="urejeni-in-relacijski-podatki.html#cb176-1" aria-hidden="true" tabindex="-1"></a>df_wider <span class="ot">&lt;-</span> df_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb176-2"><a href="urejeni-in-relacijski-podatki.html#cb176-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> TIP, <span class="at">values_from =</span> Število.gradbenih.dovoljenj) <span class="sc">%&gt;%</span></span>
-<span id="cb176-3"><a href="urejeni-in-relacijski-podatki.html#cb176-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(<span class="st">&quot;Stanovanjske/Nestanovanjske&quot;</span>, </span>
-<span id="cb176-4"><a href="urejeni-in-relacijski-podatki.html#cb176-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Stanovanjske stavbe&quot;</span>, </span>
-<span id="cb176-5"><a href="urejeni-in-relacijski-podatki.html#cb176-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Nestanovanjske stavbe&quot;</span>, </span>
-<span id="cb176-6"><a href="urejeni-in-relacijski-podatki.html#cb176-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">sep =</span> <span class="st">&quot;/&quot;</span>)</span>
-<span id="cb176-7"><a href="urejeni-in-relacijski-podatki.html#cb176-7" aria-hidden="true" tabindex="-1"></a>df_wider</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="urejeni-in-relacijski-podatki.html#cb177-1" aria-hidden="true" tabindex="-1"></a>df_wider <span class="ot">&lt;-</span> df_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb177-2"><a href="urejeni-in-relacijski-podatki.html#cb177-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> TIP, <span class="at">values_from =</span> Število.gradbenih.dovoljenj) <span class="sc">%&gt;%</span></span>
+<span id="cb177-3"><a href="urejeni-in-relacijski-podatki.html#cb177-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(<span class="st">&quot;Stanovanjske/Nestanovanjske&quot;</span>, </span>
+<span id="cb177-4"><a href="urejeni-in-relacijski-podatki.html#cb177-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Stanovanjske stavbe&quot;</span>, </span>
+<span id="cb177-5"><a href="urejeni-in-relacijski-podatki.html#cb177-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Nestanovanjske stavbe&quot;</span>, </span>
+<span id="cb177-6"><a href="urejeni-in-relacijski-podatki.html#cb177-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">sep =</span> <span class="st">&quot;/&quot;</span>)</span>
+<span id="cb177-7"><a href="urejeni-in-relacijski-podatki.html#cb177-7" aria-hidden="true" tabindex="-1"></a>df_wider</span></code></pre></div>
 <pre><code>## # A tibble: 2,968 x 3
 ##    OBČINA      Leto `Stanovanjske/Nestanovanjske`
 ##    &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;                        
@@ -683,8 +683,8 @@ div.csl-indent {
 <p>V tem poglavju bomo delali s podatki češke banke (<a href="https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions" class="uri">https://data.world/lpetrocelli/czech-financial-dataset-real-anonymized-transactions</a>, <a href="https://relational.fit.cvut.cz/dataset/Financial" class="uri">https://relational.fit.cvut.cz/dataset/Financial</a>). Gre za realno anonimizirano podatkovno zbirko, ki je bila uporabljena v izzivu PKDD’99 Discovery Challenge (<a href="https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm" class="uri">https://sorry.vse.cz/~berka/challenge/pkdd1999/berka.htm</a>). Cilj izziva je bil odkriti dobre in slabe kliente z namenom izboljšanja ponudbe. Mi bomo te podatke uporabili za ilustracijo operacij na relacijski zbirki podatkov.</p>
 <p>V mapi <em>data_raw/financial</em> se nahaja 5 razpredelnic v csv formatu: account.csv, client.csv, disp.csv, loan.csv in transaction-smaller.csv. Izvirni podatki vsebujejo še nekaj razpredelnic, vendar jih bomo z namenom učinkovitega prikaza izpustili. Prav tako smo pri razpredelnici transaction.csv naključno izbrali 20000 vrstic, saj originalna datoteka vsebuje preko milijon vrstic, kar bi upočasnilo izvajanje ukazov in zasedlo veliko prostora na repozitoriju. V kolikor želite raziskati celotno zbirko, predlagamo, da si podatke prenesete iz vira. Poglejmo si sedaj vsako izmed razpredelnic.</p>
 <p>Razpredelnica <code>account</code> vsebuje podatke o računih na banki.</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="urejeni-in-relacijski-podatki.html#cb178-1" aria-hidden="true" tabindex="-1"></a>account <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/account.csv&quot;</span>)</span>
-<span id="cb178-2"><a href="urejeni-in-relacijski-podatki.html#cb178-2" aria-hidden="true" tabindex="-1"></a>account</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="urejeni-in-relacijski-podatki.html#cb179-1" aria-hidden="true" tabindex="-1"></a>account <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/account.csv&quot;</span>)</span>
+<span id="cb179-2"><a href="urejeni-in-relacijski-podatki.html#cb179-2" aria-hidden="true" tabindex="-1"></a>account</span></code></pre></div>
 <pre><code>## # A tibble: 4,500 x 4
 ##    account_id district_id frequency       date      
 ##         &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;           &lt;date&gt;    
@@ -700,8 +700,8 @@ div.csl-indent {
 ## 10         10          54 monthly payment 1996-08-28
 ## # ... with 4,490 more rows</code></pre>
 <p>Razpredelnica <code>client</code> vsebuje podatke o strankah.</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="urejeni-in-relacijski-podatki.html#cb180-1" aria-hidden="true" tabindex="-1"></a>client <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/client.csv&quot;</span>)</span>
-<span id="cb180-2"><a href="urejeni-in-relacijski-podatki.html#cb180-2" aria-hidden="true" tabindex="-1"></a>client</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="urejeni-in-relacijski-podatki.html#cb181-1" aria-hidden="true" tabindex="-1"></a>client <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/client.csv&quot;</span>)</span>
+<span id="cb181-2"><a href="urejeni-in-relacijski-podatki.html#cb181-2" aria-hidden="true" tabindex="-1"></a>client</span></code></pre></div>
 <pre><code>## # A tibble: 5,369 x 4
 ##    client_id gender birth_date district_id
 ##        &lt;dbl&gt; &lt;chr&gt;  &lt;date&gt;           &lt;dbl&gt;
@@ -717,8 +717,8 @@ div.csl-indent {
 ## 10        10 M      1943-05-01          57
 ## # ... with 5,359 more rows</code></pre>
 <p>Razpredelnica <code>disp</code> poveže podatke o osebah in računih, torej, katere osebe imajo pravico opravljati s katerimi računi.</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="urejeni-in-relacijski-podatki.html#cb182-1" aria-hidden="true" tabindex="-1"></a>disp <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/disp.csv&quot;</span>)</span>
-<span id="cb182-2"><a href="urejeni-in-relacijski-podatki.html#cb182-2" aria-hidden="true" tabindex="-1"></a>disp</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="urejeni-in-relacijski-podatki.html#cb183-1" aria-hidden="true" tabindex="-1"></a>disp <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/disp.csv&quot;</span>)</span>
+<span id="cb183-2"><a href="urejeni-in-relacijski-podatki.html#cb183-2" aria-hidden="true" tabindex="-1"></a>disp</span></code></pre></div>
 <pre><code>## # A tibble: 5,369 x 4
 ##    disp_id client_id account_id type     
 ##      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;    
@@ -734,8 +734,8 @@ div.csl-indent {
 ## 10      10        10          8 OWNER    
 ## # ... with 5,359 more rows</code></pre>
 <p>Razpredelnica <code>loan</code> vsebuje podatke o posojilih.</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="urejeni-in-relacijski-podatki.html#cb184-1" aria-hidden="true" tabindex="-1"></a>loan <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/loan.csv&quot;</span>)</span>
-<span id="cb184-2"><a href="urejeni-in-relacijski-podatki.html#cb184-2" aria-hidden="true" tabindex="-1"></a>loan</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="urejeni-in-relacijski-podatki.html#cb185-1" aria-hidden="true" tabindex="-1"></a>loan <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/loan.csv&quot;</span>)</span>
+<span id="cb185-2"><a href="urejeni-in-relacijski-podatki.html#cb185-2" aria-hidden="true" tabindex="-1"></a>loan</span></code></pre></div>
 <pre><code>## # A tibble: 682 x 7
 ##    loan_id account_id date       amount duration payments status
 ##      &lt;dbl&gt;      &lt;dbl&gt; &lt;date&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; 
@@ -751,8 +751,8 @@ div.csl-indent {
 ## 10    4990        110 1997-09-08 162576       36     4516 C     
 ## # ... with 672 more rows</code></pre>
 <p>Razpredelnica <code>trans</code> vsebuje podatke o transakcijah.</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="urejeni-in-relacijski-podatki.html#cb186-1" aria-hidden="true" tabindex="-1"></a>trans <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/transaction-smaller.csv&quot;</span>)</span>
-<span id="cb186-2"><a href="urejeni-in-relacijski-podatki.html#cb186-2" aria-hidden="true" tabindex="-1"></a>trans</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="urejeni-in-relacijski-podatki.html#cb187-1" aria-hidden="true" tabindex="-1"></a>trans <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/financial/transaction-smaller.csv&quot;</span>)</span>
+<span id="cb187-2"><a href="urejeni-in-relacijski-podatki.html#cb187-2" aria-hidden="true" tabindex="-1"></a>trans</span></code></pre></div>
 <pre><code>## # A tibble: 20,000 x 10
 ##    trans_id account_id date       type   operation amount balance k_symbol bank 
 ##       &lt;dbl&gt;      &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;
@@ -784,15 +784,15 @@ div.csl-indent {
 <p>V kolikor razpredelnica nima primarnega ključa, lahko ustvarimo t. i. nadomestni ključ, ki igra vlogo primarnega ključa. To lahko naredimo na primer tako, da vsaki vrstici priredimo njeno zaporedno vrednost v razpredelnici. Na primer <code>mutate(row_number())</code>.</p>
 <p>Primarni in tuj ključ skupaj tvorita relacijo med razpredelnicama. Na primer <code>account_id</code> predstavlja relacijo med razpredelnicama <code>trans</code> in <code>account</code>. Relacije so lahko ena-proti-ena (ena država ima enega predsednika in ena oseba je lahko predsednik samo ene države), ena-proti-mnogo (en igralec lahko igra za en klub, ampak en klub ima več igralcev) ali mnogo-proti-mnogo (en avtor lahko napiše več knjig in ena knjiga je lahko napisana s strani večih avtorjev).</p>
 <p>Kadar imamo opravka z relacijskimi podatki, je smiselno preveriti, ali je primarni ključ res edinstven za vsako razpredelnico.</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="urejeni-in-relacijski-podatki.html#cb188-1" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>(account, client, disp, trans, loan)</span>
-<span id="cb188-2"><a href="urejeni-in-relacijski-podatki.html#cb188-2" aria-hidden="true" tabindex="-1"></a>id_vec  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;account_id&quot;</span>, <span class="st">&quot;client_id&quot;</span>, <span class="st">&quot;disp_id&quot;</span>, <span class="st">&quot;trans_id&quot;</span>, <span class="st">&quot;loan_id&quot;</span>)</span>
-<span id="cb188-3"><a href="urejeni-in-relacijski-podatki.html#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df_list)) {</span>
-<span id="cb188-4"><a href="urejeni-in-relacijski-podatki.html#cb188-4" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> df_list[[i]] <span class="sc">%&gt;%</span></span>
-<span id="cb188-5"><a href="urejeni-in-relacijski-podatki.html#cb188-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(.data[[id_vec[i]]]) <span class="sc">%&gt;%</span></span>
-<span id="cb188-6"><a href="urejeni-in-relacijski-podatki.html#cb188-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb188-7"><a href="urejeni-in-relacijski-podatki.html#cb188-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
-<span id="cb188-8"><a href="urejeni-in-relacijski-podatki.html#cb188-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(tmp)</span>
-<span id="cb188-9"><a href="urejeni-in-relacijski-podatki.html#cb188-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="urejeni-in-relacijski-podatki.html#cb189-1" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>(account, client, disp, trans, loan)</span>
+<span id="cb189-2"><a href="urejeni-in-relacijski-podatki.html#cb189-2" aria-hidden="true" tabindex="-1"></a>id_vec  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;account_id&quot;</span>, <span class="st">&quot;client_id&quot;</span>, <span class="st">&quot;disp_id&quot;</span>, <span class="st">&quot;trans_id&quot;</span>, <span class="st">&quot;loan_id&quot;</span>)</span>
+<span id="cb189-3"><a href="urejeni-in-relacijski-podatki.html#cb189-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df_list)) {</span>
+<span id="cb189-4"><a href="urejeni-in-relacijski-podatki.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> df_list[[i]] <span class="sc">%&gt;%</span></span>
+<span id="cb189-5"><a href="urejeni-in-relacijski-podatki.html#cb189-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(.data[[id_vec[i]]]) <span class="sc">%&gt;%</span></span>
+<span id="cb189-6"><a href="urejeni-in-relacijski-podatki.html#cb189-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb189-7"><a href="urejeni-in-relacijski-podatki.html#cb189-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb189-8"><a href="urejeni-in-relacijski-podatki.html#cb189-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(tmp)</span>
+<span id="cb189-9"><a href="urejeni-in-relacijski-podatki.html#cb189-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## # A tibble: 0 x 2
 ## # ... with 2 variables: account_id &lt;dbl&gt;, n &lt;int&gt;
 ## # A tibble: 0 x 2
@@ -824,18 +824,18 @@ div.csl-indent {
 <li><code>inner_join()</code>. Ohrani samo tiste vrstice, ki se pojavijo v obeh razpredelnicah.</li>
 </ul>
 <p>Prvi trije so tako imenovani zunanji stiki (<em>outer join</em>), saj uporabijo vrstice, ki se pojavijo vsaj v eni razpredelnici. Za lažje razumevanje bomo najprej prikazali uporabo stikov na podatkih, ki jih bomo ustvarili sami. Sintaksa pri vseh združevanjih je:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="urejeni-in-relacijski-podatki.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(<span class="sc">&lt;</span>razpredelnica1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>razpredelnica2<span class="sc">&gt;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="urejeni-in-relacijski-podatki.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(<span class="sc">&lt;</span>razpredelnica1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>razpredelnica2<span class="sc">&gt;</span>)</span></code></pre></div>
 <p>Ustvarimo dva tibbla:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="urejeni-in-relacijski-podatki.html#cb191-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb191-2"><a href="urejeni-in-relacijski-podatki.html#cb191-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
-<span id="cb191-3"><a href="urejeni-in-relacijski-podatki.html#cb191-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb191-4"><a href="urejeni-in-relacijski-podatki.html#cb191-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb191-5"><a href="urejeni-in-relacijski-podatki.html#cb191-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-6"><a href="urejeni-in-relacijski-podatki.html#cb191-6" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb191-7"><a href="urejeni-in-relacijski-podatki.html#cb191-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>, <span class="st">&quot;id5&quot;</span>),</span>
-<span id="cb191-8"><a href="urejeni-in-relacijski-podatki.html#cb191-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">52</span>, <span class="dv">11</span>, <span class="dv">21</span>)</span>
-<span id="cb191-9"><a href="urejeni-in-relacijski-podatki.html#cb191-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb191-10"><a href="urejeni-in-relacijski-podatki.html#cb191-10" aria-hidden="true" tabindex="-1"></a>df1</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="urejeni-in-relacijski-podatki.html#cb192-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb192-2"><a href="urejeni-in-relacijski-podatki.html#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
+<span id="cb192-3"><a href="urejeni-in-relacijski-podatki.html#cb192-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb192-4"><a href="urejeni-in-relacijski-podatki.html#cb192-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb192-5"><a href="urejeni-in-relacijski-podatki.html#cb192-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-6"><a href="urejeni-in-relacijski-podatki.html#cb192-6" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb192-7"><a href="urejeni-in-relacijski-podatki.html#cb192-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>, <span class="st">&quot;id5&quot;</span>),</span>
+<span id="cb192-8"><a href="urejeni-in-relacijski-podatki.html#cb192-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">52</span>, <span class="dv">11</span>, <span class="dv">21</span>)</span>
+<span id="cb192-9"><a href="urejeni-in-relacijski-podatki.html#cb192-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb192-10"><a href="urejeni-in-relacijski-podatki.html#cb192-10" aria-hidden="true" tabindex="-1"></a>df1</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
@@ -843,7 +843,7 @@ div.csl-indent {
 ## 2 id2       6
 ## 3 id3       1
 ## 4 id4       2</code></pre>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="urejeni-in-relacijski-podatki.html#cb193-1" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="urejeni-in-relacijski-podatki.html#cb194-1" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   id        y
 ##   &lt;chr&gt; &lt;dbl&gt;
@@ -854,7 +854,7 @@ div.csl-indent {
 <ul>
 <li><code>left_join()</code> obdrži tibble <code>df1</code> takšen kot je in mu pripne stolpec <code>y</code> iz tibbla <code>df2</code>, kjer so vrednosti spremenljivke <code>id</code> enake. Za tiste vrstice <code>df1</code>, ki nimajo ustreznega <code>id</code> v <code>df2</code> se vrednosti v spremenljivki <code>y</code> nastavijo na <code>NA</code>.</li>
 </ul>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="urejeni-in-relacijski-podatki.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="urejeni-in-relacijski-podatki.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   id        x     y
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -865,7 +865,7 @@ div.csl-indent {
 <ul>
 <li><code>right_join()</code> obdrži tibble <code>df2</code> takšen kot je in mu pripne stolpec <code>x</code> iz tibbla <code>df1</code>, kjer so vrednosti spremenljivke <code>id</code> enake. Za tiste vrstice <code>df2</code>, ki nimajo ustreznega <code>id</code> v <code>df1</code>, se vrednosti v spremenljivki <code>y</code> nastavijo na <code>NA</code>.</li>
 </ul>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="urejeni-in-relacijski-podatki.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="urejeni-in-relacijski-podatki.html#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   id        x     y
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -876,7 +876,7 @@ div.csl-indent {
 <ul>
 <li><code>inner_join()</code> obdrži samo tiste podatke, kjer se <code>id</code> nahaja v obeh razpredelnicah (torej 1, 3 in 4). Vse preostale vrstice zavrže.</li>
 </ul>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="urejeni-in-relacijski-podatki.html#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="urejeni-in-relacijski-podatki.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 3
 ##   id        x     y
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -886,7 +886,7 @@ div.csl-indent {
 <ul>
 <li><code>full_join()</code> obdrži vse podatke iz <code>df1</code> in <code>df2</code>. Kjer ni ustreznega <code>id</code> v nasprotni razpredelnici se vrednosti nastavijo na <code>NA</code>.</li>
 </ul>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="urejeni-in-relacijski-podatki.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="urejeni-in-relacijski-podatki.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 3
 ##   id        x     y
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -897,21 +897,21 @@ div.csl-indent {
 ## 5 id5      NA    21</code></pre>
 <p>Najbolj pogosto bomo uporabljali <code>left_join()</code>, kadar bo cilj obdržati originalno razpredelnico, kot je, ali <code>inner_join()</code>, kadar bomo želeli podatke brez manjkajočih vrednosti. Stik <code>right_join()</code> je samo drugače usmerjen <code>left_join()</code>.</p>
 <p>Do sedaj smo prikazovali, kako združimo razpredelnice glede na primarni ključ, za katerega predpostavljamo, da je unikaten. Torej vsaka vrstica ima svoj ključ, ki se v razpredelnici ne ponovi. Včasih pa razpredelnice združujemo glede na sekundarni ključ. V tem primeru se lahko zgodi, da imamo relacijo ena-proti-mnogo. Če vzamemo bančne podatke od zgoraj ima lahko en račun več skrbnikov. Kaj se zgodi v tem primeru? Kaj pa če združimo transakcije in osebe glede na račun? En račun ima lahko več transakcij in več skrbnikov. Ker pri obeh razpredelnicah uporabimo sekundarni ključ, bomo najverjetneje dobili podvojene vrednosti pri obeh. Poglejmo si sedaj na primeru podatkov, ki jih generiramo sami.</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="urejeni-in-relacijski-podatki.html#cb203-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb203-2"><a href="urejeni-in-relacijski-podatki.html#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id1 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
-<span id="cb203-3"><a href="urejeni-in-relacijski-podatki.html#cb203-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">id2 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
-<span id="cb203-4"><a href="urejeni-in-relacijski-podatki.html#cb203-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb203-5"><a href="urejeni-in-relacijski-podatki.html#cb203-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb203-6"><a href="urejeni-in-relacijski-podatki.html#cb203-6" aria-hidden="true" tabindex="-1"></a>df4 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb203-7"><a href="urejeni-in-relacijski-podatki.html#cb203-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id2 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>),</span>
-<span id="cb203-8"><a href="urejeni-in-relacijski-podatki.html#cb203-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">52</span>, <span class="dv">11</span>)</span>
-<span id="cb203-9"><a href="urejeni-in-relacijski-podatki.html#cb203-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb203-10"><a href="urejeni-in-relacijski-podatki.html#cb203-10" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb203-11"><a href="urejeni-in-relacijski-podatki.html#cb203-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">id3 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
-<span id="cb203-12"><a href="urejeni-in-relacijski-podatki.html#cb203-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">id2 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id4&quot;</span>, <span class="st">&quot;id5&quot;</span>),</span>
-<span id="cb203-13"><a href="urejeni-in-relacijski-podatki.html#cb203-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">23</span>, <span class="dv">5</span>)</span>
-<span id="cb203-14"><a href="urejeni-in-relacijski-podatki.html#cb203-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb203-15"><a href="urejeni-in-relacijski-podatki.html#cb203-15" aria-hidden="true" tabindex="-1"></a>df3</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="urejeni-in-relacijski-podatki.html#cb204-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb204-2"><a href="urejeni-in-relacijski-podatki.html#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id1 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
+<span id="cb204-3"><a href="urejeni-in-relacijski-podatki.html#cb204-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">id2 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
+<span id="cb204-4"><a href="urejeni-in-relacijski-podatki.html#cb204-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb204-5"><a href="urejeni-in-relacijski-podatki.html#cb204-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb204-6"><a href="urejeni-in-relacijski-podatki.html#cb204-6" aria-hidden="true" tabindex="-1"></a>df4 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb204-7"><a href="urejeni-in-relacijski-podatki.html#cb204-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id2 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>),</span>
+<span id="cb204-8"><a href="urejeni-in-relacijski-podatki.html#cb204-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">52</span>, <span class="dv">11</span>)</span>
+<span id="cb204-9"><a href="urejeni-in-relacijski-podatki.html#cb204-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb204-10"><a href="urejeni-in-relacijski-podatki.html#cb204-10" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb204-11"><a href="urejeni-in-relacijski-podatki.html#cb204-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">id3 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>, <span class="st">&quot;id3&quot;</span>, <span class="st">&quot;id4&quot;</span>),</span>
+<span id="cb204-12"><a href="urejeni-in-relacijski-podatki.html#cb204-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">id2 =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id4&quot;</span>, <span class="st">&quot;id5&quot;</span>),</span>
+<span id="cb204-13"><a href="urejeni-in-relacijski-podatki.html#cb204-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">23</span>, <span class="dv">5</span>)</span>
+<span id="cb204-14"><a href="urejeni-in-relacijski-podatki.html#cb204-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb204-15"><a href="urejeni-in-relacijski-podatki.html#cb204-15" aria-hidden="true" tabindex="-1"></a>df3</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   id1   id2       x
 ##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
@@ -919,14 +919,14 @@ div.csl-indent {
 ## 2 id2   id1       6
 ## 3 id3   id3       1
 ## 4 id4   id4       2</code></pre>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="urejeni-in-relacijski-podatki.html#cb205-1" aria-hidden="true" tabindex="-1"></a>df4</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="urejeni-in-relacijski-podatki.html#cb206-1" aria-hidden="true" tabindex="-1"></a>df4</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   id2       y
 ##   &lt;chr&gt; &lt;dbl&gt;
 ## 1 id1      20
 ## 2 id2      52
 ## 3 id3      11</code></pre>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="urejeni-in-relacijski-podatki.html#cb207-1" aria-hidden="true" tabindex="-1"></a>df5</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="urejeni-in-relacijski-podatki.html#cb208-1" aria-hidden="true" tabindex="-1"></a>df5</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   id3   id2       z
 ##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
@@ -935,7 +935,7 @@ div.csl-indent {
 ## 3 id3   id4      23
 ## 4 id4   id5       5</code></pre>
 <p><code>df3</code> in <code>df5</code> imata podvojen sekundarni ključ. Združimo sedaj <code>df3</code> in <code>df4</code> z uporabo <code>inner_join()</code>.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="urejeni-in-relacijski-podatki.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df3, df4)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="urejeni-in-relacijski-podatki.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df3, df4)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   id1   id2       x     y
 ##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -943,7 +943,7 @@ div.csl-indent {
 ## 2 id2   id1       6    20
 ## 3 id3   id3       1    11</code></pre>
 <p>Ključ torej ostane podvojen. Kaj pa se zgodi, če imata obe razpredelnici podvojene ključe? V tem primeru dobimo kartezični produkt vseh podvojenih vrednosti:</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="urejeni-in-relacijski-podatki.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df3, df5)</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="urejeni-in-relacijski-podatki.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df3, df5)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 5
 ##   id1   id2       x id3       z
 ##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
@@ -957,9 +957,9 @@ div.csl-indent {
 <div id="argument-by" class="section level3" number="2.9.2">
 <h3><span class="header-section-number">2.9.2</span> Argument <code>by</code></h3>
 <p>Združevanja, ki smo jih spoznali, privzeto združijo razpredelnici glede na vrednosti v vseh stolpcih, ki imajo enaka imena – tamu pravimo tudi <strong>naravno združevanje</strong> (ang. <strong>natural join</strong>). Lahko pa tudi sami določimo, po katerih stolpcih želimo združiti podatke. To naredimo tako, da pri združevanjih uporabimo argument <code>by</code>. Sintaksa združevanj je potem:</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="urejeni-in-relacijski-podatki.html#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(<span class="sc">&lt;</span>razpredelnica1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>razpredelnica2<span class="sc">&gt;</span>, <span class="at">by =</span> <span class="sc">&lt;</span>vektor<span class="sc">-</span>imen<span class="sc">-</span>stolpcev<span class="sc">&gt;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="urejeni-in-relacijski-podatki.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(<span class="sc">&lt;</span>razpredelnica1<span class="sc">&gt;</span>, <span class="sc">&lt;</span>razpredelnica2<span class="sc">&gt;</span>, <span class="at">by =</span> <span class="sc">&lt;</span>vektor<span class="sc">-</span>imen<span class="sc">-</span>stolpcev<span class="sc">&gt;</span>)</span></code></pre></div>
 <p><code>inner_join()</code> dveh razpredelnic bi potem zapisali kot:</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="urejeni-in-relacijski-podatki.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df3, df4, <span class="at">by =</span> <span class="st">&quot;id2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="urejeni-in-relacijski-podatki.html#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df3, df4, <span class="at">by =</span> <span class="st">&quot;id2&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   id1   id2       x     y
 ##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -968,7 +968,7 @@ div.csl-indent {
 ## 3 id3   id3       1    11</code></pre>
 <p>Ta primer služi samo kot ilustracija in je uporaba <code>by</code> nepotrebna. Seveda pa se pri realnih podatkih velikokrat srečamo s stanjem, kjer ta argument potrebujemo. Prav tako je koda s parametrom <code>by</code> bolj robustna, saj sami definiramo, glede na katere stolpce naj se razpredelnice združujejo in ne more priti do kakšnih napak pri ponovljivosti.</p>
 <p>Razpredelnici lahko združimo tudi po stolpcih, ki nimajo istega imena. Ni nenavadno, da imamo dve razpredelnici z enakimi spremenljivkami, ki pa so poimenovane drugače. Če bi želeli taki razpredelnici združiti glede na to spremenljivko, potem bi jo morali načeloma v eni razpredelnici preimenovati. S paketom dplyr pa lahko to naredimo tudi drugače. Združimo sedaj <code>df3</code> in <code>df5</code> glede na stolpca <code>x</code> in <code>z</code> ter skupni stolpec <code>id2</code>.</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="urejeni-in-relacijski-podatki.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df3, df5, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span> <span class="ot">=</span> <span class="st">&quot;z&quot;</span>, <span class="st">&quot;id2&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="urejeni-in-relacijski-podatki.html#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df3, df5, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span> <span class="ot">=</span> <span class="st">&quot;z&quot;</span>, <span class="st">&quot;id2&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 4
 ##   id1   id2       x id3  
 ##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;
@@ -982,7 +982,7 @@ div.csl-indent {
 <li><code>anti_join()</code>. Izloči vse vrstice v prvi razpredelnici, ki ustrezajo vrsticam v drugi razpredelnici.</li>
 </ul>
 <p>Poglejmo si uporabo teh združevanj na naših generiranih razpredelnicah.</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="urejeni-in-relacijski-podatki.html#cb218-1" aria-hidden="true" tabindex="-1"></a>df1</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="urejeni-in-relacijski-podatki.html#cb219-1" aria-hidden="true" tabindex="-1"></a>df1</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
@@ -990,7 +990,7 @@ div.csl-indent {
 ## 2 id2       6
 ## 3 id3       1
 ## 4 id4       2</code></pre>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="urejeni-in-relacijski-podatki.html#cb220-1" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="urejeni-in-relacijski-podatki.html#cb221-1" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   id        y
 ##   &lt;chr&gt; &lt;dbl&gt;
@@ -998,7 +998,7 @@ div.csl-indent {
 ## 2 id3      52
 ## 3 id4      11
 ## 4 id5      21</code></pre>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="urejeni-in-relacijski-podatki.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semi_join</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="urejeni-in-relacijski-podatki.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semi_join</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
@@ -1006,7 +1006,7 @@ div.csl-indent {
 ## 2 id3       1
 ## 3 id4       2</code></pre>
 <p><code>semi_join()</code> je torej izločil vrstico z <code>id2</code>, saj se ta ne pojavi v <code>df2</code>.</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="urejeni-in-relacijski-podatki.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="urejeni-in-relacijski-podatki.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
@@ -1024,9 +1024,9 @@ div.csl-indent {
 </ol>
 <p>Za vsakega izmed teh korakov bomo morali uporabiti eno od združevanj, ki smo jih spoznali. Na primer, v samih razpredelnicah nimamo direktne povezave med komitenti in transakcijami, tako da bomo morali zadeve nekako združiti. Podobno velja za ostale alineje.</p>
 <p>Najprej želimo združiti razpredelnici <code>account</code> in <code>client</code>. Za to bomo potrebovali povezovalno razpredelnico <code>disp</code> v kateri se tudi nahaja informacija o tem, ali je klient lastnik ali samo skrbnik računa. Najprej povežemo razpredelnico <code>account</code> z razpredelnico <code>disp</code> in filtriramo glede na tip klienta:</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="urejeni-in-relacijski-podatki.html#cb226-1" aria-hidden="true" tabindex="-1"></a>account_disp <span class="ot">&lt;-</span> <span class="fu">left_join</span>(account, disp) <span class="sc">%&gt;%</span></span>
-<span id="cb226-2"><a href="urejeni-in-relacijski-podatki.html#cb226-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">&quot;OWNER&quot;</span>)</span>
-<span id="cb226-3"><a href="urejeni-in-relacijski-podatki.html#cb226-3" aria-hidden="true" tabindex="-1"></a>account_disp</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="urejeni-in-relacijski-podatki.html#cb227-1" aria-hidden="true" tabindex="-1"></a>account_disp <span class="ot">&lt;-</span> <span class="fu">left_join</span>(account, disp) <span class="sc">%&gt;%</span></span>
+<span id="cb227-2"><a href="urejeni-in-relacijski-podatki.html#cb227-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">&quot;OWNER&quot;</span>)</span>
+<span id="cb227-3"><a href="urejeni-in-relacijski-podatki.html#cb227-3" aria-hidden="true" tabindex="-1"></a>account_disp</span></code></pre></div>
 <pre><code>## # A tibble: 4,500 x 7
 ##    account_id district_id frequency       date       disp_id client_id type 
 ##         &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;           &lt;date&gt;       &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;
@@ -1042,19 +1042,19 @@ div.csl-indent {
 ## 10         10          54 monthly payment 1996-08-28      13        13 OWNER
 ## # ... with 4,490 more rows</code></pre>
 <p>Sedaj lahko to novo razpredelnico povežemo z razpredelnico <code>client</code>.</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="urejeni-in-relacijski-podatki.html#cb228-1" aria-hidden="true" tabindex="-1"></a>account_client <span class="ot">&lt;-</span> <span class="fu">left_join</span>(account_disp, client)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="urejeni-in-relacijski-podatki.html#cb229-1" aria-hidden="true" tabindex="-1"></a>account_client <span class="ot">&lt;-</span> <span class="fu">left_join</span>(account_disp, client)</span></code></pre></div>
 <p>S tem smo dobili željeno razpredelnico, v kateri imamo za vsak račun tudi informacijo o lastniku. Kot drugi korak želimo ustvariti razpredelnico, v kateri bodo samo podatki o klientih, ki imajo posojila v vrednosti več kot 100000 kron. Najprej ustvarimo razpredelnico, v kateri so samo takšna posojila, nato pa uporabimo <code>semi_join()</code>, ki bo iz razpredelnice <code>account_client</code> izbral samo vrstice, ki se bodo ujemale z vrsticami v tej novi razpredelnici posojil.</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="urejeni-in-relacijski-podatki.html#cb229-1" aria-hidden="true" tabindex="-1"></a>loan_100k <span class="ot">&lt;-</span> loan <span class="sc">%&gt;%</span></span>
-<span id="cb229-2"><a href="urejeni-in-relacijski-podatki.html#cb229-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(amount <span class="sc">&gt;</span> <span class="dv">100000</span>)</span>
-<span id="cb229-3"><a href="urejeni-in-relacijski-podatki.html#cb229-3" aria-hidden="true" tabindex="-1"></a>account_100k <span class="ot">&lt;-</span> <span class="fu">semi_join</span>(account_client, loan_100k)</span>
-<span id="cb229-4"><a href="urejeni-in-relacijski-podatki.html#cb229-4" aria-hidden="true" tabindex="-1"></a>account_100k</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="urejeni-in-relacijski-podatki.html#cb230-1" aria-hidden="true" tabindex="-1"></a>loan_100k <span class="ot">&lt;-</span> loan <span class="sc">%&gt;%</span></span>
+<span id="cb230-2"><a href="urejeni-in-relacijski-podatki.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(amount <span class="sc">&gt;</span> <span class="dv">100000</span>)</span>
+<span id="cb230-3"><a href="urejeni-in-relacijski-podatki.html#cb230-3" aria-hidden="true" tabindex="-1"></a>account_100k <span class="ot">&lt;-</span> <span class="fu">semi_join</span>(account_client, loan_100k)</span>
+<span id="cb230-4"><a href="urejeni-in-relacijski-podatki.html#cb230-4" aria-hidden="true" tabindex="-1"></a>account_100k</span></code></pre></div>
 <pre><code>## # A tibble: 0 x 9
 ## # ... with 9 variables: account_id &lt;dbl&gt;, district_id &lt;dbl&gt;, frequency &lt;chr&gt;,
 ## #   date &lt;date&gt;, disp_id &lt;dbl&gt;, client_id &lt;dbl&gt;, type &lt;chr&gt;, gender &lt;chr&gt;,
 ## #   birth_date &lt;date&gt;</code></pre>
 <p>Hm…dobili smo prazen tibble, čeprav obstajajo tako velika posojila. Zakaj je do tega prišlo? V obeh razpredelnicah se nahajata spremenjivki <code>account_id</code> in <code>date</code>. Ampak spremenljivka <code>date</code> ni ista spremenljivka, pri razpredelnici <code>account_client</code> predstavlja, kdaj je bil račun odprt, pri <code>loan_100k</code> pa predstavlja kdaj je bilo posojilo odobreno. Torej po tej spremenljivki ne smemo združevati. Uporabimo <code>by</code>:</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="urejeni-in-relacijski-podatki.html#cb231-1" aria-hidden="true" tabindex="-1"></a>account_100k <span class="ot">&lt;-</span> <span class="fu">semi_join</span>(account_client, loan_100k, <span class="at">by =</span> <span class="st">&quot;account_id&quot;</span>)</span>
-<span id="cb231-2"><a href="urejeni-in-relacijski-podatki.html#cb231-2" aria-hidden="true" tabindex="-1"></a>account_100k</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="urejeni-in-relacijski-podatki.html#cb232-1" aria-hidden="true" tabindex="-1"></a>account_100k <span class="ot">&lt;-</span> <span class="fu">semi_join</span>(account_client, loan_100k, <span class="at">by =</span> <span class="st">&quot;account_id&quot;</span>)</span>
+<span id="cb232-2"><a href="urejeni-in-relacijski-podatki.html#cb232-2" aria-hidden="true" tabindex="-1"></a>account_100k</span></code></pre></div>
 <pre><code>## # A tibble: 377 x 9
 ##    account_id district_id frequency    date       disp_id client_id type  gender
 ##         &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;        &lt;date&gt;       &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
@@ -1070,10 +1070,10 @@ div.csl-indent {
 ## 10        276          38 monthly pay~ 1997-12-08     333       333 OWNER M     
 ## # ... with 367 more rows, and 1 more variable: birth_date &lt;date&gt;</code></pre>
 <p>V naslednjem koraku želimo imeti podatke o klientih in posojilih. Najprej bomo morali združiti razpredelnici <code>client</code> in <code>disp</code>, nato pa dodati še razpredelnico <code>loan</code>. Ustvarimo to novo razpredelnico kar z uporabo operatorja <code>%&gt;%</code>:</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="urejeni-in-relacijski-podatki.html#cb233-1" aria-hidden="true" tabindex="-1"></a>client_loan <span class="ot">&lt;-</span> client <span class="sc">%&gt;%</span></span>
-<span id="cb233-2"><a href="urejeni-in-relacijski-podatki.html#cb233-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(disp) <span class="sc">%&gt;%</span></span>
-<span id="cb233-3"><a href="urejeni-in-relacijski-podatki.html#cb233-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(loan, <span class="at">by =</span> <span class="st">&quot;account_id&quot;</span>)</span>
-<span id="cb233-4"><a href="urejeni-in-relacijski-podatki.html#cb233-4" aria-hidden="true" tabindex="-1"></a>client_loan</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="urejeni-in-relacijski-podatki.html#cb234-1" aria-hidden="true" tabindex="-1"></a>client_loan <span class="ot">&lt;-</span> client <span class="sc">%&gt;%</span></span>
+<span id="cb234-2"><a href="urejeni-in-relacijski-podatki.html#cb234-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(disp) <span class="sc">%&gt;%</span></span>
+<span id="cb234-3"><a href="urejeni-in-relacijski-podatki.html#cb234-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(loan, <span class="at">by =</span> <span class="st">&quot;account_id&quot;</span>)</span>
+<span id="cb234-4"><a href="urejeni-in-relacijski-podatki.html#cb234-4" aria-hidden="true" tabindex="-1"></a>client_loan</span></code></pre></div>
 <pre><code>## # A tibble: 827 x 13
 ##    client_id gender birth_date district_id disp_id account_id type      loan_id
 ##        &lt;dbl&gt; &lt;chr&gt;  &lt;date&gt;           &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
@@ -1090,10 +1090,10 @@ div.csl-indent {
 ## # ... with 817 more rows, and 5 more variables: date &lt;date&gt;, amount &lt;dbl&gt;,
 ## #   duration &lt;dbl&gt;, payments &lt;dbl&gt;, status &lt;chr&gt;</code></pre>
 <p>Na koncu preverimo še, kateri klienti, ki imajo posojilo, imajo največ transakcij. Za to bomo morali najprej izračunati število transakcij na vsakem bančnem računu. Uporabimo znanje, ki smo ga pridobili na prvem predavanju:</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="urejeni-in-relacijski-podatki.html#cb235-1" aria-hidden="true" tabindex="-1"></a>trans_count <span class="ot">&lt;-</span> trans <span class="sc">%&gt;%</span></span>
-<span id="cb235-2"><a href="urejeni-in-relacijski-podatki.html#cb235-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(account_id) <span class="sc">%&gt;%</span></span>
-<span id="cb235-3"><a href="urejeni-in-relacijski-podatki.html#cb235-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_trans =</span> <span class="fu">n</span>())</span>
-<span id="cb235-4"><a href="urejeni-in-relacijski-podatki.html#cb235-4" aria-hidden="true" tabindex="-1"></a>trans_count</span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="urejeni-in-relacijski-podatki.html#cb236-1" aria-hidden="true" tabindex="-1"></a>trans_count <span class="ot">&lt;-</span> trans <span class="sc">%&gt;%</span></span>
+<span id="cb236-2"><a href="urejeni-in-relacijski-podatki.html#cb236-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(account_id) <span class="sc">%&gt;%</span></span>
+<span id="cb236-3"><a href="urejeni-in-relacijski-podatki.html#cb236-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_trans =</span> <span class="fu">n</span>())</span>
+<span id="cb236-4"><a href="urejeni-in-relacijski-podatki.html#cb236-4" aria-hidden="true" tabindex="-1"></a>trans_count</span></code></pre></div>
 <pre><code>## # A tibble: 4,205 x 2
 ##    account_id n_trans
 ##         &lt;dbl&gt;   &lt;int&gt;
@@ -1108,8 +1108,8 @@ div.csl-indent {
 ##  9          9       3
 ## 10         10       1
 ## # ... with 4,195 more rows</code></pre>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="urejeni-in-relacijski-podatki.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(client_loan, trans_count) <span class="sc">%&gt;%</span></span>
-<span id="cb237-2"><a href="urejeni-in-relacijski-podatki.html#cb237-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n_trans))</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="urejeni-in-relacijski-podatki.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(client_loan, trans_count) <span class="sc">%&gt;%</span></span>
+<span id="cb238-2"><a href="urejeni-in-relacijski-podatki.html#cb238-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n_trans))</span></code></pre></div>
 <pre><code>## # A tibble: 827 x 14
 ##    client_id gender birth_date district_id disp_id account_id type      loan_id
 ##        &lt;dbl&gt; &lt;chr&gt;  &lt;date&gt;           &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
@@ -1136,45 +1136,45 @@ div.csl-indent {
 <li><strong>Razlika</strong>. Vrne vse elemente prve množice, ki se ne pojavijo v drugi množici.</li>
 </ul>
 <p>Poglejmo si uporabo teh operacij nad tibbli.</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="urejeni-in-relacijski-podatki.html#cb239-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb239-2"><a href="urejeni-in-relacijski-podatki.html#cb239-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>),</span>
-<span id="cb239-3"><a href="urejeni-in-relacijski-podatki.html#cb239-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>)</span>
-<span id="cb239-4"><a href="urejeni-in-relacijski-podatki.html#cb239-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb239-5"><a href="urejeni-in-relacijski-podatki.html#cb239-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb239-6"><a href="urejeni-in-relacijski-podatki.html#cb239-6" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb239-7"><a href="urejeni-in-relacijski-podatki.html#cb239-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id3&quot;</span>),</span>
-<span id="cb239-8"><a href="urejeni-in-relacijski-podatki.html#cb239-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">52</span>)</span>
-<span id="cb239-9"><a href="urejeni-in-relacijski-podatki.html#cb239-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb239-10"><a href="urejeni-in-relacijski-podatki.html#cb239-10" aria-hidden="true" tabindex="-1"></a>df1</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="urejeni-in-relacijski-podatki.html#cb240-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb240-2"><a href="urejeni-in-relacijski-podatki.html#cb240-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id2&quot;</span>),</span>
+<span id="cb240-3"><a href="urejeni-in-relacijski-podatki.html#cb240-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>)</span>
+<span id="cb240-4"><a href="urejeni-in-relacijski-podatki.html#cb240-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb240-5"><a href="urejeni-in-relacijski-podatki.html#cb240-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb240-6"><a href="urejeni-in-relacijski-podatki.html#cb240-6" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb240-7"><a href="urejeni-in-relacijski-podatki.html#cb240-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;id1&quot;</span>, <span class="st">&quot;id3&quot;</span>),</span>
+<span id="cb240-8"><a href="urejeni-in-relacijski-podatki.html#cb240-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">52</span>)</span>
+<span id="cb240-9"><a href="urejeni-in-relacijski-podatki.html#cb240-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb240-10"><a href="urejeni-in-relacijski-podatki.html#cb240-10" aria-hidden="true" tabindex="-1"></a>df1</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
 ## 1 id1       4
 ## 2 id2       6</code></pre>
-<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="urejeni-in-relacijski-podatki.html#cb241-1" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="urejeni-in-relacijski-podatki.html#cb242-1" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
 ## 1 id1       4
 ## 2 id3      52</code></pre>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="urejeni-in-relacijski-podatki.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">union</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="urejeni-in-relacijski-podatki.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">union</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
 ## 1 id1       4
 ## 2 id2       6
 ## 3 id3      52</code></pre>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="urejeni-in-relacijski-podatki.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="urejeni-in-relacijski-podatki.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
 ## 1 id1       4</code></pre>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="urejeni-in-relacijski-podatki.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="urejeni-in-relacijski-podatki.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(df1, df2)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
 ## 1 id2       6</code></pre>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="urejeni-in-relacijski-podatki.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(df2, df1)</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="urejeni-in-relacijski-podatki.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(df2, df1)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   id        x
 ##   &lt;chr&gt; &lt;dbl&gt;
@@ -1188,13 +1188,13 @@ div.csl-indent {
 <h2><span class="header-section-number">2.12</span> Domača naloga</h2>
 <ol style="list-style-type: decimal">
 <li><p>Spodaj imamo podatke o stroških za 4 osebe. Razpredelnica je v neurejeni obliki. Vaša naloga je, da jo pretvorite v urejeno obliko.</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="urejeni-in-relacijski-podatki.html#cb251-1" aria-hidden="true" tabindex="-1"></a>podatki_o_stroskih <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb251-2"><a href="urejeni-in-relacijski-podatki.html#cb251-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Miha&quot;</span>, <span class="st">&quot;Ana&quot;</span>, <span class="st">&quot;Andrej&quot;</span>, <span class="st">&quot;Maja&quot;</span>),</span>
-<span id="cb251-3"><a href="urejeni-in-relacijski-podatki.html#cb251-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">april_2019 =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">350</span>),</span>
-<span id="cb251-4"><a href="urejeni-in-relacijski-podatki.html#cb251-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">maj_2019 =</span> <span class="fu">c</span>(<span class="dv">390</span>, <span class="dv">250</span>, <span class="dv">280</span>, <span class="dv">400</span>),</span>
-<span id="cb251-5"><a href="urejeni-in-relacijski-podatki.html#cb251-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">april_2020 =</span> <span class="fu">c</span>(<span class="dv">410</span>, <span class="dv">150</span>, <span class="dv">500</span>, <span class="dv">400</span>),</span>
-<span id="cb251-6"><a href="urejeni-in-relacijski-podatki.html#cb251-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">maj_2020 =</span> <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">320</span>, <span class="dv">550</span>, <span class="dv">320</span>)</span>
-<span id="cb251-7"><a href="urejeni-in-relacijski-podatki.html#cb251-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="urejeni-in-relacijski-podatki.html#cb252-1" aria-hidden="true" tabindex="-1"></a>podatki_o_stroskih <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb252-2"><a href="urejeni-in-relacijski-podatki.html#cb252-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Miha&quot;</span>, <span class="st">&quot;Ana&quot;</span>, <span class="st">&quot;Andrej&quot;</span>, <span class="st">&quot;Maja&quot;</span>),</span>
+<span id="cb252-3"><a href="urejeni-in-relacijski-podatki.html#cb252-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">april_2019 =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">350</span>),</span>
+<span id="cb252-4"><a href="urejeni-in-relacijski-podatki.html#cb252-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">maj_2019 =</span> <span class="fu">c</span>(<span class="dv">390</span>, <span class="dv">250</span>, <span class="dv">280</span>, <span class="dv">400</span>),</span>
+<span id="cb252-5"><a href="urejeni-in-relacijski-podatki.html#cb252-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">april_2020 =</span> <span class="fu">c</span>(<span class="dv">410</span>, <span class="dv">150</span>, <span class="dv">500</span>, <span class="dv">400</span>),</span>
+<span id="cb252-6"><a href="urejeni-in-relacijski-podatki.html#cb252-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">maj_2020 =</span> <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">320</span>, <span class="dv">550</span>, <span class="dv">320</span>)</span>
+<span id="cb252-7"><a href="urejeni-in-relacijski-podatki.html#cb252-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Rešitev:</p>
 <pre><code>## # A tibble: 16 x 4
 ##    ime    mesec leto  strosek

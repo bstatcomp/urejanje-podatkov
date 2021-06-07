@@ -272,7 +272,7 @@ Izberimo vse stolpce med `Country` in `Major`. Podobno kot v R `1:10` našteje v
 select(ds_jobs, Country:Major)
 ```
 
-Izberimo vse stolpce, ki se začnejo z besedo `Time`. Za to bomo uporabili funkcijo `starts_with()`. Ta funkcija je t. i. *selection helper*, kar pomeni, da jo lahko uporabimo le znotraj funkcij, ki omogočajo urejeno ovrednotenje in nam omogoča lažjo izbiro na podlagi nekega pogoja. V tem primeru je ta pogoj, da se beseda začne na določen niz:
+Izberimo vse stolpce, ki se začnejo z besedo `Time`. Za to bomo uporabili funkcijo `starts_with()`. Ta funkcija je t. i. *selection helper*, kar pomeni, da jo lahko uporabimo le znotraj funkcij, ki omogočajo urejeno izbiro in nam omogoča lažjo izbiro na podlagi nekega pogoja. V tem primeru je ta pogoj, da se beseda začne na določen niz:
 
 
 ```{r}
@@ -291,7 +291,7 @@ Poleg `starts_with()` dplyr vsebuje še več takšnih funkcij:
 Vrstice lahko tudi uredimo glede na vrednosti v posameznih stolpcih. Za to uporabimo funkcijo `arrange()`. Sintaksa te funkcije je:
 
 ```{r, eval = FALSE}
-filter(<tibble>, <stolpec1>, <stolpec2>, ...)
+arrange(<tibble>, <stolpec1>, <stolpec2>, ...)
 ```
 
 kjer stolpci predstavljajo vrednosti, po katerih želimo urediti tibble. 
@@ -534,7 +534,7 @@ ds_jobs %>%
   mutate(TimeTotal = sum(starts_with("Time"), na.rm = T))
 ```
 
-R vrne napako in nas opozori, da se lahko `starts_with()` uporabi le znotraj izbire. Če želimo v tem primeru omogočiti tidy izbiro stolpcev, uporabimo funkcijo `c_across()`. Ta funkcija je po funkcionalnosti bolj podobna funkciji `c()` ali `select()`, kot pa funkciji `across()`, tako da jih ne smemo zamenjati:
+R vrne napako in nas opozori, da se lahko `starts_with()` uporabi le znotraj izbire. Če želimo v tem primeru omogočiti urejeno izbiro stolpcev, uporabimo funkcijo `c_across()`. Ta funkcija je po funkcionalnosti bolj podobna funkciji `c()` ali `select()`, kot pa funkciji `across()`, tako da jih ne smemo zamenjati:
 
 ```{r}
 ds_jobs %>%
@@ -543,7 +543,7 @@ ds_jobs %>%
   select(!starts_with("Time"))
 ```
 
-Sedaj smo dobili nek rezultat, ki pa še vedno ni pravilen. V čem je težava? Če `sum()` uporabimo znotraj `mutate()`, ta vrne vsoto znotraj skupin, določenih z `group_by()`. Ker podatkov nismo grupirali, vrne vsoto kar čez celotne podatke (bralca vzpodbujamo, da to preveri tudi sam). Rešitev se torej skriva v ustreznem združevanju vrstic. V dplyr obstaja funkcija, ki celoten tibble grupira po posameznih vrsticah in to je `rowwise()`:
+Sedaj smo dobili nek rezultat, ki pa še vedno ni pravilen. V čem je težava? Če `sum()` uporabimo znotraj `mutate()`, ta vrne vsoto znotraj skupin, določenih z `group_by()`. Ker podatkov nismo grupirali, vrne vsoto kar čez celotne podatke. Rešitev se torej skriva v ustreznem združevanju vrstic. V dplyr obstaja funkcija, ki celoten tibble grupira po posameznih vrsticah in to je `rowwise()`:
 
 ```{r}
 ds_jobs %>%
@@ -620,7 +620,7 @@ ds_jobs_summarised
 
 
 ## Ali želite izvedeti več?
-V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementacijo v R paketu dplyr. Opis vseh funkcij v dplyr najdemo tukaj: https://dplyr.tidyverse.org/reference/index.html. Jedrnat povzetek pa je na voljo tukaj: https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf.
+V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementacijo v R paketu dplyr. Opis vseh funkcij v dplyr najdemo tukaj: https://dplyr.tidyverse.org/reference/index.html. Jedrnat povzetek pa je na voljo tukaj, pod poglavjem Data Transformation Cheatsheet: https://www.rstudio.com/resources/cheatsheets/.
 
 
 ## Domača naloga
@@ -654,6 +654,7 @@ head(mtcars)
     - V tibble `mtcars_tib` dodajte stolpca, kjer bosta izračunani število litrov na 100 kilometrov in teža v kilogramih (v tisočicah). 1 milja je približno 1.61 kilometra, 1 galona 3.79 litra in 1 funt 0.45 kilograma. 
     ```{r, echo = FALSE}
     mtcars_tib <- mutate(mtcars_tib, lp100km = 100 / (mpg * (1.61 / 3.79)), wt_in_kg = wt * 0.45)
+    mtcars_tib
     ```
     - Izračunajte povprečno porabo avtomobilov v odvisnosti števila cilindrov.
     ```{r, echo = FALSE}
