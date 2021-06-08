@@ -654,7 +654,7 @@ head(mtcars)
     - V tibble `mtcars_tib` dodajte stolpca, kjer bosta izračunani število litrov na 100 kilometrov in teža v kilogramih (v tisočicah). 1 milja je približno 1.61 kilometra, 1 galona 3.79 litra in 1 funt 0.45 kilograma. 
     ```{r, echo = FALSE}
     mtcars_tib <- mutate(mtcars_tib, lp100km = 100 / (mpg * (1.61 / 3.79)), wt_in_kg = wt * 0.45)
-    mtcars_tib
+    select(mtcars_tib, mpg, wt, lp100km, wt_in_kg)
     ```
     - Izračunajte povprečno porabo avtomobilov v odvisnosti števila cilindrov.
     ```{r, echo = FALSE}
@@ -674,7 +674,7 @@ head(mtcars)
     $$
     ```{r, echo = FALSE}
     mtcars_tib %>%
-      mutate(across(c(mpg, disp, drat:qsec), ~ (. - min(.)) / (max(.) - min(.))))
+      mutate(across(c(mpg, disp, drat:qsec, lp100km, wt_in_kg), ~ (. - min(.)) / (max(.) - min(.))))
     ```
     - Izračunajte povprečne vrednosti vseh stolpcev.
     ```{r, echo = FALSE}

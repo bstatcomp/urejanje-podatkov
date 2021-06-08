@@ -124,7 +124,7 @@
 
 \title{Urejanje podatkov}
 \author{Gregor Pirš, Matej Pičulin in Erik Štrumbelj}
-\date{2021-06-07}
+\date{2021-06-08}
 
 \begin{document}
 \maketitle
@@ -1980,20 +1980,20 @@ V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementa
   \end{itemize}
 
 \begin{verbatim}
-## # A tibble: 32 x 13
-##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb lp100km
-##    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>
-##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4   11.2 
-##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4   11.2 
-##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1   10.3 
-##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1   11.0 
-##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2   12.6 
-##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1   13.0 
-##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4   16.5 
-##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2    9.65
-##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2   10.3 
-## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4   12.3 
-## # ... with 22 more rows, and 1 more variable: wt_in_kg <dbl>
+## # A tibble: 32 x 4
+##      mpg    wt lp100km wt_in_kg
+##    <dbl> <dbl>   <dbl>    <dbl>
+##  1  21    2.62   11.2      1.18
+##  2  21    2.88   11.2      1.29
+##  3  22.8  2.32   10.3      1.04
+##  4  21.4  3.22   11.0      1.45
+##  5  18.7  3.44   12.6      1.55
+##  6  18.1  3.46   13.0      1.56
+##  7  14.3  3.57   16.5      1.61
+##  8  24.4  3.19    9.65     1.44
+##  9  22.8  3.15   10.3      1.42
+## 10  19.2  3.44   12.3      1.55
+## # ... with 22 more rows
 \end{verbatim}
 
   \begin{itemize}
@@ -2041,16 +2041,16 @@ V tem poglavju smo spoznali temeljne operacije nad podatki in njihovo implementa
 ## # A tibble: 32 x 13
 ##      mpg   cyl   disp    hp  drat    wt  qsec    vs    am  gear  carb lp100km
 ##    <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>
-##  1 0.451     6 0.222    110 0.525 0.283 0.233     0     1     4     4   11.2 
-##  2 0.451     6 0.222    110 0.525 0.348 0.3       0     1     4     4   11.2 
-##  3 0.528     4 0.0920    93 0.502 0.206 0.489     1     1     4     1   10.3 
-##  4 0.468     6 0.466    110 0.147 0.435 0.588     1     0     3     1   11.0 
-##  5 0.353     8 0.721    175 0.180 0.493 0.3       0     0     3     2   12.6 
-##  6 0.328     6 0.384    105 0     0.498 0.681     1     0     3     1   13.0 
-##  7 0.166     8 0.721    245 0.207 0.526 0.160     0     0     3     4   16.5 
-##  8 0.596     4 0.189     62 0.429 0.429 0.655     1     0     4     2    9.65
-##  9 0.528     4 0.174     95 0.535 0.419 1         1     0     4     2   10.3 
-## 10 0.374     6 0.241    123 0.535 0.493 0.452     1     0     4     4   12.3 
+##  1 0.451     6 0.222    110 0.525 0.283 0.233     0     1     4     4   0.272
+##  2 0.451     6 0.222    110 0.525 0.348 0.3       0     1     4     4   0.272
+##  3 0.528     4 0.0920    93 0.502 0.206 0.489     1     1     4     1   0.215
+##  4 0.468     6 0.466    110 0.147 0.435 0.588     1     0     3     1   0.259
+##  5 0.353     8 0.721    175 0.180 0.493 0.3       0     0     3     2   0.360
+##  6 0.328     6 0.384    105 0     0.498 0.681     1     0     3     1   0.386
+##  7 0.166     8 0.721    245 0.207 0.526 0.160     0     0     3     4   0.607
+##  8 0.596     4 0.189     62 0.429 0.429 0.655     1     0     4     2   0.172
+##  9 0.528     4 0.174     95 0.535 0.419 1         1     0     4     2   0.215
+## 10 0.374     6 0.241    123 0.535 0.493 0.452     1     0     4     4   0.339
 ## # ... with 22 more rows, and 1 more variable: wt_in_kg <dbl>
 \end{verbatim}
 
@@ -4506,7 +4506,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-07 15:47:50 CEST"
+## [1] "2021-06-08 17:24:21 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4536,7 +4536,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 7
+## [1] 8
 \end{verbatim}
 
 \begin{Shaded}
@@ -4546,7 +4546,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 2
+## [1] 3
 \end{verbatim}
 
 \begin{Shaded}
@@ -4556,7 +4556,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1
+## [1] 2
 \end{verbatim}
 
 \begin{Shaded}
@@ -4566,7 +4566,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 15
+## [1] 17
 \end{verbatim}
 
 \begin{Shaded}
@@ -4576,7 +4576,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 47
+## [1] 24
 \end{verbatim}
 
 \begin{Shaded}
@@ -4586,7 +4586,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 50.97571
+## [1] 21.33947
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4599,7 +4599,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 15:47:50 CEST"
+## [1] "2021-06-05 17:24:21 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:
