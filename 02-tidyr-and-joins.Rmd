@@ -40,7 +40,7 @@ df_longer
 Lahko naredimo tudi obratno transformacijo, torej da vrednosti enega stolpca razširimo v več stolpcev. Na primer, razširimo stolpec `ime`:
 
 ```{r}
-pivot_wider(df_longer, names_from = "ime", values_from = "rezultat")
+pivot_wider(df_longer, names_from = ime, values_from = rezultat)
 ```
 
 **Naloga**: Spodnjo razpredelnico transformirajte v daljšo obliko, tako da informacije o številu oddelkov shranite v 1 stolpec.
@@ -220,7 +220,7 @@ Pretvorimo sedaj `df_longer` v širšo obliko glede na stolpec `TIP.STAVBE`.
 
 ```{r}
 df_wider <- df_longer %>%
-  pivot_wider(names_from = "TIP.STAVBE", values_from = "Število")
+  pivot_wider(names_from = TIP.STAVBE, values_from = Število)
 df_wider[1:14, ]
 ```
 

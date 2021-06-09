@@ -24,7 +24,7 @@
 <meta name="author" content="Gregor Pirš, Matej Pičulin in Erik Štrumbelj" />
 
 
-<meta name="date" content="2021-06-08" />
+<meta name="date" content="2021-06-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -286,7 +286,7 @@ div.csl-indent {
 ## 5 Mateja 2018       8.7
 ## 6 Mateja 2019       9</code></pre>
 <p>Lahko naredimo tudi obratno transformacijo, torej da vrednosti enega stolpca razširimo v več stolpcev. Na primer, razširimo stolpec <code>ime</code>:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="urejeni-in-relacijski-podatki.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_wider</span>(df_longer, <span class="at">names_from =</span> <span class="st">&quot;ime&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;rezultat&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="urejeni-in-relacijski-podatki.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_wider</span>(df_longer, <span class="at">names_from =</span> ime, <span class="at">values_from =</span> rezultat)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 4
 ##   leto  Mojca  Miha Mateja
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
@@ -579,7 +579,7 @@ div.csl-indent {
 </ul>
 <p>Pretvorimo sedaj <code>df_longer</code> v širšo obliko glede na stolpec <code>TIP.STAVBE</code>.</p>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="urejeni-in-relacijski-podatki.html#cb169-1" aria-hidden="true" tabindex="-1"></a>df_wider <span class="ot">&lt;-</span> df_longer <span class="sc">%&gt;%</span></span>
-<span id="cb169-2"><a href="urejeni-in-relacijski-podatki.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;TIP.STAVBE&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;Število&quot;</span>)</span>
+<span id="cb169-2"><a href="urejeni-in-relacijski-podatki.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> TIP.STAVBE, <span class="at">values_from =</span> Število)</span>
 <span id="cb169-3"><a href="urejeni-in-relacijski-podatki.html#cb169-3" aria-hidden="true" tabindex="-1"></a>df_wider[<span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>, ]</span></code></pre></div>
 <pre><code>## # A tibble: 14 x 4
 ##    OBČINE     Leto  `Stanovanjske stavbe` `Nestanovanjske stavbe`

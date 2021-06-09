@@ -124,7 +124,7 @@
 
 \title{Urejanje podatkov}
 \author{Gregor Pirš, Matej Pičulin in Erik Štrumbelj}
-\date{2021-06-08}
+\date{2021-06-09}
 
 \begin{document}
 \maketitle
@@ -2251,7 +2251,7 @@ Lahko naredimo tudi obratno transformacijo, torej da vrednosti enega stolpca raz
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{pivot\_wider}\NormalTok{(df\_longer, }\AttributeTok{names\_from =} \StringTok{"ime"}\NormalTok{, }\AttributeTok{values\_from =} \StringTok{"rezultat"}\NormalTok{)}
+\FunctionTok{pivot\_wider}\NormalTok{(df\_longer, }\AttributeTok{names\_from =}\NormalTok{ ime, }\AttributeTok{values\_from =}\NormalTok{ rezultat)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2700,7 +2700,7 @@ Pretvorimo sedaj \texttt{df\_longer} v širšo obliko glede na stolpec \texttt{T
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{df\_wider }\OtherTok{\textless{}{-}}\NormalTok{ df\_longer }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =} \StringTok{"TIP.STAVBE"}\NormalTok{, }\AttributeTok{values\_from =} \StringTok{"Število"}\NormalTok{)}
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ TIP.STAVBE, }\AttributeTok{values\_from =}\NormalTok{ Število)}
 \NormalTok{df\_wider[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{14}\NormalTok{, ]}
 \end{Highlighting}
 \end{Shaded}
@@ -4506,7 +4506,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-08 17:24:21 CEST"
+## [1] "2021-06-09 10:22:05 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4536,7 +4536,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 8
+## [1] 9
 \end{verbatim}
 
 \begin{Shaded}
@@ -4546,7 +4546,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3
+## [1] 4
 \end{verbatim}
 
 \begin{Shaded}
@@ -4556,7 +4556,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 2
+## [1] 3
 \end{verbatim}
 
 \begin{Shaded}
@@ -4566,7 +4566,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 17
+## [1] 10
 \end{verbatim}
 
 \begin{Shaded}
@@ -4576,7 +4576,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 24
+## [1] 22
 \end{verbatim}
 
 \begin{Shaded}
@@ -4586,7 +4586,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 21.33947
+## [1] 5.280272
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4599,7 +4599,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 17:24:21 CEST"
+## [1] "2021-06-05 10:22:05 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:
