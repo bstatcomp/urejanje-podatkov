@@ -3848,43 +3848,73 @@ Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: \url{htt
   Ustvarite novo razpredelnico tako da razpredelnici \texttt{flights} dodate podrobnosti o lastnostih letal za vsak let.
 
 \begin{verbatim}
-## Error in library(nycflights13): there is no package called 'nycflights13'
-\end{verbatim}
-
-\begin{verbatim}
-## Error in mutate(flights, ID = row_number()): object 'flights' not found
-\end{verbatim}
-
-\begin{verbatim}
-## Error in left_join(flights, planes, by = "tailnum"): object 'flights' not found
-\end{verbatim}
-
-\begin{verbatim}
-## Error in eval(expr, envir, enclos): object 'flights_plane' not found
+## # A tibble: 336,776 x 28
+##       ID year.x month   day dep_time sched_dep_time dep_delay arr_time
+##    <int>  <int> <int> <int>    <int>          <int>     <dbl>    <int>
+##  1     1   2013     1     1      517            515         2      830
+##  2     2   2013     1     1      533            529         4      850
+##  3     3   2013     1     1      542            540         2      923
+##  4     4   2013     1     1      544            545        -1     1004
+##  5     5   2013     1     1      554            600        -6      812
+##  6     6   2013     1     1      554            558        -4      740
+##  7     7   2013     1     1      555            600        -5      913
+##  8     8   2013     1     1      557            600        -3      709
+##  9     9   2013     1     1      557            600        -3      838
+## 10    10   2013     1     1      558            600        -2      753
+## # ... with 336,766 more rows, and 20 more variables: sched_arr_time <int>,
+## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, year.y <int>, type <chr>, manufacturer <chr>,
+## #   model <chr>, engines <int>, seats <int>, speed <int>, engine <chr>
 \end{verbatim}
 \item
   Ustvarite novo razpredelnico tako da razpredelnici \texttt{flights} dodate podrobnosti o vremenu na letališču vsak let.
 
 \begin{verbatim}
-## Error in left_join(flights, weather, by = c("year", "month", "day", "hour", : object 'flights' not found
-\end{verbatim}
-
-\begin{verbatim}
-## Error in eval(expr, envir, enclos): object 'flights_weather' not found
+## # A tibble: 336,776 x 30
+##       ID  year month   day dep_time sched_dep_time dep_delay arr_time
+##    <int> <int> <int> <int>    <int>          <int>     <dbl>    <int>
+##  1     1  2013     1     1      517            515         2      830
+##  2     2  2013     1     1      533            529         4      850
+##  3     3  2013     1     1      542            540         2      923
+##  4     4  2013     1     1      544            545        -1     1004
+##  5     5  2013     1     1      554            600        -6      812
+##  6     6  2013     1     1      554            558        -4      740
+##  7     7  2013     1     1      555            600        -5      913
+##  8     8  2013     1     1      557            600        -3      709
+##  9     9  2013     1     1      557            600        -3      838
+## 10    10  2013     1     1      558            600        -2      753
+## # ... with 336,766 more rows, and 22 more variables: sched_arr_time <int>,
+## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour.x <dttm>, temp <dbl>, dewp <dbl>, humid <dbl>, wind_dir <dbl>,
+## #   wind_speed <dbl>, wind_gust <dbl>, precip <dbl>, pressure <dbl>,
+## #   visib <dbl>, time_hour.y <dttm>
 \end{verbatim}
 \item
   Poiščite vsa letala, ki so v New York priletela 5. aprila iz letališča Chicago Ohare Intl.
 
 \begin{verbatim}
-## Error in filter(airports, name == "Chicago Ohare Intl"): object 'airports' not found
-\end{verbatim}
-
-\begin{verbatim}
-## Error in filter(., engines == 2, month == 4, day == 5): object 'flights_plane' not found
-\end{verbatim}
-
-\begin{verbatim}
-## Error in eval(expr, envir, enclos): object 'planes_ORD' not found
+## # A tibble: 35 x 35
+##        ID year.x month   day dep_time sched_dep_time dep_delay arr_time
+##     <int>  <int> <int> <int>    <int>          <int>     <dbl>    <int>
+##  1 169022   2013     4     5      545            600       -15      710
+##  2 169051   2013     4     5      604            610        -6      739
+##  3 169062   2013     4     5      624            630        -6      755
+##  4 169086   2013     4     5      636            630         6      814
+##  5 169100   2013     4     5      653            700        -7      827
+##  6 169114   2013     4     5      659            700        -1      823
+##  7 169125   2013     4     5      720            725        -5      851
+##  8 169159   2013     4     5      752            759        -7      920
+##  9 169183   2013     4     5      810            815        -5      933
+## 10 169201   2013     4     5      823            830        -7      957
+## # ... with 25 more rows, and 27 more variables: sched_arr_time <int>,
+## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, year.y <int>, type <chr>, manufacturer <chr>,
+## #   model <chr>, engines <int>, seats <int>, speed <int>, engine <chr>,
+## #   name <chr>, lat <dbl>, lon <dbl>, alt <dbl>, tz <dbl>, dst <chr>,
+## #   tzone <chr>
 \end{verbatim}
 \end{itemize}
 
@@ -4506,7 +4536,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-09 10:22:05 CEST"
+## [1] "2021-06-09 10:32:38 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4576,7 +4606,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 22
+## [1] 32
 \end{verbatim}
 
 \begin{Shaded}
@@ -4586,7 +4616,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 5.280272
+## [1] 38.18201
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -4599,7 +4629,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 10:22:05 CEST"
+## [1] "2021-06-05 10:32:38 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:

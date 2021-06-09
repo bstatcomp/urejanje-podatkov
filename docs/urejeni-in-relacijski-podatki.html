@@ -1252,17 +1252,65 @@ div.csl-indent {
 <li><p>Ugotovite, kaj so primarni in kaj tuji ključi preostalih razpredelnic. Pri nekaterih razpredelnicah v tej zbirki bomo imeli sestavljene ključe, torej bodo ključi sestavljeni iz večih stolpcev. Namig: Pri vremenu je manjša napaka v podatkih in se tudi primarni ključ ponovi v zanemarljivem številu primerov. Vsekakor so napake v realnih podatkih pričakovane in moramo na to biti pozorni!</p></li>
 <li><p>Narišite relacijski diagram.</p></li>
 <li><p>Ustvarite novo razpredelnico tako da razpredelnici <code>flights</code> dodate podrobnosti o lastnostih letal za vsak let.</p>
-<pre><code>## Error in library(nycflights13): there is no package called &#39;nycflights13&#39;</code></pre>
-<pre><code>## Error in mutate(flights, ID = row_number()): object &#39;flights&#39; not found</code></pre>
-<pre><code>## Error in left_join(flights, planes, by = &quot;tailnum&quot;): object &#39;flights&#39; not found</code></pre>
-<pre><code>## Error in eval(expr, envir, enclos): object &#39;flights_plane&#39; not found</code></pre></li>
+<pre><code>## # A tibble: 336,776 x 28
+##       ID year.x month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1     1   2013     1     1      517            515         2      830
+##  2     2   2013     1     1      533            529         4      850
+##  3     3   2013     1     1      542            540         2      923
+##  4     4   2013     1     1      544            545        -1     1004
+##  5     5   2013     1     1      554            600        -6      812
+##  6     6   2013     1     1      554            558        -4      740
+##  7     7   2013     1     1      555            600        -5      913
+##  8     8   2013     1     1      557            600        -3      709
+##  9     9   2013     1     1      557            600        -3      838
+## 10    10   2013     1     1      558            600        -2      753
+## # ... with 336,766 more rows, and 20 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;,
+## #   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
+## #   time_hour &lt;dttm&gt;, year.y &lt;int&gt;, type &lt;chr&gt;, manufacturer &lt;chr&gt;,
+## #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</code></pre></li>
 <li><p>Ustvarite novo razpredelnico tako da razpredelnici <code>flights</code> dodate podrobnosti o vremenu na letališču vsak let.</p>
-<pre><code>## Error in left_join(flights, weather, by = c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, : object &#39;flights&#39; not found</code></pre>
-<pre><code>## Error in eval(expr, envir, enclos): object &#39;flights_weather&#39; not found</code></pre></li>
+<pre><code>## # A tibble: 336,776 x 30
+##       ID  year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1     1  2013     1     1      517            515         2      830
+##  2     2  2013     1     1      533            529         4      850
+##  3     3  2013     1     1      542            540         2      923
+##  4     4  2013     1     1      544            545        -1     1004
+##  5     5  2013     1     1      554            600        -6      812
+##  6     6  2013     1     1      554            558        -4      740
+##  7     7  2013     1     1      555            600        -5      913
+##  8     8  2013     1     1      557            600        -3      709
+##  9     9  2013     1     1      557            600        -3      838
+## 10    10  2013     1     1      558            600        -2      753
+## # ... with 336,766 more rows, and 22 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;,
+## #   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
+## #   time_hour.x &lt;dttm&gt;, temp &lt;dbl&gt;, dewp &lt;dbl&gt;, humid &lt;dbl&gt;, wind_dir &lt;dbl&gt;,
+## #   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,
+## #   visib &lt;dbl&gt;, time_hour.y &lt;dttm&gt;</code></pre></li>
 <li><p>Poiščite vsa letala, ki so v New York priletela 5. aprila iz letališča Chicago Ohare Intl.</p>
-<pre><code>## Error in filter(airports, name == &quot;Chicago Ohare Intl&quot;): object &#39;airports&#39; not found</code></pre>
-<pre><code>## Error in filter(., engines == 2, month == 4, day == 5): object &#39;flights_plane&#39; not found</code></pre>
-<pre><code>## Error in eval(expr, envir, enclos): object &#39;planes_ORD&#39; not found</code></pre></li>
+<pre><code>## # A tibble: 35 x 35
+##        ID year.x month   day dep_time sched_dep_time dep_delay arr_time
+##     &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1 169022   2013     4     5      545            600       -15      710
+##  2 169051   2013     4     5      604            610        -6      739
+##  3 169062   2013     4     5      624            630        -6      755
+##  4 169086   2013     4     5      636            630         6      814
+##  5 169100   2013     4     5      653            700        -7      827
+##  6 169114   2013     4     5      659            700        -1      823
+##  7 169125   2013     4     5      720            725        -5      851
+##  8 169159   2013     4     5      752            759        -7      920
+##  9 169183   2013     4     5      810            815        -5      933
+## 10 169201   2013     4     5      823            830        -7      957
+## # ... with 25 more rows, and 27 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;,
+## #   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
+## #   time_hour &lt;dttm&gt;, year.y &lt;int&gt;, type &lt;chr&gt;, manufacturer &lt;chr&gt;,
+## #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;,
+## #   name &lt;chr&gt;, lat &lt;dbl&gt;, lon &lt;dbl&gt;, alt &lt;dbl&gt;, tz &lt;dbl&gt;, dst &lt;chr&gt;,
+## #   tzone &lt;chr&gt;</code></pre></li>
 </ul>
 <ol start="5" style="list-style-type: decimal">
 <li><p><strong>Zelo težka naloga</strong>. V mapi <em>data-raw</em> se nahajajo podatki o kreditnih karticah v Tajvanu <em>default of credit card clients.xlsx</em>. Pridobili smo jih iz UCI Machine Learning repozitorija <span class="citation">(<a href="reference.html#ref-Dua2019" role="doc-biblioref">Dua and Graff 2017</a>)</span>. Podatki so bili uporabljeni v znanstveni raziskavi <span class="citation">(<a href="reference.html#ref-Yeh2009" role="doc-biblioref">Yeh and Lien 2009</a>)</span>, kjer so napovedovali verjetnosti neplačil v odvisnosti od preteklih transakcij na kartici in podatkov o lastnikih. Podatki so v xlsx datoteki. Bodite pozorni, da je prva vrstica datoteke nepomembna in se glava začne komaj v drugi vrstici. Trenutno so podatki v obliki, v kateri so zelo primerni kot vhodni podatek za kak model, na primer linearno regresijo. Vsekakor pa niso v primerni obliki za učinkotivo urejanje in hranjenje. Vaša naloga je, da podatke preberete v R in razpredelnico pretvorite v urejeno obliko.</p>
