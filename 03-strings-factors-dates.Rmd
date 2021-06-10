@@ -17,12 +17,13 @@ library(nycflights13) #paket s podatki, ki ga bomo sproti uporabljali
 # Nizi, kategorične spremenljivke in datumi 
 Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih funkcij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.
 
-## Priprava 
+## Priprava
 
 V tem poglavju bomo spoznali, kako delamo z nizi, kategoričnimi spremenljivkami in datumu. Na koncu se bomo tudi posvetili branju in zapisovanju dobljenih rezultatov z/na disk.
 
+#### Nizi 
 
-Najprej si oglejmo tri najbolj uporabne funkcije za delo z nizi.
+Najprej si oglejmo najbolj uporabne funkcije za delo z nizi.
 
 Poglejmo najprej kako lahko združujemo nize skupaj na več načinov. 
 
@@ -38,6 +39,7 @@ Obratno jih lahko tudi razčlenimo na več manjših.
 ```{r}
 str_split("A1-B2-C3-D4", pattern = "-")
 ```
+
 Zelo uporabna je tudi funkcija za zamenjavo podnizov.
 
 ```{r}
@@ -45,6 +47,21 @@ str_replace("A1-B1-A2-B2", pattern = "1", "(ena)")
 str_replace_all("A1-B1-A2-B2", pattern = "1", "(ena)")
 str_replace_all("A1-B1-A2-B2", c("1" = "(ena)", "2" = "(dva)"))
 ```
+
+Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu `fruit` poiskali vse jagodičevje, to so tisti nizi, ki vsebujejo `berry`.
+
+```{r}
+length(fruit)
+str_subset(fruit, "berry")
+```
+Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo `berry`.
+
+```{r}
+length(fruit)
+str_detect(fruit, "berry")
+```
+#### Kategorične spremenljivke
+
 ``` {r}
 tib <- tibble(
   ime = c("Maja", "Ales", "Tom", "Barbara", "Simon", "Tina"),
@@ -52,7 +69,8 @@ tib <- tibble(
   ocena = c(7, 10, 6, 8, 8, 7),
   dan_izpita = c(8, 8, 16, 16, 8, 23),
   mesec_izpita = rep(6, 6),
-  leto_izpita = rep(2021, 6)
+  leto_izpita = rep(2021, 6),
+  opravljene_vaje = c(1, 1, 1, 1, 0, 1)
 )
 tib
 ```
@@ -64,14 +82,93 @@ tib %>% mutate(spol = factor(spol),
               ocena = factor(ocena, ordered = TRUE))
 ```
 
-R omogoča avtomatski izpis datumov.
+#### Datumi
+
+R omogoča avtomatski izpis datumov v obliki nizov. Preprosto lahko sestavimo datum z naslednjim ukazom. 
 
 ``` {r}
-library(lubridate)
 make_date(year = 2021, month = 6, day = 11)
 ```
+Lahko uporabimo tudi funkcijo, ki sprejme tudi uro in časovni pas.
 
-**Naloga**: Tabeli tib zamenjajte stopce leto_izpita, mesec_izpita, dan_izpita z datum_izpita, ki vsebuje vse te podatke.
+``` {r}
+make_datetime(year = 2021, month = 6, day = 11, hour = 11, min = 30, tz = "CET")
+```
+#### Branje in pisanje podatkov
+
+Datoteke s končnico csv smo na tej delavnici že brali s funkcijo `csv.read2()`. V paketu **readr** obstaja sorodna funkcija `csv_read()`.
+
+Preberimo si sedaj datoteko `ocene.csv`, kjer so prejšnji tabeli dodani še nekateri stolpci. Paket nam tudi pove kašnega tipa so stolpci.
+
+
+```{r}
+ocene <- read_csv2("./data-raw/ocene.csv")
+```
+Podobno lahko zapišemo podatke nazaj na disk z metodo `write_csv2()`.
+
+```{r}
+write_csv2(ocene, "./data-raw/ocene_copy.csv")
+```
+
+**Naloga 1**: Datoteko ocene.csv preberite z funkcijami paketa **readr** (`read_csv2()` in `write_csv2()`). Shranite jo kot ocene2.csv in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R ((`read.csv2()` in `write.csv2()`)). Kaj opazite?
+
+Z **readr**:
+```{r}
+ocene <- read_csv2("./data-raw/ocene.csv")
+write_csv2(ocene, "./data-raw/ocene2.csv")
+read_csv2("./data-raw/ocene2.csv")
+```
+
+Z R:
+```{r}
+ocene <- read.csv2("./data-raw/ocene.csv")
+write.csv2(ocene, "./data-raw/ocene2.csv")
+read.csv2("./data-raw/ocene2.csv")
+```
+
+
+**Naloga 2**: Ponovno preberite ocene.csv ter:
+
+- spremenite stolpec opravljene_vaje v kategorične vrednosti
+- zamenjajte stolpce leto_izpita, mesec_izpita, dan_izpita z datum_izpita, ki vsebuje vse te podatke
+- Izberite samo imena, ki se začnejo na 'T' in podatke shranite v datoteko oceneT.csv.
+
+
+```{r}
+ocene <- read.csv2("./data-raw/ocene.csv")
+ocene <- ocene %>% 
+  mutate(opravljene_vaje = factor(opravljene_vaje)) %>%
+  mutate(datum_izpita = make_date(year = leto_izpita, 
+                                  month = mesec_izpita, 
+                                  day = dan_izpita)) %>%
+  select(-leto_izpita, -mesec_izpita, -dan_izpita) %>%
+  filter(str_detect(ime, "T"))
+write_csv2(ocene, "./data-raw/oceneT.csv")
+ocene
+```
+
+### Delo s šumniki
+
+Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite ali R uporablja pravilno kodiranje je, da napišete v konzolo "čebula", nazaj morate dobiti enak niz in ne "cebula" ali celo "პbula".
+
+```{r}
+"čebula"
+```
+Če R ne vrne istega niza morate nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidite kateri je trenutno uporabljen lahko napišete.
+
+```{r}
+Sys.getlocale()
+```
+Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate težave, lahko to začasno spremenite z ukazom. 
+
+```{r}
+Sys.setlocale(category = "LC_ALL", locale = "Slovenian_Slovenia.1250")
+```
+
+Oziroma lahko na primer v Windowsih nastavite privzeto kodiranje pod "Settings -> Time & Language -> Region -> Regional Format". Tukaj izberite "Slovenian (Slovenia)".
+
+Oziroma za slovenske Windowse: "Nastavitve -> Ura in Jezik -> Regija -> Območne nastavitve" in izberite "Slovenščina (Slovenija)"
+
 
 ## Nizi
 
