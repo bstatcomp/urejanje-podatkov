@@ -31,15 +31,5 @@ for (f in lf_slo) {
   df <- replace_all(df, "Ž", "Z")
   df <- replace_all(df, "ž", "z")
   write_csv2(df, paste0("./data-no-special-characters/", f))
-  # 
-  # 
-  # df           <- df %>%
-  #   mutate(OBCINE = str_replace(OBCINE, "È", "C"),
-  #          OBCINE = str_replace(OBCINE, "è", "c"),
-  #          OBCINE = str_replace(OBCINE, "Š", "S"),
-  #          OBCINE = str_replace(OBCINE, "š", "s"),
-  #          OBCINE = str_replace(OBCINE, "Ž", "Z"),
-  #          OBCINE = str_replace(OBCINE, "ž", "z"))
-  # write_csv2(df, paste0("./data-no-special-characters/", f))
 }
 
