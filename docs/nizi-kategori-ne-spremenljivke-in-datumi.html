@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Poglavje 3 Nizi, kategorične spremenljivke in datumi | Urejanje podatkov</title>
+  <meta name="description" content="Gradivo za delavnico Urejanje podatkov pobude DataScience@UL-FRI." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Poglavje 3 Nizi, kategorične spremenljivke in datumi | Urejanje podatkov" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Gradivo za delavnico Urejanje podatkov pobude DataScience@UL-FRI." />
+  <meta name="github-repo" content="bstatcomp/urejanje-podatkov" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Poglavje 3 Nizi, kategorične spremenljivke in datumi | Urejanje podatkov" />
+  
+  <meta name="twitter:description" content="Gradivo za delavnico Urejanje podatkov pobude DataScience@UL-FRI." />
+  
+
+<meta name="author" content="Gregor Pirš, Matej Pičulin in Erik Štrumbelj" />
+
+
+<meta name="date" content="2021-06-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="urejeni-in-relacijski-podatki.html"/>
+<link rel="next" href="reference.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Urejanje podatkov</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Uvod</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#struktura-te-knjige"><i class="fa fa-check"></i>Struktura te knjige</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#stil-programske-kode"><i class="fa fa-check"></i>Stil programske kode</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html"><i class="fa fa-check"></i><b>1</b> Slovnica ravnanja s podatki</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#priprava"><i class="fa fa-check"></i><b>1.1</b> Priprava</a></li>
+<li class="chapter" data-level="1.2" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#sodobna-razpredelnica-tibble"><i class="fa fa-check"></i><b>1.2</b> Sodobna razpredelnica: <code>tibble</code></a></li>
+<li class="chapter" data-level="1.3" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#urejeno-ovrednotenje"><i class="fa fa-check"></i><b>1.3</b> Urejeno ovrednotenje</a></li>
+<li class="chapter" data-level="1.4" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#izbira-vrstic-s-filter"><i class="fa fa-check"></i><b>1.4</b> Izbira vrstic s <code>filter()</code></a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#manjkajoče-vrednosti"><i class="fa fa-check"></i><b>1.4.1</b> Manjkajoče vrednosti</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#izbira-stolpcev-s-select"><i class="fa fa-check"></i><b>1.5</b> Izbira stolpcev s <code>select()</code></a></li>
+<li class="chapter" data-level="1.6" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#urejanje-vrstic-z-arrange"><i class="fa fa-check"></i><b>1.6</b> Urejanje vrstic z <code>arrange()</code></a></li>
+<li class="chapter" data-level="1.7" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#dodajanje-novih-spremenljivk-z-mutate"><i class="fa fa-check"></i><b>1.7</b> Dodajanje novih spremenljivk z <code>mutate()</code></a></li>
+<li class="chapter" data-level="1.8" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#povzemanje-vrednosti-s-summarise"><i class="fa fa-check"></i><b>1.8</b> Povzemanje vrednosti s <code>summarise()</code></a></li>
+<li class="chapter" data-level="1.9" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#pipe"><i class="fa fa-check"></i><b>1.9</b> Pipe</a></li>
+<li class="chapter" data-level="1.10" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#filter-in-mutate-na-združenih-podatkih"><i class="fa fa-check"></i><b>1.10</b> <code>filter()</code> in <code>mutate()</code> na združenih podatkih</a></li>
+<li class="chapter" data-level="1.11" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#izvajanje-operacij-nad-večimi-stolpci-z-across"><i class="fa fa-check"></i><b>1.11</b> Izvajanje operacij nad večimi stolpci z <code>across()</code></a></li>
+<li class="chapter" data-level="1.12" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#povzemanje-stolpcev"><i class="fa fa-check"></i><b>1.12</b> Povzemanje stolpcev</a></li>
+<li class="chapter" data-level="1.13" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#povzemanje-vrstic"><i class="fa fa-check"></i><b>1.13</b> Povzemanje vrstic</a></li>
+<li class="chapter" data-level="1.14" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#dodatek"><i class="fa fa-check"></i><b>1.14</b> Dodatek</a>
+<ul>
+<li class="chapter" data-level="1.14.1" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#zamenjava-vrstnega-reda-stolpcev"><i class="fa fa-check"></i><b>1.14.1</b> Zamenjava vrstnega reda stolpcev</a></li>
+<li class="chapter" data-level="1.14.2" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#preimenovanje-stolpcev"><i class="fa fa-check"></i><b>1.14.2</b> Preimenovanje stolpcev</a></li>
+<li class="chapter" data-level="1.14.3" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#summarise-in-group-unpeeling"><i class="fa fa-check"></i><b>1.14.3</b> Summarise in group unpeeling</a></li>
+</ul></li>
+<li class="chapter" data-level="1.15" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#ali-želite-izvedeti-več"><i class="fa fa-check"></i><b>1.15</b> Ali želite izvedeti več?</a></li>
+<li class="chapter" data-level="1.16" data-path="slovnica-ravnanja-s-podatki.html"><a href="slovnica-ravnanja-s-podatki.html#domača-naloga"><i class="fa fa-check"></i><b>1.16</b> Domača naloga</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html"><i class="fa fa-check"></i><b>2</b> Urejeni in relacijski podatki</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#priprava-1"><i class="fa fa-check"></i><b>2.1</b> Priprava</a></li>
+<li class="chapter" data-level="2.2" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#urejeni-podatki"><i class="fa fa-check"></i><b>2.2</b> Urejeni podatki</a></li>
+<li class="chapter" data-level="2.3" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#pivot_longer-pretvorba-v-daljšo-obliko"><i class="fa fa-check"></i><b>2.3</b> <code>pivot_longer()</code>: pretvorba v daljšo obliko</a></li>
+<li class="chapter" data-level="2.4" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#pivot_wider-pretvorba-v-širšo-obliko"><i class="fa fa-check"></i><b>2.4</b> <code>pivot_wider()</code>: pretvorba v širšo obliko</a></li>
+<li class="chapter" data-level="2.5" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#separate-in-unite-deljenje-in-združevanje-stolpcev"><i class="fa fa-check"></i><b>2.5</b> <code>separate()</code> in <code>unite()</code>: deljenje in združevanje stolpcev</a></li>
+<li class="chapter" data-level="2.6" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#relacijske-zbirke-podatkov"><i class="fa fa-check"></i><b>2.6</b> Relacijske zbirke podatkov</a></li>
+<li class="chapter" data-level="2.7" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#primer-bančni-podatki"><i class="fa fa-check"></i><b>2.7</b> Primer: Bančni podatki</a></li>
+<li class="chapter" data-level="2.8" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#ključi"><i class="fa fa-check"></i><b>2.8</b> Ključi</a></li>
+<li class="chapter" data-level="2.9" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#združevanja"><i class="fa fa-check"></i><b>2.9</b> Združevanja</a>
+<ul>
+<li class="chapter" data-level="2.9.1" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#mutirajoča-združevanja"><i class="fa fa-check"></i><b>2.9.1</b> Mutirajoča združevanja</a></li>
+<li class="chapter" data-level="2.9.2" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#argument-by"><i class="fa fa-check"></i><b>2.9.2</b> Argument <code>by</code></a></li>
+<li class="chapter" data-level="2.9.3" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#filtrirajoča-združevanja"><i class="fa fa-check"></i><b>2.9.3</b> Filtrirajoča združevanja</a></li>
+<li class="chapter" data-level="2.9.4" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#združevanja-na-realnih-podatkih"><i class="fa fa-check"></i><b>2.9.4</b> Združevanja na realnih podatkih</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#operacije-nad-množicami"><i class="fa fa-check"></i><b>2.10</b> Operacije nad množicami</a></li>
+<li class="chapter" data-level="2.11" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#ali-želite-izvedeti-več-1"><i class="fa fa-check"></i><b>2.11</b> Ali želite izvedeti več?</a></li>
+<li class="chapter" data-level="2.12" data-path="urejeni-in-relacijski-podatki.html"><a href="urejeni-in-relacijski-podatki.html#domača-naloga-1"><i class="fa fa-check"></i><b>2.12</b> Domača naloga</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html"><i class="fa fa-check"></i><b>3</b> Nizi, kategorične spremenljivke in datumi</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#priprava-2"><i class="fa fa-check"></i><b>3.1</b> Priprava</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#delo-s-šumniki"><i class="fa fa-check"></i><b>3.1.1</b> Delo s šumniki</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="reference.html"><a href="reference.html"><i class="fa fa-check"></i>Reference</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Urejanje podatkov</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="nizi-kategorične-spremenljivke-in-datumi" class="section level1" number="3">
+<h1><span class="header-section-number">Poglavje 3</span> Nizi, kategorične spremenljivke in datumi</h1>
+<p>Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih funkcij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.</p>
+<div id="priprava-2" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Priprava</h2>
+<p>V tem poglavju bomo spoznali, kako delamo z nizi, kategoričnimi spremenljivkami in datumu. Na koncu se bomo tudi posvetili branju in zapisovanju dobljenih rezultatov z/na disk.</p>
+<div id="nizi" class="section level4" number="3.1.0.1">
+<h4><span class="header-section-number">3.1.0.1</span> Nizi</h4>
+<p>Najprej si oglejmo najbolj uporabne funkcije za delo z nizi.</p>
+<p>Poglejmo najprej kako lahko združujemo nize skupaj na več načinov.</p>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb260-1" aria-hidden="true" tabindex="-1"></a>crke      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)</span>
+<span id="cb260-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb260-2" aria-hidden="true" tabindex="-1"></a>stevilke  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>)</span>
+<span id="cb260-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb260-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str_c</span>(crke, stevilke)</span></code></pre></div>
+<pre><code>## [1] &quot;A1&quot; &quot;B2&quot; &quot;C3&quot; &quot;D4&quot;</code></pre>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_c</span>(crke, stevilke, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;A-1&quot; &quot;B-2&quot; &quot;C-3&quot; &quot;D-4&quot;</code></pre>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_c</span>(crke, stevilke, <span class="at">collapse =</span> <span class="st">&quot;-&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;A1-B2-C3-D4&quot;</code></pre>
+<p>Obratno jih lahko tudi razčlenimo na več manjših.</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_split</span>(<span class="st">&quot;A1-B2-C3-D4&quot;</span>, <span class="at">pattern =</span> <span class="st">&quot;-&quot;</span>)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;A1&quot; &quot;B2&quot; &quot;C3&quot; &quot;D4&quot;</code></pre>
+<p>Zelo uporabna je tudi funkcija za zamenjavo podnizov.</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace</span>(<span class="st">&quot;A1-B1-A2-B2&quot;</span>, <span class="at">pattern =</span> <span class="st">&quot;1&quot;</span>, <span class="st">&quot;(ena)&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;A(ena)-B1-A2-B2&quot;</code></pre>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace_all</span>(<span class="st">&quot;A1-B1-A2-B2&quot;</span>, <span class="at">pattern =</span> <span class="st">&quot;1&quot;</span>, <span class="st">&quot;(ena)&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;A(ena)-B(ena)-A2-B2&quot;</code></pre>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace_all</span>(<span class="st">&quot;A1-B1-A2-B2&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;(ena)&quot;</span>, <span class="st">&quot;2&quot;</span> <span class="ot">=</span> <span class="st">&quot;(dva)&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;A(ena)-B(ena)-A(dva)-B(dva)&quot;</code></pre>
+<p>Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu <code>fruit</code> poiskali vse jagodičevje, to so tisti nizi, ki vsebujejo <code>berry</code>.</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(fruit)</span></code></pre></div>
+<pre><code>## [1] 80</code></pre>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb276-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_subset</span>(fruit, <span class="st">&quot;berry&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;bilberry&quot;    &quot;blackberry&quot;  &quot;blueberry&quot;   &quot;boysenberry&quot; &quot;cloudberry&quot; 
+##  [6] &quot;cranberry&quot;   &quot;elderberry&quot;  &quot;goji berry&quot;  &quot;gooseberry&quot;  &quot;huckleberry&quot;
+## [11] &quot;mulberry&quot;    &quot;raspberry&quot;   &quot;salal berry&quot; &quot;strawberry&quot;</code></pre>
+<p>Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo <code>berry</code>.</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(fruit)</span></code></pre></div>
+<pre><code>## [1] 80</code></pre>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(fruit, <span class="st">&quot;berry&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE
+## [13] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE
+## [25] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE
+## [37] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [49] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [61] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+## [73]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
+</div>
+<div id="kategorične-spremenljivke" class="section level4" number="3.1.0.2">
+<h4><span class="header-section-number">3.1.0.2</span> Kategorične spremenljivke</h4>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-1" aria-hidden="true" tabindex="-1"></a>tib <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb282-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ime =</span> <span class="fu">c</span>(<span class="st">&quot;Maja&quot;</span>, <span class="st">&quot;Ales&quot;</span>, <span class="st">&quot;Tom&quot;</span>, <span class="st">&quot;Barbara&quot;</span>, <span class="st">&quot;Simon&quot;</span>, <span class="st">&quot;Tina&quot;</span>),</span>
+<span id="cb282-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">spol =</span> <span class="fu">c</span>(<span class="st">&quot;z&quot;</span>, <span class="st">&quot;m&quot;</span>, <span class="st">&quot;m&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;m&quot;</span>, <span class="st">&quot;z&quot;</span>),</span>
+<span id="cb282-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ocena =</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">7</span>),</span>
+<span id="cb282-5"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dan_izpita =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">8</span>, <span class="dv">23</span>),</span>
+<span id="cb282-6"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mesec_izpita =</span> <span class="fu">rep</span>(<span class="dv">6</span>, <span class="dv">6</span>),</span>
+<span id="cb282-7"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">leto_izpita =</span> <span class="fu">rep</span>(<span class="dv">2021</span>, <span class="dv">6</span>),</span>
+<span id="cb282-8"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">opravljene_vaje =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb282-9"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb282-10"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb282-10" aria-hidden="true" tabindex="-1"></a>tib</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 7
+##   ime     spol  ocena dan_izpita mesec_izpita leto_izpita opravljene_vaje
+##   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Maja    z         7          8            6        2021               1
+## 2 Ales    m        10          8            6        2021               1
+## 3 Tom     m         6         16            6        2021               1
+## 4 Barbara z         8         16            6        2021               1
+## 5 Simon   m         8          8            6        2021               0
+## 6 Tina    z         7         23            6        2021               1</code></pre>
+<p>Spremenimo <strong>spol</strong> v nominalno spremenljivko in <strong>oceno</strong> v ordinalno spremenljivko.</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb284-1" aria-hidden="true" tabindex="-1"></a>tib <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">spol =</span> <span class="fu">factor</span>(spol),</span>
+<span id="cb284-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb284-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">ocena =</span> <span class="fu">factor</span>(ocena, <span class="at">ordered =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 7
+##   ime     spol  ocena dan_izpita mesec_izpita leto_izpita opravljene_vaje
+##   &lt;chr&gt;   &lt;fct&gt; &lt;ord&gt;      &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Maja    z     7              8            6        2021               1
+## 2 Ales    m     10             8            6        2021               1
+## 3 Tom     m     6             16            6        2021               1
+## 4 Barbara z     8             16            6        2021               1
+## 5 Simon   m     8              8            6        2021               0
+## 6 Tina    z     7             23            6        2021               1</code></pre>
+</div>
+<div id="datumi" class="section level4" number="3.1.0.3">
+<h4><span class="header-section-number">3.1.0.3</span> Datumi</h4>
+<p>R omogoča avtomatski izpis datumov v obliki nizov. Preprosto lahko sestavimo datum z naslednjim ukazom.</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb286-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_date</span>(<span class="at">year =</span> <span class="dv">2021</span>, <span class="at">month =</span> <span class="dv">6</span>, <span class="at">day =</span> <span class="dv">11</span>)</span></code></pre></div>
+<pre><code>## Error in make_date(year = 2021, month = 6, day = 11): could not find function &quot;make_date&quot;</code></pre>
+<p>Lahko uporabimo tudi funkcijo, ki sprejme tudi uro in časovni pas.</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_datetime</span>(<span class="at">year =</span> <span class="dv">2021</span>, <span class="at">month =</span> <span class="dv">6</span>, <span class="at">day =</span> <span class="dv">11</span>, <span class="at">hour =</span> <span class="dv">11</span>, <span class="at">min =</span> <span class="dv">30</span>, <span class="at">tz =</span> <span class="st">&quot;CET&quot;</span>)</span></code></pre></div>
+<pre><code>## Error in make_datetime(year = 2021, month = 6, day = 11, hour = 11, min = 30, : could not find function &quot;make_datetime&quot;</code></pre>
+</div>
+<div id="branje-in-pisanje-podatkov" class="section level4" number="3.1.0.4">
+<h4><span class="header-section-number">3.1.0.4</span> Branje in pisanje podatkov</h4>
+<p>Datoteke s končnico csv smo na tej delavnici že brali s funkcijo <code>csv.read2()</code>. V paketu <strong>readr</strong> obstaja sorodna funkcija <code>csv_read()</code>.</p>
+<p>Preberimo si sedaj datoteko <code>ocene.csv</code>, kjer so prejšnji tabeli dodani še nekateri stolpci. Paket nam tudi pove kašnega tipa so stolpci.</p>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb290-1" aria-hidden="true" tabindex="-1"></a>ocene <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/ocene.csv&quot;</span>)</span></code></pre></div>
+<p>Podobno lahko zapišemo podatke nazaj na disk z metodo <code>write_csv2()</code>.</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(ocene, <span class="st">&quot;./data-raw/ocene_copy.csv&quot;</span>)</span></code></pre></div>
+<p><strong>Naloga 1</strong>: Datoteko ocene.csv preberite z funkcijami paketa <strong>readr</strong> (<code>read_csv2()</code> in <code>write_csv2()</code>). Shranite jo kot ocene2.csv in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R ((<code>read.csv2()</code> in <code>write.csv2()</code>)). Kaj opazite?</p>
+<p>Z <strong>readr</strong>:</p>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb292-1" aria-hidden="true" tabindex="-1"></a>ocene <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/ocene.csv&quot;</span>)</span>
+<span id="cb292-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb292-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(ocene, <span class="st">&quot;./data-raw/ocene2.csv&quot;</span>)</span>
+<span id="cb292-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb292-3" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/ocene2.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 7
+##   ime     spol  ocena dan_izpita mesec_izpita leto_izpita opravljene_vaje
+##   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Maja    z         7          8            6        2021               1
+## 2 Ales    m        10          8            6        2021               1
+## 3 Tom     m         6         16            6        2021               1
+## 4 Barbara z         8         16            6        2021               1
+## 5 Simon   m         8          8            6        2021               0
+## 6 Tina    z         7         23            6        2021               1</code></pre>
+<p>Z R:</p>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb294-1" aria-hidden="true" tabindex="-1"></a>ocene <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;./data-raw/ocene.csv&quot;</span>)</span>
+<span id="cb294-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb294-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv2</span>(ocene, <span class="st">&quot;./data-raw/ocene2.csv&quot;</span>)</span>
+<span id="cb294-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb294-3" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv2</span>(<span class="st">&quot;./data-raw/ocene2.csv&quot;</span>)</span></code></pre></div>
+<pre><code>##   X     ime spol ocena dan_izpita mesec_izpita leto_izpita opravljene_vaje
+## 1 1    Maja    z     7          8            6        2021               1
+## 2 2    Ales    m    10          8            6        2021               1
+## 3 3     Tom    m     6         16            6        2021               1
+## 4 4 Barbara    z     8         16            6        2021               1
+## 5 5   Simon    m     8          8            6        2021               0
+## 6 6    Tina    z     7         23            6        2021               1</code></pre>
+<p><strong>Naloga 2</strong>: Ponovno preberite ocene.csv ter:</p>
+<ul>
+<li>spremenite stolpec opravljene_vaje v kategorične vrednosti</li>
+<li>zamenjajte stolpce leto_izpita, mesec_izpita, dan_izpita z datum_izpita, ki vsebuje vse te podatke</li>
+<li>Izberite samo imena, ki se začnejo na ‘T’ in podatke shranite v datoteko oceneT.csv.</li>
+</ul>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb296-1" aria-hidden="true" tabindex="-1"></a>ocene <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;./data-raw/ocene.csv&quot;</span>)</span>
+<span id="cb296-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb296-2" aria-hidden="true" tabindex="-1"></a>ocene <span class="ot">&lt;-</span> ocene <span class="sc">%&gt;%</span> </span>
+<span id="cb296-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb296-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">opravljene_vaje =</span> <span class="fu">factor</span>(opravljene_vaje)) <span class="sc">%&gt;%</span></span>
+<span id="cb296-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb296-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">datum_izpita =</span> <span class="fu">make_date</span>(<span class="at">year =</span> leto_izpita, </span>
+<span id="cb296-5"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb296-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">month =</span> mesec_izpita, </span>
+<span id="cb296-6"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb296-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">day =</span> dan_izpita)) <span class="sc">%&gt;%</span></span>
+<span id="cb296-7"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb296-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>leto_izpita, <span class="sc">-</span>mesec_izpita, <span class="sc">-</span>dan_izpita) <span class="sc">%&gt;%</span></span>
+<span id="cb296-8"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb296-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(ime, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
+<pre><code>## Error: Problem with `mutate()` column `datum_izpita`.
+## i `datum_izpita = make_date(year = leto_izpita, month = mesec_izpita, day = dan_izpita)`.
+## x could not find function &quot;make_date&quot;</code></pre>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(ocene, <span class="st">&quot;./data-raw/oceneT.csv&quot;</span>)</span>
+<span id="cb298-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb298-2" aria-hidden="true" tabindex="-1"></a>ocene</span></code></pre></div>
+<pre><code>##       ime spol ocena dan_izpita mesec_izpita leto_izpita opravljene_vaje
+## 1    Maja    z     7          8            6        2021               1
+## 2    Ales    m    10          8            6        2021               1
+## 3     Tom    m     6         16            6        2021               1
+## 4 Barbara    z     8         16            6        2021               1
+## 5   Simon    m     8          8            6        2021               0
+## 6    Tina    z     7         23            6        2021               1</code></pre>
+</div>
+<div id="delo-s-šumniki" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Delo s šumniki</h3>
+<p>Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite ali R uporablja pravilno kodiranje je, da napišete v konzolo “čebula,” nazaj morate dobiti enak niz in ne “cebula” ali celo “პbula.”</p>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;čebula&quot;</span></span></code></pre></div>
+<pre><code>## [1] &quot;čebula&quot;</code></pre>
+<p>Če R ne vrne istega niza morate nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidite kateri je trenutno uporabljen lahko napišete.</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getlocale</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;LC_COLLATE=Slovenian_Slovenia.1250;LC_CTYPE=Slovenian_Slovenia.1250;LC_MONETARY=Slovenian_Slovenia.1250;LC_NUMERIC=C;LC_TIME=Slovenian_Slovenia.1250&quot;</code></pre>
+<p>Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate težave, lahko to začasno spremenite z ukazom.</p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setlocale</span>(<span class="at">category =</span> <span class="st">&quot;LC_ALL&quot;</span>, <span class="at">locale =</span> <span class="st">&quot;Slovenian_Slovenia.1250&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;LC_COLLATE=Slovenian_Slovenia.1250;LC_CTYPE=Slovenian_Slovenia.1250;LC_MONETARY=Slovenian_Slovenia.1250;LC_NUMERIC=C;LC_TIME=Slovenian_Slovenia.1250&quot;</code></pre>
+<p>Oziroma lahko na primer v Windowsih nastavite privzeto kodiranje pod “Settings -&gt; Time &amp; Language -&gt; Region -&gt; Regional Format.” Tukaj izberite “Slovenian (Slovenia).”</p>
+<p>Oziroma za slovenske Windowse: “Nastavitve -&gt; Ura in Jezik -&gt; Regija -&gt; Območne nastavitve” in izberite “Slovenščina (Slovenija)”</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="urejeni-in-relacijski-podatki.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="reference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-strings-factors-dates.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
