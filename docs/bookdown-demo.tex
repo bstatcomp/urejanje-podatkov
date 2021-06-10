@@ -3960,19 +3960,20 @@ Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: \url{htt
 \hypertarget{nizi-kategoriux10dne-spremenljivke-in-datumi}{%
 \chapter{Nizi, kategorične spremenljivke in datumi}\label{nizi-kategoriux10dne-spremenljivke-in-datumi}}
 
-Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih funkcij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.
+Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih operacij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.
 
 \hypertarget{priprava-2}{%
 \section{Priprava}\label{priprava-2}}
 
-V tem poglavju bomo spoznali, kako delamo z nizi, kategoričnimi spremenljivkami in datumu. Na koncu se bomo tudi posvetili branju in zapisovanju dobljenih rezultatov z/na disk.
+V tem poglavju bomo spoznali, kako delamo z nizi, kategoričnimi spremenljivkami in datumi. Na koncu se bomo tudi posvetili branju podatkov iz različnih datotek in shranjevanju dobljenih rezultatov.
 
 \hypertarget{nizi}{%
-\subsubsection{Nizi}\label{nizi}}
+\subsubsection*{Nizi}\label{nizi}}
+\addcontentsline{toc}{subsubsection}{Nizi}
 
-Najprej si oglejmo najbolj uporabne funkcije za delo z nizi.
+Najprej si poglejmo najbolj uporabne funkcije za delo z nizi.
 
-Poglejmo najprej kako lahko združujemo nize skupaj na več načinov.
+Nize lahko združujemo na več načinov:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4006,7 +4007,7 @@ Poglejmo najprej kako lahko združujemo nize skupaj na več načinov.
 ## [1] "A1-B2-C3-D4"
 \end{verbatim}
 
-Obratno jih lahko tudi razčlenimo na več manjših.
+Obratno jih lahko razčlenimo na več manjših nizov:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4079,16 +4080,6 @@ Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo \texttt{berry}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{length}\NormalTok{(fruit)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 80
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{str\_detect}\NormalTok{(fruit, }\StringTok{"berry"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -4104,17 +4095,20 @@ Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo \texttt{berry}.
 \end{verbatim}
 
 \hypertarget{kategoriux10dne-spremenljivke}{%
-\subsubsection{Kategorične spremenljivke}\label{kategoriux10dne-spremenljivke}}
+\subsubsection*{Kategorične spremenljivke}\label{kategoriux10dne-spremenljivke}}
+\addcontentsline{toc}{subsubsection}{Kategorične spremenljivke}
+
+Pri pripravi na kategorične spremenljivke bomo uporabili podatke o uspehu študentov na izpitu:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{tib }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
-  \AttributeTok{ime =} \FunctionTok{c}\NormalTok{(}\StringTok{"Maja"}\NormalTok{, }\StringTok{"Ales"}\NormalTok{, }\StringTok{"Tom"}\NormalTok{, }\StringTok{"Barbara"}\NormalTok{, }\StringTok{"Simon"}\NormalTok{, }\StringTok{"Tina"}\NormalTok{),}
-  \AttributeTok{spol =} \FunctionTok{c}\NormalTok{(}\StringTok{"z"}\NormalTok{, }\StringTok{"m"}\NormalTok{, }\StringTok{"m"}\NormalTok{, }\StringTok{"z"}\NormalTok{, }\StringTok{"m"}\NormalTok{, }\StringTok{"z"}\NormalTok{),}
-  \AttributeTok{ocena =} \FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{7}\NormalTok{),}
-  \AttributeTok{dan\_izpita =} \FunctionTok{c}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{23}\NormalTok{),}
-  \AttributeTok{mesec\_izpita =} \FunctionTok{rep}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{6}\NormalTok{),}
-  \AttributeTok{leto\_izpita =} \FunctionTok{rep}\NormalTok{(}\DecValTok{2021}\NormalTok{, }\DecValTok{6}\NormalTok{),}
+  \AttributeTok{ime             =} \FunctionTok{c}\NormalTok{(}\StringTok{"Maja"}\NormalTok{, }\StringTok{"Ales"}\NormalTok{, }\StringTok{"Tom"}\NormalTok{, }\StringTok{"Barbara"}\NormalTok{, }\StringTok{"Simon"}\NormalTok{, }\StringTok{"Tina"}\NormalTok{),}
+  \AttributeTok{spol            =} \FunctionTok{c}\NormalTok{(}\StringTok{"z"}\NormalTok{, }\StringTok{"m"}\NormalTok{, }\StringTok{"m"}\NormalTok{, }\StringTok{"z"}\NormalTok{, }\StringTok{"m"}\NormalTok{, }\StringTok{"z"}\NormalTok{),}
+  \AttributeTok{ocena           =} \FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{7}\NormalTok{),}
+  \AttributeTok{dan\_izpita      =} \FunctionTok{c}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{23}\NormalTok{),}
+  \AttributeTok{mesec\_izpita    =} \FunctionTok{rep}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{6}\NormalTok{),}
+  \AttributeTok{leto\_izpita     =} \FunctionTok{rep}\NormalTok{(}\DecValTok{2021}\NormalTok{, }\DecValTok{6}\NormalTok{),}
   \AttributeTok{opravljene\_vaje =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
 \NormalTok{)}
 \NormalTok{tib}
@@ -4133,7 +4127,7 @@ Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo \texttt{berry}.
 ## 6 Tina    z         7         23            6        2021               1
 \end{verbatim}
 
-Spremenimo \textbf{spol} v nominalno spremenljivko in \textbf{oceno} v ordinalno spremenljivko.
+Spremenimo \textbf{spol} v nominalno spremenljivko (brez ureditve) in \textbf{oceno} v ordinalno spremenljivko (obstaja ureditev med vrednostmi, običajno po velikosti):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4154,8 +4148,29 @@ Spremenimo \textbf{spol} v nominalno spremenljivko in \textbf{oceno} v ordinalno
 ## 6 Tina    z     7             23            6        2021               1
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tib}\SpecialCharTok{$}\NormalTok{spol}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "z" "m" "m" "z" "m" "z"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tib}\SpecialCharTok{$}\NormalTok{ocena}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  7 10  6  8  8  7
+\end{verbatim}
+
 \hypertarget{datumi}{%
-\subsubsection{Datumi}\label{datumi}}
+\subsubsection*{Datumi}\label{datumi}}
+\addcontentsline{toc}{subsubsection}{Datumi}
 
 R omogoča avtomatski izpis datumov v obliki nizov. Preprosto lahko sestavimo datum z naslednjim ukazom.
 
@@ -4166,10 +4181,10 @@ R omogoča avtomatski izpis datumov v obliki nizov. Preprosto lahko sestavimo da
 \end{Shaded}
 
 \begin{verbatim}
-## Error in make_date(year = 2021, month = 6, day = 11): could not find function "make_date"
+## [1] "2021-06-11"
 \end{verbatim}
 
-Lahko uporabimo tudi funkcijo, ki sprejme tudi uro in časovni pas.
+Lahko uporabimo tudi funkcijo, ki prejme tudi uro in časovni pas.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4178,29 +4193,24 @@ Lahko uporabimo tudi funkcijo, ki sprejme tudi uro in časovni pas.
 \end{Shaded}
 
 \begin{verbatim}
-## Error in make_datetime(year = 2021, month = 6, day = 11, hour = 11, min = 30, : could not find function "make_datetime"
+## [1] "2021-06-11 11:30:00 CEST"
 \end{verbatim}
 
-\hypertarget{branje-in-pisanje-podatkov}{%
-\subsubsection{Branje in pisanje podatkov}\label{branje-in-pisanje-podatkov}}
+\hypertarget{shranjevanje-podatkov-v-csv}{%
+\subsubsection*{Shranjevanje podatkov v csv}\label{shranjevanje-podatkov-v-csv}}
+\addcontentsline{toc}{subsubsection}{Shranjevanje podatkov v csv}
 
-Datoteke s končnico csv smo na tej delavnici že brali s funkcijo \texttt{csv.read2()}. V paketu \textbf{readr} obstaja sorodna funkcija \texttt{csv\_read()}.
-
-Preberimo si sedaj datoteko \texttt{ocene.csv}, kjer so prejšnji tabeli dodani še nekateri stolpci. Paket nam tudi pove kašnega tipa so stolpci.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ocene }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv2}\NormalTok{(}\StringTok{"./data{-}raw/ocene.csv"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-Podobno lahko zapišemo podatke nazaj na disk z metodo \texttt{write\_csv2()}.
+V pripravi na 2. predavanje smo že spoznali funkcijo \texttt{rear\_csv2()} za branje podatkov iz tekstovnih datotek. Podatke lahko tudi shranimo v tekstovno datoteko s funkcijo \texttt{write\_csv2()}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{write\_csv2}\NormalTok{(ocene, }\StringTok{"./data{-}raw/ocene\_copy.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Error in write_csv2(ocene, "./data-raw/ocene_copy.csv"): object 'ocene' not found
+\end{verbatim}
 
 \textbf{Naloga 1}: Datoteko ocene.csv preberite z funkcijami paketa \textbf{readr} (\texttt{read\_csv2()} in \texttt{write\_csv2()}). Shranite jo kot ocene2.csv in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R ((\texttt{read.csv2()} in \texttt{write.csv2()})). Kaj opazite?
 
@@ -4251,9 +4261,9 @@ Z R:
 \begin{itemize}
 \tightlist
 \item
-  spremenite stolpec opravljene\_vaje v kategorične vrednosti
+  spremenite stolpec \texttt{opravljene\_vaje} v kategorične vrednosti,
 \item
-  zamenjajte stolpce leto\_izpita, mesec\_izpita, dan\_izpita z datum\_izpita, ki vsebuje vse te podatke
+  zamenjajte stolpce \texttt{leto\_izpita}, \texttt{mesec\_izpita}, \texttt{dan\_izpita} z \texttt{datum\_izpita}, ki vsebuje vse te podatke,
 \item
   Izberite samo imena, ki se začnejo na `T' in podatke shranite v datoteko oceneT.csv.
 \end{itemize}
@@ -4268,36 +4278,22 @@ Z R:
                                   \AttributeTok{day =}\NormalTok{ dan\_izpita)) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{leto\_izpita, }\SpecialCharTok{{-}}\NormalTok{mesec\_izpita, }\SpecialCharTok{{-}}\NormalTok{dan\_izpita) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{filter}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(ime, }\StringTok{"T"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Error: Problem with `mutate()` column `datum_izpita`.
-## i `datum_izpita = make_date(year = leto_izpita, month = mesec_izpita, day = dan_izpita)`.
-## x could not find function "make_date"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{write\_csv2}\NormalTok{(ocene, }\StringTok{"./data{-}raw/oceneT.csv"}\NormalTok{)}
 \NormalTok{ocene}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##       ime spol ocena dan_izpita mesec_izpita leto_izpita opravljene_vaje
-## 1    Maja    z     7          8            6        2021               1
-## 2    Ales    m    10          8            6        2021               1
-## 3     Tom    m     6         16            6        2021               1
-## 4 Barbara    z     8         16            6        2021               1
-## 5   Simon    m     8          8            6        2021               0
-## 6    Tina    z     7         23            6        2021               1
+##    ime spol ocena opravljene_vaje datum_izpita
+## 1  Tom    m     6               1   2021-06-16
+## 2 Tina    z     7               1   2021-06-23
 \end{verbatim}
 
 \hypertarget{delo-s-ux161umniki}{%
-\subsection{Delo s šumniki}\label{delo-s-ux161umniki}}
+\subsection*{Delo s šumniki}\label{delo-s-ux161umniki}}
+\addcontentsline{toc}{subsection}{Delo s šumniki}
 
-Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite ali R uporablja pravilno kodiranje je, da napišete v konzolo ``čebula'', nazaj morate dobiti enak niz in ne ``cebula'' ali celo ``პbula''.
+Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite ali R uporablja pravilno kodiranje je, da napišete v konzolo ``čebula''. Nazaj morate dobiti enak niz in ne ``cebula'' ali celo ``პbula''.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4309,7 +4305,7 @@ Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega siste
 ## [1] "čebula"
 \end{verbatim}
 
-Če R ne vrne istega niza morate nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidite kateri je trenutno uporabljen lahko napišete.
+Če R ne vrne istega niza je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimoo katero kodiranje je trenutno uporabljeno, lahko napišemo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4335,7 +4331,1625 @@ Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate te
 
 Oziroma lahko na primer v Windowsih nastavite privzeto kodiranje pod ``Settings -\textgreater{} Time \& Language -\textgreater{} Region -\textgreater{} Regional Format''. Tukaj izberite ``Slovenian (Slovenia)''.
 
-Oziroma za slovenske Windowse: ``Nastavitve -\textgreater{} Ura in Jezik -\textgreater{} Regija -\textgreater{} Območne nastavitve'' in izberite ``Slovenščina (Slovenija)''
+Za slovenske Windowse: ``Nastavitve -\textgreater{} Ura in Jezik -\textgreater{} Regija -\textgreater{} Območne nastavitve'' in izberite ``Slovenščina (Slovenija)''
+
+\hypertarget{nizi-1}{%
+\section{Nizi}\label{nizi-1}}
+
+Zbirka paketov tidyverse vsebuje paket \textbf{stringr}, ki je namenjen delu z nizi. Vsi ukazi v paketu se začnejo s \texttt{str\_}, kar v kombinaciji z auto complete funkcionalnostjo omogoča hitro izbiro in pregled vseh funkcij.
+
+V jeziku R lahko za definiranje niza uporabimo enojne (') ali dvojne navednice ("). R bo rezultat sicer vedno vrnil v dvojnih navednicah.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{niz\_dvojne\_navednice }\OtherTok{\textless{}{-}} \StringTok{"urejanje podatkov"}
+\NormalTok{niz\_enojne\_navednice }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}urejanje podatkov\textquotesingle{}}
+\NormalTok{niz\_dvojne\_navednice}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "urejanje podatkov"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{niz\_enojne\_navednice}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "urejanje podatkov"
+\end{verbatim}
+
+Če želimo znotraj niza uporabiti dvojne navednice lahko za definicijo uporabljamo enojne in obratno.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{citat1 }\OtherTok{\textless{}{-}} \StringTok{"Jure je rekel: \textquotesingle{}Citiram Janeza\textquotesingle{}."}
+\NormalTok{citat2 }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}In Janez je rekel: "Citiram Jureta".\textquotesingle{}}
+\NormalTok{citat1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Jure je rekel: 'Citiram Janeza'."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{citat2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "In Janez je rekel: \"Citiram Jureta\"."
+\end{verbatim}
+
+Izpis v drugem primeru uporablja tako imenovan \textbf{escape character} (\textbackslash), ki omogoča tudi vpis tabulaterjev (\textbackslash t), znakov za novo vrstico (\textbackslash n) in podobno. Vse znake, ki jih je tako možno zapisati si lahko ogledate z ukazom \texttt{?"\textquotesingle{}"}.
+
+Niz lahko vključuje tudi vse posebne znake, ki jih podpira unicode. Za vnos unicode znakov uporabite \textbf{\textbackslash uxxxx}, kjer je \textbf{xxxx} koda znaka, ki ga lahko poiščete na strani \url{https://unicode.org/charts/}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{normalna\_porazdelitev }\OtherTok{\textless{}{-}} \StringTok{"Gauss(\textbackslash{}u03BC, \textbackslash{}u03C3)"}
+\NormalTok{normalna\_porazdelitev}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Gauss(µ, <U+03C3>)"
+\end{verbatim}
+
+Dolžino nizov poiščemo s funkcijo \texttt{str\_length()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_length}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"tri"}\NormalTok{, }\StringTok{"štiri"}\NormalTok{, }\StringTok{""}\NormalTok{, citat1, normalna\_porazdelitev))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  3  5  0 32 11
+\end{verbatim}
+
+Za združevanje nizov se uporablja \texttt{str\_c()}, ki mu lahko dodamo tudi niz \texttt{sep}, ki ga vrine med vse podane nize.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_c}\NormalTok{(}\StringTok{"paradižnik"}\NormalTok{, }\StringTok{"bučke"}\NormalTok{, }\StringTok{"jabolka"}\NormalTok{, }\StringTok{"paprika"}\NormalTok{, }\StringTok{"jagode"}\NormalTok{, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "paradižnik, bučke, jabolka, paprika, jagode"
+\end{verbatim}
+
+Če funkciji podamo vektorje lahko sestavimo tudi več nizov naenkrat. Pri tem bo število dobljenih nizov enako največjemu vektorju, manjši pa se bodo reciklirali, kar pomeni, da se bodo njihove vrednosti ponavljale, dokler ne dosežejo dolžine najdaljšega vektorja.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_c}\NormalTok{(}\StringTok{"Podpoglavje "}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{), }\StringTok{": "}\NormalTok{, }
+      \FunctionTok{c}\NormalTok{(}\StringTok{"Nizi"}\NormalTok{, }\StringTok{"Faktorji"}\NormalTok{, }\StringTok{"Datumi"}\NormalTok{, }\StringTok{"Branje podatkov"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Podpoglavje 1: Nizi"            "Podpoglavje 2: Faktorji"       
+## [3] "Podpoglavje 3: Datumi"          "Podpoglavje 4: Branje podatkov"
+\end{verbatim}
+
+Če želimo nize združiti zaporedno uporabimo \texttt{collapse}. Za izpis nizov brez escape znakov uporabite funkcijo \texttt{cat()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{poglavja }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(}\StringTok{"Podpoglavje "}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{), }\StringTok{": "}\NormalTok{, }
+      \FunctionTok{c}\NormalTok{(}\StringTok{"Nizi"}\NormalTok{, }\StringTok{"Faktorji"}\NormalTok{, }\StringTok{"Datumi"}\NormalTok{, }\StringTok{"Branje podatkov"}\NormalTok{), }\AttributeTok{collapse =} \StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{poglavja}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Podpoglavje 1: Nizi\nPodpoglavje 2: Faktorji\nPodpoglavje 3: Datumi\nPodpoglavje 4: Branje podatkov"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(poglavja)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Podpoglavje 1: Nizi
+## Podpoglavje 2: Faktorji
+## Podpoglavje 3: Datumi
+## Podpoglavje 4: Branje podatkov
+\end{verbatim}
+
+Manjkajoče vrednosti lahko zamenjamo z \texttt{str\_replace\_na()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_replace\_na}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"ena"}\NormalTok{, }\StringTok{"dva"}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\StringTok{"štiri"}\NormalTok{), }\AttributeTok{replacement =} \StringTok{"tri!"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "ena"   "dva"   "tri!"  "štiri"
+\end{verbatim}
+
+\hypertarget{podnizi}{%
+\subsection{Podnizi}\label{podnizi}}
+
+Velikokrat se pri delu z nizi srečamo tudi s tem, da potrebujemo le del niza ali pa niz razdeliti na manjše. Poglejmo si na primeru niza \texttt{"\ \ \ \ KUPI:\ paradižnik,\ bučke,\ jabolka,\ paprika,\ jagode.\ \ "} iz katerega želimo dobiti vektor sadja in zelenjave.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{listek }\OtherTok{\textless{}{-}} \StringTok{"    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "}
+\end{Highlighting}
+\end{Shaded}
+
+Najprej odstranimo odvečne začetne in končne presledke. To storimo z \texttt{str\_trim()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{listek }\OtherTok{\textless{}{-}} \FunctionTok{str\_trim}\NormalTok{(listek)}
+\NormalTok{listek}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "KUPI: paradižnik, bučke, jabolka, paprika, jagode."
+\end{verbatim}
+
+Z uporabo funkcije \texttt{str\_sub()} nam vrne podniz glede na indekse znakov.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_sub}\NormalTok{(listek, }\DecValTok{7}\NormalTok{, }\DecValTok{16}\NormalTok{) }\CommentTok{\#vrne znake med indeksom 7 do 16 }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "paradižnik"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_sub}\NormalTok{(listek, }\DecValTok{7}\NormalTok{) }\CommentTok{\#vrne znake od sedmega naprej}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "paradižnik, bučke, jabolka, paprika, jagode."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_sub}\NormalTok{(listek, }\SpecialCharTok{{-}}\DecValTok{7}\NormalTok{) }\CommentTok{\#vrne zadnjih sedem znakov}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "jagode."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_sub}\NormalTok{(listek, }\SpecialCharTok{{-}}\DecValTok{7}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{) }\CommentTok{\#vrne predzadnjih šest znakov}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "jagode"
+\end{verbatim}
+
+S tem znanjem lahko odstranimo prvih šest znakov in zadnjega.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{listek }\OtherTok{\textless{}{-}} \FunctionTok{str\_sub}\NormalTok{(listek, }\DecValTok{7}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)}
+\NormalTok{listek}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "paradižnik, bučke, jabolka, paprika, jagode"
+\end{verbatim}
+
+Sedaj, ko imamo elemente samo naštete in ločene z vejico jih lahko preprosto razdelimo z funkcijo \texttt{str\_split()}, ki mu podamo vzorec za ločevanje.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_split}\NormalTok{(listek, }\AttributeTok{pattern =} \StringTok{", "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+## [1] "paradižnik" "bučke"      "jabolka"    "paprika"    "jagode"
+\end{verbatim}
+
+\hypertarget{iskanje-vzorcev-z-regularnimi-izrazi}{%
+\subsection{Iskanje vzorcev z regularnimi izrazi}\label{iskanje-vzorcev-z-regularnimi-izrazi}}
+
+Regularni izrazi so močno orodje za iskanje poljubnega vzorca v nizih. V tem poglavju bo predstavljena osnovna funkcionalnost regularnih izrazov, saj bi zaradi njihove fleksibilnosti posvetili eno ali celo dve poglavji le tem. Za prikaz delovanja bomo uporabljali funkciji \texttt{str\_view()} in \texttt{str\_view\_all()}, ki uporabljata paket \textbf{htmlwidges} za prikaz rezultatov. Prva označi samo prvo ujemanje, druga pa vsa ujemanja.
+
+Uporabljamo jih lahko v vseh funkcijah paketa \textbf{stringr}, ki imajo kot vhod \texttt{pattern}. Na koncu bomo pokazali uporabo nekaterih funkcij, ki uporabljajo vzorce.
+
+Sestavimo dva lista nad katerimi bomo iskali vzorce in za začetek poiščimo vse vejice.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(htmlwidgets)}
+\NormalTok{listek1 }\OtherTok{\textless{}{-}} \StringTok{"KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane."}
+\NormalTok{listek2 }\OtherTok{\textless{}{-}} \StringTok{"KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper."}
+\CommentTok{\# str\_view\_all(c(listek1, listek2), ",")}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{uporaba-regularnih-izrazov}{%
+\subsection{Uporaba regularnih izrazov}\label{uporaba-regularnih-izrazov}}
+
+Poglejmo si uporabo regularnih izrazov na preprostih podatkih in nad podatki iz že znane ankete.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}} \FunctionTok{read.csv2}\NormalTok{(}\StringTok{"./data{-}raw/DS{-}jobs.csv"}\NormalTok{)}
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(ds\_jobs)}
+\NormalTok{ds\_jobs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4,523 x 17
+##    Gender Country    Age EmploymentStatus     CurrentJobTitle   LanguageRecomme~
+##    <chr>  <chr>    <int> <chr>                <chr>             <chr>           
+##  1 Female Austral~    43 Employed full-time   Business Analyst  Python          
+##  2 Male   Russia      33 Employed full-time   Software Develop~ Python          
+##  3 Male   Taiwan      26 Employed full-time   Software Develop~ Python          
+##  4 Male   United ~    25 Employed part-time   Researcher        Python          
+##  5 Male   United ~    33 Employed full-time   Scientist/Resear~ Matlab          
+##  6 Male   Czech R~    21 Employed part-time   Other             Python          
+##  7 Male   Russia      22 Employed full-time   Data Analyst      Python          
+##  8 Male   Netherl~    51 Employed full-time   Engineer          R               
+##  9 Male   Colombia    34 Employed full-time   Data Scientist    Python          
+## 10 Male   Germany     41 Independent contrac~ Data Scientist    Python          
+## # ... with 4,513 more rows, and 11 more variables: FormalEducation <chr>,
+## #   Major <chr>, CompensationAmount <dbl>, CompensationCurrency <chr>,
+## #   TimeGatheringData <int>, TimeModelBuilding <dbl>, TimeProduction <dbl>,
+## #   TimeVisualizing <dbl>, TimeFindingInsights <dbl>, TimeOtherSelect <int>,
+## #   ExchangeRate <dbl>
+\end{verbatim}
+
+Uporabimo najprej funkcijo \texttt{str\_detect()}, ki vrne TRUE, če niz vsebuje vzorec, drugače pa FALSE.
+
+Poiščimo sadje in zelenjavo, ki vsebuje šumnike.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{seznam }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"paradižnik"}\NormalTok{, }\StringTok{"bučke"}\NormalTok{, }\StringTok{"jabolka"}\NormalTok{, }\StringTok{"paprika"}\NormalTok{, }\StringTok{"jagode"}\NormalTok{);}
+\FunctionTok{str\_detect}\NormalTok{(seznam, }\StringTok{"[čšž]"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  TRUE  TRUE FALSE FALSE FALSE
+\end{verbatim}
+
+To funkcijo lahko v praksi uporabljamo za izbiro vrstic. Recimo poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(CurrentJobTitle, }\StringTok{"/"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 946 x 1
+##    CurrentJobTitle                     
+##    <chr>                               
+##  1 Software Developer/Software Engineer
+##  2 Software Developer/Software Engineer
+##  3 Scientist/Researcher                
+##  4 Software Developer/Software Engineer
+##  5 Scientist/Researcher                
+##  6 Scientist/Researcher                
+##  7 Scientist/Researcher                
+##  8 Scientist/Researcher                
+##  9 Software Developer/Software Engineer
+## 10 Scientist/Researcher                
+## # ... with 936 more rows
+\end{verbatim}
+
+Če želimo namesto logičnega vektorja dobiti dejanska imena elementov uporabimo \texttt{str\_subset()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_subset}\NormalTok{(seznam, }\StringTok{"[čšž]"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "paradižnik" "bučke"
+\end{verbatim}
+
+Poglejmo koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija \texttt{str\_count()} ne zazna ponovitev, če se le te prekrivajo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_count}\NormalTok{(seznam, }\StringTok{"[aeiou]"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4 2 3 3 3
+\end{verbatim}
+
+To funkcijo lahko uporabimo, da anketirancem dodamo število službenih nazivov.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{NumberOfJobTitles =} \FunctionTok{str\_count}\NormalTok{(CurrentJobTitle, }\StringTok{"/"}\NormalTok{) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4,523 x 2
+##    CurrentJobTitle                      NumberOfJobTitles
+##    <chr>                                            <dbl>
+##  1 Business Analyst                                     1
+##  2 Software Developer/Software Engineer                 2
+##  3 Software Developer/Software Engineer                 2
+##  4 Researcher                                           1
+##  5 Scientist/Researcher                                 2
+##  6 Other                                                1
+##  7 Data Analyst                                         1
+##  8 Engineer                                             1
+##  9 Data Scientist                                       1
+## 10 Data Scientist                                       1
+## # ... with 4,513 more rows
+\end{verbatim}
+
+Z funkcijo \texttt{str\_locate()} lahko vrnemo indekse lokacij najdenih vzorcev, z \texttt{str\_extract()} pa lahko dobimo ta vzorec oziroma podniz. Z \texttt{str\_match()} pa lahko celo dobimo podskupine.
+
+Poiščimo podnize do prvega šumnika.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_locate}\NormalTok{(seznam, }\StringTok{"\^{}.*[čšž]"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      start end
+## [1,]     1   7
+## [2,]     1   3
+## [3,]    NA  NA
+## [4,]    NA  NA
+## [5,]    NA  NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_extract}\NormalTok{(seznam, }\StringTok{"\^{}.*[čšž]"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "paradiž" "buč"     NA        NA        NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_match}\NormalTok{(seznam, }\StringTok{"(\^{}.*)([čšž])"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1]      [,2]     [,3]
+## [1,] "paradiž" "paradi" "ž" 
+## [2,] "buč"     "bu"     "č" 
+## [3,] NA        NA       NA  
+## [4,] NA        NA       NA  
+## [5,] NA        NA       NA
+\end{verbatim}
+
+V zadnjem primeru funkcija \texttt{str\_match()} v prvem stolpcu vrne enako kot \texttt{str\_extract()}, nato pa v naslednjih stolpcih vrne še vsako skupino posebej.
+
+Poskušajmo razdeliti CurrentJobTitle na FirstTitle in SecondTitle, pri tem naj se naziva ponovita, če ima anketiranec samo enega.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{FirstTitle  =} \FunctionTok{str\_extract}\NormalTok{(CurrentJobTitle, }\StringTok{"\^{}[\^{}/]*"}\NormalTok{),}
+         \AttributeTok{SecondTitle =} \FunctionTok{str\_extract}\NormalTok{(CurrentJobTitle, }\StringTok{"[\^{}/]*$"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4,523 x 3
+##    CurrentJobTitle                      FirstTitle         SecondTitle      
+##    <chr>                                <chr>              <chr>            
+##  1 Business Analyst                     Business Analyst   Business Analyst 
+##  2 Software Developer/Software Engineer Software Developer Software Engineer
+##  3 Software Developer/Software Engineer Software Developer Software Engineer
+##  4 Researcher                           Researcher         Researcher       
+##  5 Scientist/Researcher                 Scientist          Researcher       
+##  6 Other                                Other              Other            
+##  7 Data Analyst                         Data Analyst       Data Analyst     
+##  8 Engineer                             Engineer           Engineer         
+##  9 Data Scientist                       Data Scientist     Data Scientist   
+## 10 Data Scientist                       Data Scientist     Data Scientist   
+## # ... with 4,513 more rows
+\end{verbatim}
+
+Preprosta in zelo uporaba pa je funkcija \texttt{str\_replace()} oziroma \texttt{str\_replace\_all} s katero lahko zamenjamo dele nizov.
+
+Prekrijmo šumnike z znaki x.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_replace}\NormalTok{(seznam, }\StringTok{"[čšž]"}\NormalTok{, }\StringTok{"x"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "paradixnik" "buxke"      "jabolka"    "paprika"    "jagode"
+\end{verbatim}
+
+Podamo lahko tudi zamenjavo za vsak več ujemanj posebej: TODO: bug s č-jem
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_replace\_all}\NormalTok{(seznam, }\FunctionTok{c}\NormalTok{(}\StringTok{"č"} \OtherTok{=} \StringTok{"c"}\NormalTok{, }\StringTok{"š"} \OtherTok{=} \StringTok{"s"}\NormalTok{, }\StringTok{"ž"}\OtherTok{=} \StringTok{"z"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "paradiznik" "bucke"      "jabolka"    "paprika"    "jagode"
+\end{verbatim}
+
+\hypertarget{kategoriux10dne-spremenljivke-1}{%
+\section{Kategorične spremenljivke}\label{kategoriux10dne-spremenljivke-1}}
+
+Kategorične spremenljivke so spremenljivke, ki lahko zavzamejo samo vnaprej določene vrednosti. Delimo jih na:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Nominalne spremenljivke}. To so spremenljivke brez ureditve. Na primer, spol ali vrsta avtomobila.
+\item
+  \textbf{Ordinalne spremenljivke}. To so spremenljivke, ki imajo smiselno ureditev. Na primer, stopnja izobrazbe ali šolski uspeh.
+\end{itemize}
+
+V R uporabljamo za delo s kategoričnimi spremenljivkami t. i. \textbf{faktorje} (ang. \textbf{factor}). Ti se od spremenljivk tipa niz razlikujejo v tem, da se v spremenljivki hrani informacija o vseh možnih vrednostih. Prav tako ni mogoče faktorju dodati vrednosti, ki je ni v množici možnih vrednosti, kar služi kot varovalka pred napakami pri vnosu podatkov.
+
+Poglejmo si uporabo faktorja na dveh preprostih primerih, kjer bomo sami ustvarili spremenljivki. Kasneje si bomo ogledali še delo s faktorji na primeru realnih podatkov, kjer bomo ponovno uporabili podatke o zaposlitvah na področju podatkovnih ved.
+
+Kot primer nominalne spremenljivke si oglejmo dneve v tednu. Obstaja 7 možnih vrednosti.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dan\_v\_tednu }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"torek"}\NormalTok{, }\StringTok{"četrtek"}\NormalTok{, }\StringTok{"nedelja"}\NormalTok{, }\StringTok{"tork"}\NormalTok{, }\StringTok{"sreda"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Sedaj so dnevi v tednu shranjeni kot nizi. Kaj so slabosti takšnega shranjevanja kategoričnih podatkov? Prvič, nimamo nobenega varovala pred tipkarskimi napakami -- R je četrti vnos prebral kot \emph{tork} in ga tako tudi shranil:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dan\_v\_tednu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "torek"   "četrtek" "nedelja" "tork"    "sreda"
+\end{verbatim}
+
+Drugič, če želimo razvrstiti to spremenljivko, razvrščanje ne bo smiselno, saj se bodo vrednosti razvrstile po abecedi:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sort}\NormalTok{(dan\_v\_tednu)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "četrtek" "nedelja" "sreda"   "torek"   "tork"
+\end{verbatim}
+
+Da se izognemo tem težavam je bolje, če spremenljiko za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo \texttt{factor()}. Poizkusimo sedaj narediti faktor iz spremenljivke \texttt{dan\_v\_tednu}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dan\_v\_tednu\_fac }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(dan\_v\_tednu)}
+\NormalTok{dan\_v\_tednu\_fac}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] torek   četrtek nedelja tork    sreda  
+## Levels: četrtek nedelja sreda torek tork
+\end{verbatim}
+
+Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 7 dni v tednu, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija \texttt{factor()} privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument \texttt{levels}, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa da podamo tudi ta argument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dan\_v\_tednu\_fac }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(dan\_v\_tednu, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"ponedeljek"}\NormalTok{, }\StringTok{"torek"}\NormalTok{, }\StringTok{"sreda"}\NormalTok{, }\StringTok{"četrtek"}\NormalTok{, }
+                                                  \StringTok{"petek"}\NormalTok{, }\StringTok{"sobota"}\NormalTok{, }\StringTok{"nedelja"}\NormalTok{))}
+\NormalTok{dan\_v\_tednu\_fac}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] torek   četrtek nedelja <NA>    sreda  
+## Levels: ponedeljek torek sreda četrtek petek sobota nedelja
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sort}\NormalTok{(dan\_v\_tednu\_fac)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] torek   sreda   četrtek nedelja
+## Levels: ponedeljek torek sreda četrtek petek sobota nedelja
+\end{verbatim}
+
+Opazimo dvoje: sedaj lahko spremenljivko uredimo glede na dan v tednu in nesmiselne vrednosti se spremenijo v \texttt{NA}. Faktorju torej ne moremo prirediti vrednosti, ki ni enaka eni izmed vrednosti v ravneh. Da dostopamo do vseh ravni faktorja, uporabimo funkcijo \texttt{levels()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(dan\_v\_tednu\_fac)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "ponedeljek" "torek"      "sreda"      "četrtek"    "petek"     
+## [6] "sobota"     "nedelja"
+\end{verbatim}
+
+Včasih imajo kategorične spremenljivke tudi smiselno razvrstitev po velikosti, ki pa se običajno ne da numerično izmeriti. Kot primer si poglejmo šolski uspeh, ki lahko zavzame 5 vrednosti. V kolikor želimo, da faktor hrani tudi informacijo o tem, da obstaja smiselna razvrstitev po velikosti, dodamo argument \texttt{ordered\ =\ TRUE}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{uspeh }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"odlično"}\NormalTok{, }\StringTok{"dobro"}\NormalTok{, }\StringTok{"dobro"}\NormalTok{, }\StringTok{"prav dobro"}\NormalTok{),}
+                \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"nezadostno"}\NormalTok{, }\StringTok{"zadostno"}\NormalTok{, }\StringTok{"dobro"}\NormalTok{, }\StringTok{"prav dobro"}\NormalTok{, }\StringTok{"odlično"}\NormalTok{),}
+                \AttributeTok{ordered =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{uspeh}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] odlično    dobro      dobro      prav dobro
+## Levels: nezadostno < zadostno < dobro < prav dobro < odlično
+\end{verbatim}
+
+Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi uspeha. V praksi nam to omogoča primerjamo, medtem ko tega pri faktorjih, ki nimajo razvrstitve po velikosti, ne moremo narediti.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{uspeh[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{\textgreater{}}\NormalTok{ uspeh[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dan\_v\_tednu\_fac[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{\textgreater{}}\NormalTok{ dan\_v\_tednu[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in Ops.factor(dan_v_tednu_fac[2], dan_v_tednu[1]): '>' not meaningful
+## for factors
+\end{verbatim}
+
+\begin{verbatim}
+## [1] NA
+\end{verbatim}
+
+Poleg prednosti, ki smo jih že omenili (varovanje pred napakami in smiselna razvrstitev nivojev) imajo faktorji tudi posebno vlogo pri raznih statističnih modelih in modelih strojnega učenja. Nekatere metode eksplicitno zahtevajo faktorje. Prav tako razlikujejo med nominalnimi in ordinalnimi faktorji, kar se pozna na rezultatih. Relativno preprost primer tega je linearna regresija, ki pa je izven obsega te delavnice. Vsekakor pa si je to vredno zapomniti, v kolikor se boste kdaj ukvajrali s podobnimi modeli in boste želeli uporabiti kategorične spremenljivke.
+
+Poglejmo si uporabo faktorjev na realni podatkovni množici. Ponovno bomo delali s podatki o zaposlitvah na področju podatkovnih ved. Preberimo podatke in ponovimo nekaj operacij, ki smo jih spoznali na prvem predavanju. Prav tako bomo izbrali samo podmnožico stolpcev za bolj jasen prikaz.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv2}\NormalTok{(}\StringTok{"./data{-}raw/DS{-}jobs.csv"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Country, Age, EmploymentStatus,}
+\NormalTok{         FormalEducation, CompensationAmount, ExchangeRate) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(ExchangeRate)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{CompensationUSD =}\NormalTok{ CompensationAmount }\SpecialCharTok{*}\NormalTok{ ExchangeRate) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(CompensationUSD }\SpecialCharTok{\textless{}=} \DecValTok{2500000}\NormalTok{, CompensationUSD }\SpecialCharTok{\textgreater{}=} \DecValTok{10000}\NormalTok{)}
+\NormalTok{ds\_jobs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3,186 x 7
+##    Country    Age EmploymentStatus FormalEducation CompensationAmo~ ExchangeRate
+##    <chr>    <dbl> <chr>            <chr>                      <dbl>        <dbl>
+##  1 Austral~    43 Employed full-t~ Bachelor's deg~            80000     0.802   
+##  2 Russia      33 Employed full-t~ Bachelor's deg~          1200000     0.0174  
+##  3 Taiwan      26 Employed full-t~ Master's degree          1100000     0.0333  
+##  4 United ~    25 Employed part-t~ Bachelor's deg~            20000     1       
+##  5 United ~    33 Employed full-t~ Doctoral degree           100000     1       
+##  6 Russia      22 Employed full-t~ Bachelor's deg~           624000     0.0174  
+##  7 Colombia    34 Employed full-t~ Master's degree        156000000     0.000342
+##  8 Germany     41 Independent con~ I did not comp~           150000     1.20    
+##  9 Poland      29 Employed full-t~ Master's degree           126000     0.281   
+## 10 United ~    35 Employed full-t~ Doctoral degree           133000     1       
+## # ... with 3,176 more rows, and 1 more variable: CompensationUSD <dbl>
+\end{verbatim}
+
+Imamo dve spremenljivki, ki bi jih bilo smiselno shraniti kot faktorje -- \texttt{EmploymentStatus} in \texttt{FormalEducation}. Pretvorimo sedaj ti spremenljivki v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{EmploymentStatus =} \FunctionTok{factor}\NormalTok{(EmploymentStatus),}
+         \AttributeTok{FormalEducation =} \FunctionTok{factor}\NormalTok{(FormalEducation))}
+\NormalTok{ds\_jobs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3,186 x 7
+##    Country    Age EmploymentStatus FormalEducation CompensationAmo~ ExchangeRate
+##    <chr>    <dbl> <fct>            <fct>                      <dbl>        <dbl>
+##  1 Austral~    43 Employed full-t~ Bachelor's deg~            80000     0.802   
+##  2 Russia      33 Employed full-t~ Bachelor's deg~          1200000     0.0174  
+##  3 Taiwan      26 Employed full-t~ Master's degree          1100000     0.0333  
+##  4 United ~    25 Employed part-t~ Bachelor's deg~            20000     1       
+##  5 United ~    33 Employed full-t~ Doctoral degree           100000     1       
+##  6 Russia      22 Employed full-t~ Bachelor's deg~           624000     0.0174  
+##  7 Colombia    34 Employed full-t~ Master's degree        156000000     0.000342
+##  8 Germany     41 Independent con~ I did not comp~           150000     1.20    
+##  9 Poland      29 Employed full-t~ Master's degree           126000     0.281   
+## 10 United ~    35 Employed full-t~ Doctoral degree           133000     1       
+## # ... with 3,176 more rows, and 1 more variable: CompensationUSD <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(ds\_jobs}\SpecialCharTok{$}\NormalTok{EmploymentStatus)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Employed full-time"                                  
+## [2] "Employed part-time"                                  
+## [3] "Independent contractor, freelancer, or self-employed"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(ds\_jobs}\SpecialCharTok{$}\NormalTok{FormalEducation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Bachelor's degree"                                                
+## [2] "Doctoral degree"                                                  
+## [3] "I did not complete any formal education past high school"         
+## [4] "I prefer not to answer"                                           
+## [5] "Master's degree"                                                  
+## [6] "Professional degree"                                              
+## [7] "Some college/university study without earning a bachelor's degree"
+\end{verbatim}
+
+\hypertarget{sprememba-razvrstitve-faktorja}{%
+\subsection{Sprememba razvrstitve faktorja}\label{sprememba-razvrstitve-faktorja}}
+
+Kot smo omenili že pri dnevih v tednu imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko smiselno razvrstitev. Razvrstitev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs\_agg }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(FormalEducation) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{MeanCompensationUSD =} \FunctionTok{mean}\NormalTok{(CompensationUSD))}
+\NormalTok{ds\_jobs\_agg}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 8 x 2
+##   FormalEducation                                             MeanCompensationU~
+##   <fct>                                                                    <dbl>
+## 1 Bachelor's degree                                                       71665.
+## 2 Doctoral degree                                                         90856.
+## 3 I did not complete any formal education past high school                78470.
+## 4 I prefer not to answer                                                  90023.
+## 5 Master's degree                                                         78411.
+## 6 Professional degree                                                     64614.
+## 7 Some college/university study without earning a bachelor's~            105675.
+## 8 <NA>                                                                    47833.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(ds\_jobs\_agg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ FormalEducation, }\AttributeTok{y =}\NormalTok{ MeanCompensationUSD)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-192-1.pdf}
+
+Ta graf je sicer zelo informativen, ampak bi s težavo hitro ugotovili, kako so nivoji faktorja razvrščeni glede na plačo. ggplot razvrsti vrednosti glede na to, kako so razvrščene v faktorju:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(ds\_jobs}\SpecialCharTok{$}\NormalTok{FormalEducation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Bachelor's degree"                                                
+## [2] "Doctoral degree"                                                  
+## [3] "I did not complete any formal education past high school"         
+## [4] "I prefer not to answer"                                           
+## [5] "Master's degree"                                                  
+## [6] "Professional degree"                                              
+## [7] "Some college/university study without earning a bachelor's degree"
+\end{verbatim}
+
+Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke \texttt{MeanCompensationUSD}. Za to moramo določiti novo razvrstitev te spremenljivke. Za to obstaja v paketu \textbf{forcats}, ki je del tidyverse, funkcija \texttt{fct\_reorder()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(ds\_jobs\_agg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{fct\_reorder}\NormalTok{(FormalEducation, MeanCompensationUSD), }\AttributeTok{y =}\NormalTok{ MeanCompensationUSD)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-194-1.pdf}
+
+Razvrstitev lahko uredimo tudi ročno s funkicjo \texttt{fct\_relevel()}, ki ohrani privzeto razvrstitev s tem, da podane nivoje premakne na začetek, oziroma lahko podamo arguemnt after.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(ds\_jobs\_agg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{fct\_relevel}\NormalTok{(FormalEducation, }\StringTok{"I prefer not to answer"}\NormalTok{, }\StringTok{"I did not complete any formal education past high school"}\NormalTok{, }\AttributeTok{after =} \DecValTok{0}\NormalTok{), }\AttributeTok{y =}\NormalTok{ MeanCompensationUSD)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-195-1.pdf}
+
+\hypertarget{preimenivanje-obstojeux10dih-in-doloux10danje-novih-nivojev}{%
+\subsection{Preimenivanje obstoječih in določanje novih nivojev}\label{preimenivanje-obstojeux10dih-in-doloux10danje-novih-nivojev}}
+
+Nivoje faktorjev lahko preimenujemo s funkcijo \texttt{fct\_recode()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{EmploymentStatus =} \FunctionTok{fct\_recode}\NormalTok{(EmploymentStatus,}
+                                        \StringTok{"full{-}time"} \OtherTok{=} \StringTok{"Employed full{-}time"}\NormalTok{,}
+                                        \StringTok{"part{-}time"} \OtherTok{=} \StringTok{"Employed part{-}time"}\NormalTok{,}
+                                        \StringTok{"other"} \OtherTok{=} \StringTok{"Independent contractor, freelancer, or self{-}employed"}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(ds\_jobs}\SpecialCharTok{$}\NormalTok{EmploymentStatus)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] full-time full-time full-time part-time full-time full-time
+## Levels: full-time part-time other
+\end{verbatim}
+
+Sorodno lahko zgornjo funkcijo zamenjamo z \texttt{fct\_collapse()}, ki lahko združi več nivojev v enega.
+
+Če želimo dodati nov nivo uporabimo funckcijo \texttt{fct\_expand()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{EmploymentStatus =} \FunctionTok{fct\_expand}\NormalTok{(EmploymentStatus, }\StringTok{"trainee"}\NormalTok{))}
+\FunctionTok{levels}\NormalTok{(ds\_jobs}\SpecialCharTok{$}\NormalTok{EmploymentStatus)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "full-time" "part-time" "other"     "trainee"
+\end{verbatim}
+
+\hypertarget{razbitje-numeriux10dne-spremenljivke-na-intervale}{%
+\subsection{Razbitje numerične spremenljivke na intervale}\label{razbitje-numeriux10dne-spremenljivke-na-intervale}}
+
+Velikokrat želimo kakšno numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo \texttt{cut()}. Razdelimo spremenljivko \texttt{Age} na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{AgeInterval =} \FunctionTok{cut}\NormalTok{(Age, }\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{100}\NormalTok{)))}
+\NormalTok{ds\_jobs\_agg }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(AgeInterval) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{CompensationByAge =} \FunctionTok{mean}\NormalTok{(CompensationUSD))}
+\FunctionTok{ggplot}\NormalTok{(ds\_jobs\_agg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ AgeInterval, }\AttributeTok{y =}\NormalTok{ CompensationByAge)) }\SpecialCharTok{+} \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-198-1.pdf}
+
+\hypertarget{datumi-in-ure}{%
+\section{Datumi in ure}\label{datumi-in-ure}}
+
+Delo z datumi in urami morda na prvi pogled deluje precej enostavno. Vendar pa zaradi različnih fizikalnih zakonitosti ali človeških konstruktov lahko pride do težav. Na primer, vsako leto nima 365 dni. Prav tako v nekaterih časovnih conah 3. ura zjutraj ne sledi vedno 2. uri, saj pride do premika ure.
+
+Za delo z datumi bomo uporabljali paket \textbf{lubridate}. Glavni komponenti v tem paketu sta \textbf{datum} (date) in \textbf{čas} (time), ter združena komponenta \textbf{datum in čas} (datetime). S tem paketom lahko datume ustvarimo na 2 načina:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  Z nizom:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(lubridate)}
+\FunctionTok{ymd}\NormalTok{(}\StringTok{"2021{-}04{-}02"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ymd}\NormalTok{(}\StringTok{"2021/04/02"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ymd}\NormalTok{(}\DecValTok{20210402}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dmy}\NormalTok{(}\StringTok{"02.04.2021"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}04{-}02 12:01:00"}\NormalTok{) }\CommentTok{\# Tipa datetime.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02 12:01:00 UTC"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ymd}\NormalTok{(}\DecValTok{20210402}\NormalTok{, }\DecValTok{20210403}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02" "2021-04-03"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mdy}\NormalTok{(}\StringTok{"April 2nd, 2021"}\NormalTok{) }\CommentTok{\# Deluje za angleška imena mesecev}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02"
+\end{verbatim}
+\item
+  S posameznimi komponentami:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{make\_date}\NormalTok{(}\DecValTok{2021}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{make\_datetime}\NormalTok{(}\DecValTok{2021}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02 12:01:00 UTC"
+\end{verbatim}
+\end{enumerate}
+
+Opazimo, da pri datumu in času spremenljivka hrani tudi informacijo o časovnem pasu. Privzeto lubridate dela s časovnim pasom UTC (Coordinated Universal Time), ki je naslednik GMT (Greenwich Mean Time). Prednost tega časovnega pasu je predvsem v tem, da se ne prilagaja spremembi ure v pomladnih in jesenskih mesecih. Te spremembe lahko privedejo do napak pri računanju z datumi in časi, tako da je računanje v UTC bolj varno. Seveda pa lahko ročno nastavimo drugi časovni pas z argumentom \texttt{tz}. Paket lubridate uporablja IANA časovne pasove (\url{https://www.iana.org/time-zones}), kateri so definirani s kombinacijo celine in države. Na primer, za Ljubljano bi časovni pas nastavili tako:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}04{-}02 12:01:00"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02 12:01:00 CEST"
+\end{verbatim}
+
+Pomembno je torej, da vemo, v katerem časovnem pasu so bile opravljene meritve v naših podatkih, da lahko potem ustrezno pretvorimo spremenljivko v časovno. Seveda pa lahko tudi pretvarjamo časovne spremenljivke med časovnimi pasovi. Za to uporabimo funkcijo \texttt{with\_tz()}. Vsakemu času v določenem časovnem pasu lahko priredimo nek čas v drugem časovnem pasu. V kolikor želimo bolj robustno računati z datumi in urami, potem lahko vedno datume pretvorimo v UTC čas, naredimo izračune in potem pretvorimo nazaj v lokalni časovni pas.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\OtherTok{\textless{}{-}} \FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}04{-}02 12:01:00"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{)}
+\NormalTok{my\_datetime}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02 12:01:00 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime\_UTC }\OtherTok{\textless{}{-}} \FunctionTok{with\_tz}\NormalTok{(my\_datetime, }\AttributeTok{tz =} \StringTok{"UTC"}\NormalTok{)}
+\NormalTok{my\_datetime\_UTC}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-02 10:01:00 UTC"
+\end{verbatim}
+
+V R je časovni pas namenjen samo izpisu datumov in časov. Sama vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{{-}}\NormalTok{ my\_datetime\_UTC}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Time difference of 0 secs
+\end{verbatim}
+
+V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo \texttt{force\_tz()}. Predlagamo, da udeleženci sami poizkusijo, kaj naredi ta funkcija, tako da z njo pretvorijo \texttt{my\_datetime} v UTC in potem izračunajo razliko, podobno kot smo to naredili zgoraj.
+
+Kadar delamo sekvence datumov in časov te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si letošnji prehod na poletni čas.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{datetime\_dst }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}03{-}28 00:00:00"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{), }
+                    \FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}03{-}28 04:00:00"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{), }
+                    \AttributeTok{by =} \StringTok{"30 min"}\NormalTok{)}
+\NormalTok{datetime\_dst}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-03-28 00:00:00 CET"  "2021-03-28 00:30:00 CET" 
+## [3] "2021-03-28 01:00:00 CET"  "2021-03-28 01:30:00 CET" 
+## [5] "2021-03-28 03:00:00 CEST" "2021-03-28 03:30:00 CEST"
+## [7] "2021-03-28 04:00:00 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{with\_tz}\NormalTok{(datetime\_dst, }\AttributeTok{tz =} \StringTok{"UTC"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-03-27 23:00:00 UTC" "2021-03-27 23:30:00 UTC"
+## [3] "2021-03-28 00:00:00 UTC" "2021-03-28 00:30:00 UTC"
+## [5] "2021-03-28 01:00:00 UTC" "2021-03-28 01:30:00 UTC"
+## [7] "2021-03-28 02:00:00 UTC"
+\end{verbatim}
+
+Pozorni moramo biti tudi na kombiniranje datumov. V kolikor uporabimo funkcijo \texttt{c()}, ta običajno privzeto nastavi časovni pas prvega podanega elementa. Vsekakor pa je to odvisno. TODO: Ali je to res? Ker dobim drugačne rezultate kot pa so v knjigi.
+
+\hypertarget{raux10dunanje-z-datumi-in-ux10dasi}{%
+\subsection{Računanje z datumi in časi}\label{raux10dunanje-z-datumi-in-ux10dasi}}
+
+Vsaka časovna spremenljivka, ki vsebuje datum in čas, je sestavljena iz komponent. Te so leto, mesec, dan, ura, minuta in sekunda. Za dostop do posameznih komponent imamo na voljo več funkcij:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{year()}
+\item
+  \texttt{month()}
+\item
+  \texttt{mday()}. Dan v mesecu.
+\item
+  \texttt{wday()}. Dan v tednu. Privzeto se začne z nedeljo. To lahko spremenimo z argumentom \texttt{week\_start}.
+\item
+  \texttt{hour()}
+\item
+  \texttt{minute()}
+\item
+  \texttt{second()}
+\end{itemize}
+
+Poglejmo sedaj kaj vračajo te funkcije:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{now}\NormalTok{()}
+\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-10 20:22:48 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{year}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2021
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{month}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mday}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{wday}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{wday}\NormalTok{(x, }\AttributeTok{week\_start =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hour}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{minute}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 22
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{second}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 48.34243
+\end{verbatim}
+
+S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mday}\NormalTok{(x) }\OtherTok{\textless{}{-}} \DecValTok{5}
+\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-05 20:22:48 CEST"
+\end{verbatim}
+
+Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{trajanja} (ang. duration). Čas v sekundah. Funkcije \texttt{dseconds()}, \texttt{dminutes()}, \texttt{ddays()}, \texttt{dweeks()} in \texttt{dyears()}. Pri trajanjih se vedno uporabi pretvorba, da ima vsak dan 24 ur in vsako leto 365.25 dni. Slednje predstavlja povprečno šteilo dni v letu. Tako da bo funkcija \texttt{dyears(4)} vedno vrnila število sekund, ki ustreza 4x365.25 dnem, ki imajo vsak po 24 ur.
+\item
+  \textbf{periode} (ang. period). Čas v človeških enotah kot je na primer teden. Funkcije \texttt{seconds()}, \texttt{minutes()}, \texttt{days()}, \texttt{weeks()}, \texttt{months()} in \texttt{years()}.
+\item
+  \textbf{intervali} (ang. interval). Časovni interval med dvema točkama.
+\end{itemize}
+
+Pozoren bralec je morda opazil, da pri trajanjih nismo navedli funkcije za mesece. To je zaradi tega, ker imajo meseci lahko 28, 29, 30 ali 31 dni. Vsekakor bi pri izbiri osnovne enote za trajanja prišlo do neke arbitrarne odločitve, koliko dni vzamemo privzeto. 30 ali 31? V vsakem primeru bo vsaj polovica mesecev imela napačno trajanje. Pri dnevih in letih si lažje privoščimo posplošitev.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ddays}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "86400s (~1 days)"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{days}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "1d 0H 0M 0S"
+\end{verbatim}
+
+Poglejmo si preprost primer, kako dodati
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\OtherTok{\textless{}{-}} \FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021/06/08 11:05:30"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{)}
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{ddays}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-09 11:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{days}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-09 11:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{dminutes}\NormalTok{(}\DecValTok{120}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-08 13:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{minutes}\NormalTok{(}\DecValTok{120}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-08 13:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{months}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-08-08 11:05:30 CEST"
+\end{verbatim}
+
+Trajanja in periode so si očitno zelo podobni ampak imajo eno veliko razliko, kadar računamo z dnevi, tedni in leti. Prvič, kadar bomo uporabljali \texttt{dyears()} lahko hitro pride do težave, saj bomo prišteli 0.25 dneva. Poglejmo si to na primeru:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{years}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2022-06-08 11:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{dyears}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2022-06-08 17:05:30 CEST"
+\end{verbatim}
+
+Opazimo, da smo prišteli 6 dodatnih ur. Drugič, kaj se zgodi, kadar prištejemo teden ali dan v času, ko pride do premika ure. Premik ure se je po lokalnem času zgodil 28. 3. 2021 ob 2 zjutraj.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\OtherTok{\textless{}{-}} \FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021/03/27 11:05:30"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{)}
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{ddays}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-03-28 12:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{days}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-03-28 11:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{dweeks}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-03 12:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{weeks}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-04-03 11:05:30 CEST"
+\end{verbatim}
+
+Funkcija \texttt{years()} deluje kot bi pričakovali tudi na prestopnem letu:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\OtherTok{\textless{}{-}} \FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2020/06/08 11:05:30"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{)}
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{years}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-08 11:05:30 CEST"
+\end{verbatim}
+
+S funkcijami trajanja in period lahko tudi računamo, na primer:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dyears}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ddays}\NormalTok{(}\DecValTok{4}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{dseconds}\NormalTok{(}\DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "63460820s (~2.01 years)"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{days}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{minutes}\NormalTok{(}\DecValTok{20}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{seconds}\NormalTok{(}\DecValTok{120}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2d 0H 20M 120S"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{5} \SpecialCharTok{*} \FunctionTok{dminutes}\NormalTok{(}\DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "6000s (~1.67 hours)"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{5} \SpecialCharTok{*} \FunctionTok{minutes}\NormalTok{(}\DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "100M 0S"
+\end{verbatim}
+
+Najbolje, da jo prikažemo na dveh primerih -- premik ure in prestopno leto. Periode so bolj naraven prikaz za človeka.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\OtherTok{\textless{}{-}} \FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021/06/08 11:05:30"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{)}
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{ddays}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-09 11:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{days}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-09 11:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{dminutes}\NormalTok{(}\DecValTok{120}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-08 13:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{minutes}\NormalTok{(}\DecValTok{120}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-08 13:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{dyears}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2022-06-08 17:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{years}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2022-06-08 11:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime }\SpecialCharTok{+} \FunctionTok{months}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-08-08 11:05:30 CEST"
+\end{verbatim}
+
+V bazi letalskih letov posodobimo podatke, tako da izračunamo niz, ki predstavlja točen odhod letala.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(nycflights13)}
+\FunctionTok{head}\NormalTok{(flights)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 20
+##      ID  year month   day dep_time sched_dep_time dep_delay arr_time
+##   <int> <int> <int> <int>    <int>          <int>     <dbl>    <int>
+## 1     1  2013     1     1      517            515         2      830
+## 2     2  2013     1     1      533            529         4      850
+## 3     3  2013     1     1      542            540         2      923
+## 4     4  2013     1     1      544            545        -1     1004
+## 5     5  2013     1     1      554            600        -6      812
+## 6     6  2013     1     1      554            558        -4      740
+## # ... with 12 more variables: sched_arr_time <int>, arr_delay <dbl>,
+## #   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
+## #   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>, time_hour <dttm>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(year, month, day, hour, minute) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{DepartureTime =} \FunctionTok{make\_datetime}\NormalTok{(year, month, day, hour, minute))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 336,776 x 6
+##     year month   day  hour minute DepartureTime      
+##    <int> <int> <int> <dbl>  <dbl> <dttm>             
+##  1  2013     1     1     5     15 2013-01-01 05:15:00
+##  2  2013     1     1     5     29 2013-01-01 05:29:00
+##  3  2013     1     1     5     40 2013-01-01 05:40:00
+##  4  2013     1     1     5     45 2013-01-01 05:45:00
+##  5  2013     1     1     6      0 2013-01-01 06:00:00
+##  6  2013     1     1     5     58 2013-01-01 05:58:00
+##  7  2013     1     1     6      0 2013-01-01 06:00:00
+##  8  2013     1     1     6      0 2013-01-01 06:00:00
+##  9  2013     1     1     6      0 2013-01-01 06:00:00
+## 10  2013     1     1     6      0 2013-01-01 06:00:00
+## # ... with 336,766 more rows
+\end{verbatim}
+
+\hypertarget{shranjevanje-in-branje-podatkov}{%
+\section{Shranjevanje in branje podatkov}\label{shranjevanje-in-branje-podatkov}}
+
+\hypertarget{delo-z-binarnimi-datotekami}{%
+\subsection{Delo z binarnimi datotekami}\label{delo-z-binarnimi-datotekami}}
+
+V programskem jeziku R lahko shranjujemo in nalagamo (v trenutno sejo R) spremenljivke kot binarne objekte na dva prevladujoča načina:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  S kombinacijo funkcij \texttt{save()} in \texttt{load()}.
+\item
+  S kombinacijo funkcij \texttt{saveRDS()} in \texttt{readRDS()}.
+\end{enumerate}
+
+Pomembna razlika med prvim in drugim pristopom je, da lahko s prvim shranimo več spremenljivk naenkrat, z drugim pa samo eno. Na prvi pogled bi torej pričakovali, da je prvi pristop boljši, oziroma bolj zaželen. Ampak ima eno pomembno slabost, zaradi katere predlagamo uporabo drugega pristopa.
+
+Funkcija \texttt{save()} shrani spremenljivke v trenutni seji R v datoteko s končnico \emph{rda} ali \emph{RData}. To naredi tako, da shrani tako vrednost spremenljivke kot tudi ime spremenljivke. To pomeni, da ko bomo takšno datoteko prebrali v novo sejo R, bomo ustvarili spremenljivke z enakimi imeni, kot smo jih shranili. Pri tem pa lahko pride do težav. Recimo, da imamo v trenutni seji R že nek nabor spremenljivk nato pa želimo vanjo prenesti še neke druge spremenljivke, ki smo jih pred časom shranili s funkcijo \texttt{save()} v datoteko saved-data.rda. Kaj se bo zgodilo, če bo katera od spremenljivk v naši trenutni seji imela enako ime kot ena od spremenljivk shranjenih v saved-data.rda? R bo enostavno to spremenljivko prepisal s spremenljivko, ki se je nahajala v tej rda datoteki. Takšen postopek dela je lahko torej nevaren, saj lahko \emph{nevede} izbrišemo obstoječe spremenljivke.
+
+Predlagamo torej uporabo druge kombinacije, torej funkcij \texttt{saveRDS()} in \texttt{readRDS()}. Funkcija \texttt{saveRDS()} shrani samo vrednost spremenljivke, ne pa tudi njenega imena, tako da ne pride do podobnih težav kot pri prvem pristopu. Končnica tako shranjenih datotek je \emph{rds}. Poglejmo si uporabo teh funkcij.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{7}\NormalTok{)}
+\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3 6 3 7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{saveRDS}\NormalTok{(x, }\StringTok{"./my{-}saved{-}files/my{-}x.rds"}\NormalTok{)}
+
+\NormalTok{x2 }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"./my{-}saved{-}files/my{-}x.rds"}\NormalTok{)}
+\NormalTok{x2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3 6 3 7
+\end{verbatim}
+
+Vedno ko preberemo podatke v sejo R s funkcijo \texttt{readRDS()} ji moramo prirediti ime, saj je v rds datoteki shrnajena samo njena vrednost. S tem se tudi izognemo podobnim težavam kot pri funkcijah \texttt{save()} in \texttt{load()}.
+
+Pomanjkljivost shranjevanja rds datotek pa je v tem, da lahko naenkrat shranimo samo 1 spremenljivko. Ampak to pomanjkljivost lahko zaobidemo, tako da več spremenljivk enostavno shranimov v seznam (\texttt{list()}). Poglejmo si sedaj na primer, kako bi shranili več spremenljivk.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tmp\_list }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}
+  \StringTok{"x"} \OtherTok{=}\NormalTok{ x,}
+  \StringTok{"some\_datetime"} \OtherTok{=}\NormalTok{ my\_datetime,}
+  \StringTok{"ds\_jobs"} \OtherTok{=}\NormalTok{ ds\_jobs}
+\NormalTok{)}
+
+\FunctionTok{saveRDS}\NormalTok{(tmp\_list, }\StringTok{"./my{-}saved{-}files/my{-}list.rds"}\NormalTok{)}
+\NormalTok{read\_list }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"./my{-}saved{-}files/my{-}list.rds"}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(read\_list)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "x"             "some_datetime" "ds_jobs"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x2 }\OtherTok{\textless{}{-}}\NormalTok{ read\_list[[}\StringTok{"x"}\NormalTok{]]}
+\NormalTok{x2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3 6 3 7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_datetime2 }\OtherTok{\textless{}{-}}\NormalTok{ read\_list[[}\StringTok{"some\_datetime"}\NormalTok{]]}
+\NormalTok{my\_datetime2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2021-06-08 11:05:30 CEST"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds\_jobs2 }\OtherTok{\textless{}{-}}\NormalTok{ read\_list[[}\StringTok{"ds\_jobs"}\NormalTok{]]}
+\NormalTok{ds\_jobs2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3,186 x 8
+##    Country    Age EmploymentStatus FormalEducation CompensationAmo~ ExchangeRate
+##    <chr>    <dbl> <fct>            <fct>                      <dbl>        <dbl>
+##  1 Austral~    43 full-time        Bachelor's deg~            80000     0.802   
+##  2 Russia      33 full-time        Bachelor's deg~          1200000     0.0174  
+##  3 Taiwan      26 full-time        Master's degree          1100000     0.0333  
+##  4 United ~    25 part-time        Bachelor's deg~            20000     1       
+##  5 United ~    33 full-time        Doctoral degree           100000     1       
+##  6 Russia      22 full-time        Bachelor's deg~           624000     0.0174  
+##  7 Colombia    34 full-time        Master's degree        156000000     0.000342
+##  8 Germany     41 other            I did not comp~           150000     1.20    
+##  9 Poland      29 full-time        Master's degree           126000     0.281   
+## 10 United ~    35 full-time        Doctoral degree           133000     1       
+## # ... with 3,176 more rows, and 2 more variables: CompensationUSD <dbl>,
+## #   AgeInterval <fct>
+\end{verbatim}
+
+\hypertarget{branje-in-shranjevanje-z-ostalimi-datotekami}{%
+\subsection{Branje in shranjevanje z ostalimi datotekami}\label{branje-in-shranjevanje-z-ostalimi-datotekami}}
 
   \bibliography{book.bib}
 
