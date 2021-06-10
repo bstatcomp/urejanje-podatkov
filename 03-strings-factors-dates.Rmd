@@ -1,20 +1,363 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   error = TRUE, # do not interrupt in case of errors
   warnings = FALSE,
   message = FALSE
 )
-library(tidyverse)
+library(tidyverse) 
+library(nycflights13) #paket s podatki, ki ga bomo sproti uporabljali
 ```
 
 
-# Nizi, kategorične spremenljivke in datumi (OSNUTEK)
+# Nizi, kategorične spremenljivke in datumi 
 Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih funkcij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.
 
+## Priprava 
+
+V tem poglavju bomo spoznali, kako delamo z nizi, kategoričnimi spremenljivkami in datumu. Na koncu se bomo tudi posvetili branju in zapisovanju dobljenih rezultatov z/na disk.
+
+
+Najprej si oglejmo tri najbolj uporabne funkcije za delo z nizi.
+
+Poglejmo najprej kako lahko združujemo nize skupaj na več načinov. 
+
+```{r}
+crke      <- c("A", "B", "C", "D")
+stevilke  <- c("1", "2", "3", "4")
+str_c(crke, stevilke)
+str_c(crke, stevilke, sep = "-")
+str_c(crke, stevilke, collapse = "-")
+```
+Obratno jih lahko tudi razčlenimo na več manjših.
+
+```{r}
+str_split("A1-B2-C3-D4", pattern = "-")
+```
+Zelo uporabna je tudi funkcija za zamenjavo podnizov.
+
+```{r}
+str_replace("A1-B1-A2-B2", pattern = "1", "(ena)")
+str_replace_all("A1-B1-A2-B2", pattern = "1", "(ena)")
+str_replace_all("A1-B1-A2-B2", c("1" = "(ena)", "2" = "(dva)"))
+```
+``` {r}
+tib <- tibble(
+  ime = c("Maja", "Ales", "Tom", "Barbara", "Simon", "Tina"),
+  spol = c("z", "m", "m", "z", "m", "z"),
+  ocena = c(7, 10, 6, 8, 8, 7),
+  dan_izpita = c(8, 8, 16, 16, 8, 23),
+  mesec_izpita = rep(6, 6),
+  leto_izpita = rep(2021, 6)
+)
+tib
+```
+
+Spremenimo **spol** v nominalno spremenljivko in **oceno** v ordinalno spremenljivko.
+
+``` {r}
+tib %>% mutate(spol = factor(spol),
+              ocena = factor(ocena, ordered = TRUE))
+```
+
+R omogoča avtomatski izpis datumov.
+
+``` {r}
+library(lubridate)
+make_date(year = 2021, month = 6, day = 11)
+```
+
+**Naloga**: Tabeli tib zamenjajte stopce leto_izpita, mesec_izpita, dan_izpita z datum_izpita, ki vsebuje vse te podatke.
 
 ## Nizi
 
-Poglavje o nizih.
+V tem poglavju bomo spoznali delo z nizi. Zbirka paketov tidyverse vsebuje paket **stringr**, ki je namenjen delu z nizi. Vsi ukazi v paketu se začnejo z `str_`, kar v kombinaciji z auto complete funkcionalnostjo omogoča hitro izbiro in pregled vseh funkcij.
+
+V jeziku R lahko za definiranje niza uporabimo enojne (') ali dvojne navednice ("). R bo rezultat sicer vedno vrnil v dvojnih navednicah. 
+
+```{r}
+niz_dvojne_navednice <- "urejanje podatkov"
+niz_enojne_navednice <- 'urejanje podatkov'
+niz_dvojne_navednice
+niz_enojne_navednice
+```
+
+Če želimo znotraj niza uporabiti dvojne navednice lahko za definicijo uporabljamo enojne in obratno.
+
+```{r}
+citat1 <- "Jure je rekel: 'Citiram Janeza'."
+citat2 <- 'In Janez je rekel: "Citiram Jureta".'
+citat1
+citat2
+```
+Izpis v drugem primeru uporablja tako imenovan **escape character** (\\), ki omogoča tudi vpis tabulaterjev (\\t), znakov za novo vrstico (\\n) in podobno. Vse znake, ki jih je tako možno zapisati si lahko ogledate z ukazom `?"'"`. 
+
+Niz lahko vključuje tudi vse posebne znake, ki jih podpira unicode. Za vnos unicode znakov uporabite **\\uxxxx**, kjer je **xxxx** koda znaka, ki ga lahko poiščete na strani https://unicode.org/charts/.
+
+```{r}
+normalna_porazdelitev <- "Gauss(\u03BC, \u03C3)"
+normalna_porazdelitev
+```
+Dolžino nizov poiščemo s funkcijo `str_length()`.
+
+```{r}
+str_length(c("tri", "štiri", "", citat1, normalna_porazdelitev))
+```
+Za združevanje nizov se uporablja `str_c()`, ki mu lahko dodamo tudi niz `sep`, ki ga vrine med vse podane nize.
+
+```{r}
+str_c("paradižnik", "bučke", "jabolka", "paprika", "jagode", sep = ", ")
+```
+Če funkciji podamo vektorje lahko sestavimo tudi več nizov naenkrat. Pri tem bo število dobljenih nizov enako največjemu vektorju, manjši pa se bodo reciklirali, kar pomeni, da se bodo njihove vrednosti ponavljale, dokler ne dosežejo dolžine najdaljšega vektorja.
+
+```{r}
+str_c("Podpoglavje ", c(1, 2, 3, 4), ": ", 
+      c("Nizi", "Faktorji", "Datumi", "Branje podatkov"))
+```
+Če želimo nize združiti zaporedno uporabimo `collapse`. Za izpis nizov brez escape znakov uporabite funkcijo `cat()`.
+
+```{r}
+poglavja <- str_c("Podpoglavje ", c(1, 2, 3, 4), ": ", 
+      c("Nizi", "Faktorji", "Datumi", "Branje podatkov"), collapse = "\n")
+poglavja
+cat(poglavja)
+```
+Manjkajoče vrednosti lahko zamenjamo z `str_replace_na()`.
+
+```{r}
+str_replace_na(c("ena", "dva", NA, "štiri"), replacement = "tri!")
+```
+
+### Podnizi
+
+Velikokrat se pri delu z nizi srečamo tudi s tem, da potrebujemo le del niza ali pa niz razdeliti na manjše. Poglejmo si na primeru niza `"    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "` iz katerega želimo dobiti vektor sadja in zelenjave.
+
+```{r}
+listek <- "    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "
+```
+Najprej odstranimo odvečne začetne in končne presledke. To storimo z `str_trim()`.
+
+``` {r}
+listek <- str_trim(listek)
+listek
+```
+Z uporabo funkcije `str_sub()` nam vrne podniz glede na indekse znakov.
+
+``` {r}
+str_sub(listek, 7, 16) #vrne znake med indeksom 7 do 16 
+str_sub(listek, 7) #vrne znake od sedmega naprej
+str_sub(listek, -7) #vrne zadnjih sedem znakov
+str_sub(listek, -7, -2) #vrne predzadnjih šest znakov
+```
+S tem znanjem lahko odstranimo prvih šest znakov in zadnjega.
+```{r}
+listek <- str_sub(listek, 7, -2)
+listek
+```
+Sedaj, ko imamo elemente samo naštete in ločene z vejico jih lahko preprosto razdelimo z funkcijo `str_split()`, ki mu podamo vzorec za ločevanje.
+
+```{r}
+str_split(listek, pattern = ", ")
+```
+### Iskanje vzorcev z regularnimi izrazi
+
+Regularni izrazi so močno orodje za iskanje poljubnega vzorca v nizih. V tem poglavju bo predstavljena osnovna funkcionalnost regularnih izrazov, saj bi zaradi njihove fleksibilnosti posvetili eno ali celo dve poglavji le tem. Za prikaz delovanja bomo uporabljali funkciji `str_view()` in `str_view_all()`, ki uporabljata paket **htmlwidges** za prikaz rezultatov. Prva označi samo prvo ujemanje, druga pa vsa ujemanja.
+
+Uporabljamo jih lahko v vseh funkcijah paketa **stringr**, ki imajo kot vhod `pattern`. Na koncu bomo pokazali uporabo nekaterih funkcij, ki uporabljajo vzorce.
+
+Sestavimo dva lista nad katerimi bomo iskali vzorce in za začetek poiščimo vse vejice.
+
+```{r}
+library(htmlwidgets)
+listek1 <- "KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane."
+listek2 <- "KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper."
+str_view_all(c(listek1, listek2), ",")
+```
+Kaj pa pike?
+
+```{r}
+str_view_all(c(listek1, listek2), ".")
+```
+Pika je poseben znak pri regularnih izrazih, ki pomeni poljuben znak. Zato smo dobili ujemanja z vsemi črkami. Da lahko dejansko poiščemo pike in druge posebne znake moramo uporabiti escape znak `\\`. Tukaj se nam nekoliko zaplete, ker je znak `\\` že escape znak v R za tabulatorje, nove vrstice itd. Zato, da vzorcu dejansko podamo `\.` moramo zapisati `\\.`. Tukaj si spet lahko pomagamo s funkcijo `cat()`, ki nam bo pokazala dejanski niz podan funkciji.
+
+
+```{r}
+cat("\\.") #poglejmo kakšen niz bo dejansko sprejela funkcija str_view_all()
+str_view_all(c(listek1, listek2), "\\.")
+```
+
+Regularni izrazi uporabljajo tudi dva posebna znaka, ki označujeta začetek `^` in konec `$` niza. Poiščimo samo pike, ki zaključujejo nize.
+
+```{r}
+str_view_all(c(listek1, listek2), "\\.$")
+```
+V regularnih izrazih so zelo uporabne tudi naslednje sekvence.
+
+- `\d`: ujemanje s poljubno števko
+- `\s`: ujemanje s poljubnim presledkom (presledek, tabulator, nova vrstica)
+- `[xyz]`: ujemanje z x, y ali z.
+- `[^xyz]`: ujemanje z vsem razen x, y in z. Strešica znotraj oglatih oklepajev pomeni negacijo.
+- `[[:digit:]]`: ujemanje s poljubnim številom
+- `[[:alpha:]]`: ujemanje s poljubno črko, uporabite lahko tudi `[[a-z]]` in `[[:lower:]]` za vse male črke ali `[[A-Z]]` in `[[:upper:]]` za vse velike črke
+- `[[:punct:]]`: ujemanje z ločili
+
+Poglejmo si uporabo nekaterih:
+```{r}
+str_view_all(c(listek1, listek2), "\\dx") #Poiščemo vse številke, ki jim sledi x
+str_view_all(c(listek1, listek2), "[čžš]") #Vse šumnike
+str_view_all(c(listek1, listek2), "[aA].[aA]") #dva a-ja s poljubnim znakom vmes
+str_view_all(c(listek1, listek2), ".[\\s,.]") #Vse konce besed.
+str_view_all(c(listek1, listek2), "[a-f]") #Vse črke od a do f.
+str_view_all(c(listek1, listek2), "[[:punct:]]") #vsa ločila
+```
+Znotraj oglatih oklepajev je pomen pike dobeseden znak pika. Tako, da ga ni potrebno zapisati kot `\\.` Priporočamo, da sami preizkušate še druge sekvence.
+
+Navpična črta `|` pomeni ali.
+
+```{r}
+str_view_all(c(listek1, listek2), "sol|sok") 
+```
+### Ponovitve 
+
+TODO: mogoče raje preprostejši primeri z nizom xxxyyyzzzzzz
+
+Zelo uporabni so tudi ukazi za ponovitve znakov ali sekvenc, ki nam omogočajo iskanje nizov določenih dolžin. Ukazi za delo s ponovitvami so:
+
+- `?`: ponovi 0 ali 1 krat
+- `*`: ponovi 0 ali več krat
+- `+`: ponovi 1 ali več krat
+- `{n}`: ponovi natanko n krat
+- `{n,}`: ponovi n ali več krat
+- `{,m}`: ponovi m ali manj krat
+- `{n,m}`: ponovi med n in m krat
+
+Če znak za ponovitev uporabimo za enim znakom pomeni to ponovitev prejšnjega znaka. Lahko pa ga uporabimo tudi za oglatimi ali navadnimi oklepaji. Navadni oklepaji določajo skupino, ki se mora ponoviti. Oglati oklepaji pa izbiro, se pravi ponoviti se mora vsaj en od naštetih znakov.
+
+Ko začnemo uporabljati ponovitve se pojavijo prve večje težave. 
+
+Poiščimo vse besede dolžine 3.
+
+```{r}
+str_view_all(c(listek1, listek2), "\\s[[:alpha:]]{3}([[:punct:]]|\\s)")
+```
+
+Poskušajmo poiskati besede, ki se začnejo na p in končajo na k ali e. 
+
+```{r}
+str_view_all(c(listek1, listek2), "p.*[ke]")
+```
+Opazimo, da je ujemanje požrešno. To pomeni, da je ujemanje najdaljše možno, ki ustreza ponovitvam. Če želimo najkrajšega lahko uporabimo še dodaten `?` za znakom za ponovitve.
+
+```{r}
+str_view_all(c(listek1, listek2), "p.*?[ke]")
+```
+Še vedno ni OK. V dobljenih nizih ne želimo presledkov in ne želimo, da se ujemanje konča prehitro, kot pri besedi 'piškote'. Poskusimo tako, da vzamemo ponovitve, ki ne vsebujejo presledkov.
+
+```{r}
+str_view_all(c(listek1, listek2), "p[^\\s]*[ke]")
+```
+Da zagotovimo, da zajamemo tudi konec besede, določimo še naj bo na koncu vejica ali presledek.
+
+```{r}
+str_view_all(c(listek1, listek2), "p[[:alpha:]]*[ke]([, ])")
+```
+### Skupine
+
+Kot smo že videli v enem primeru lahko uporabimo tudi oklepaje. Oklepaji definirajo tudi skupino na katero se lahko sklicujemo z `\x`, kjer je x zaporedna številka skupine.
+
+Pogljemo si uporabo le tega na že vgrajenem vektorju sadja. Parameter `match = TRUE` nam vrne le nize, pri katerih je prišlo do ujemanja.
+
+```{r}
+str_view(fruit, "(..)\\1", match = TRUE)
+```
+
+Zgornji regularni izraz z `..` poišče dva poljubna znaka. Z `(..)` definiramo skupino. Z `\1` oziroma `\\1`, pa zahtevamo, da se na tem mestu še enkrat nahaja točno to kar je bilo med oklepaji.
+
+Poiščimo imena sadežev, ki imajo vsaj dve (lahko različni) ponavljajoči si črki.
+
+```{r}
+str_view(fruit, "(.)\\1.*(.)\\2", match = TRUE)
+```
+### Uporaba regularnih izrazov
+
+Poglejmo si uporabo regularnih izrazov na preprostih podatkih in nad podatki iz že znane ankete.
+
+``` {r}
+ds_jobs <- read.csv2("./data-raw/DS-jobs.csv")
+ds_jobs <- tibble(ds_jobs)
+ds_jobs
+```
+
+Uporabimo najprej funkcijo `str_detect()`, ki vrne TRUE, če niz vsebuje vzorec, drugače pa FALSE.
+
+Poiščimo sadje in zelenjavo, ki vsebuje šumnike.
+
+```{r}
+seznam <- c("paradižnik", "bučke", "jabolka", "paprika", "jagode");
+str_detect(seznam, "[čšž]")
+```
+To funkcijo lahko v praksi uporabljamo za izbiro vrstic. Recimo poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /.
+
+```{r}
+ds_jobs %>% 
+  select(CurrentJobTitle) %>% 
+  filter(str_detect(CurrentJobTitle, "/"))
+```
+
+Če želimo namesto logičnega vektorja dobiti dejanska imena elementov uporabimo `str_subset()`.
+
+```{r}
+str_subset(seznam, "[čšž]")
+```
+Poglejmo koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija `str_count()` ne zazna ponovitev, če se le te prekrivajo.
+
+```{r}
+str_count(seznam, "[aeiou]")
+```
+To funkcijo lahko uporabimo, da anketirancem dodamo število službenih nazivov.
+
+```{r}
+ds_jobs %>% 
+  select(CurrentJobTitle) %>% 
+  mutate(NumberOfJobTitles = str_count(CurrentJobTitle, "/") + 1)
+```
+
+Z funkcijo `str_locate()` lahko vrnemo indekse lokacij najdenih vzorcev, z `str_extract()` pa lahko dobimo ta vzorec oziroma podniz. Z `str_match()` pa lahko celo dobimo podskupine.
+
+Poiščimo podnize do prvega šumnika.
+
+```{r}
+str_locate(seznam, "^.*[čšž]")
+str_extract(seznam, "^.*[čšž]")
+str_match(seznam, "(^.*)([čšž])")
+```
+V zadnjem primeru funkcija `str_match()` v prvem stolpcu vrne enako kot `str_extract()`, nato pa v naslednjih stolpcih vrne še vsako skupino posebej.
+
+Poskušajmo razdeliti CurrentJobTitle na FirstTitle in SecondTitle, pri tem naj se naziva ponovita, če ima anketiranec samo enega.
+
+```{r}
+ds_jobs %>% 
+  select(CurrentJobTitle) %>% 
+  mutate(FirstTitle  = str_extract(CurrentJobTitle, "^[^/]*"),
+         SecondTitle = str_extract(CurrentJobTitle, "[^/]*$"))
+```
+
+Preprosta in zelo uporaba pa je funkcija `str_replace()` oziroma `str_replace_all` s katero lahko zamenjamo dele nizov.
+
+Prekrijmo šumnike z znaki x.
+
+```{r}
+str_replace(seznam, "[čšž]", "x")
+```
+Podamo lahko tudi zamenjavo za vsak več ujemanj posebej: TODO: bug z č-jem
+
+```{r}
+str_replace_all(seznam, c("č" = "c", "š" = "s", "ž"= "z"))
+```
 
 ## Kategorične spremenljivke
 Kategorične spremenljivke so spremenljivke, ki lahko zavzamejo samo vnaprej določene vrednosti. Delimo jih na:
@@ -135,8 +478,14 @@ ggplot(ds_jobs_agg, aes(x = fct_reorder(FormalEducation, MeanCompensationUSD), y
   geom_point() +
   coord_flip()
 ```
-Razvrstitev lahko uredimo tudi ročno s funkicjo `fct_relevel()`.
 
+Razvrstitev lahko uredimo tudi ročno s funkicjo `fct_relevel()`, ki ohrani privzeto razvrstitev s tem, da podane nivoje premakne na začetek, oziroma lahko podamo arguemnt after.
+
+```{r}
+ggplot(ds_jobs_agg, aes(x = fct_relevel(FormalEducation, "I prefer not to answer", "I did not complete any formal education past high school", after = 0), y = MeanCompensationUSD)) +
+  geom_point() +
+  coord_flip()
+```
 
 ### Preimenivanje obstoječih in določanje novih nivojev
 Nivoje faktorjev lahko preimenujemo s funkcijo `fct_recode()`.
@@ -149,6 +498,8 @@ ds_jobs <- ds_jobs %>%
                                         "other" = "Independent contractor, freelancer, or self-employed"))
 head(ds_jobs$EmploymentStatus)
 ```
+
+Sorodno lahko zgornjo funkcijo zamenjamo z `fct_collapse()`, ki lahko združi več nivojev v enega.
 
 Če želimo dodati nov nivo uporabimo funckcijo `fct_expand()`.
 ```{r}
@@ -173,7 +524,7 @@ ggplot(ds_jobs_agg, aes(x = AgeInterval, y = CompensationByAge)) + geom_point()
 ## Datumi in ure
 Delo z datumi in urami morda na prvi pogled deluje precej enostavno. Vendar pa zaradi različnih fizikalnih zakonitosti ali človeških konstruktov lahko pride do težav. Na primer, vsako leto nima 365 dni. Prav tako v nekaterih časovnih conah 3. ura zjutraj ne sledi vedno 2. uri, saj pride do premika ure.
 
-Za delo z datumi bomo uporabljali paket **lubridate**. Glavni komponenti v tem paketu sta **datum** (date) in **čas** (time), ter združena komponenta **datum in čas** (and. datetime) S tem paketom lahko datume ustvarimo na 2 načina:
+Za delo z datumi bomo uporabljali paket **lubridate**. Glavni komponenti v tem paketu sta **datum** (date) in **čas** (time), ter združena komponenta **datum in čas** (datetime). S tem paketom lahko datume ustvarimo na 2 načina:
 
 1) Z nizom:
     ```{r}
@@ -184,6 +535,7 @@ Za delo z datumi bomo uporabljali paket **lubridate**. Glavni komponenti v tem p
     dmy("02.04.2021")
     ymd_hms("2021-04-02 12:01:00") # Tipa datetime.
     ymd(20210402, 20210403)
+    mdy("April 2nd, 2021") # Deluje za angleška imena mesecev
     ```
 2) S posameznimi komponentami:
     ```{r}
@@ -204,6 +556,7 @@ Pomembno je torej, da vemo, v katerem časovnem pasu so bile opravljene meritve 
 my_datetime <- ymd_hms("2021-04-02 12:01:00", tz = "Europe/Ljubljana")
 my_datetime
 my_datetime_UTC <- with_tz(my_datetime, tz = "UTC")
+my_datetime_UTC
 ```
 
 V R je časovni pas namenjen samo izpisu datumov in časov. Sama vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:
@@ -213,11 +566,11 @@ my_datetime - my_datetime_UTC
 ```
 V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo `force_tz()`. Predlagamo, da udeleženci sami poizkusijo, kaj naredi ta funkcija, tako da z njo pretvorijo `my_datetime` v UTC in potem izračunajo razliko, podobno kot smo to naredili zgoraj.
 
-Kadar delamo sekvence datumov in časov te upoštevajo premik ure. 
+Kadar delamo sekvence datumov in časov te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si letošnji prehod na poletni čas.
 
 ```{r}
-datetime_dst <- seq(ymd_hms("2011-10-30 00:00:00", tz = "Europe/Ljubljana"), 
-                    ymd_hms("2011-10-30 04:00:00", tz = "Europe/Ljubljana"), 
+datetime_dst <- seq(ymd_hms("2021-03-28 00:00:00", tz = "Europe/Ljubljana"), 
+                    ymd_hms("2021-03-28 04:00:00", tz = "Europe/Ljubljana"), 
                     by = "30 min")
 datetime_dst
 with_tz(datetime_dst, tz = "UTC")
@@ -328,6 +681,18 @@ my_datetime + years(1)
 my_datetime + months(2)
 ```
 
+V bazi letalskih letov posodobimo podatke, tako da izračunamo niz, ki predstavlja točen odhod letala.
+
+```{r}
+library(nycflights13)
+head(flights)
+```
+
+
+``` {r}
+flights %>% select(year, month, day, hour, minute) %>%
+  mutate(DepartureTime = make_datetime(year, month, day, hour, minute))
+```
 
 ## Shranjevanje in branje podatkov
 
