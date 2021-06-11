@@ -51,3 +51,7 @@ računanje-z-datumi-in-časi
 shranjevanje-in-branje-podatkov
 delo-z-binarnimi-datotekami
 branje-in-shranjevanje-z-ostalimi-datotekami
+excel
+spss
+ali-želite-izvedeti-več-2
+domača-naloga-2
