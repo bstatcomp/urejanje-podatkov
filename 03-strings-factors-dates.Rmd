@@ -838,5 +838,155 @@ ds_jobs2
 
 ### Branje in shranjevanje z ostalimi datotekami
 
+#### Excelove datoteke
+
+Paket **openxlsx** omogoča delo z exelovimi razpredelnicami. Poglejmo si preproste a uporabne ukaze. Za branje podatkov s tem paketom uprabljajte `read.xlsx()`, za shranjevanje datotek pa `write.xlsx`.
+
+Preberimo podatke ocen, ki smo jih imeli tudi v testi skripti in jo pretvorimo v tibble:
+
+```{r}
+library(openxlsx)
+ocene <- tibble(openxlsx::read.xlsx("./test-script/data-raw/student-performance.xlsx"))
+ocene
+```
+
+Privzeto funkcija `read.xlsx` odpre prvi list v datoteki in poišče glavo razpredelnice, če želimo druge liste moramo podati ime lista ali številko lista s parametrom `sheet'.
+
+```{r}
+library(openxlsx)
+ocene_portugalscina <- tibble(read.xlsx("./test-script/data-raw/student-performance.xlsx", sheet = 1))
+ocene_matematika <- tibble(read.xlsx("./test-script/data-raw/student-performance.xlsx", sheet = "Math scores"))
+ocene_portugalscina %>% 
+  select(school, G1, G2, G3, averageScore)
+ocene_matematika %>%
+  select(school, G1, G2, G3, averageScore)
+```
+
+Če ima datoteka veliko število listov jih lahko shranite v R-jev seznam (list).
+
+
+```{r}
+library(openxlsx)
+path <- "./test-script/data-raw/student-performance.xlsx"
+imenaListov <- getSheetNames(path)
+ocene_s <- list()
+for(i in 1:length(imenaListov)) {
+  ocene_s[[i]] <- tibble(read.xlsx(path))
+}
+ocene_s
+```
+
+V primeru, da je razpredelnica v excelovem listu premaknjena ali pa želimo prebrati le del podatkov lahko uporabimo parametra `startRow` in `cols`. Preberimo samo ocene za matematiko brez ostalih vrednosti.
+
+```{r}
+path <- "./test-script/data-raw/student-performance.xlsx"
+ocene_math <- tibble(read.xlsx(path, sheet = "Math scores", startRow = 1, 
+                               cols = 9:12))
+ocene_math
+```
+Da podatke shranimo na disk uporabimo `write.xlsx`.
+
+```{r}
+path <- "./test-script/data-raw/samo-ocene-math.xlsx"
+write.xlsx(ocene_math, path)
+```
+
+#### Branje datotek za spss
+
+SPSS je program za statistično analizo. Datoteke povezane z SPSS imajo običajno končnico .sav. Za branje iz in uvažanje v SPSS lahko uporabimo paket **haven**. V mapi *data_raw* imamo podatke o osebah *osebe.sav*. Za uvoz teh podatkov v R uporabimo funkcijo `read_sav`.
+
+```{r}
+library(haven)
+podatki <- read_sav("./data_raw/osebe.sav")
+podatki
+```
+
+Da shranimo `data.frame` v sav datoteko, uporabimo funkcijo `write_sav`. Shranimo sedaj `iris` `data.frame` v sav datoteko.
+
+```{r}
+write_sav(iris, "./data_clean/iris.sav")
+```
+
+Paket haven ima tudi funkcijo `read_por` ki podpira starejše verzije datotek iz SPSS.
+
+## Ali želite izvedeti več?
+
+V tem poglavju smo si ogledali operacije treh paketov tidyversa. Če želite hiter in dokaj celot pregled nad vsemi ukazi priporočamo, da si za vsak paket ogledate tako imenovan **cheat sheet**:
+
+- **stringr**: https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf
+- **forcats**: http://www.flutterbys.com.au/stats/downloads/slides/figure/factors.pdf
+- **lubridate**: https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_lubridate.pdf
+
+Paket **stringr** uporablja paket **stringi**, ki ima na voljo 5x več operacij, ki pa niso tako pogosto uporabljene. Če se boste pri svojem delu srečali z zahtevnejšimi nalogami lahko uporabite ta paket.
+
+Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran https://regex101.com/ .
+
+## Domača naloga
+
+1) Odprite prvi list ocen v `student-performance.xlsx` v mapi `test-script/data-raw/`. 
+
+- Odprite le stolpce school, absences, G1, G2, G3 in averageScore. 
+- Dodajte stolpec **točke**, ki ima vrednosti med 0 in 100, tako da ima najvišja pripadajoča vrednost v averageScore vrednost 100.
+- Dodajte stolpec **ocena**, kjer so vrednosti za **točke** med 0 in 10 enake 1, 10 in 20 enake 2 itd.
+- Dodajte stolpec **besedna_ocena** tipa faktor, ki bo imel vrednosti glede na **oceno** in sicer ocene <6 = "nezadostno", 6 = "zadostno", 7 in 8 = "dobro", 9 = "zelo dobro" in 10 = "odlično".
+
+
+```{r, echo = FALSE, message = FALSE}
+library(openxlsx)
+path <- "./test-script/data-raw/student-performance.xlsx"
+ocene <- tibble(read.xlsx(path, cols = c(1, 8:12)))
+ocene %>% mutate(točke = averageScore/max(averageScore)*100,
+                 ocena = ceiling(točke/10),
+                 besedna_ocena = cut(ocena, breaks = c(-Inf, 5, 6, 8, 9, 10), 
+                                     labels = c("nezadostno", "zadostno", 
+                                                "dobro", "zelo dobro", 
+                                                "odlično")))
+```
+
+2) Naložite paket `nycflights13` s podatki letov. V tej bazi je več razpredelnic in sicer **flights**, **airlines**, **planes**, **airports** in **weather**. Za razumevanje si pomagajte z `?flights`.
+
+a) Izpišite vsa letališča, ki imajo 3 ali več besed v svojem imenu.
+
+```{r, echo = FALSE, message = FALSE}
+airports %>% filter(str_detect(name, "^.+\\s.+\\s.+$"))
+```
+
+b) **Težja** Spremenite imena letališč tako, da odstranite besedi "Airport" ali "Airfield" z konca imena.
+
+```{r, echo = FALSE, message = FALSE}
+regex <- "^(.*)(Airport|Airfield)$"
+airports %>% 
+  mutate(name = ifelse(str_detect(.data$name, regex), #pogoj
+                       str_match(.data$name, regex)[,2], #spremenjeno ime
+                       name)) #isto ime
+```
+c) **Daljša** Za vsak let sestavite besedno poročilo spodnje oblike, ki ga shranite v stolpec **Poročilo leta**.
+
+Besedilo naj se glasi: "Let iz letalisca Newark Liberty Intl dne 22.01.13 ob 11:00 v letalisce George Bush Intercontinental je imel 2 minut zamude v odhodu in 11 v prihodu."
+
+Minute so lahko tudi negativne.
+
+```{r, echo = FALSE, message = FALSE}
+podatki <- left_join(flights, airports, by = c("origin" = "faa")) %>% 
+  mutate(name_origin = name) %>%
+  select(year, month, day, sched_dep_time, 
+         origin, dest, dep_delay, arr_delay, name_origin)
+podatki <- left_join(podatki, airports, by = c("dest" = "faa")) %>%
+  mutate(name_dest = name) %>%
+  select(year, month, day, sched_dep_time, 
+         origin, dest, dep_delay, arr_delay, name_origin, name_dest)
+podatki %>% mutate(dep_string = make_datetime(year, month, day, sched_dep_time)) %>%
+  mutate("Poročilo leta" = str_c("Let iz letalisca ", 
+                                 name_origin,
+                                 ", dne ", format(dep_string, "%d.%m.%y"),
+                                 ", ob ", format(dep_string, "%H:%M"),
+                                 " v letalisce ", name_dest,
+                                 " je imelo ", dep_delay, 
+                                 " minut zamude v odhodu in ",
+                                 arr_delay, " v prihodu."
+                                 )) %>% 
+  select("Poročilo leta", dep_string)
+```
+
 
 
