@@ -194,7 +194,7 @@ Sys.setlocale(category = "LC_ALL", locale = "Slovenian_Slovenia.1250")
 
 Oziroma lahko na primer v Windowsih nastavite privzeto kodiranje pod "Settings -> Time & Language -> Region -> Regional Format". Tukaj izberite "Slovenian (Slovenia)".
 
-Za slovenske Windowse: "Nastavitve -> Ura in Jezik -> Regija -> Območne nastavitve" in izberite "Slovenščina (Slovenija)"
+Za slovenske Windowse: "Nastavitve -> Ura in Jezik -> Regija -> Območne nastavitve" in izberite "Slovenščina (Slovenija)".
 
 
 ## Nizi
@@ -223,7 +223,7 @@ Izpis v drugem primeru uporablja tako imenovan **escape character** (\\), ki omo
 Niz lahko vključuje tudi vse posebne znake, ki jih podpira Unicode. To je standard za konsistentno kodiranje teksta, ki vsebuje preko 100000 znakov. Za vnos unicode znakov uporabite **\\uxxxx**, kjer je **xxxx** koda znaka, ki ga lahko poiščete na strani https://unicode.org/charts/.
 
 ```{r}
-normalna_porazdelitev <- "Gauss(\u03BC, \u03C3)"
+normalna_porazdelitev <- "Normal(\u03BC, 1)"
 normalna_porazdelitev
 ```
 
@@ -299,17 +299,125 @@ str_split(listek, pattern = ", ")
 
 ### Iskanje vzorcev z regularnimi izrazi
 
-Regularni izrazi so močno orodje za iskanje poljubnega vzorca v nizih. V tem poglavju bo predstavljena osnovna funkcionalnost regularnih izrazov, saj bi zaradi njihove fleksibilnosti posvetili eno ali celo dve poglavji le tem. Za prikaz delovanja bomo uporabljali funkciji `str_view()` in `str_view_all()`, ki uporabljata paket **htmlwidges** za prikaz rezultatov. Prva označi samo prvo ujemanje, druga pa vsa ujemanja.
+Regularni izrazi so močno orodje za iskanje poljubnega vzorca v nizih. V tem poglavju bo predstavljena le osnovna funkcionalnost regularnih izrazov, saj gre za zelo obširno orodje. Za prikaz delovanja bomo uporabljali funkciji `str_view()` in `str_view_all()`, ki uporabljata paket **htmlwidges** za prikaz rezultatov. Prva označi samo prvo ujemanje, druga pa vsa ujemanja.
 
-Uporabljamo jih lahko v vseh funkcijah paketa **stringr**, ki imajo kot vhod `pattern`. Na koncu bomo pokazali uporabo nekaterih funkcij, ki uporabljajo vzorce.
+Regularni izrazi so nizi, ki določijo iskalni vzorec. Z njimi lahko, na primer, iščemo nize, ki se začnejo na določen podniz, končajo na določen podniz, vsebujejo posebne simbole in podobno. Uporabljamo jih lahko v vseh funkcijah paketa **stringr**, ki imajo kot vhod `pattern`.
 
-Sestavimo dva lista nad katerimi bomo iskali vzorce in za začetek poiščimo vse vejice.
+Sestavimo dva seznama v katerih bomo iskali vzorce. Za začetek poiščimo vse vejice.
 
 ```{r}
 library(htmlwidgets)
 listek1 <- "KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane."
 listek2 <- "KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper."
-# str_view_all(c(listek1, listek2), ",")
+str_view_all(c(listek1, listek2), ",")
+```
+
+Kaj pa pike?
+
+```{r}
+str_view_all(c(listek1, listek2), ".")
+```
+
+Pika je poseben znak pri regularnih izrazih, ki predstavlja poljuben znak. Zato smo dobili ujemanja z vsemi črkami. Da lahko dejansko poiščemo pike in druge posebne znake moramo uporabiti znak escape `\`, s katerim programu sporočimo, naj simbola za tem ne prebere kot regularni izraz. Tukaj se nam nekoliko zaplete, ker je znak `\` že znak escape v R za tabulatorje (`\t`), nove vrstice (`\n`) itd. Zato, da vzorcu dejansko podamo `\.` moramo zapisati `\\.`. Tukaj si ponovno lahko pomagamo s funkcijo `cat()`, ki nam bo pokazala dejanski niz podan funkciji.
+
+
+```{r}
+cat("\\.") # Poglejmo kakšen niz bo dejansko sprejela funkcija str_view_all().
+str_view_all(c(listek1, listek2), "\\.")
+```
+
+Regularni izrazi uporabljajo tudi dva posebna znaka, ki označujeta začetek `^` in konec `$` niza. Poiščimo samo pike, ki zaključujejo nize.
+
+```{r}
+str_view_all(c(listek1, listek2), "\\.$")
+```
+V regularnih izrazih so zelo uporabne tudi naslednje sekvence.
+
+- `\d`: Ujemanje s poljubno števko;
+- `\s`: Ujemanje s poljubnim presledkom (presledek, tabulator, nova vrstica);
+- `[xyz]`: Ujemanje z x, y ali z;
+- `[^xyz]`: Ujemanje z vsem razen x, y in z. Strešica znotraj oglatih oklepajev pomeni negacijo;
+- `[[:digit:]]`: Ujemanje s poljubnim številom;
+- `[[:alpha:]]`: Ujemanje s poljubno črko, uporabite lahko tudi `[[a-z]]` in `[[:lower:]]` za vse male črke ali `[[A-Z]]` in `[[:upper:]]` za vse velike črke;
+- `[[:punct:]]`: Ujemanje z ločili.
+
+Poglejmo si uporabo nekaterih:
+```{r}
+str_view_all(c(listek1, listek2), "\\dx") # Poiščemo vse številke, ki jim sledi x.
+str_view_all(c(listek1, listek2), "[čžš]") # Vse šumnike.
+str_view_all(c(listek1, listek2), "[aA].[aA]") # Dva a-ja s poljubnim znakom vmes.
+str_view_all(c(listek1, listek2), ".[\\s,.]") # Vse konce besed.
+str_view_all(c(listek1, listek2), "[a-f]") # Vse črke od a do f.
+str_view_all(c(listek1, listek2), "[[:punct:]]") # Vsa ločila.
+```
+
+Znotraj oglatih oklepajev je pomen pike dobeseden znak pika. Tako, da ga ni potrebno zapisati kot `\\.` Priporočamo, da sami preizkušate še druge sekvence.
+
+Navpična črta `|` pomeni ali:
+
+```{r}
+str_view_all(c(listek1, listek2), "sol|sok") 
+```
+
+### Ponovitve 
+Zelo uporabni so tudi ukazi za ponovitve znakov ali sekvenc, ki nam omogočajo iskanje nizov določenih dolžin. Ukazi za delo s ponovitvami so:
+
+- `?`: ponovi 0 ali 1 krat,
+- `*`: ponovi 0 ali več krat,
+- `+`: ponovi 1 ali več krat,
+- `{n}`: ponovi natanko n krat,
+- `{n,}`: ponovi n ali več krat,
+- `{,m}`: ponovi m ali manj krat,
+- `{n,m}`: ponovi med n in m krat.
+
+Če znak za ponovitev uporabimo za enim znakom pomeni to ponovitev prejšnjega znaka. Lahko pa ga uporabimo tudi za oglatimi ali navadnimi oklepaji. Navadni oklepaji določajo skupino (več o skupinah v nadalje), ki se mora ponoviti. Oglati oklepaji pa izbiro, se pravi ponoviti se mora vsaj en od naštetih znakov.
+
+Ko začnemo uporabljati ponovitve se pojavijo prve večje težave. 
+
+Poiščimo vse besede dolžine 3. Besede sledijo presledku, torej začnemo regularni izraz z `\\s` (pri tem ignoriramo prvo besedo v odstavku). Nato morajo slediti 3 črke, torej `[:alpha:]{3}`. Temu mora slediti nov presledek ali ločilo, `[[:punct:]]|\\s`:
+
+```{r}
+str_view_all(c(listek1, listek2), "\\s[[:alpha:]]{3}([[:punct:]]|\\s)")
+```
+
+Poskušajmo poiskati besede, ki se začnejo na p in končajo na k ali e. 
+
+```{r}
+str_view_all(c(listek1, listek2), "p.*[ke]")
+```
+Opazimo, da je ujemanje požrešno. To pomeni, da je ujemanje najdaljše možno, ki ustreza ponovitvam. Če želimo najkrajšega lahko uporabimo še dodaten `?` za znakom za ponovitve.
+
+```{r}
+str_view_all(c(listek1, listek2), "p.*?[ke]")
+```
+
+Še vedno ni OK. V dobljenih nizih ne želimo presledkov in ne želimo, da se ujemanje konča prehitro, kot pri besedi 'piškote'. Poskusimo tako, da vzamemo ponovitve, ki ne vsebujejo presledkov.
+
+```{r}
+str_view_all(c(listek1, listek2), "p[^\\s]*[ke]")
+```
+
+Da zagotovimo zajem konca besede, določimo še, da naj bo na koncu vejica ali presledek.
+
+```{r}
+str_view_all(c(listek1, listek2), "p[[:alpha:]]*[ke]([, ])")
+```
+### Skupine
+
+Kot smo že videli lahko uporabimo tudi oklepaje, da ločimo del regularnega izraza od ostalih simbolov. Oklepaji pa definirajo tudi skupino, na katero se lahko sklicujemo z `\x`, kjer je x zaporedna številka skupine.
+
+Poglejmo si uporabo le tega na že vgrajenem vektorju sadja. Parameter `match = TRUE` nam vrne le nize, pri katerih je prišlo do ujemanja.
+
+```{r}
+str_view(fruit, "(..)\\1", match = TRUE)
+```
+
+Zgornji regularni izraz z `..` poišče dva poljubna znaka. Z `(..)` definiramo skupino. Z `\1` oziroma `\\1`, pa zahtevamo, da se na tem mestu še enkrat nahaja točno to kar je bilo med oklepaji.
+
+Poiščimo imena sadežev, ki imajo vsaj dve (lahko različni) ponavljajoči si črki.
+
+```{r}
+str_view(fruit, "(.)\\1.*(.)\\2", match = TRUE)
 ```
 
 
@@ -546,7 +654,8 @@ ds_jobs_agg <- ds_jobs %>%
 ds_jobs_agg
 ggplot(ds_jobs_agg, aes(x = FormalEducation, y = MeanCompensationUSD)) +
   geom_point() +
-  coord_flip()
+  coord_flip() +
+  xlab("")
 ```
 
 Ta graf je sicer zelo informativen, ampak bi s težavo hitro ugotovili, kako so nivoji faktorja razvrščeni glede na plačo. ggplot razvrsti vrednosti glede na to, kako so razvrščene v faktorju:
@@ -560,7 +669,8 @@ Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke `MeanCompe
 ```{r}
 ggplot(ds_jobs_agg, aes(x = fct_reorder(FormalEducation, MeanCompensationUSD), y = MeanCompensationUSD)) +
   geom_point() +
-  coord_flip()
+  coord_flip() +
+  xlab("")
 ```
 
 Razvrstitev lahko uredimo tudi ročno s funkicjo `fct_relevel()`, ki ohrani privzeto razvrstitev s tem, da podane nivoje premakne na začetek, oziroma lahko podamo arguemnt after.
@@ -568,7 +678,8 @@ Razvrstitev lahko uredimo tudi ročno s funkicjo `fct_relevel()`, ki ohrani priv
 ```{r}
 ggplot(ds_jobs_agg, aes(x = fct_relevel(FormalEducation, "I prefer not to answer", "I did not complete any formal education past high school", after = 0), y = MeanCompensationUSD)) +
   geom_point() +
-  coord_flip()
+  coord_flip() +
+  xlab("")
 ```
 
 ### Preimenivanje obstoječih in določanje novih nivojev
@@ -963,9 +1074,9 @@ airports %>%
 
     c) **Daljša.** Za vsak let sestavite besedno poročilo spodnje oblike, ki ga shranite v stolpec *Poročilo leta*.
 
-    Besedilo naj se glasi: "Let iz letalisca Newark Liberty Intl dne 22.01.13 ob 11:00 v letalisce George Bush Intercontinental je imel 2 minut zamude v odhodu in 11 v prihodu."
+        Besedilo naj se glasi: "Let iz letalisca Newark Liberty Intl dne 22.01.13 ob 11:00 v letalisce George Bush Intercontinental je imel 2 minut zamude v odhodu in 11 v prihodu."
 
-    Minute so lahko tudi negativne.
+        Minute so lahko tudi negativne.
 
     ```{r, echo = FALSE, message = FALSE}
 podatki <- left_join(flights, airports, by = c("origin" = "faa")) %>% 

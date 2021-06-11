@@ -55,3 +55,5 @@ excel
 spss
 ali-želite-izvedeti-več-2
 domača-naloga-2
+ponovitve
+skupine
