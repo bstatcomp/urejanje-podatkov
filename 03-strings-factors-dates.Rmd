@@ -101,10 +101,10 @@ tib$spol
 
 
 #### Datumi {-}
-
-R omogoča avtomatski izpis datumov v obliki nizov. Preprosto lahko sestavimo datum s posameznimi komponentami:
+Za delo z datumo bomo uporabljali paket **lubridate**. Datume lahko z lubridate shranimo na več načinov. Preprosto lahko sestavimo datum s posameznimi komponentami:
 
 ``` {r}
+library(lubridate)
 make_date(year = 2021, month = 6, day = 11)
 ```
 Ali iz niza:
@@ -136,17 +136,17 @@ V pripravi na 2. predavanje smo že spoznali funkcijo `rear_csv2()` za branje po
 write_csv2(tib, "./data-raw/studenti.csv")
 ```
 
-**Naloga 1**: Datoteko *ocene.csv* v mapi *data-raw* preberite s funkcijami paketa **readr** (`read_csv2()` in `write_csv2()`). Shranite jo kot *ocene2.csv* in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R ((`read.csv2()` in `write.csv2()`)). Kaj opazite?
+**Naloga 1**: Datoteko *ocene.csv* v mapi *data-raw* preberite s funkcijami paketa **readr** (`read_csv2()` in `write_csv2()`). Shranite jo kot *ocene2.csv* in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R (`read.csv2()` in `write.csv2()`). Kaj opazite?
 
 Z **readr**:
-```{r}
+```{r, echo = F}
 ocene <- read_csv2("./data-raw/ocene.csv")
 write_csv2(ocene, "./data-raw/ocene2.csv")
 read_csv2("./data-raw/ocene2.csv")
 ```
 
 Z R:
-```{r}
+```{r, echo = F}
 ocene <- read.csv2("./data-raw/ocene.csv")
 write.csv2(ocene, "./data-raw/ocene2.csv")
 read.csv2("./data-raw/ocene2.csv")
@@ -160,7 +160,7 @@ read.csv2("./data-raw/ocene2.csv")
 - Izberite samo imena, ki se začnejo na 'T' in podatke shranite v datoteko oceneT.csv.
 
 
-```{r}
+```{r, echo = F}
 ocene <- read.csv2("./data-raw/ocene.csv")
 ocene <- ocene %>% 
   mutate(opravljene_vaje = factor(opravljene_vaje)) %>%
