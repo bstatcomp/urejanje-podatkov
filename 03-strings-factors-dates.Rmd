@@ -36,6 +36,7 @@ str_c(crke, stevilke)
 str_c(crke, stevilke, sep = "-")
 str_c(crke, stevilke, collapse = "-")
 ```
+
 Obratno jih lahko razčlenimo na več manjših nizov:
 
 ```{r}
@@ -62,17 +63,20 @@ Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo `berry`.
 str_detect(fruit, "berry")
 ```
 
+Funkcija `str_detect()` je zelo uporabna pri izbiranju vrstic glede na nize. Običajno jo uporabljamo v kombinaciji z regularnimi izrazi, ki jih bomo spoznali v jedru tega poglavja.
+
 #### Kategorične spremenljivke {-}
 Pri pripravi na kategorične spremenljivke bomo uporabili podatke o uspehu študentov na izpitu:
 ``` {r}
 tib <- tibble(
   ime             = c("Maja", "Ales", "Tom", "Barbara", "Simon", "Tina"),
   spol            = c("z", "m", "m", "z", "m", "z"),
-  ocena           = c(7, 10, 6, 8, 8, 7),
+  ocena           = c(10, 10, 6, 8, 8, 7),
   dan_izpita      = c(8, 8, 16, 16, 8, 23),
   mesec_izpita    = rep(6, 6),
   leto_izpita     = rep(2021, 6),
-  opravljene_vaje = c(1, 1, 1, 1, 0, 1)
+  opravljene_vaje = c(1, 1, 1, 1, 0, 1),
+  procenti_vaje   = c(70, 65, 80, 90, 30, 75)
 )
 tib
 ```
@@ -80,23 +84,48 @@ tib
 Spremenimo **spol** v nominalno spremenljivko (brez ureditve) in **oceno** v ordinalno spremenljivko (obstaja ureditev med vrednostmi, običajno po velikosti):
 
 ``` {r}
-tib %>% mutate(spol = factor(spol),
-              ocena = factor(ocena, ordered = TRUE))
+tib <- tib %>% mutate(spol  = factor(spol),
+                      ocena = factor(ocena, ordered = TRUE))
 tib$spol
 tib$ocena
 ```
 
+Nivoje faktorja (levels) lahko tudi uredimo glede na vrednosti v nekem drugem stolpcu. To običajno pride prav pri vizualizaciji.
+
+``` {r}
+tib <- tib %>%
+  mutate(spol = fct_reorder(spol, procenti_vaje, .desc = TRUE))
+tib$spol
+```
+
+
+
 #### Datumi {-}
 
-R omogoča avtomatski izpis datumov v obliki nizov. Preprosto lahko sestavimo datum z naslednjim ukazom. 
+R omogoča avtomatski izpis datumov v obliki nizov. Preprosto lahko sestavimo datum s posameznimi komponentami:
 
 ``` {r}
 make_date(year = 2021, month = 6, day = 11)
 ```
-Lahko uporabimo tudi funkcijo, ki prejme tudi uro in časovni pas.
+Ali iz niza:
 
 ``` {r}
+ymd("2021-06-11")
+```
+
+
+Lahko dodamo tudi čas:
+``` {r}
 make_datetime(year = 2021, month = 6, day = 11, hour = 11, min = 30, tz = "CET")
+```
+
+Z datumi lahko tudi računamo:
+
+``` {r}
+my_date <- make_date(year = 2021, month = 6, day = 11)
+my_date
+my_date + days(2)
+my_date + months(3)
 ```
 
 
@@ -104,10 +133,10 @@ make_datetime(year = 2021, month = 6, day = 11, hour = 11, min = 30, tz = "CET")
 V pripravi na 2. predavanje smo že spoznali funkcijo `rear_csv2()` za branje podatkov iz tekstovnih datotek. Podatke lahko tudi shranimo v tekstovno datoteko s funkcijo `write_csv2()`:
 
 ```{r}
-write_csv2(ocene, "./data-raw/ocene_copy.csv")
+write_csv2(tib, "./data-raw/studenti.csv")
 ```
 
-**Naloga 1**: Datoteko ocene.csv preberite z funkcijami paketa **readr** (`read_csv2()` in `write_csv2()`). Shranite jo kot ocene2.csv in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R ((`read.csv2()` in `write.csv2()`)). Kaj opazite?
+**Naloga 1**: Datoteko *ocene.csv* v mapi *data-raw* preberite s funkcijami paketa **readr** (`read_csv2()` in `write_csv2()`). Shranite jo kot *ocene2.csv* in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R ((`read.csv2()` in `write.csv2()`)). Kaj opazite?
 
 Z **readr**:
 ```{r}
@@ -124,7 +153,7 @@ read.csv2("./data-raw/ocene2.csv")
 ```
 
 
-**Naloga 2**: Ponovno preberite ocene.csv ter:
+**Naloga 2**: Ponovno preberite *ocene.csv* ter:
 
 - spremenite stolpec `opravljene_vaje` v kategorične vrednosti,
 - zamenjajte stolpce `leto_izpita`, `mesec_izpita`, `dan_izpita` z `datum_izpita`, ki vsebuje vse te podatke,
@@ -169,7 +198,7 @@ Za slovenske Windowse: "Nastavitve -> Ura in Jezik -> Regija -> Območne nastavi
 
 
 ## Nizi
-Zbirka paketov tidyverse vsebuje paket **stringr**, ki je namenjen delu z nizi. Vsi ukazi v paketu se začnejo s `str_`, kar v kombinaciji z auto complete funkcionalnostjo omogoča hitro izbiro in pregled vseh funkcij.
+Zbirka paketov tidyverse vsebuje paket **stringr**, ki je namenjen delu z nizi. Vsi ukazi v paketu se začnejo s `str_`, kar v kombinaciji s funkcionalnostjo avtomatskega dopolnjevanja omogoča hitro izbiro in pregled vseh funkcij.
 
 V jeziku R lahko za definiranje niza uporabimo enojne (') ali dvojne navednice ("). R bo rezultat sicer vedno vrnil v dvojnih navednicah. 
 
@@ -188,30 +217,35 @@ citat2 <- 'In Janez je rekel: "Citiram Jureta".'
 citat1
 citat2
 ```
+
 Izpis v drugem primeru uporablja tako imenovan **escape character** (\\), ki omogoča tudi vpis tabulaterjev (\\t), znakov za novo vrstico (\\n) in podobno. Vse znake, ki jih je tako možno zapisati si lahko ogledate z ukazom `?"'"`. 
 
-Niz lahko vključuje tudi vse posebne znake, ki jih podpira unicode. Za vnos unicode znakov uporabite **\\uxxxx**, kjer je **xxxx** koda znaka, ki ga lahko poiščete na strani https://unicode.org/charts/.
+Niz lahko vključuje tudi vse posebne znake, ki jih podpira Unicode. To je standard za konsistentno kodiranje teksta, ki vsebuje preko 100000 znakov. Za vnos unicode znakov uporabite **\\uxxxx**, kjer je **xxxx** koda znaka, ki ga lahko poiščete na strani https://unicode.org/charts/.
 
 ```{r}
 normalna_porazdelitev <- "Gauss(\u03BC, \u03C3)"
 normalna_porazdelitev
 ```
+
 Dolžino nizov poiščemo s funkcijo `str_length()`.
 
 ```{r}
 str_length(c("tri", "štiri", "", citat1, normalna_porazdelitev))
 ```
-Za združevanje nizov se uporablja `str_c()`, ki mu lahko dodamo tudi niz `sep`, ki ga vrine med vse podane nize.
+
+Za združevanje nizov se uporablja `str_c()`, ki mu lahko dodamo tudi niz `sep`, ki ga vrine med vse podane nize:
 
 ```{r}
 str_c("paradižnik", "bučke", "jabolka", "paprika", "jagode", sep = ", ")
 ```
-Če funkciji podamo vektorje lahko sestavimo tudi več nizov naenkrat. Pri tem bo število dobljenih nizov enako največjemu vektorju, manjši pa se bodo reciklirali, kar pomeni, da se bodo njihove vrednosti ponavljale, dokler ne dosežejo dolžine najdaljšega vektorja.
+
+Če funkciji podamo vektorje lahko združimo tudi več nizov naenkrat. Pri tem bo število dobljenih nizov enako največjemu vektorju, manjši pa se bodo reciklirali, kar pomeni, da se bodo njihove vrednosti ponavljale, dokler ne dosežejo dolžine najdaljšega vektorja.
 
 ```{r}
 str_c("Podpoglavje ", c(1, 2, 3, 4), ": ", 
       c("Nizi", "Faktorji", "Datumi", "Branje podatkov"))
 ```
+
 Če želimo nize združiti zaporedno uporabimo `collapse`. Za izpis nizov brez escape znakov uporabite funkcijo `cat()`.
 
 ```{r}
@@ -220,6 +254,7 @@ poglavja <- str_c("Podpoglavje ", c(1, 2, 3, 4), ": ",
 poglavja
 cat(poglavja)
 ```
+
 Manjkajoče vrednosti lahko zamenjamo z `str_replace_na()`.
 
 ```{r}
@@ -228,31 +263,35 @@ str_replace_na(c("ena", "dva", NA, "štiri"), replacement = "tri!")
 
 ### Podnizi
 
-Velikokrat se pri delu z nizi srečamo tudi s tem, da potrebujemo le del niza ali pa niz razdeliti na manjše. Poglejmo si na primeru niza `"    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "` iz katerega želimo dobiti vektor sadja in zelenjave.
+Velikokrat se pri delu z nizi srečamo tudi s tem, da potrebujemo le del niza ali pa želimo niz razdeliti na več manjših nizov. Poglejmo si na primeru niza `"    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "` iz katerega želimo dobiti vektor sadja in zelenjave.
 
 ```{r}
 listek <- "    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "
 ```
-Najprej odstranimo odvečne začetne in končne presledke. To storimo z `str_trim()`.
+
+Najprej odstranimo odvečne začetne in končne presledke. To storimo s `str_trim()`:
 
 ``` {r}
 listek <- str_trim(listek)
 listek
 ```
-Z uporabo funkcije `str_sub()` nam vrne podniz glede na indekse znakov.
+
+Funkcija `str_sub()` vrne podniz glede na indekse znakov:
 
 ``` {r}
-str_sub(listek, 7, 16) #vrne znake med indeksom 7 do 16 
-str_sub(listek, 7) #vrne znake od sedmega naprej
-str_sub(listek, -7) #vrne zadnjih sedem znakov
-str_sub(listek, -7, -2) #vrne predzadnjih šest znakov
+str_sub(listek, 7, 16) # Vrne znake med indeksom 7 do 16.
+str_sub(listek, 7) # Vrne znake od sedmega naprej.
+str_sub(listek, -7) # Vrne zadnjih sedem znakov.
+str_sub(listek, -7, -2) # Vrne predzadnjih šest znakov.
 ```
-S tem znanjem lahko odstranimo prvih šest znakov in zadnjega.
+
+S tem znanjem lahko odstranimo prvih šest znakov in zadnjega:
 ```{r}
 listek <- str_sub(listek, 7, -2)
 listek
 ```
-Sedaj, ko imamo elemente samo naštete in ločene z vejico jih lahko preprosto razdelimo z funkcijo `str_split()`, ki mu podamo vzorec za ločevanje.
+
+Sedaj, ko imamo elemente samo naštete in ločene z vejico, jih lahko preprosto razdelimo s funkcijo `str_split()`, ki jipodamo vzorec za ločevanje:
 
 ```{r}
 str_split(listek, pattern = ", ")
@@ -275,29 +314,12 @@ listek2 <- "KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper."
 
 
 ### Uporaba regularnih izrazov
+Poglejmo si uporabo regularnih izrazov najprej na preprostih podatkih, nato pa še na podatkih iz že znane ankete.
 
-Poglejmo si uporabo regularnih izrazov na preprostih podatkih in nad podatki iz že znane ankete.
-
-``` {r}
-ds_jobs <- read.csv2("./data-raw/DS-jobs.csv")
-ds_jobs <- tibble(ds_jobs)
-ds_jobs
-```
-
-Uporabimo najprej funkcijo `str_detect()`, ki vrne TRUE, če niz vsebuje vzorec, drugače pa FALSE.
-
-Poiščimo sadje in zelenjavo, ki vsebuje šumnike.
-
+Poiščimo vso sadje in zelenjavo, ki vsebuje šumnike:
 ```{r}
 seznam <- c("paradižnik", "bučke", "jabolka", "paprika", "jagode");
 str_detect(seznam, "[čšž]")
-```
-To funkcijo lahko v praksi uporabljamo za izbiro vrstic. Recimo poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /.
-
-```{r}
-ds_jobs %>% 
-  select(CurrentJobTitle) %>% 
-  filter(str_detect(CurrentJobTitle, "/"))
 ```
 
 Če želimo namesto logičnega vektorja dobiti dejanska imena elementov uporabimo `str_subset()`.
@@ -305,20 +327,15 @@ ds_jobs %>%
 ```{r}
 str_subset(seznam, "[čšž]")
 ```
+
 Poglejmo koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija `str_count()` ne zazna ponovitev, če se le te prekrivajo.
 
 ```{r}
 str_count(seznam, "[aeiou]")
-```
-To funkcijo lahko uporabimo, da anketirancem dodamo število službenih nazivov.
-
-```{r}
-ds_jobs %>% 
-  select(CurrentJobTitle) %>% 
-  mutate(NumberOfJobTitles = str_count(CurrentJobTitle, "/") + 1)
+str_count("ababa", "aba") # Ne zazna dveh ponovitev, ker se prekrivata.
 ```
 
-Z funkcijo `str_locate()` lahko vrnemo indekse lokacij najdenih vzorcev, z `str_extract()` pa lahko dobimo ta vzorec oziroma podniz. Z `str_match()` pa lahko celo dobimo podskupine.
+S funkcijo `str_locate()` vrnemo indekse lokacij najdenih vzorcev, s `str_extract()` pa dobimo ta vzorec oziroma podniz. S `str_match()` dobimo podskupine.
 
 Poiščimo podnize do prvega šumnika.
 
@@ -329,6 +346,72 @@ str_match(seznam, "(^.*)([čšž])")
 ```
 V zadnjem primeru funkcija `str_match()` v prvem stolpcu vrne enako kot `str_extract()`, nato pa v naslednjih stolpcih vrne še vsako skupino posebej.
 
+Preprosta in zelo uporabna pa je funkcija `str_replace()` oziroma `str_replace_all()` s katero lahko zamenjamo dele nizov.
+
+Prekrijmo šumnike z znaki "x".
+
+```{r}
+str_replace(seznam, "[čšž]", "x")
+```
+
+Podamo lahko tudi zamenjavo za več ujemanj:
+
+```{r}
+str_replace_all(seznam, c("č" = "c", "š" = "s", "ž"= "z"))
+```
+
+
+Poglejmo si sedaj še uporabo na realnih podatkih. Najprej naložimo podatke:
+``` {r}
+ds_jobs <- read.csv2("./data-raw/DS-jobs.csv")
+ds_jobs <- tibble(ds_jobs)
+ds_jobs
+```
+
+Najbolj uporabna funkcija pri delu z nizi v podatkih je `str_detect()`, ki nam omogoča izbiro podmnožice vrstic. Pogosto jo kombiniramo z regularnimi izrazi. Poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /.
+
+```{r}
+ds_jobs %>% 
+  select(CurrentJobTitle) %>% 
+  filter(str_detect(CurrentJobTitle, "/"))
+```
+
+Izberimo samo tiste vrstice, kjer se `CurrentJobTitle` začne z "Data" in se `EmploymentStatus` konča s "full-time":
+
+```{r}
+ds_jobs %>% 
+  select(EmploymentStatus, CurrentJobTitle) %>% 
+  filter(str_detect(CurrentJobTitle, "^Data"),
+         str_detect(EmploymentStatus, "full-time$"))
+```
+
+Včasih so nizi v podatkih predolgi, oziroma lahko brez škode za pomen izbrišemo del niza. Najlažje to naredimo tako, da ga zamenjamo s praznim nizom. Izbrišimo podnize "Employed":
+
+```{r}
+ds_jobs <- ds_jobs %>% 
+  mutate(EmploymentStatus = str_replace(EmploymentStatus, "Employed ", ""))
+ds_jobs %>%
+  select(EmploymentStatus, CurrentJobTitle)
+```
+
+Sedaj imamo eno manjšo nekonsistentnost v podatkih, namreč nekateri nizi se začnejo z veliko začetnico, nekateri pa z malo. Spremenimo vse na malo začetnico:
+
+```{r}
+ds_jobs <- ds_jobs %>% 
+  mutate(EmploymentStatus = str_to_lower(EmploymentStatus))
+ds_jobs %>%
+  select(EmploymentStatus, CurrentJobTitle)
+```
+
+
+S funkcijo `str_count()` lahko uporabimo, da anketirancem dodamo stolpec s številom službenih nazivov:
+
+```{r}
+ds_jobs %>% 
+  select(CurrentJobTitle) %>% 
+  mutate(NumberOfJobTitles = str_count(CurrentJobTitle, "/") + 1)
+```
+
 Poskušajmo razdeliti CurrentJobTitle na FirstTitle in SecondTitle, pri tem naj se naziva ponovita, če ima anketiranec samo enega.
 
 ```{r}
@@ -336,19 +419,6 @@ ds_jobs %>%
   select(CurrentJobTitle) %>% 
   mutate(FirstTitle  = str_extract(CurrentJobTitle, "^[^/]*"),
          SecondTitle = str_extract(CurrentJobTitle, "[^/]*$"))
-```
-
-Preprosta in zelo uporaba pa je funkcija `str_replace()` oziroma `str_replace_all` s katero lahko zamenjamo dele nizov.
-
-Prekrijmo šumnike z znaki x.
-
-```{r}
-str_replace(seznam, "[čšž]", "x")
-```
-Podamo lahko tudi zamenjavo za vsak več ujemanj posebej: TODO: bug s č-jem
-
-```{r}
-str_replace_all(seznam, c("č" = "c", "š" = "s", "ž"= "z"))
 ```
 
 
@@ -362,43 +432,46 @@ V R uporabljamo za delo s kategoričnimi spremenljivkami t. i. **faktorje** (ang
 
 Poglejmo si uporabo faktorja na dveh preprostih primerih, kjer bomo sami ustvarili spremenljivki. Kasneje si bomo ogledali še delo s faktorji na primeru realnih podatkov, kjer bomo ponovno uporabili podatke o zaposlitvah na področju podatkovnih ved.
 
-
-Kot primer nominalne spremenljivke si oglejmo dneve v tednu. Obstaja 7 možnih vrednosti.
+Kot primer nominalne spremenljivke si oglejmo krvne skupine. Obstajajo 4 možne vrednosti. Ustvarimo sedaj vektor krvnih skupin:
 ```{r}
-dan_v_tednu <- c("torek", "četrtek", "nedelja", "tork", "sreda")
-```
-Sedaj so dnevi v tednu shranjeni kot nizi. Kaj so slabosti takšnega shranjevanja kategoričnih podatkov? Prvič, nimamo nobenega varovala pred tipkarskimi napakami -- R je četrti vnos prebral kot *tork* in ga tako tudi shranil:
-
-```{r}
-dan_v_tednu
+krvne_skupine <- c("B", "B", "O", "AB", "BA")
 ```
 
-Drugič, če želimo razvrstiti to spremenljivko, razvrščanje ne bo smiselno, saj se bodo vrednosti razvrstile po abecedi:
+Sedaj je ta vektor shranjen kot niz. Kaj so slabosti takšnega shranjevanja kategoričnih podatkov? Prvič, nimamo nobenega varovala pred tipkarskimi napakami -- R je zadnji vnos prebral kot *BA* in ga tako tudi shranil, čeprav ta krvna skupina ne obstaja:
 
 ```{r}
-sort(dan_v_tednu)
+krvne_skupine
 ```
+
+Pri ročnem vnosu podatkoh hitro pride do tipkarskih napak in načeloma ne vemo, ali je avtor podatkov v tme primeru želel vnesti A, B ali AB.
+
+Drugič, če želimo urediti to spremenljivko, se bodo vrednosti razvrstile po abecedi:
+
+```{r}
+sort(krvne_skupine)
+```
+
+Morda pa bi bilo bolj smiselno urediti po standardni ureditvi, torej A, B, AB, O.
 
 Da se izognemo tem težavam je bolje, če spremenljiko za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo `factor()`. Poizkusimo sedaj narediti faktor iz spremenljivke `dan_v_tednu`.
 
 ```{r}
-dan_v_tednu_fac <- factor(dan_v_tednu)
-dan_v_tednu_fac
+krvne_skupine_fac <- factor(krvne_skupine)
+krvne_skupine_fac
 ```
 
-Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 7 dni v tednu, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija `factor()` privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument `levels`, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa da podamo tudi ta argument.
+Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 4 krvnih skupin, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija `factor()` privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument `levels`, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa da podamo tudi ta argument.
 
 ```{r}
-dan_v_tednu_fac <- factor(dan_v_tednu, levels = c("ponedeljek", "torek", "sreda", "četrtek", 
-                                                  "petek", "sobota", "nedelja"))
-dan_v_tednu_fac
-sort(dan_v_tednu_fac)
+krvne_skupine_fac <- factor(krvne_skupine, levels = c("A", "B", "AB", "O"))
+krvne_skupine_fac
+sort(krvne_skupine_fac)
 ```
 
-Opazimo dvoje: sedaj lahko spremenljivko uredimo glede na dan v tednu in nesmiselne vrednosti se spremenijo v `NA`. Faktorju torej ne moremo prirediti vrednosti, ki ni enaka eni izmed vrednosti v ravneh. Da dostopamo do vseh ravni faktorja, uporabimo funkcijo `levels()`:
+Opazimo dvoje: sedaj lahko spremenljivko uredimo glede na standardno notacijo in nesmiselne vrednosti se spremenijo v `NA`. Faktorju torej ne moremo prirediti vrednosti, ki ni enaka eni izmed vrednosti v ravneh. Da dostopamo do vseh ravni faktorja, uporabimo funkcijo `levels()`:
 
 ```{r}
-levels(dan_v_tednu_fac)
+levels(krvne_skupine_fac)
 ```
 
 Včasih imajo kategorične spremenljivke tudi smiselno razvrstitev po velikosti, ki pa se običajno ne da numerično izmeriti. Kot primer si poglejmo šolski uspeh, ki lahko zavzame 5 vrednosti. V kolikor želimo, da faktor hrani tudi informacijo o tem, da obstaja smiselna razvrstitev po velikosti, dodamo argument `ordered = TRUE`.
@@ -415,7 +488,7 @@ Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi usp
 
 ```{r}
 uspeh[2] > uspeh[1]
-dan_v_tednu_fac[2] > dan_v_tednu[1]
+krvne_skupine_fac[2] > krvne_skupine_fac[1]
 ```
 
 Poleg prednosti, ki smo jih že omenili (varovanje pred napakami in smiselna razvrstitev nivojev) imajo faktorji tudi posebno vlogo pri raznih statističnih modelih in modelih strojnega učenja. Nekatere metode eksplicitno zahtevajo faktorje. Prav tako razlikujejo med nominalnimi in ordinalnimi faktorji, kar se pozna na rezultatih. Relativno preprost primer tega je linearna regresija, ki pa je izven obsega te delavnice. Vsekakor pa si je to vredno zapomniti, v kolikor se boste kdaj ukvajrali s podobnimi modeli in boste želeli uporabiti kategorične spremenljivke.
@@ -433,20 +506,38 @@ ds_jobs <- read_csv2("./data-raw/DS-jobs.csv") %>%
 ds_jobs
 ```
 
-Imamo dve spremenljivki, ki bi jih bilo smiselno shraniti kot faktorje -- `EmploymentStatus` in `FormalEducation`. Pretvorimo sedaj ti spremenljivki v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.
+Imamo 3 spremenljivke, ki bi jih bilo smiselno shraniti kot faktorje -- `Country`, `EmploymentStatus` in `FormalEducation`. Pretvorimo sedaj ti spremenljivki v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.
 
 ```{r}
 library(tidyverse)
 ds_jobs <- ds_jobs %>%
-  mutate(EmploymentStatus = factor(EmploymentStatus),
-         FormalEducation = factor(FormalEducation))
+  mutate(Country          = factor(Country),
+         EmploymentStatus = factor(EmploymentStatus),
+         FormalEducation  = factor(FormalEducation))
 ds_jobs
+levels(ds_jobs$Country)
 levels(ds_jobs$EmploymentStatus)
 levels(ds_jobs$FormalEducation)
 ```
+Kaj se zgodi, če želimo v tibblu spremeniti vrednost faktorja, v neko vrednost, ki je ni v tem faktorju? Recimo, da želimo v 2. vrstici spremeniti državo v Narnia:
+
+```{r}
+ds_jobs2 <- ds_jobs
+ds_jobs2$Country[2] <- "Narnia"
+ds_jobs2
+```
+Ker Narnia ni nivo v faktorju, se nadomesti z `NA`. Če želimo dodati nov nivo temu faktorju, uporabimo `fct_expand()`:
+
+```{r}
+ds_jobs2 <- ds_jobs %>%
+  mutate(Country = fct_expand(Country, "Narnia"))
+ds_jobs2$Country[2] <- "Narnia"
+ds_jobs2
+```
+
 
 ### Sprememba razvrstitve faktorja
-Kot smo omenili že pri dnevih v tednu imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko smiselno razvrstitev. Razvrstitev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:
+Kot smo omenili že pri krvnih skupinah imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko ustaljeno razvrstitev. Razvrstitev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:
 
 ```{r}
 ds_jobs_agg <- ds_jobs %>%
@@ -494,16 +585,9 @@ head(ds_jobs$EmploymentStatus)
 
 Sorodno lahko zgornjo funkcijo zamenjamo z `fct_collapse()`, ki lahko združi več nivojev v enega.
 
-Če želimo dodati nov nivo uporabimo funckcijo `fct_expand()`.
-```{r}
-ds_jobs <- ds_jobs %>%
-  mutate(EmploymentStatus = fct_expand(EmploymentStatus, "trainee"))
-levels(ds_jobs$EmploymentStatus)
-```
-
 
 ### Razbitje numerične spremenljivke na intervale
-Velikokrat želimo kakšno numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo `cut()`. Razdelimo spremenljivko `Age` na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.
+Pogosto želimo kakšno numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo `cut()`. Razdelimo spremenljivko `Age` na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.
 
 ```{r}
 ds_jobs <- ds_jobs %>%
@@ -552,6 +636,12 @@ my_datetime_UTC <- with_tz(my_datetime, tz = "UTC")
 my_datetime_UTC
 ```
 
+Hranita pa spremenljivki v ozadju isti čas. To lahko preverimo z:
+
+```{r}
+my_datetime == my_datetime_UTC
+```
+
 V R je časovni pas namenjen samo izpisu datumov in časov. Sama vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:
 
 ```{r}
@@ -559,7 +649,7 @@ my_datetime - my_datetime_UTC
 ```
 V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo `force_tz()`. Predlagamo, da udeleženci sami poizkusijo, kaj naredi ta funkcija, tako da z njo pretvorijo `my_datetime` v UTC in potem izračunajo razliko, podobno kot smo to naredili zgoraj.
 
-Kadar delamo sekvence datumov in časov te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si letošnji prehod na poletni čas.
+Kadar delamo sekvence datumov in časov te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si prehod na poletni čas v letu 2021:
 
 ```{r}
 datetime_dst <- seq(ymd_hms("2021-03-28 00:00:00", tz = "Europe/Ljubljana"), 
@@ -569,7 +659,7 @@ datetime_dst
 with_tz(datetime_dst, tz = "UTC")
 ```
 
-Pozorni moramo biti tudi na kombiniranje datumov. V kolikor uporabimo funkcijo `c()`, ta običajno privzeto nastavi časovni pas prvega podanega elementa. Vsekakor pa je to odvisno. TODO: Ali je to res? Ker dobim drugačne rezultate kot pa so v knjigi. 
+Pozorni moramo biti tudi na kombiniranje datumov. V kolikor uporabimo funkcijo `c()`, vedno preverimo, v katerem časovnem pasu je rezultat.
 
 
 ### Računanje z datumi in časi
@@ -683,9 +773,22 @@ head(flights)
 
 
 ``` {r}
-flights %>% select(year, month, day, hour, minute) %>%
+flights_datetime <- flights %>% select(year, month, day, hour, minute) %>%
   mutate(DepartureTime = make_datetime(year, month, day, hour, minute))
+flights_datetime
+head(flights_datetime$DepartureTime)
 ```
+
+Ali opazimo kakšno težavo? datume smo prebrali v časovni coni UTC, so pa podani v lokalni časovni coni. Podatkov torej nismo pretvorili pravilno! Poizkusimo še enkrat:
+
+``` {r}
+flights_datetime <- flights %>% select(year, month, day, hour, minute) %>%
+  mutate(DepartureTime = make_datetime(year, month, day, hour, minute,
+                                       tz = "America/New_York"))
+flights_datetime
+head(flights_datetime$DepartureTime)
+```
+
 
 ## Shranjevanje in branje podatkov
 
