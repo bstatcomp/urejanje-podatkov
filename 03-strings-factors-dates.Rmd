@@ -788,6 +788,24 @@ path <- "./test-script/data-raw/samo-ocene-math.xlsx"
 write.xlsx(ocene_math, path)
 ```
 
+#### Branje datotek za spss
+
+SPSS je program za statistično analizo. Datoteke povezane z SPSS imajo običajno končnico .sav. Za branje iz in uvažanje v SPSS lahko uporabimo paket **haven**. V mapi *data_raw* imamo podatke o osebah *osebe.sav*. Za uvoz teh podatkov v R uporabimo funkcijo `read_sav`.
+
+```{r}
+library(haven)
+podatki <- read_sav("./data_raw/osebe.sav")
+podatki
+```
+
+Da shranimo `data.frame` v sav datoteko, uporabimo funkcijo `write_sav`. Shranimo sedaj `iris` `data.frame` v sav datoteko.
+
+```{r}
+write_sav(iris, "./data_clean/iris.sav")
+```
+
+Paket haven ima tudi funkcijo `read_por` ki podpira starejše verzije datotek iz SPSS.
+
 ## Ali želite izvedeti več?
 
 V tem poglavju smo si ogledali operacije treh paketov tidyversa. Če želite hiter in dokaj celot pregled nad vsemi ukazi priporočamo, da si za vsak paket ogledate tako imenovan **cheat sheet**:
