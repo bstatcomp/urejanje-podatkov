@@ -670,7 +670,7 @@ account_district_loan %>%
     flights_weather <- left_join(flights, weather, by = c("year", "month", "day", "hour", "origin"))
     flights_weather
     ```
-- Poiščite vsa letala, ki so v New York priletela 5. aprila iz letališča Chicago Ohare Intl.
+- Poiščite vsa letala z 2 motorjema, ki so v New York priletela 5. aprila iz letališča Chicago Ohare Intl.
     ```{r, echo = FALSE}
     airports_ORD <- filter(airports, name == "Chicago Ohare Intl")
     planes_ORD   <- flights_plane %>%

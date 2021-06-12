@@ -136,7 +136,7 @@ V pripravi na 2. predavanje smo že spoznali funkcijo `rear_csv2()` za branje po
 write_csv2(tib, "./data-raw/studenti.csv")
 ```
 
-**Naloga 1**: Datoteko *ocene.csv* v mapi *data-raw* preberite s funkcijami paketa **readr** (`read_csv2()` in `write_csv2()`). Shranite jo kot *ocene2.csv* in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R (`read.csv2()` in `write.csv2()`). Kaj opazite?
+**Naloga 1**: Datoteko *ocene.csv* v mapi *data-raw* preberite s funkcijami paketa **readr** (`read_csv2()` in `write_csv2()`). Shranite jo kot *ocene2.csv* in to datoteko preberite nazaj. Nato naredite enako z baznimi funkcijami v R (`read.csv2()` in `write.csv2()`). Kaj opazite?
 
 Z **readr**:
 ```{r, echo = F}
@@ -180,7 +180,7 @@ Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega siste
 ```{r}
 "čebula"
 ```
-Če R ne vrne istega niza je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimoo katero kodiranje je trenutno uporabljeno, lahko napišemo:
+Če R ne vrne istega niza je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimo katero kodiranje je trenutno uporabljeno, lahko napišemo:
 
 ```{r}
 Sys.getlocale()
