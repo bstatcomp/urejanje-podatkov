@@ -18,11 +18,11 @@ library(lubridate)
 
 
 # Nizi, kategorične spremenljivke in datumi 
-Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih operacij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.
+Pri delu s podatki se pogosto srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali v prvih dveh poglavjih. Delali smo tudi s kategoričnimi spremenljivkami, čeprav tega nismo poudarili. V tem poglavju bomo spoznali naprednejše operacije nad temi podatkovnimi tipi v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.
+
+Konec poglavja pa bomo posvetili branju in pisanju podatkov v različnih oblikah. 
 
 ## Priprava
-
-V tem poglavju bomo spoznali, kako delamo z nizi, kategoričnimi spremenljivkami in datumi. Na koncu se bomo tudi posvetili branju podatkov iz različnih datotek in shranjevanju dobljenih rezultatov.
 
 #### Nizi {-}
 
@@ -51,13 +51,13 @@ str_replace_all("A1-B1-A2-B2", pattern = "1", "(ena)")
 str_replace_all("A1-B1-A2-B2", c("1" = "(ena)", "2" = "(dva)"))
 ```
 
-Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu `fruit` poiskali vse jagodičevje, to so tisti nizi, ki vsebujejo `berry`.
+Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu `fruit` poiskali vse nize, ki vsebujejo `berry`.
 
 ```{r}
 length(fruit)
 str_subset(fruit, "berry")
 ```
-Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo `berry`.
+Podobno lahko vrnemo logični vektor nizov, ki vsebujejo `berry`.
 
 ```{r}
 str_detect(fruit, "berry")
@@ -81,7 +81,7 @@ tib <- tibble(
 tib
 ```
 
-Spremenimo **spol** v nominalno spremenljivko (brez ureditve) in **oceno** v ordinalno spremenljivko (obstaja ureditev med vrednostmi, običajno po velikosti):
+Spremenimo **spol** v nominalno spremenljivko (brez ureditve) in **oceno** v ordinalno spremenljivko (obstaja vrsti red vrednosti):
 
 ``` {r}
 tib <- tib %>% mutate(spol  = factor(spol),
@@ -90,7 +90,7 @@ tib$spol
 tib$ocena
 ```
 
-Nivoje faktorja (levels) lahko tudi uredimo glede na vrednosti v nekem drugem stolpcu. To običajno pride prav pri vizualizaciji.
+Nivoje faktorja (levels) lahko uredimo tudi glede na vrednosti v nekem drugem stolpcu. To običajno pride prav pri vizualizaciji.
 
 ``` {r}
 tib <- tib %>%
@@ -130,7 +130,7 @@ my_date + months(3)
 
 
 #### Shranjevanje podatkov v csv {-}
-V pripravi na 2. predavanje smo že spoznali funkcijo `rear_csv2()` za branje podatkov iz tekstovnih datotek. Podatke lahko tudi shranimo v tekstovno datoteko s funkcijo `write_csv2()`:
+V pripravi v 2. poglavju smo že spoznali funkcijo `rear_csv2()` za branje podatkov iz tekstovnih datotek. Podatke lahko tudi shranimo v tekstovno datoteko s funkcijo `write_csv2()`:
 
 ```{r}
 write_csv2(tib, "./data-raw/studenti.csv")
@@ -157,7 +157,7 @@ read.csv2("./data-raw/ocene2.csv")
 
 - spremenite stolpec `opravljene_vaje` v kategorične vrednosti,
 - zamenjajte stolpce `leto_izpita`, `mesec_izpita`, `dan_izpita` z `datum_izpita`, ki vsebuje vse te podatke,
-- Izberite samo imena, ki se začnejo na 'T' in podatke shranite v datoteko oceneT.csv.
+- izberite samo imena, ki se začnejo na 'T' in podatke shranite v datoteko oceneT.csv.
 
 
 ```{r, echo = F}
@@ -175,26 +175,26 @@ ocene
 
 ### Delo s šumniki {-}
 
-Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite ali R uporablja pravilno kodiranje je, da napišete v konzolo "čebula". Nazaj morate dobiti enak niz in ne "cebula" ali celo "პbula".
+Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite, ali R uporablja pravilno kodiranje, je, da v konzolo napišete "čebula". Nazaj morate dobiti enak niz in ne "cebula" ali celo "პbula".
 
 ```{r}
 "čebula"
 ```
-Če R ne vrne istega niza je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimo katero kodiranje je trenutno uporabljeno, lahko napišemo:
+Če R ne vrne istega niza, je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimo, katero kodiranje je trenutno uporabljeno, lahko napišemo:
 
 ```{r}
 Sys.getlocale()
 ```
 
-Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate težave, lahko to začasno spremenite z ukazom. 
+Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate težave, lahko to začasno spremenite z ukazom: 
 
 ```{r}
 Sys.setlocale(category = "LC_ALL", locale = "Slovenian_Slovenia.1250")
 ```
 
-Oziroma lahko na primer v Windowsih nastavite privzeto kodiranje pod "Settings -> Time & Language -> Region -> Regional Format". Tukaj izberite "Slovenian (Slovenia)".
+Oziroma lahko na primer v OS Windows nastavite privzeto kodiranje pod "Settings -> Time & Language -> Region -> Regional Format". Tukaj izberite "Slovenian (Slovenia)".
 
-Za slovenske Windowse: "Nastavitve -> Ura in Jezik -> Regija -> Območne nastavitve" in izberite "Slovenščina (Slovenija)".
+Za slovenski OS Windows: "Nastavitve -> Ura in Jezik -> Regija -> Območne nastavitve" in izberite "Slovenščina (Slovenija)".
 
 
 ## Nizi
@@ -209,7 +209,7 @@ niz_dvojne_navednice
 niz_enojne_navednice
 ```
 
-Če želimo znotraj niza uporabiti dvojne navednice lahko za definicijo uporabljamo enojne in obratno.
+Če želimo znotraj niza uporabiti dvojne navednice, lahko za definicijo uporabljamo enojne in obratno:
 
 ```{r}
 citat1 <- "Jure je rekel: 'Citiram Janeza'."
@@ -218,16 +218,16 @@ citat1
 citat2
 ```
 
-Izpis v drugem primeru uporablja tako imenovan **escape character** (\\), ki omogoča tudi vpis tabulaterjev (\\t), znakov za novo vrstico (\\n) in podobno. Vse znake, ki jih je tako možno zapisati si lahko ogledate z ukazom `?"'"`. 
+Izpis v drugem primeru uporablja tako imenovan **escape character** (\\), ki omogoča tudi vpis tabulaterjev (\\t), znakov za novo vrstico (\\n) in podobno. Vse znake, ki jih je tako možno zapisati, si lahko ogledate z ukazom `?"'"`. 
 
-Niz lahko vključuje tudi vse posebne znake, ki jih podpira Unicode. To je standard za konsistentno kodiranje teksta, ki vsebuje preko 100000 znakov. Za vnos unicode znakov uporabite **\\uxxxx**, kjer je **xxxx** koda znaka, ki ga lahko poiščete na strani https://unicode.org/charts/.
+Niz lahko vključuje tudi vse posebne znake, ki jih podpira Unicode. To je standard za konsistentno kodiranje teksta, ki vsebuje preko 100000 znakov. Za vnos znakov unicode uporabite **\\uxxxx**, kjer je **xxxx** koda znaka, ki ga lahko poiščete na strani https://unicode.org/charts/.
 
 ```{r}
 normalna_porazdelitev <- "Normal(\u03BC, 1)"
 normalna_porazdelitev
 ```
 
-Dolžino nizov poiščemo s funkcijo `str_length()`.
+Dolžino nizov poiščemo s funkcijo `str_length()`:
 
 ```{r}
 str_length(c("tri", "štiri", "", citat1, normalna_porazdelitev))
@@ -246,7 +246,7 @@ str_c("Podpoglavje ", c(1, 2, 3, 4), ": ",
       c("Nizi", "Faktorji", "Datumi", "Branje podatkov"))
 ```
 
-Če želimo nize združiti zaporedno uporabimo `collapse`. Za izpis nizov brez escape znakov uporabite funkcijo `cat()`.
+Če želimo nize združiti zaporedno uporabimo `collapse`. Za izpis nizov brez escape znakov uporabite funkcijo `cat()`:
 
 ```{r}
 poglavja <- str_c("Podpoglavje ", c(1, 2, 3, 4), ": ", 
@@ -263,7 +263,7 @@ str_replace_na(c("ena", "dva", NA, "štiri"), replacement = "tri!")
 
 ### Podnizi
 
-Velikokrat se pri delu z nizi srečamo tudi s tem, da potrebujemo le del niza ali pa želimo niz razdeliti na več manjših nizov. Poglejmo si na primeru niza `"    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "` iz katerega želimo dobiti vektor sadja in zelenjave.
+Velikokrat pri delu z nizi potrebujemo le del niza ali pa želimo niz razdeliti na več manjših nizov. Poglejmo si na primeru niza `"    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "`, iz katerega želimo dobiti vektor sadja in zelenjave:
 
 ```{r}
 listek <- "    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "
@@ -291,7 +291,7 @@ listek <- str_sub(listek, 7, -2)
 listek
 ```
 
-Sedaj, ko imamo elemente samo naštete in ločene z vejico, jih lahko preprosto razdelimo s funkcijo `str_split()`, ki jipodamo vzorec za ločevanje:
+Sedaj, ko imamo elemente samo naštete in ločene z vejico, jih lahko preprosto razdelimo s funkcijo `str_split()`, ki ji podamo vzorec za ločevanje:
 
 ```{r}
 str_split(listek, pattern = ", ")
@@ -326,7 +326,7 @@ cat("\\.") # Poglejmo kakšen niz bo dejansko sprejela funkcija str_view_all().
 str_view_all(c(listek1, listek2), "\\.")
 ```
 
-Regularni izrazi uporabljajo tudi dva posebna znaka, ki označujeta začetek `^` in konec `$` niza. Poiščimo samo pike, ki zaključujejo nize.
+Regularni izrazi uporabljajo tudi dva posebna znaka, ki označujeta začetek `^` in konec `$` niza. Poiščimo samo pike, ki zaključujejo nize:
 
 ```{r}
 str_view_all(c(listek1, listek2), "\\.$")
@@ -414,7 +414,7 @@ str_view(fruit, "(..)\\1", match = TRUE)
 
 Zgornji regularni izraz z `..` poišče dva poljubna znaka. Z `(..)` definiramo skupino. Z `\1` oziroma `\\1`, pa zahtevamo, da se na tem mestu še enkrat nahaja točno to kar je bilo med oklepaji.
 
-Poiščimo imena sadežev, ki imajo vsaj dve (lahko različni) ponavljajoči si črki.
+Poiščimo imena sadežev, ki imajo vsaj dve (lahko različni) ponavljajoči si črki:
 
 ```{r}
 str_view(fruit, "(.)\\1.*(.)\\2", match = TRUE)
@@ -422,21 +422,21 @@ str_view(fruit, "(.)\\1.*(.)\\2", match = TRUE)
 
 
 ### Uporaba regularnih izrazov
-Poglejmo si uporabo regularnih izrazov najprej na preprostih podatkih, nato pa še na podatkih iz že znane ankete.
+Uporabo regularnih izrazov si najprej pogljemo na preprostih podatkih, nato pa še na podatkih iz ankete.
 
-Poiščimo vso sadje in zelenjavo, ki vsebuje šumnike:
+Poiščimo sadje in zelenjavo, ki vsebuje šumnike:
 ```{r}
 seznam <- c("paradižnik", "bučke", "jabolka", "paprika", "jagode");
 str_detect(seznam, "[čšž]")
 ```
 
-Če želimo namesto logičnega vektorja dobiti dejanska imena elementov uporabimo `str_subset()`.
+Če želimo namesto logičnega vektorja dobiti dejanska imena elementov, uporabimo `str_subset()`:
 
 ```{r}
 str_subset(seznam, "[čšž]")
 ```
 
-Poglejmo koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija `str_count()` ne zazna ponovitev, če se le te prekrivajo.
+Poglejmo, koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija `str_count()` ne zazna ponovitev, če se le-te prekrivajo:
 
 ```{r}
 str_count(seznam, "[aeiou]")
@@ -454,9 +454,9 @@ str_match(seznam, "(^.*)([čšž])")
 ```
 V zadnjem primeru funkcija `str_match()` v prvem stolpcu vrne enako kot `str_extract()`, nato pa v naslednjih stolpcih vrne še vsako skupino posebej.
 
-Preprosta in zelo uporabna pa je funkcija `str_replace()` oziroma `str_replace_all()` s katero lahko zamenjamo dele nizov.
+Preprosta in zelo uporabna pa je funkcija `str_replace()` oziroma `str_replace_all()`, s katero lahko zamenjamo dele nizov.
 
-Prekrijmo šumnike z znaki "x".
+Prekrijmo šumnike z znaki "x":
 
 ```{r}
 str_replace(seznam, "[čšž]", "x")
@@ -476,7 +476,7 @@ ds_jobs <- tibble(ds_jobs)
 ds_jobs
 ```
 
-Najbolj uporabna funkcija pri delu z nizi v podatkih je `str_detect()`, ki nam omogoča izbiro podmnožice vrstic. Pogosto jo kombiniramo z regularnimi izrazi. Poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /.
+Najbolj uporabna funkcija pri delu z nizi v podatkih je `str_detect()`, ki nam omogoča izbiro podmnožice vrstic. Pogosto jo kombiniramo z regularnimi izrazi. Poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /:
 
 ```{r}
 ds_jobs %>% 
@@ -502,7 +502,7 @@ ds_jobs %>%
   select(EmploymentStatus, CurrentJobTitle)
 ```
 
-Sedaj imamo eno manjšo nekonsistentnost v podatkih, namreč nekateri nizi se začnejo z veliko začetnico, nekateri pa z malo. Spremenimo vse na malo začetnico:
+Sedaj imamo eno manjšo nekonsistentnost v podatkih. Nekateri nizi se začnejo z veliko začetnico, nekateri pa z malo. Spremenimo vse na malo začetnico:
 
 ```{r}
 ds_jobs <- ds_jobs %>% 
@@ -531,16 +531,16 @@ ds_jobs %>%
 
 
 ## Kategorične spremenljivke
-Kategorične spremenljivke so spremenljivke, ki lahko zavzamejo samo vnaprej določene vrednosti. Delimo jih na:
+Kategorične spremenljivke so spremenljivke, ki lahko zavzamejo samo končno mnogo vnaprej določenih vrednosti. Najbolj pogoste so:
 
-- **Nominalne spremenljivke**. To so spremenljivke brez ureditve. Na primer, spol ali vrsta avtomobila.
-- **Ordinalne spremenljivke**. To so spremenljivke, ki imajo smiselno ureditev. Na primer, stopnja izobrazbe ali šolski uspeh.
+- **Nominalne spremenljivke**. To so spremenljivke brez ureditve: tip izdelka ali znamka avtomobila.
+- **Ordinalne spremenljivke**. To so spremenljivke, ki imajo smiselno ureditev: stopnja izobrazbe ali šolski uspeh.
 
-V R uporabljamo za delo s kategoričnimi spremenljivkami t. i. **faktorje** (ang. **factor**). Ti se od spremenljivk tipa niz razlikujejo v tem, da se v spremenljivki hrani informacija o vseh možnih vrednostih. Prav tako ni mogoče faktorju dodati vrednosti, ki je ni v množici možnih vrednosti, kar služi kot varovalka pred napakami pri vnosu podatkov.
+V R uporabljamo za delo s kategoričnimi spremenljivkami t. i. **faktorje** (ang. **factor**). Ti se od spremenljivk tipa niz razlikujejo v tem, da se v spremenljivki hrani informacija o vseh možnih vrednostih. Faktorju ni mogoče dodati vrednosti, ki je ni v množici možnih vrednosti, kar služi kot varovalka pred napakami pri vnosu podatkov.
 
-Poglejmo si uporabo faktorja na dveh preprostih primerih, kjer bomo sami ustvarili spremenljivki. Kasneje si bomo ogledali še delo s faktorji na primeru realnih podatkov, kjer bomo ponovno uporabili podatke o zaposlitvah na področju podatkovnih ved.
+Poglejmo si uporabo faktorja na dveh preprostih primerih, kjer bomo sami ustvarili spremenljivki. Kasneje si bomo pogledali še delo s faktorji na primeru realnih podatkov, kjer bomo ponovno uporabili podatke o zaposlitvah na področju podatkovnih ved.
 
-Kot primer nominalne spremenljivke si oglejmo krvne skupine. Obstajajo 4 možne vrednosti. Ustvarimo sedaj vektor krvnih skupin:
+Kot primer nominalne spremenljivke si oglejmo krvne skupine. Obstajajo 4 možne vrednosti. Ustvarimo vektor krvnih skupin za pet različnih oseb:
 ```{r}
 krvne_skupine <- c("B", "B", "O", "AB", "BA")
 ```
@@ -551,7 +551,7 @@ Sedaj je ta vektor shranjen kot niz. Kaj so slabosti takšnega shranjevanja kate
 krvne_skupine
 ```
 
-Pri ročnem vnosu podatkoh hitro pride do tipkarskih napak in načeloma ne vemo, ali je avtor podatkov v tme primeru želel vnesti A, B ali AB.
+Pri ročnem vnosu podatkov hitro pride do tipkarskih napak in načeloma ne vemo, ali je avtor podatkov v tem primeru želel vnesti A, B ali AB.
 
 Drugič, če želimo urediti to spremenljivko, se bodo vrednosti razvrstile po abecedi:
 
@@ -561,14 +561,14 @@ sort(krvne_skupine)
 
 Morda pa bi bilo bolj smiselno urediti po standardni ureditvi, torej A, B, AB, O.
 
-Da se izognemo tem težavam je bolje, če spremenljiko za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo `factor()`. Poizkusimo sedaj narediti faktor iz spremenljivke `dan_v_tednu`.
+Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo `factor()`. Naredimo faktor iz spremenljivke `dan_v_tednu`:
 
 ```{r}
 krvne_skupine_fac <- factor(krvne_skupine)
 krvne_skupine_fac
 ```
 
-Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 4 krvnih skupin, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija `factor()` privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument `levels`, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa da podamo tudi ta argument.
+Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 4 krvnih skupin, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija `factor()` privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument `levels`, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa, da podamo tudi ta argument:
 
 ```{r}
 krvne_skupine_fac <- factor(krvne_skupine, levels = c("A", "B", "AB", "O"))
@@ -592,14 +592,14 @@ uspeh <- factor(c("odlično", "dobro", "dobro", "prav dobro"),
 uspeh
 ```
 
-Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi uspeha. V praksi nam to omogoča primerjamo, medtem ko tega pri faktorjih, ki nimajo razvrstitve po velikosti, ne moremo narediti.
+Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi uspeha. V praksi nam to omogoča primerjavo, medtem ko tega pri faktorjih, ki nimajo razvrstitve po velikosti, ne moremo narediti.
 
 ```{r}
 uspeh[2] > uspeh[1]
 krvne_skupine_fac[2] > krvne_skupine_fac[1]
 ```
 
-Poleg prednosti, ki smo jih že omenili (varovanje pred napakami in smiselna razvrstitev nivojev) imajo faktorji tudi posebno vlogo pri raznih statističnih modelih in modelih strojnega učenja. Nekatere metode eksplicitno zahtevajo faktorje. Prav tako razlikujejo med nominalnimi in ordinalnimi faktorji, kar se pozna na rezultatih. Relativno preprost primer tega je linearna regresija, ki pa je izven obsega te delavnice. Vsekakor pa si je to vredno zapomniti, v kolikor se boste kdaj ukvajrali s podobnimi modeli in boste želeli uporabiti kategorične spremenljivke.
+Poleg prednosti, ki smo jih že omenili, imajo faktorji posebno vlogo pri raznih statističnih modelih in modelih strojnega učenja. Nekatere metode eksplicitno zahtevajo faktorje. Prav tako razlikujejo med nominalnimi in ordinalnimi faktorji, kar se pozna na rezultatih. Ravno tako so faktorji pomembni v primeru, ko poznamo nabor možnih vrednosti a nekaterih pri meritvah še nismo opazili. Pri izrisu želimo take vrednosti izpisati z vrednostjo 0 ali NA.
 
 Poglejmo si uporabo faktorjev na realni podatkovni množici. Ponovno bomo delali s podatki o zaposlitvah na področju podatkovnih ved. Preberimo podatke in ponovimo nekaj operacij, ki smo jih spoznali na prvem predavanju. Prav tako bomo izbrali samo podmnožico stolpcev za bolj jasen prikaz.
 
@@ -614,7 +614,7 @@ ds_jobs <- read_csv2("./data-raw/DS-jobs.csv") %>%
 ds_jobs
 ```
 
-Imamo 3 spremenljivke, ki bi jih bilo smiselno shraniti kot faktorje -- `Country`, `EmploymentStatus` in `FormalEducation`. Pretvorimo sedaj ti spremenljivki v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.
+Imamo 3 spremenljivke, ki bi jih bilo smiselno shraniti kot faktorje -- `Country`, `EmploymentStatus` in `FormalEducation`. Pretvorimo jih v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.
 
 ```{r}
 library(tidyverse)
@@ -627,7 +627,7 @@ levels(ds_jobs$Country)
 levels(ds_jobs$EmploymentStatus)
 levels(ds_jobs$FormalEducation)
 ```
-Kaj se zgodi, če želimo v tibblu spremeniti vrednost faktorja, v neko vrednost, ki je ni v tem faktorju? Recimo, da želimo v 2. vrstici spremeniti državo v Narnia:
+Kaj se zgodi, če želimo v tibblu spremeniti vrednost faktorja v neko vrednost, ki je ni v tem faktorju? Recimo, da želimo v 2. vrstici spremeniti državo v Narnia:
 
 ```{r}
 ds_jobs2 <- ds_jobs
@@ -645,7 +645,7 @@ ds_jobs2
 
 
 ### Sprememba razvrstitve faktorja
-Kot smo omenili že pri krvnih skupinah imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko ustaljeno razvrstitev. Razvrstitev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:
+Kot smo omenili že pri krvnih skupinah, imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko ustaljeno ureditev. Ureditev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:
 
 ```{r}
 ds_jobs_agg <- ds_jobs %>%
@@ -664,7 +664,7 @@ Ta graf je sicer zelo informativen, ampak bi s težavo hitro ugotovili, kako so 
 levels(ds_jobs$FormalEducation)
 ```
 
-Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke `MeanCompensationUSD`. Za to moramo določiti novo razvrstitev te spremenljivke. Za to obstaja v paketu **forcats**, ki je del tidyverse, funkcija `fct_reorder()`.
+Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke `MeanCompensationUSD`, za kar moramo določiti novo razvrstitev te spremenljivke. Za to obstaja v paketu **forcats**, ki je del tidyverse, funkcija `fct_reorder()`.
 
 ```{r}
 ggplot(ds_jobs_agg, aes(x = fct_reorder(FormalEducation, MeanCompensationUSD), y = MeanCompensationUSD)) +
@@ -673,7 +673,7 @@ ggplot(ds_jobs_agg, aes(x = fct_reorder(FormalEducation, MeanCompensationUSD), y
   xlab("")
 ```
 
-Razvrstitev lahko uredimo tudi ročno s funkicjo `fct_relevel()`, ki ohrani privzeto razvrstitev s tem, da podane nivoje premakne na začetek, oziroma lahko podamo arguemnt after.
+Razvrstitev lahko uredimo tudi ročno s funkcijo `fct_relevel()`, ki ohrani privzeto razvrstitev tako, da podane nivoje premakne na začetek, oziroma lahko podamo argument `after`.
 
 ```{r}
 ggplot(ds_jobs_agg, aes(x = fct_relevel(FormalEducation, "I prefer not to answer", "I did not complete any formal education past high school", after = 0), y = MeanCompensationUSD)) +
@@ -698,7 +698,7 @@ Sorodno lahko zgornjo funkcijo zamenjamo z `fct_collapse()`, ki lahko združi ve
 
 
 ### Razbitje numerične spremenljivke na intervale
-Pogosto želimo kakšno numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo `cut()`. Razdelimo spremenljivko `Age` na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.
+Pogosto želimo numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo `cut()`. Razdelimo spremenljivko `Age` na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.
 
 ```{r}
 ds_jobs <- ds_jobs %>%
@@ -710,9 +710,9 @@ ggplot(ds_jobs_agg, aes(x = AgeInterval, y = CompensationByAge)) + geom_point()
 ```
 
 ## Datumi in ure
-Delo z datumi in urami morda na prvi pogled deluje precej enostavno. Vendar pa zaradi različnih fizikalnih zakonitosti ali človeških konstruktov lahko pride do težav. Na primer, vsako leto nima 365 dni. Prav tako v nekaterih časovnih conah 3. ura zjutraj ne sledi vedno 2. uri, saj pride do premika ure.
+Delo z datumi in urami na prvi pogled morda deluje enostavno. Vendar pa zaradi različnih fizikalnih zakonitosti ali človeških konstruktov lahko pride do težav. Na primer, vsako leto nima 365 dni. Prav tako v nekaterih časovnih conah 3. ura zjutraj ne sledi vedno 2. uri, saj pride do premika ure.
 
-Za delo z datumi bomo uporabljali paket **lubridate**. Glavni komponenti v tem paketu sta **datum** (date) in **čas** (time), ter združena komponenta **datum in čas** (datetime). S tem paketom lahko datume ustvarimo na 2 načina:
+Za delo z datumi bomo uporabljali paket **lubridate**. Glavni komponenti v tem paketu sta **datum** (date) in **čas** (time) ter združena komponenta **datum in čas** (datetime). S tem paketom lahko datume ustvarimo na 2 načina:
 
 1) Z nizom:
     ```{r}
@@ -731,13 +731,13 @@ Za delo z datumi bomo uporabljali paket **lubridate**. Glavni komponenti v tem p
     make_datetime(2021, 4, 2, 12, 1, 0)
     ```
 
-Opazimo, da pri datumu in času spremenljivka hrani tudi informacijo o časovnem pasu. Privzeto lubridate dela s časovnim pasom UTC (Coordinated Universal Time), ki je naslednik GMT (Greenwich Mean Time). Prednost tega časovnega pasu je predvsem v tem, da se ne prilagaja spremembi ure v pomladnih in jesenskih mesecih. Te spremembe lahko privedejo do napak pri računanju z datumi in časi, tako da je računanje v UTC bolj varno. Seveda pa lahko ročno nastavimo drugi časovni pas z argumentom `tz`. Paket lubridate uporablja IANA časovne pasove (https://www.iana.org/time-zones), kateri so definirani s kombinacijo celine in države. Na primer, za Ljubljano bi časovni pas nastavili tako:
+Opazimo, da pri datumu in času spremenljivka hrani tudi informacijo o časovnem pasu. Privzeto lubridate dela s časovnim pasom UTC (Coordinated Universal Time), ki je naslednik GMT (Greenwich Mean Time). Prednost tega časovnega pasu je , da se ne prilagaja spremembi ure v pomladnih in jesenskih mesecih. Te spremembe lahko privedejo do napak pri računanju z datumi in časi, tako da je računanje v UTC bolj varno. Seveda pa lahko ročno nastavimo drugi časovni pas z argumentom `tz`. Paket lubridate uporablja IANA časovne pasove (https://www.iana.org/time-zones), ki so definirani s kombinacijo celine in države. Za Ljubljano bi časovni pas nastavili tako:
 
 ```{r}
 ymd_hms("2021-04-02 12:01:00", tz = "Europe/Ljubljana")
 ```
 
-Pomembno je torej, da vemo, v katerem časovnem pasu so bile opravljene meritve v naših podatkih, da lahko potem ustrezno pretvorimo spremenljivko v časovno. Seveda pa lahko tudi pretvarjamo časovne spremenljivke med časovnimi pasovi. Za to uporabimo funkcijo `with_tz()`. Vsakemu času v določenem časovnem pasu lahko priredimo nek čas v drugem časovnem pasu. V kolikor želimo bolj robustno računati z datumi in urami, potem lahko vedno datume pretvorimo v UTC čas, naredimo izračune in potem pretvorimo nazaj v lokalni časovni pas.
+Pomembno je , da vemo, v katerem časovnem pasu so bile opravljene meritve v naših podatkih, da lahko potem ustrezno pretvorimo spremenljivko v časovno. Seveda pa lahko tudi pretvarjamo časovne spremenljivke med časovnimi pasovi. Za to uporabimo funkcijo `with_tz()`. Vsakemu času v določenem časovnem pasu lahko priredimo nek čas v drugem časovnem pasu. V kolikor želimo bolj robustno računati z datumi in urami, lahko vedno datume pretvorimo v UTC čas, naredimo izračune in potem pretvorimo nazaj v lokalni časovni pas.
 
 
 ```{r}
@@ -747,20 +747,20 @@ my_datetime_UTC <- with_tz(my_datetime, tz = "UTC")
 my_datetime_UTC
 ```
 
-Hranita pa spremenljivki v ozadju isti čas. To lahko preverimo z:
+V ozdaju pa spremenljivki hranita isti čas. To lahko preverimo z:
 
 ```{r}
 my_datetime == my_datetime_UTC
 ```
 
-V R je časovni pas namenjen samo izpisu datumov in časov. Sama vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:
+V R je časovni pas namenjen samo izpisu datumov in časov. Vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:
 
 ```{r}
 my_datetime - my_datetime_UTC
 ```
-V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo `force_tz()`. Predlagamo, da udeleženci sami poizkusijo, kaj naredi ta funkcija, tako da z njo pretvorijo `my_datetime` v UTC in potem izračunajo razliko, podobno kot smo to naredili zgoraj.
+V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo `force_tz()`. Poizkusite kaj naredi ta funkcija, tako da z njo pretvorijo `my_datetime` v UTC in potem izračunajte razliko, podobno kot smo to naredili zgoraj.
 
-Kadar delamo sekvence datumov in časov te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si prehod na poletni čas v letu 2021:
+Kadar delamo sekvence datumov in časov, te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si prehod na poletni čas v letu 2021:
 
 ```{r}
 datetime_dst <- seq(ymd_hms("2021-03-28 00:00:00", tz = "Europe/Ljubljana"), 
@@ -809,17 +809,17 @@ x
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:
 
 - **trajanja** (ang. duration). Čas v sekundah. Funkcije `dseconds()`, `dminutes()`, `ddays()`, `dweeks()` in `dyears()`. Pri trajanjih se vedno uporabi pretvorba, da ima vsak dan 24 ur in vsako leto 365.25 dni. Slednje predstavlja povprečno šteilo dni v letu. Tako da bo funkcija `dyears(4)` vedno vrnila število sekund, ki ustreza 4x365.25 dnem, ki imajo vsak po 24 ur.
-- **periode** (ang. period). Čas v človeških enotah kot je na primer teden. Funkcije `seconds()`, `minutes()`, `days()`, `weeks()`, `months()` in `years()`.
+- **obdobja** (ang. period). Čas v človeških enotah kot je na primer teden. Funkcije `seconds()`, `minutes()`, `days()`, `weeks()`, `months()` in `years()`.
 - **intervali** (ang. interval). Časovni interval med dvema točkama.
 
-Pozoren bralec je morda opazil, da pri trajanjih nismo navedli funkcije za mesece. To je zaradi tega, ker imajo meseci lahko 28, 29, 30 ali 31 dni. Vsekakor bi pri izbiri osnovne enote za trajanja prišlo do neke arbitrarne odločitve, koliko dni vzamemo privzeto. 30 ali 31? V vsakem primeru bo vsaj polovica mesecev imela napačno trajanje. Pri dnevih in letih si lažje privoščimo posplošitev.
+Pozoren bralec je opazil, da pri trajanjih nismo navedli funkcije za mesece. To pa zato, ker imajo meseci lahko 28, 29, 30 ali 31 dni. Vsekakor bi pri izbiri osnovne enote za trajanja prišlo do neke arbitrarne odločitve, koliko dni vzamemo privzeto. 30 ali 31? V vsakem primeru bo vsaj polovica mesecev imela napačno trajanje. Pri dnevih in letih si lažje privoščimo posplošitev.
 
 ```{r}
 ddays(1)
 days(1)
 ```
 
-Poglejmo si preprost primer, kako dodati
+Poglejmo si preprost primer, kako dodati določena obdobja:
 
 ```{r}
 my_datetime <- ymd_hms("2021/06/08 11:05:30", tz = "Europe/Ljubljana")
@@ -830,7 +830,7 @@ my_datetime + minutes(120)
 my_datetime + months(2)
 ```
 
-Trajanja in periode so si očitno zelo podobni ampak imajo eno veliko razliko, kadar računamo z dnevi, tedni in leti. Prvič, kadar bomo uporabljali `dyears()` lahko hitro pride do težave, saj bomo prišteli 0.25 dneva. Poglejmo si to na primeru:
+Trajanja in obdobja so si očitno zelo podobni, ampak imajo eno veliko razliko, kadar računamo z dnevi, tedni in leti. Prvič, kadar bomo uporabljali `dyears()` lahko hitro pride do težave, saj bomo prišteli 0.25 dneva. Poglejmo si to na primeru:
 
 ```{r}
 my_datetime + years(1)
@@ -846,14 +846,14 @@ my_datetime + days(1)
 my_datetime + dweeks(1)
 my_datetime + weeks(1)
 ```
-Funkcija `years()` deluje kot bi pričakovali tudi na prestopnem letu:
+Funkcija `years()` deluje, kot bi pričakovali tudi na prestopnem letu:
 
 ```{r}
 my_datetime <- ymd_hms("2020/06/08 11:05:30", tz = "Europe/Ljubljana")
 my_datetime + years(1)
 ```
 
-S funkcijami trajanja in period lahko tudi računamo, na primer:
+S funkcijami trajanja in obdobji lahko tudi računamo, na primer:
 
 ```{r}
 dyears(2) + ddays(4) + dseconds(20)
@@ -862,7 +862,7 @@ days(2) + minutes(20) + seconds(120)
 5 * minutes(20)
 ```
 
-Najbolje, da jo prikažemo na dveh primerih -- premik ure in prestopno leto. Periode so bolj naraven prikaz za človeka.
+Najbolje, da jo prikažemo na dveh primerih -- premik ure in prestopno leto. Obdobja so bolj naraven prikaz za človeka.
 
 ```{r}
 my_datetime <- ymd_hms("2021/06/08 11:05:30", tz = "Europe/Ljubljana")
@@ -875,7 +875,7 @@ my_datetime + years(1)
 my_datetime + months(2)
 ```
 
-V bazi letalskih letov posodobimo podatke, tako da izračunamo niz, ki predstavlja točen odhod letala.
+V bazi letalskih letov posodobimo podatke tako, da izračunamo niz, ki predstavlja odhod letala.
 
 ```{r}
 library(nycflights13)
@@ -890,7 +890,7 @@ flights_datetime
 head(flights_datetime$DepartureTime)
 ```
 
-Ali opazimo kakšno težavo? datume smo prebrali v časovni coni UTC, so pa podani v lokalni časovni coni. Podatkov torej nismo pretvorili pravilno! Poizkusimo še enkrat:
+Ali opazimo kakšno težavo? Datume smo prebrali v časovni coni UTC, podani pa so v lokalni časovni coni. Podatkov torej nismo pravilno pretvorili! Poizkusimo še enkrat:
 
 ``` {r}
 flights_datetime <- flights %>% select(year, month, day, hour, minute) %>%
@@ -904,7 +904,7 @@ head(flights_datetime$DepartureTime)
 ## Shranjevanje in branje podatkov
 
 ### Delo z binarnimi datotekami
-V programskem jeziku R lahko shranjujemo in nalagamo (v trenutno sejo R) spremenljivke kot binarne objekte na dva prevladujoča načina:
+V programskem jeziku R lahko spremenljivke shranjujemo in beremo (v trenutno sejo R) kot binarne objekte. Prednost tega shranjevanja pred shranjevanjem v csv ali excelove razpredelnice je, da se ohranijo tudi meta informacije, kot so recimo nivoji pri faktorjih. Shranjujemo na dva prevladujoča načina:
 
 1) S kombinacijo funkcij `save()` in `load()`.
 2) S kombinacijo funkcij `saveRDS()` in `readRDS()`.
@@ -913,7 +913,7 @@ Pomembna razlika med prvim in drugim pristopom je, da lahko s prvim shranimo ve�
 
 Funkcija `save()` shrani spremenljivke v trenutni seji R v datoteko s končnico *rda* ali *RData*. To naredi tako, da shrani tako vrednost spremenljivke kot tudi ime spremenljivke. To pomeni, da ko bomo takšno datoteko prebrali v novo sejo R, bomo ustvarili spremenljivke z enakimi imeni, kot smo jih shranili. Pri tem pa lahko pride do težav. Recimo, da imamo v trenutni seji R že nek nabor spremenljivk nato pa želimo vanjo prenesti še neke druge spremenljivke, ki smo jih pred časom shranili s funkcijo `save()` v datoteko saved-data.rda. Kaj se bo zgodilo, če bo katera od spremenljivk v naši trenutni seji imela enako ime kot ena od spremenljivk shranjenih v saved-data.rda? R bo enostavno to spremenljivko prepisal s spremenljivko, ki se je nahajala v tej rda datoteki. Takšen postopek dela je lahko torej nevaren, saj lahko *nevede* izbrišemo obstoječe spremenljivke.
 
-Predlagamo torej uporabo druge kombinacije, torej funkcij `saveRDS()` in `readRDS()`. Funkcija `saveRDS()` shrani samo vrednost spremenljivke, ne pa tudi njenega imena, tako da ne pride do podobnih težav kot pri prvem pristopu. Končnica tako shranjenih datotek je *rds*. Poglejmo si uporabo teh funkcij.
+Predlagamo torej uporabo kombinacije funkcij `saveRDS()` in `readRDS()`. Funkcija `saveRDS()` shrani samo vrednost spremenljivke, ne pa tudi njenega imena, tako da ne pride do podobnih težav kot pri prvem pristopu. Končnica tako shranjenih datotek je *rds*. Poglejmo si uporabo teh funkcij:
 
 ```{r}
 x <- c(3, 6, 3, 7)
@@ -924,9 +924,9 @@ x2 <- readRDS("./my-saved-files/my-x.rds")
 x2
 ```
 
-Vedno ko preberemo podatke v sejo R s funkcijo `readRDS()` ji moramo prirediti ime, saj je v rds datoteki shrnajena samo njena vrednost. S tem se tudi izognemo podobnim težavam kot pri funkcijah `save()` in `load()`.
+Vedno ko preberemo podatke v sejo R s funkcijo `readRDS()`, ji moramo prirediti ime, saj je v rds datoteki shrnajena samo njena vrednost. S tem se tudi izognemo podobnim težavam kot pri funkcijah `save()` in `load()`.
 
-Pomanjkljivost shranjevanja rds datotek pa je v tem, da lahko naenkrat shranimo samo 1 spremenljivko. Ampak to pomanjkljivost lahko zaobidemo, tako da več spremenljivk enostavno shranimov v seznam (`list()`). Poglejmo si sedaj na primer, kako bi shranili več spremenljivk.
+Pomanjkljivost shranjevanja datotek rds je v tem, da lahko naenkrat shranimo samo 1 spremenljivko. Ampak to pomanjkljivost lahko zaobidemo tako, da več spremenljivk enostavno shranimov v seznam (`list()`). Poglejmo si sedaj na primer, kako bi shranili več spremenljivk.
 
 ```{r}
 tmp_list <- list(
@@ -953,7 +953,7 @@ ds_jobs2
 
 Paket **openxlsx** omogoča delo z exelovimi razpredelnicami. Poglejmo si preproste a uporabne ukaze. Za branje podatkov s tem paketom uprabljamo `read.xlsx()`, za shranjevanje datotek pa `write.xlsx()`.
 
-Preberimo podatke ocen, ki smo jih imeli tudi v testni skripti in jo pretvorimo v tibble:
+Preberimo podatke ocen, ki smo jih imeli v testni skripti, in jo pretvorimo v tibble:
 
 ```{r}
 library(openxlsx)
@@ -961,7 +961,7 @@ ocene <- tibble(openxlsx::read.xlsx("./test-script/data-raw/student-performance.
 ocene
 ```
 
-Privzeto funkcija `read.xlsx()` odpre prvi list v datoteki in poišče glavo razpredelnice, če želimo druge liste moramo podati ime lista ali številko lista s parametrom `sheet`.
+Privzeto funkcija `read.xlsx()` odpre prvi list v datoteki in poišče glavo razpredelnice. Če želimo druge liste moramo podati ime lista ali številko lista s parametrom `sheet`:
 
 ```{r}
 library(openxlsx)
@@ -973,7 +973,7 @@ ocene_matematika %>%
   select(school, G1, G2, G3, averageScore)
 ```
 
-Če ima datoteka veliko število listov jih lahko shranite v R-jev seznam (list).
+Če ima datoteka veliko število listov, jih lahko shranimo v R-jev list:
 
 ```{r}
 library(openxlsx)
@@ -986,7 +986,7 @@ for(i in 1:length(imenaListov)) {
 ocene_s
 ```
 
-V primeru, da je razpredelnica v excelovem listu premaknjena ali pa želimo prebrati le del podatkov, lahko uporabimo parametra `startRow` in `cols`. Preberimo samo ocene za matematiko brez ostalih vrednosti.
+V primeru, da je razpredelnica v excelovem listu premaknjena ali pa želimo prebrati le del podatkov, lahko uporabimo parametra `startRow` in `cols`. Preberimo samo ocene za matematiko:
 
 ```{r}
 path <- "./test-script/data-raw/student-performance.xlsx"
@@ -994,7 +994,7 @@ ocene_math <- tibble(read.xlsx(path, sheet = "Math scores", startRow = 1,
                                cols = 9:12))
 ocene_math
 ```
-Da podatke shranimo na disk uporabimo `write.xlsx()`.
+Da podatke shranimo, uporabimo `write.xlsx()`.
 
 ```{r}
 path <- "./test-script/data-raw/samo-ocene-math.xlsx"
@@ -1027,9 +1027,9 @@ V tem poglavju smo si ogledali operacije treh paketov tidyversa. Če želite hit
 - **forcats**: http://www.flutterbys.com.au/stats/downloads/slides/figure/factors.pdf
 - **lubridate**: https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_lubridate.pdf
 
-Paket **stringr** uporablja paket **stringi**, ki ima na voljo 5x več operacij, ki pa niso tako pogosto uporabljene. Če se boste pri svojem delu srečali z zahtevnejšimi nalogami lahko uporabite ta paket.
+Paket **stringr** uporablja paket **stringi**, ki ima na voljo več operacij, ki pa niso tako pogoste. Če se boste pri svojem delu srečali z zahtevnejšimi nalogami, lahko uporabite ta paket.
 
-Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran https://regex101.com/.
+Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran https://regex101.com/. Lahko si tudi ogledate knjigo Mastering Regular Expressions [@friedl2006mastering], ki obsežno obravnava snov regularnih izrazov.
 
 
 ## Domača naloga
@@ -1040,20 +1040,32 @@ Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran 
     - Dodajte stolpec *točke*, ki ima vrednosti med 0 in 100, tako da ima najvišja pripadajoča vrednost v averageScore vrednost 100.
     - Dodajte stolpec *ocena*, kjer so vrednosti za *točke* med 0 in 10 enake 1, 10 in 20 enake 2 itd.
     - Dodajte stolpec *besedna_ocena* tipa faktor, ki bo imel vrednosti glede na *oceno* in sicer ocene <6 = "nezadostno", 6 = "zadostno", 7 in 8 = "dobro", 9 = "zelo dobro" in 10 = "odlično".
+    - Shranite podatke v datoteko `students-performance-math-normalized.xlsx' in v binarno datoteko `students-performance-math-normalized.rds'.
+    - Ponovno preberite obe datoteki, prvo v spremenljivko `podatki_excel` in drugo v `podatki_binarni`. Katero razliko opazite?
 
 
-    ```{r, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(openxlsx)
 path <- "./test-script/data-raw/student-performance.xlsx"
 ocene <- tibble(read.xlsx(path, cols = c(1, 8:12)))
-ocene %>% mutate(točke = averageScore/max(averageScore)*100,
+shrani <- ocene %>% mutate(točke = averageScore/max(averageScore)*100,
                  ocena = ceiling(točke/10),
                  besedna_ocena = cut(ocena, breaks = c(-Inf, 5, 6, 8, 9, 10), 
                                      labels = c("nezadostno", "zadostno", 
                                                 "dobro", "zelo dobro", 
                                                 "odlično")))
+shrani
 ```
 
+
+```{r, echo = FALSE, message = FALSE}
+write.xlsx(shrani, "./test-script/data-raw/students-performance-math-normalized.xlsx")
+saveRDS(shrani, "./test-script/data-raw/students-performance-math-normalized.rds")
+podatki_excel <- read.xlsx("./test-script/data-raw/students-performance-math-normalized.xlsx")
+podatki_binarno <- readRDS("./test-script/data-raw/students-performance-math-normalized.rds")
+podatki_excel
+podatki_binarno
+```
 2) Naložite paket `nycflights13` s podatki letov. V tej bazi je več razpredelnic in sicer **flights**, **airlines**, **planes**, **airports** in **weather**. Za razumevanje si pomagajte z `?flights`.
 
     a) Izpišite vsa letališča, ki imajo 3 ali več besed v svojem imenu.
@@ -1072,7 +1084,8 @@ airports %>%
                        name)) # Isto ime.
 ```
 
-    c) **Daljša.** Za vsak let sestavite besedno poročilo spodnje oblike, ki ga shranite v stolpec *Poročilo leta*.
+
+    c) Za vsak let sestavite besedno poročilo spodnje oblike, ki ga shranite v stolpec *Poročilo leta*.
 
         Besedilo naj se glasi: "Let iz letalisca Newark Liberty Intl dne 22.01.13 ob 11:00 v letalisce George Bush Intercontinental je imel 2 minut zamude v odhodu in 11 v prihodu."
 
@@ -1080,15 +1093,16 @@ airports %>%
 
     ```{r, echo = FALSE, message = FALSE}
 podatki <- left_join(flights, airports, by = c("origin" = "faa")) %>% 
-  mutate(name_origin = name) %>%
+  mutate(name_origin = name, tzone_origin = tzone) %>%
   select(year, month, day, sched_dep_time, 
-         origin, dest, dep_delay, arr_delay, name_origin)
+         origin, dest, dep_delay, arr_delay, name_origin, tzone_origin)
 podatki <- left_join(podatki, airports, by = c("dest" = "faa")) %>%
-  mutate(name_dest = name) %>%
+  mutate(name_dest = name, tzone_dest = tzone) %>%
   select(year, month, day, sched_dep_time, 
-         origin, dest, dep_delay, arr_delay, name_origin, name_dest)
+         origin, dest, dep_delay, arr_delay, name_origin, tzone_origin,
+         name_dest, tzone_dest)
 podatki %>% mutate(dep_string = make_datetime(year, month, day, sched_dep_time,
-                                              tz = "America/New_York")) %>%
+                                              tz = tzone_origin)) %>%
   mutate("Poročilo leta" = str_c("Let iz letalisca ", 
                                  name_origin,
                                  ", dne ", format(dep_string, "%d.%m.%y"),
@@ -1101,5 +1115,19 @@ podatki %>% mutate(dep_string = make_datetime(year, month, day, sched_dep_time,
   select("Poročilo leta", dep_string)
 ```
 
-
-
+  d) Ugotovite koliko časovnih pasov je preletel vsak let. Rezultat izpišite v `tz_diff`.
+  
+    ```{r, echo = FALSE, message = FALSE}
+#uporabimo tabelo podatki iz c) dela
+podatki <- left_join(flights, airports, by = c("origin" = "faa")) %>%
+      mutate(tz_origin = tz) %>%
+      select(year, month, day, sched_dep_time, 
+         origin, dest, tz_origin)
+podatki <- left_join(podatki, airports, by = c("dest" = "faa")) %>%
+  mutate(tz_dest = tz) %>%
+  select(year, month, day, sched_dep_time, 
+         origin, dest, tz_origin, tz_dest) %>%
+  mutate(tz_diff = abs(tz_origin - tz_dest))
+podatki
+    
+```
