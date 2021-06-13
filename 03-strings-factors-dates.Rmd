@@ -1101,7 +1101,9 @@ podatki <- left_join(podatki, airports, by = c("dest" = "faa")) %>%
   select(year, month, day, sched_dep_time, 
          origin, dest, dep_delay, arr_delay, name_origin, tzone_origin,
          name_dest, tzone_dest)
-podatki %>% mutate(dep_string = make_datetime(year, month, day, sched_dep_time,
+podatki %>% mutate(dep_string = make_datetime(year, month, day, 
+                                              hour = sched_dep_time %/% 100,
+                                              min = sched_dep_time %% 100,
                                               tz = tzone_origin)) %>%
   mutate("Poročilo leta" = str_c("Let iz letalisca ", 
                                  name_origin,
@@ -1115,19 +1117,19 @@ podatki %>% mutate(dep_string = make_datetime(year, month, day, sched_dep_time,
   select("Poročilo leta", dep_string)
 ```
 
-  d) Ugotovite koliko časovnih pasov je preletel vsak let. Rezultat izpišite v `tz_diff`.
+  d) Časi odhodov in prihodov so v razpredelnici flights v lokalnem času. Dodajte spremenljivko `dep_time_utc`, ki bo vsebovala vrednost odhoda v časovnem pasu UTC. Zapis naj bi oblike integer, tako kot `dep_time'.
   
     ```{r, echo = FALSE, message = FALSE}
-#uporabimo tabelo podatki iz c) dela
 podatki <- left_join(flights, airports, by = c("origin" = "faa")) %>%
-      mutate(tz_origin = tz) %>%
-      select(year, month, day, sched_dep_time, 
-         origin, dest, tz_origin)
-podatki <- left_join(podatki, airports, by = c("dest" = "faa")) %>%
-  mutate(tz_dest = tz) %>%
-  select(year, month, day, sched_dep_time, 
-         origin, dest, tz_origin, tz_dest) %>%
-  mutate(tz_diff = abs(tz_origin - tz_dest))
+      select(year, month, day, dep_time, 
+         origin, dest, tzone) %>%
+      mutate(dep_time_utc = make_datetime(year, month, day, 
+                                           hour = dep_time %/% 100,
+                                           min = dep_time %% 100,
+                                           tz = tzone),
+             .after = dep_time) %>%
+      mutate(dep_time_utc = with_tz(dep_time_utc, tz = "UTC")) %>%
+      mutate(dep_time_utc = format(dep_time_utc, "%H%M"))
 podatki
     
 ```
