@@ -1133,3 +1133,15 @@ podatki <- left_join(flights, airports, by = c("origin" = "faa")) %>%
 podatki
     
 ```
+
+  e) Simuliramo. Vsi leti bodo zaradi nepričakovane prenove letališča po 23. 10. 2013 bodo zamaknjeni za dva tedna. Izpišite posodobljene datume v originalni obliki (year, month, day).
+      
+```{r, echo = FALSE, message = FALSE}
+flights %>% mutate(temp_d = make_date(year, month, day) + 2*weeks(), .after = day) %>%
+  filter(temp_d >= make_date(2013, 10, 23) + 2*weeks()) %>%
+  mutate(year = as.integer(year(temp_d)),
+         month = as.integer(month(temp_d)),
+         day = as.integer(day(temp_d))) %>%
+  select(-temp_d)
+```
+  
