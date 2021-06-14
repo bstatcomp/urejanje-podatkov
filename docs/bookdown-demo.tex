@@ -124,7 +124,7 @@
 
 \title{Urejanje podatkov}
 \author{Gregor Pirš, Matej Pičulin in Erik Štrumbelj}
-\date{2021-06-11}
+\date{2021-06-14}
 
 \begin{document}
 \maketitle
@@ -3892,7 +3892,7 @@ Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: \url{htt
 ## #   visib <dbl>, time_hour.y <dttm>
 \end{verbatim}
 \item
-  Poiščite vsa letala, ki so v New York priletela 5. aprila iz letališča Chicago Ohare Intl.
+  Poiščite vsa letala z 2 motorjema, ki so v New York priletela 5. aprila iz letališča Chicago Ohare Intl.
 
 \begin{verbatim}
 ## # A tibble: 35 x 35
@@ -3960,12 +3960,12 @@ Hadley Wickham je objavil znanstveni članek na temo urejenih podatkov: \url{htt
 \hypertarget{nizi-kategoriux10dne-spremenljivke-in-datumi}{%
 \chapter{Nizi, kategorične spremenljivke in datumi}\label{nizi-kategoriux10dne-spremenljivke-in-datumi}}
 
-Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih operacij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.
+Pri delu s podatki se pogosto srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali v prvih dveh poglavjih. Delali smo tudi s kategoričnimi spremenljivkami, čeprav tega nismo poudarili. V tem poglavju bomo spoznali naprednejše operacije nad temi podatkovnimi tipi v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.
+
+Konec poglavja pa bomo posvetili branju in pisanju podatkov v različnih oblikah.
 
 \hypertarget{priprava-2}{%
 \section{Priprava}\label{priprava-2}}
-
-V tem poglavju bomo spoznali, kako delamo z nizi, kategoričnimi spremenljivkami in datumi. Na koncu se bomo tudi posvetili branju podatkov iz različnih datotek in shranjevanju dobljenih rezultatov.
 
 \hypertarget{nizi}{%
 \subsubsection*{Nizi}\label{nizi}}
@@ -4052,7 +4052,7 @@ Zelo uporabna je tudi funkcija za zamenjavo podnizov.
 ## [1] "A(ena)-B(ena)-A(dva)-B(dva)"
 \end{verbatim}
 
-Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu \texttt{fruit} poiskali vse jagodičevje, to so tisti nizi, ki vsebujejo \texttt{berry}.
+Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu \texttt{fruit} poiskali vse nize, ki vsebujejo \texttt{berry}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4076,7 +4076,7 @@ Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu \texttt{fruit} poiskal
 ## [11] "mulberry"    "raspberry"   "salal berry" "strawberry"
 \end{verbatim}
 
-Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo \texttt{berry}.
+Podobno lahko vrnemo logični vektor nizov, ki vsebujejo \texttt{berry}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4131,7 +4131,7 @@ Pri pripravi na kategorične spremenljivke bomo uporabili podatke o uspehu štud
 ## # ... with 1 more variable: procenti_vaje <dbl>
 \end{verbatim}
 
-Spremenimo \textbf{spol} v nominalno spremenljivko (brez ureditve) in \textbf{oceno} v ordinalno spremenljivko (obstaja ureditev med vrednostmi, običajno po velikosti):
+Spremenimo \textbf{spol} v nominalno spremenljivko (brez ureditve) in \textbf{oceno} v ordinalno spremenljivko (obstaja vrsti red vrednosti):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4157,7 +4157,7 @@ Spremenimo \textbf{spol} v nominalno spremenljivko (brez ureditve) in \textbf{oc
 ## Levels: 6 < 7 < 8 < 10
 \end{verbatim}
 
-Nivoje faktorja (levels) lahko tudi uredimo glede na vrednosti v nekem drugem stolpcu. To običajno pride prav pri vizualizaciji.
+Nivoje faktorja (levels) lahko uredimo tudi glede na vrednosti v nekem drugem stolpcu. To običajno pride prav pri vizualizaciji.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4176,10 +4176,11 @@ Nivoje faktorja (levels) lahko tudi uredimo glede na vrednosti v nekem drugem st
 \subsubsection*{Datumi}\label{datumi}}
 \addcontentsline{toc}{subsubsection}{Datumi}
 
-R omogoča avtomatski izpis datumov v obliki nizov. Preprosto lahko sestavimo datum s posameznimi komponentami:
+Za delo z datumo bomo uporabljali paket \textbf{lubridate}. Datume lahko z lubridate shranimo na več načinov. Preprosto lahko sestavimo datum s posameznimi komponentami:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(lubridate)}
 \FunctionTok{make\_date}\NormalTok{(}\AttributeTok{year =} \DecValTok{2021}\NormalTok{, }\AttributeTok{month =} \DecValTok{6}\NormalTok{, }\AttributeTok{day =} \DecValTok{11}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -4249,7 +4250,7 @@ Z datumi lahko tudi računamo:
 \subsubsection*{Shranjevanje podatkov v csv}\label{shranjevanje-podatkov-v-csv}}
 \addcontentsline{toc}{subsubsection}{Shranjevanje podatkov v csv}
 
-V pripravi na 2. predavanje smo že spoznali funkcijo \texttt{rear\_csv2()} za branje podatkov iz tekstovnih datotek. Podatke lahko tudi shranimo v tekstovno datoteko s funkcijo \texttt{write\_csv2()}:
+V pripravi v 2. poglavju smo že spoznali funkcijo \texttt{rear\_csv2()} za branje podatkov iz tekstovnih datotek. Podatke lahko tudi shranimo v tekstovno datoteko s funkcijo \texttt{write\_csv2()}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4257,17 +4258,9 @@ V pripravi na 2. predavanje smo že spoznali funkcijo \texttt{rear\_csv2()} za b
 \end{Highlighting}
 \end{Shaded}
 
-\textbf{Naloga 1}: Datoteko \emph{ocene.csv} v mapi \emph{data-raw} preberite s funkcijami paketa \textbf{readr} (\texttt{read\_csv2()} in \texttt{write\_csv2()}). Shranite jo kot \emph{ocene2.csv} in to datoteko preberite nazaj. Nato narediti enako z baznimi funkcijami v R ((\texttt{read.csv2()} in \texttt{write.csv2()})). Kaj opazite?
+\textbf{Naloga 1}: Datoteko \emph{ocene.csv} v mapi \emph{data-raw} preberite s funkcijami paketa \textbf{readr} (\texttt{read\_csv2()} in \texttt{write\_csv2()}). Shranite jo kot \emph{ocene2.csv} in to datoteko preberite nazaj. Nato naredite enako z baznimi funkcijami v R (\texttt{read.csv2()} in \texttt{write.csv2()}). Kaj opazite?
 
 Z \textbf{readr}:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ocene }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv2}\NormalTok{(}\StringTok{"./data{-}raw/ocene.csv"}\NormalTok{)}
-\FunctionTok{write\_csv2}\NormalTok{(ocene, }\StringTok{"./data{-}raw/ocene2.csv"}\NormalTok{)}
-\FunctionTok{read\_csv2}\NormalTok{(}\StringTok{"./data{-}raw/ocene2.csv"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 6 x 7
@@ -4282,14 +4275,6 @@ Z \textbf{readr}:
 \end{verbatim}
 
 Z R:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ocene }\OtherTok{\textless{}{-}} \FunctionTok{read.csv2}\NormalTok{(}\StringTok{"./data{-}raw/ocene.csv"}\NormalTok{)}
-\FunctionTok{write.csv2}\NormalTok{(ocene, }\StringTok{"./data{-}raw/ocene2.csv"}\NormalTok{)}
-\FunctionTok{read.csv2}\NormalTok{(}\StringTok{"./data{-}raw/ocene2.csv"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ##   X     ime spol ocena dan_izpita mesec_izpita leto_izpita opravljene_vaje
@@ -4310,23 +4295,8 @@ Z R:
 \item
   zamenjajte stolpce \texttt{leto\_izpita}, \texttt{mesec\_izpita}, \texttt{dan\_izpita} z \texttt{datum\_izpita}, ki vsebuje vse te podatke,
 \item
-  Izberite samo imena, ki se začnejo na `T' in podatke shranite v datoteko oceneT.csv.
+  izberite samo imena, ki se začnejo na `T' in podatke shranite v datoteko oceneT.csv.
 \end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ocene }\OtherTok{\textless{}{-}} \FunctionTok{read.csv2}\NormalTok{(}\StringTok{"./data{-}raw/ocene.csv"}\NormalTok{)}
-\NormalTok{ocene }\OtherTok{\textless{}{-}}\NormalTok{ ocene }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{opravljene\_vaje =} \FunctionTok{factor}\NormalTok{(opravljene\_vaje)) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{datum\_izpita =} \FunctionTok{make\_date}\NormalTok{(}\AttributeTok{year =}\NormalTok{ leto\_izpita, }
-                                  \AttributeTok{month =}\NormalTok{ mesec\_izpita, }
-                                  \AttributeTok{day =}\NormalTok{ dan\_izpita)) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{leto\_izpita, }\SpecialCharTok{{-}}\NormalTok{mesec\_izpita, }\SpecialCharTok{{-}}\NormalTok{dan\_izpita) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{filter}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(ime, }\StringTok{"T"}\NormalTok{))}
-\FunctionTok{write\_csv2}\NormalTok{(ocene, }\StringTok{"./data{-}raw/oceneT.csv"}\NormalTok{)}
-\NormalTok{ocene}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ##    ime spol ocena opravljene_vaje datum_izpita
@@ -4338,7 +4308,7 @@ Z R:
 \subsection*{Delo s šumniki}\label{delo-s-ux161umniki}}
 \addcontentsline{toc}{subsection}{Delo s šumniki}
 
-Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite ali R uporablja pravilno kodiranje je, da napišete v konzolo ``čebula''. Nazaj morate dobiti enak niz in ne ``cebula'' ali celo ``პbula''.
+Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite, ali R uporablja pravilno kodiranje, je, da v konzolo napišete ``čebula''. Nazaj morate dobiti enak niz in ne ``cebula'' ali celo ``პbula''.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4350,7 +4320,7 @@ Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega siste
 ## [1] "čebula"
 \end{verbatim}
 
-Če R ne vrne istega niza je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimoo katero kodiranje je trenutno uporabljeno, lahko napišemo:
+Če R ne vrne istega niza, je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimo, katero kodiranje je trenutno uporabljeno, lahko napišemo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4362,7 +4332,7 @@ Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega siste
 ## [1] "LC_COLLATE=Slovenian_Slovenia.1250;LC_CTYPE=Slovenian_Slovenia.1250;LC_MONETARY=Slovenian_Slovenia.1250;LC_NUMERIC=C;LC_TIME=Slovenian_Slovenia.1250"
 \end{verbatim}
 
-Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate težave, lahko to začasno spremenite z ukazom.
+Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate težave, lahko to začasno spremenite z ukazom:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4374,9 +4344,9 @@ Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate te
 ## [1] "LC_COLLATE=Slovenian_Slovenia.1250;LC_CTYPE=Slovenian_Slovenia.1250;LC_MONETARY=Slovenian_Slovenia.1250;LC_NUMERIC=C;LC_TIME=Slovenian_Slovenia.1250"
 \end{verbatim}
 
-Oziroma lahko na primer v Windowsih nastavite privzeto kodiranje pod ``Settings -\textgreater{} Time \& Language -\textgreater{} Region -\textgreater{} Regional Format''. Tukaj izberite ``Slovenian (Slovenia)''.
+Oziroma lahko na primer v OS Windows nastavite privzeto kodiranje pod ``Settings -\textgreater{} Time \& Language -\textgreater{} Region -\textgreater{} Regional Format''. Tukaj izberite ``Slovenian (Slovenia)''.
 
-Za slovenske Windowse: ``Nastavitve -\textgreater{} Ura in Jezik -\textgreater{} Regija -\textgreater{} Območne nastavitve'' in izberite ``Slovenščina (Slovenija)''
+Za slovenski OS Windows: ``Nastavitve -\textgreater{} Ura in Jezik -\textgreater{} Regija -\textgreater{} Območne nastavitve'' in izberite ``Slovenščina (Slovenija)''.
 
 \hypertarget{nizi-1}{%
 \section{Nizi}\label{nizi-1}}
@@ -4407,7 +4377,7 @@ V jeziku R lahko za definiranje niza uporabimo enojne (') ali dvojne navednice (
 ## [1] "urejanje podatkov"
 \end{verbatim}
 
-Če želimo znotraj niza uporabiti dvojne navednice lahko za definicijo uporabljamo enojne in obratno.
+Če želimo znotraj niza uporabiti dvojne navednice, lahko za definicijo uporabljamo enojne in obratno:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4431,22 +4401,22 @@ V jeziku R lahko za definiranje niza uporabimo enojne (') ali dvojne navednice (
 ## [1] "In Janez je rekel: \"Citiram Jureta\"."
 \end{verbatim}
 
-Izpis v drugem primeru uporablja tako imenovan \textbf{escape character} (\textbackslash), ki omogoča tudi vpis tabulaterjev (\textbackslash t), znakov za novo vrstico (\textbackslash n) in podobno. Vse znake, ki jih je tako možno zapisati si lahko ogledate z ukazom \texttt{?"\textquotesingle{}"}.
+Izpis v drugem primeru uporablja tako imenovan \textbf{escape character} (\textbackslash), ki omogoča tudi vpis tabulaterjev (\textbackslash t), znakov za novo vrstico (\textbackslash n) in podobno. Vse znake, ki jih je tako možno zapisati, si lahko ogledate z ukazom \texttt{?"\textquotesingle{}"}.
 
-Niz lahko vključuje tudi vse posebne znake, ki jih podpira Unicode. To je standard za konsistentno kodiranje teksta, ki vsebuje preko 100000 znakov. Za vnos unicode znakov uporabite \textbf{\textbackslash uxxxx}, kjer je \textbf{xxxx} koda znaka, ki ga lahko poiščete na strani \url{https://unicode.org/charts/}.
+Niz lahko vključuje tudi vse posebne znake, ki jih podpira Unicode. To je standard za konsistentno kodiranje teksta, ki vsebuje preko 100000 znakov. Za vnos znakov unicode uporabite \textbf{\textbackslash uxxxx}, kjer je \textbf{xxxx} koda znaka, ki ga lahko poiščete na strani \url{https://unicode.org/charts/}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{normalna\_porazdelitev }\OtherTok{\textless{}{-}} \StringTok{"Gauss(\textbackslash{}u03BC, \textbackslash{}u03C3)"}
+\NormalTok{normalna\_porazdelitev }\OtherTok{\textless{}{-}} \StringTok{"Normal(\textbackslash{}u03BC, 1)"}
 \NormalTok{normalna\_porazdelitev}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Gauss(µ, <U+03C3>)"
+## [1] "Normal(µ, 1)"
 \end{verbatim}
 
-Dolžino nizov poiščemo s funkcijo \texttt{str\_length()}.
+Dolžino nizov poiščemo s funkcijo \texttt{str\_length()}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4455,7 +4425,7 @@ Dolžino nizov poiščemo s funkcijo \texttt{str\_length()}.
 \end{Shaded}
 
 \begin{verbatim}
-## [1]  3  5  0 32 11
+## [1]  3  5  0 32 12
 \end{verbatim}
 
 Za združevanje nizov se uporablja \texttt{str\_c()}, ki mu lahko dodamo tudi niz \texttt{sep}, ki ga vrine med vse podane nize:
@@ -4474,7 +4444,7 @@ Za združevanje nizov se uporablja \texttt{str\_c()}, ki mu lahko dodamo tudi ni
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{str\_c}\NormalTok{(}\StringTok{"Podpoglavje "}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{), }\StringTok{": "}\NormalTok{, }
+\FunctionTok{str\_c}\NormalTok{(}\StringTok{"Podpoglavje "}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{), }\StringTok{": "}\NormalTok{,}
       \FunctionTok{c}\NormalTok{(}\StringTok{"Nizi"}\NormalTok{, }\StringTok{"Faktorji"}\NormalTok{, }\StringTok{"Datumi"}\NormalTok{, }\StringTok{"Branje podatkov"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -4484,11 +4454,11 @@ Za združevanje nizov se uporablja \texttt{str\_c()}, ki mu lahko dodamo tudi ni
 ## [3] "Podpoglavje 3: Datumi"          "Podpoglavje 4: Branje podatkov"
 \end{verbatim}
 
-Če želimo nize združiti zaporedno uporabimo \texttt{collapse}. Za izpis nizov brez escape znakov uporabite funkcijo \texttt{cat()}.
+Če želimo nize združiti zaporedno uporabimo \texttt{collapse}. Za izpis nizov brez escape znakov uporabite funkcijo \texttt{cat()}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{poglavja }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(}\StringTok{"Podpoglavje "}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{), }\StringTok{": "}\NormalTok{, }
+\NormalTok{poglavja }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(}\StringTok{"Podpoglavje "}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{), }\StringTok{": "}\NormalTok{,}
       \FunctionTok{c}\NormalTok{(}\StringTok{"Nizi"}\NormalTok{, }\StringTok{"Faktorji"}\NormalTok{, }\StringTok{"Datumi"}\NormalTok{, }\StringTok{"Branje podatkov"}\NormalTok{), }\AttributeTok{collapse =} \StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
 \NormalTok{poglavja}
 \end{Highlighting}
@@ -4526,7 +4496,7 @@ Manjkajoče vrednosti lahko zamenjamo z \texttt{str\_replace\_na()}.
 \hypertarget{podnizi}{%
 \subsection{Podnizi}\label{podnizi}}
 
-Velikokrat se pri delu z nizi srečamo tudi s tem, da potrebujemo le del niza ali pa želimo niz razdeliti na več manjših nizov. Poglejmo si na primeru niza \texttt{"\ \ \ \ KUPI:\ paradižnik,\ bučke,\ jabolka,\ paprika,\ jagode.\ \ "} iz katerega želimo dobiti vektor sadja in zelenjave.
+Velikokrat pri delu z nizi potrebujemo le del niza ali pa želimo niz razdeliti na več manjših nizov. Poglejmo si na primeru niza \texttt{"\ \ \ \ KUPI:\ paradižnik,\ bučke,\ jabolka,\ paprika,\ jagode.\ \ "}, iz katerega želimo dobiti vektor sadja in zelenjave:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4602,7 +4572,7 @@ S tem znanjem lahko odstranimo prvih šest znakov in zadnjega:
 ## [1] "paradižnik, bučke, jabolka, paprika, jagode"
 \end{verbatim}
 
-Sedaj, ko imamo elemente samo naštete in ločene z vejico, jih lahko preprosto razdelimo s funkcijo \texttt{str\_split()}, ki jipodamo vzorec za ločevanje:
+Sedaj, ko imamo elemente samo naštete in ločene z vejico, jih lahko preprosto razdelimo s funkcijo \texttt{str\_split()}, ki ji podamo vzorec za ločevanje:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4618,27 +4588,12 @@ Sedaj, ko imamo elemente samo naštete in ločene z vejico, jih lahko preprosto 
 \hypertarget{iskanje-vzorcev-z-regularnimi-izrazi}{%
 \subsection{Iskanje vzorcev z regularnimi izrazi}\label{iskanje-vzorcev-z-regularnimi-izrazi}}
 
-Regularni izrazi so močno orodje za iskanje poljubnega vzorca v nizih. V tem poglavju bo predstavljena osnovna funkcionalnost regularnih izrazov, saj bi zaradi njihove fleksibilnosti posvetili eno ali celo dve poglavji le tem. Za prikaz delovanja bomo uporabljali funkciji \texttt{str\_view()} in \texttt{str\_view\_all()}, ki uporabljata paket \textbf{htmlwidges} za prikaz rezultatov. Prva označi samo prvo ujemanje, druga pa vsa ujemanja.
-
-Uporabljamo jih lahko v vseh funkcijah paketa \textbf{stringr}, ki imajo kot vhod \texttt{pattern}. Na koncu bomo pokazali uporabo nekaterih funkcij, ki uporabljajo vzorce.
-
-Sestavimo dva lista nad katerimi bomo iskali vzorce in za začetek poiščimo vse vejice.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(htmlwidgets)}
-\NormalTok{listek1 }\OtherTok{\textless{}{-}} \StringTok{"KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane."}
-\NormalTok{listek2 }\OtherTok{\textless{}{-}} \StringTok{"KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper."}
-\CommentTok{\# str\_view\_all(c(listek1, listek2), ",")}
-\end{Highlighting}
-\end{Shaded}
-
 \hypertarget{uporaba-regularnih-izrazov}{%
 \subsection{Uporaba regularnih izrazov}\label{uporaba-regularnih-izrazov}}
 
-Poglejmo si uporabo regularnih izrazov najprej na preprostih podatkih, nato pa še na podatkih iz že znane ankete.
+Uporabo regularnih izrazov si najprej pogljemo na preprostih podatkih, nato pa še na podatkih iz ankete.
 
-Poiščimo vso sadje in zelenjavo, ki vsebuje šumnike:
+Poiščimo sadje in zelenjavo, ki vsebuje šumnike:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4651,7 +4606,7 @@ Poiščimo vso sadje in zelenjavo, ki vsebuje šumnike:
 ## [1]  TRUE  TRUE FALSE FALSE FALSE
 \end{verbatim}
 
-Če želimo namesto logičnega vektorja dobiti dejanska imena elementov uporabimo \texttt{str\_subset()}.
+Če želimo namesto logičnega vektorja dobiti dejanska imena elementov, uporabimo \texttt{str\_subset()}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4663,7 +4618,7 @@ Poiščimo vso sadje in zelenjavo, ki vsebuje šumnike:
 ## [1] "paradižnik" "bučke"
 \end{verbatim}
 
-Poglejmo koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija \texttt{str\_count()} ne zazna ponovitev, če se le te prekrivajo.
+Poglejmo, koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija \texttt{str\_count()} ne zazna ponovitev, če se le-te prekrivajo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4731,9 +4686,9 @@ Poiščimo podnize do prvega šumnika.
 
 V zadnjem primeru funkcija \texttt{str\_match()} v prvem stolpcu vrne enako kot \texttt{str\_extract()}, nato pa v naslednjih stolpcih vrne še vsako skupino posebej.
 
-Preprosta in zelo uporabna pa je funkcija \texttt{str\_replace()} oziroma \texttt{str\_replace\_all()} s katero lahko zamenjamo dele nizov.
+Preprosta in zelo uporabna pa je funkcija \texttt{str\_replace()} oziroma \texttt{str\_replace\_all()}, s katero lahko zamenjamo dele nizov.
 
-Prekrijmo šumnike z znaki ``x''.
+Prekrijmo šumnike z znaki ``x'':
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4788,12 +4743,12 @@ Poglejmo si sedaj še uporabo na realnih podatkih. Najprej naložimo podatke:
 ## #   ExchangeRate <dbl>
 \end{verbatim}
 
-Najbolj uporabna funkcija pri delu z nizi v podatkih je \texttt{str\_detect()}, ki nam omogoča izbiro podmnožice vrstic. Pogosto jo kombiniramo z regularnimi izrazi. Poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /.
+Najbolj uporabna funkcija pri delu z nizi v podatkih je \texttt{str\_detect()}, ki nam omogoča izbiro podmnožice vrstic. Pogosto jo kombiniramo z regularnimi izrazi. Poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{filter}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(CurrentJobTitle, }\StringTok{"/"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -4819,8 +4774,8 @@ Izberimo samo tiste vrstice, kjer se \texttt{CurrentJobTitle} začne z ``Data'' 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{select}\NormalTok{(EmploymentStatus, CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(EmploymentStatus, CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{filter}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(CurrentJobTitle, }\StringTok{"\^{}Data"}\NormalTok{),}
          \FunctionTok{str\_detect}\NormalTok{(EmploymentStatus, }\StringTok{"full{-}time$"}\NormalTok{))}
 \end{Highlighting}
@@ -4847,7 +4802,7 @@ Včasih so nizi v podatkih predolgi, oziroma lahko brez škode za pomen izbriše
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{EmploymentStatus =} \FunctionTok{str\_replace}\NormalTok{(EmploymentStatus, }\StringTok{"Employed "}\NormalTok{, }\StringTok{""}\NormalTok{))}
 \NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(EmploymentStatus, CurrentJobTitle)}
@@ -4871,11 +4826,11 @@ Včasih so nizi v podatkih predolgi, oziroma lahko brez škode za pomen izbriše
 ## # ... with 4,513 more rows
 \end{verbatim}
 
-Sedaj imamo eno manjšo nekonsistentnost v podatkih, namreč nekateri nizi se začnejo z veliko začetnico, nekateri pa z malo. Spremenimo vse na malo začetnico:
+Sedaj imamo eno manjšo nekonsistentnost v podatkih. Nekateri nizi se začnejo z veliko začetnico, nekateri pa z malo. Spremenimo vse na malo začetnico:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{ds\_jobs }\OtherTok{\textless{}{-}}\NormalTok{ ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{EmploymentStatus =} \FunctionTok{str\_to\_lower}\NormalTok{(EmploymentStatus))}
 \NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(EmploymentStatus, CurrentJobTitle)}
@@ -4903,8 +4858,8 @@ S funkcijo \texttt{str\_count()} lahko uporabimo, da anketirancem dodamo stolpec
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{NumberOfJobTitles =} \FunctionTok{str\_count}\NormalTok{(CurrentJobTitle, }\StringTok{"/"}\NormalTok{) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -4930,8 +4885,8 @@ Poskušajmo razdeliti CurrentJobTitle na FirstTitle in SecondTitle, pri tem naj 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{ds\_jobs }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(CurrentJobTitle) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{FirstTitle  =} \FunctionTok{str\_extract}\NormalTok{(CurrentJobTitle, }\StringTok{"\^{}[\^{}/]*"}\NormalTok{),}
          \AttributeTok{SecondTitle =} \FunctionTok{str\_extract}\NormalTok{(CurrentJobTitle, }\StringTok{"[\^{}/]*$"}\NormalTok{))}
 \end{Highlighting}
@@ -4957,21 +4912,21 @@ Poskušajmo razdeliti CurrentJobTitle na FirstTitle in SecondTitle, pri tem naj 
 \hypertarget{kategoriux10dne-spremenljivke-1}{%
 \section{Kategorične spremenljivke}\label{kategoriux10dne-spremenljivke-1}}
 
-Kategorične spremenljivke so spremenljivke, ki lahko zavzamejo samo vnaprej določene vrednosti. Delimo jih na:
+Kategorične spremenljivke so spremenljivke, ki lahko zavzamejo samo končno mnogo vnaprej določenih vrednosti. Najbolj pogoste so:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Nominalne spremenljivke}. To so spremenljivke brez ureditve. Na primer, spol ali vrsta avtomobila.
+  \textbf{Nominalne spremenljivke}. To so spremenljivke brez ureditve: tip izdelka ali znamka avtomobila.
 \item
-  \textbf{Ordinalne spremenljivke}. To so spremenljivke, ki imajo smiselno ureditev. Na primer, stopnja izobrazbe ali šolski uspeh.
+  \textbf{Ordinalne spremenljivke}. To so spremenljivke, ki imajo smiselno ureditev: stopnja izobrazbe ali šolski uspeh.
 \end{itemize}
 
-V R uporabljamo za delo s kategoričnimi spremenljivkami t. i. \textbf{faktorje} (ang. \textbf{factor}). Ti se od spremenljivk tipa niz razlikujejo v tem, da se v spremenljivki hrani informacija o vseh možnih vrednostih. Prav tako ni mogoče faktorju dodati vrednosti, ki je ni v množici možnih vrednosti, kar služi kot varovalka pred napakami pri vnosu podatkov.
+V R uporabljamo za delo s kategoričnimi spremenljivkami t. i. \textbf{faktorje} (ang. \textbf{factor}). Ti se od spremenljivk tipa niz razlikujejo v tem, da se v spremenljivki hrani informacija o vseh možnih vrednostih. Faktorju ni mogoče dodati vrednosti, ki je ni v množici možnih vrednosti, kar služi kot varovalka pred napakami pri vnosu podatkov.
 
-Poglejmo si uporabo faktorja na dveh preprostih primerih, kjer bomo sami ustvarili spremenljivki. Kasneje si bomo ogledali še delo s faktorji na primeru realnih podatkov, kjer bomo ponovno uporabili podatke o zaposlitvah na področju podatkovnih ved.
+Poglejmo si uporabo faktorja na dveh preprostih primerih, kjer bomo sami ustvarili spremenljivki. Kasneje si bomo pogledali še delo s faktorji na primeru realnih podatkov, kjer bomo ponovno uporabili podatke o zaposlitvah na področju podatkovnih ved.
 
-Kot primer nominalne spremenljivke si oglejmo krvne skupine. Obstajajo 4 možne vrednosti. Ustvarimo sedaj vektor krvnih skupin:
+Kot primer nominalne spremenljivke si oglejmo krvne skupine. Obstajajo 4 možne vrednosti. Ustvarimo vektor krvnih skupin za pet različnih oseb:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4991,7 +4946,7 @@ Sedaj je ta vektor shranjen kot niz. Kaj so slabosti takšnega shranjevanja kate
 ## [1] "B"  "B"  "O"  "AB" "BA"
 \end{verbatim}
 
-Pri ročnem vnosu podatkoh hitro pride do tipkarskih napak in načeloma ne vemo, ali je avtor podatkov v tme primeru želel vnesti A, B ali AB.
+Pri ročnem vnosu podatkov hitro pride do tipkarskih napak in načeloma ne vemo, ali je avtor podatkov v tem primeru želel vnesti A, B ali AB.
 
 Drugič, če želimo urediti to spremenljivko, se bodo vrednosti razvrstile po abecedi:
 
@@ -5007,7 +4962,7 @@ Drugič, če želimo urediti to spremenljivko, se bodo vrednosti razvrstile po a
 
 Morda pa bi bilo bolj smiselno urediti po standardni ureditvi, torej A, B, AB, O.
 
-Da se izognemo tem težavam je bolje, če spremenljiko za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo \texttt{factor()}. Poizkusimo sedaj narediti faktor iz spremenljivke \texttt{dan\_v\_tednu}.
+Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo \texttt{factor()}. Naredimo faktor iz spremenljivke \texttt{dan\_v\_tednu}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5021,7 +4976,7 @@ Da se izognemo tem težavam je bolje, če spremenljiko za katero vemo, da bo zas
 ## Levels: AB B BA O
 \end{verbatim}
 
-Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 4 krvnih skupin, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija \texttt{factor()} privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument \texttt{levels}, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa da podamo tudi ta argument.
+Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 4 krvnih skupin, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija \texttt{factor()} privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument \texttt{levels}, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa, da podamo tudi ta argument:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5074,7 +5029,7 @@ Včasih imajo kategorične spremenljivke tudi smiselno razvrstitev po velikosti,
 ## Levels: nezadostno < zadostno < dobro < prav dobro < odlično
 \end{verbatim}
 
-Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi uspeha. V praksi nam to omogoča primerjamo, medtem ko tega pri faktorjih, ki nimajo razvrstitve po velikosti, ne moremo narediti.
+Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi uspeha. V praksi nam to omogoča primerjavo, medtem ko tega pri faktorjih, ki nimajo razvrstitve po velikosti, ne moremo narediti.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5101,7 +5056,7 @@ Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi usp
 ## [1] NA
 \end{verbatim}
 
-Poleg prednosti, ki smo jih že omenili (varovanje pred napakami in smiselna razvrstitev nivojev) imajo faktorji tudi posebno vlogo pri raznih statističnih modelih in modelih strojnega učenja. Nekatere metode eksplicitno zahtevajo faktorje. Prav tako razlikujejo med nominalnimi in ordinalnimi faktorji, kar se pozna na rezultatih. Relativno preprost primer tega je linearna regresija, ki pa je izven obsega te delavnice. Vsekakor pa si je to vredno zapomniti, v kolikor se boste kdaj ukvajrali s podobnimi modeli in boste želeli uporabiti kategorične spremenljivke.
+Poleg prednosti, ki smo jih že omenili, imajo faktorji posebno vlogo pri raznih statističnih modelih in modelih strojnega učenja. Nekatere metode eksplicitno zahtevajo faktorje. Prav tako razlikujejo med nominalnimi in ordinalnimi faktorji, kar se pozna na rezultatih. Ravno tako so faktorji pomembni v primeru, ko poznamo nabor možnih vrednosti a nekaterih pri meritvah še nismo opazili. Pri izrisu želimo take vrednosti izpisati z vrednostjo 0 ali NA.
 
 Poglejmo si uporabo faktorjev na realni podatkovni množici. Ponovno bomo delali s podatki o zaposlitvah na področju podatkovnih ved. Preberimo podatke in ponovimo nekaj operacij, ki smo jih spoznali na prvem predavanju. Prav tako bomo izbrali samo podmnožico stolpcev za bolj jasen prikaz.
 
@@ -5135,7 +5090,7 @@ Poglejmo si uporabo faktorjev na realni podatkovni množici. Ponovno bomo delali
 ## # ... with 3,176 more rows, and 1 more variable: CompensationUSD <dbl>
 \end{verbatim}
 
-Imamo 3 spremenljivke, ki bi jih bilo smiselno shraniti kot faktorje -- \texttt{Country}, \texttt{EmploymentStatus} in \texttt{FormalEducation}. Pretvorimo sedaj ti spremenljivki v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.
+Imamo 3 spremenljivke, ki bi jih bilo smiselno shraniti kot faktorje -- \texttt{Country}, \texttt{EmploymentStatus} in \texttt{FormalEducation}. Pretvorimo jih v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5228,7 +5183,7 @@ Imamo 3 spremenljivke, ki bi jih bilo smiselno shraniti kot faktorje -- \texttt{
 ## [7] "Some college/university study without earning a bachelor's degree"
 \end{verbatim}
 
-Kaj se zgodi, če želimo v tibblu spremeniti vrednost faktorja, v neko vrednost, ki je ni v tem faktorju? Recimo, da želimo v 2. vrstici spremeniti državo v Narnia:
+Kaj se zgodi, če želimo v tibblu spremeniti vrednost faktorja v neko vrednost, ki je ni v tem faktorju? Recimo, da želimo v 2. vrstici spremeniti državo v Narnia:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5296,7 +5251,7 @@ Ker Narnia ni nivo v faktorju, se nadomesti z \texttt{NA}. Če želimo dodati no
 \hypertarget{sprememba-razvrstitve-faktorja}{%
 \subsection{Sprememba razvrstitve faktorja}\label{sprememba-razvrstitve-faktorja}}
 
-Kot smo omenili že pri krvnih skupinah imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko ustaljeno razvrstitev. Razvrstitev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:
+Kot smo omenili že pri krvnih skupinah, imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko ustaljeno ureditev. Ureditev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5325,11 +5280,12 @@ Kot smo omenili že pri krvnih skupinah imajo velikokrat tudi faktorji, ki niso 
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(ds\_jobs\_agg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ FormalEducation, }\AttributeTok{y =}\NormalTok{ MeanCompensationUSD)) }\SpecialCharTok{+}
   \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{coord\_flip}\NormalTok{()}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-200-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-199-1.pdf}
 
 Ta graf je sicer zelo informativen, ampak bi s težavo hitro ugotovili, kako so nivoji faktorja razvrščeni glede na plačo. ggplot razvrsti vrednosti glede na to, kako so razvrščene v faktorju:
 
@@ -5349,29 +5305,31 @@ Ta graf je sicer zelo informativen, ampak bi s težavo hitro ugotovili, kako so 
 ## [7] "Some college/university study without earning a bachelor's degree"
 \end{verbatim}
 
-Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke \texttt{MeanCompensationUSD}. Za to moramo določiti novo razvrstitev te spremenljivke. Za to obstaja v paketu \textbf{forcats}, ki je del tidyverse, funkcija \texttt{fct\_reorder()}.
+Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke \texttt{MeanCompensationUSD}, za kar moramo določiti novo razvrstitev te spremenljivke. Za to obstaja v paketu \textbf{forcats}, ki je del tidyverse, funkcija \texttt{fct\_reorder()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(ds\_jobs\_agg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{fct\_reorder}\NormalTok{(FormalEducation, MeanCompensationUSD), }\AttributeTok{y =}\NormalTok{ MeanCompensationUSD)) }\SpecialCharTok{+}
   \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{coord\_flip}\NormalTok{()}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-202-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-201-1.pdf}
 
-Razvrstitev lahko uredimo tudi ročno s funkicjo \texttt{fct\_relevel()}, ki ohrani privzeto razvrstitev s tem, da podane nivoje premakne na začetek, oziroma lahko podamo arguemnt after.
+Razvrstitev lahko uredimo tudi ročno s funkcijo \texttt{fct\_relevel()}, ki ohrani privzeto razvrstitev tako, da podane nivoje premakne na začetek, oziroma lahko podamo argument \texttt{after}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(ds\_jobs\_agg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{fct\_relevel}\NormalTok{(FormalEducation, }\StringTok{"I prefer not to answer"}\NormalTok{, }\StringTok{"I did not complete any formal education past high school"}\NormalTok{, }\AttributeTok{after =} \DecValTok{0}\NormalTok{), }\AttributeTok{y =}\NormalTok{ MeanCompensationUSD)) }\SpecialCharTok{+}
   \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{coord\_flip}\NormalTok{()}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-203-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-202-1.pdf}
 
 \hypertarget{preimenivanje-obstojeux10dih-in-doloux10danje-novih-nivojev}{%
 \subsection{Preimenivanje obstoječih in določanje novih nivojev}\label{preimenivanje-obstojeux10dih-in-doloux10danje-novih-nivojev}}
@@ -5399,7 +5357,7 @@ Sorodno lahko zgornjo funkcijo zamenjamo z \texttt{fct\_collapse()}, ki lahko zd
 \hypertarget{razbitje-numeriux10dne-spremenljivke-na-intervale}{%
 \subsection{Razbitje numerične spremenljivke na intervale}\label{razbitje-numeriux10dne-spremenljivke-na-intervale}}
 
-Pogosto želimo kakšno numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo \texttt{cut()}. Razdelimo spremenljivko \texttt{Age} na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.
+Pogosto želimo numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo \texttt{cut()}. Razdelimo spremenljivko \texttt{Age} na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5412,14 +5370,14 @@ Pogosto želimo kakšno numerično spremenljivko segmentirati na določene inter
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-205-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-204-1.pdf}
 
 \hypertarget{datumi-in-ure}{%
 \section{Datumi in ure}\label{datumi-in-ure}}
 
-Delo z datumi in urami morda na prvi pogled deluje precej enostavno. Vendar pa zaradi različnih fizikalnih zakonitosti ali človeških konstruktov lahko pride do težav. Na primer, vsako leto nima 365 dni. Prav tako v nekaterih časovnih conah 3. ura zjutraj ne sledi vedno 2. uri, saj pride do premika ure.
+Delo z datumi in urami na prvi pogled morda deluje enostavno. Vendar pa zaradi različnih fizikalnih zakonitosti ali človeških konstruktov lahko pride do težav. Na primer, vsako leto nima 365 dni. Prav tako v nekaterih časovnih conah 3. ura zjutraj ne sledi vedno 2. uri, saj pride do premika ure.
 
-Za delo z datumi bomo uporabljali paket \textbf{lubridate}. Glavni komponenti v tem paketu sta \textbf{datum} (date) in \textbf{čas} (time), ter združena komponenta \textbf{datum in čas} (datetime). S tem paketom lahko datume ustvarimo na 2 načina:
+Za delo z datumi bomo uporabljali paket \textbf{lubridate}. Glavni komponenti v tem paketu sta \textbf{datum} (date) in \textbf{čas} (time) ter združena komponenta \textbf{datum in čas} (datetime). S tem paketom lahko datume ustvarimo na 2 načina:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -5489,7 +5447,7 @@ Za delo z datumi bomo uporabljali paket \textbf{lubridate}. Glavni komponenti v 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{mdy}\NormalTok{(}\StringTok{"April 2nd, 2021"}\NormalTok{) }\CommentTok{\# Deluje za angleška imena mesecev}
+\FunctionTok{mdy}\NormalTok{(}\StringTok{"April 2nd, 2021"}\NormalTok{) }\CommentTok{\# Deluje za angleška imena mesecev.}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5520,7 +5478,7 @@ Za delo z datumi bomo uporabljali paket \textbf{lubridate}. Glavni komponenti v 
 \end{verbatim}
 \end{enumerate}
 
-Opazimo, da pri datumu in času spremenljivka hrani tudi informacijo o časovnem pasu. Privzeto lubridate dela s časovnim pasom UTC (Coordinated Universal Time), ki je naslednik GMT (Greenwich Mean Time). Prednost tega časovnega pasu je predvsem v tem, da se ne prilagaja spremembi ure v pomladnih in jesenskih mesecih. Te spremembe lahko privedejo do napak pri računanju z datumi in časi, tako da je računanje v UTC bolj varno. Seveda pa lahko ročno nastavimo drugi časovni pas z argumentom \texttt{tz}. Paket lubridate uporablja IANA časovne pasove (\url{https://www.iana.org/time-zones}), kateri so definirani s kombinacijo celine in države. Na primer, za Ljubljano bi časovni pas nastavili tako:
+Opazimo, da pri datumu in času spremenljivka hrani tudi informacijo o časovnem pasu. Privzeto lubridate dela s časovnim pasom UTC (Coordinated Universal Time), ki je naslednik GMT (Greenwich Mean Time). Prednost tega časovnega pasu je , da se ne prilagaja spremembi ure v pomladnih in jesenskih mesecih. Te spremembe lahko privedejo do napak pri računanju z datumi in časi, tako da je računanje v UTC bolj varno. Seveda pa lahko ročno nastavimo drugi časovni pas z argumentom \texttt{tz}. Paket lubridate uporablja IANA časovne pasove (\url{https://www.iana.org/time-zones}), ki so definirani s kombinacijo celine in države. Za Ljubljano bi časovni pas nastavili tako:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5532,7 +5490,7 @@ Opazimo, da pri datumu in času spremenljivka hrani tudi informacijo o časovnem
 ## [1] "2021-04-02 12:01:00 CEST"
 \end{verbatim}
 
-Pomembno je torej, da vemo, v katerem časovnem pasu so bile opravljene meritve v naših podatkih, da lahko potem ustrezno pretvorimo spremenljivko v časovno. Seveda pa lahko tudi pretvarjamo časovne spremenljivke med časovnimi pasovi. Za to uporabimo funkcijo \texttt{with\_tz()}. Vsakemu času v določenem časovnem pasu lahko priredimo nek čas v drugem časovnem pasu. V kolikor želimo bolj robustno računati z datumi in urami, potem lahko vedno datume pretvorimo v UTC čas, naredimo izračune in potem pretvorimo nazaj v lokalni časovni pas.
+Pomembno je , da vemo, v katerem časovnem pasu so bile opravljene meritve v naših podatkih, da lahko potem ustrezno pretvorimo spremenljivko v časovno. Seveda pa lahko tudi pretvarjamo časovne spremenljivke med časovnimi pasovi. Za to uporabimo funkcijo \texttt{with\_tz()}. Vsakemu času v določenem časovnem pasu lahko priredimo nek čas v drugem časovnem pasu. V kolikor želimo bolj robustno računati z datumi in urami, lahko vedno datume pretvorimo v UTC čas, naredimo izračune in potem pretvorimo nazaj v lokalni časovni pas.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5556,7 +5514,7 @@ Pomembno je torej, da vemo, v katerem časovnem pasu so bile opravljene meritve 
 ## [1] "2021-04-02 10:01:00 UTC"
 \end{verbatim}
 
-Hranita pa spremenljivki v ozadju isti čas. To lahko preverimo z:
+V ozdaju pa spremenljivki hranita isti čas. To lahko preverimo z:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5568,7 +5526,7 @@ Hranita pa spremenljivki v ozadju isti čas. To lahko preverimo z:
 ## [1] TRUE
 \end{verbatim}
 
-V R je časovni pas namenjen samo izpisu datumov in časov. Sama vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:
+V R je časovni pas namenjen samo izpisu datumov in časov. Vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5580,14 +5538,14 @@ V R je časovni pas namenjen samo izpisu datumov in časov. Sama vrednost spreme
 ## Time difference of 0 secs
 \end{verbatim}
 
-V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo \texttt{force\_tz()}. Predlagamo, da udeleženci sami poizkusijo, kaj naredi ta funkcija, tako da z njo pretvorijo \texttt{my\_datetime} v UTC in potem izračunajo razliko, podobno kot smo to naredili zgoraj.
+V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo \texttt{force\_tz()}. Poizkusite kaj naredi ta funkcija, tako da z njo pretvorijo \texttt{my\_datetime} v UTC in potem izračunajte razliko, podobno kot smo to naredili zgoraj.
 
-Kadar delamo sekvence datumov in časov te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si prehod na poletni čas v letu 2021:
+Kadar delamo sekvence datumov in časov, te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si prehod na poletni čas v letu 2021:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{datetime\_dst }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}03{-}28 00:00:00"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{), }
-                    \FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}03{-}28 04:00:00"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{), }
+\NormalTok{datetime\_dst }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}03{-}28 00:00:00"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{),}
+                    \FunctionTok{ymd\_hms}\NormalTok{(}\StringTok{"2021{-}03{-}28 04:00:00"}\NormalTok{, }\AttributeTok{tz =} \StringTok{"Europe/Ljubljana"}\NormalTok{),}
                     \AttributeTok{by =} \StringTok{"30 min"}\NormalTok{)}
 \NormalTok{datetime\_dst}
 \end{Highlighting}
@@ -5627,9 +5585,9 @@ Vsaka časovna spremenljivka, ki vsebuje datum in čas, je sestavljena iz kompon
 \item
   \texttt{month()}
 \item
-  \texttt{mday()}. Dan v mesecu.
+  \texttt{mday()} Dan v mesecu.
 \item
-  \texttt{wday()}. Dan v tednu. Privzeto se začne z nedeljo. To lahko spremenimo z argumentom \texttt{week\_start}.
+  \texttt{wday()} Dan v tednu. Privzeto se začne z nedeljo. To lahko spremenimo z argumentom \texttt{week\_start}.
 \item
   \texttt{hour()}
 \item
@@ -5648,7 +5606,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-11 17:26:16 CEST"
+## [1] "2021-06-14 08:09:42 CEST"
 \end{verbatim}
 
 \begin{Shaded}
@@ -5678,7 +5636,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 11
+## [1] 14
 \end{verbatim}
 
 \begin{Shaded}
@@ -5688,7 +5646,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 6
+## [1] 2
 \end{verbatim}
 
 \begin{Shaded}
@@ -5698,7 +5656,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 5
+## [1] 1
 \end{verbatim}
 
 \begin{Shaded}
@@ -5708,7 +5666,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 17
+## [1] 8
 \end{verbatim}
 
 \begin{Shaded}
@@ -5718,7 +5676,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 26
+## [1] 9
 \end{verbatim}
 
 \begin{Shaded}
@@ -5728,7 +5686,7 @@ Poglejmo sedaj kaj vračajo te funkcije:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 16.77942
+## [1] 42.49473
 \end{verbatim}
 
 S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
@@ -5741,7 +5699,7 @@ S komponentami lahko tudi spreminjamo dele časovne spremenljivke:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2021-06-05 17:26:16 CEST"
+## [1] "2021-06-05 08:09:42 CEST"
 \end{verbatim}
 
 Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:
@@ -5751,12 +5709,12 @@ Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:
 \item
   \textbf{trajanja} (ang. duration). Čas v sekundah. Funkcije \texttt{dseconds()}, \texttt{dminutes()}, \texttt{ddays()}, \texttt{dweeks()} in \texttt{dyears()}. Pri trajanjih se vedno uporabi pretvorba, da ima vsak dan 24 ur in vsako leto 365.25 dni. Slednje predstavlja povprečno šteilo dni v letu. Tako da bo funkcija \texttt{dyears(4)} vedno vrnila število sekund, ki ustreza 4x365.25 dnem, ki imajo vsak po 24 ur.
 \item
-  \textbf{periode} (ang. period). Čas v človeških enotah kot je na primer teden. Funkcije \texttt{seconds()}, \texttt{minutes()}, \texttt{days()}, \texttt{weeks()}, \texttt{months()} in \texttt{years()}.
+  \textbf{obdobja} (ang. period). Čas v človeških enotah kot je na primer teden. Funkcije \texttt{seconds()}, \texttt{minutes()}, \texttt{days()}, \texttt{weeks()}, \texttt{months()} in \texttt{years()}.
 \item
   \textbf{intervali} (ang. interval). Časovni interval med dvema točkama.
 \end{itemize}
 
-Pozoren bralec je morda opazil, da pri trajanjih nismo navedli funkcije za mesece. To je zaradi tega, ker imajo meseci lahko 28, 29, 30 ali 31 dni. Vsekakor bi pri izbiri osnovne enote za trajanja prišlo do neke arbitrarne odločitve, koliko dni vzamemo privzeto. 30 ali 31? V vsakem primeru bo vsaj polovica mesecev imela napačno trajanje. Pri dnevih in letih si lažje privoščimo posplošitev.
+Pozoren bralec je opazil, da pri trajanjih nismo navedli funkcije za mesece. To pa zato, ker imajo meseci lahko 28, 29, 30 ali 31 dni. Vsekakor bi pri izbiri osnovne enote za trajanja prišlo do neke arbitrarne odločitve, koliko dni vzamemo privzeto. 30 ali 31? V vsakem primeru bo vsaj polovica mesecev imela napačno trajanje. Pri dnevih in letih si lažje privoščimo posplošitev.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5778,7 +5736,7 @@ Pozoren bralec je morda opazil, da pri trajanjih nismo navedli funkcije za mesec
 ## [1] "1d 0H 0M 0S"
 \end{verbatim}
 
-Poglejmo si preprost primer, kako dodati
+Poglejmo si preprost primer, kako dodati določena obdobja:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5831,7 +5789,7 @@ Poglejmo si preprost primer, kako dodati
 ## [1] "2021-08-08 11:05:30 CEST"
 \end{verbatim}
 
-Trajanja in periode so si očitno zelo podobni ampak imajo eno veliko razliko, kadar računamo z dnevi, tedni in leti. Prvič, kadar bomo uporabljali \texttt{dyears()} lahko hitro pride do težave, saj bomo prišteli 0.25 dneva. Poglejmo si to na primeru:
+Trajanja in obdobja so si očitno zelo podobni, ampak imajo eno veliko razliko, kadar računamo z dnevi, tedni in leti. Prvič, kadar bomo uporabljali \texttt{dyears()} lahko hitro pride do težave, saj bomo prišteli 0.25 dneva. Poglejmo si to na primeru:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5896,7 +5854,7 @@ Opazimo, da smo prišteli 6 dodatnih ur. Drugič, kaj se zgodi, kadar prištejem
 ## [1] "2021-04-03 11:05:30 CEST"
 \end{verbatim}
 
-Funkcija \texttt{years()} deluje kot bi pričakovali tudi na prestopnem letu:
+Funkcija \texttt{years()} deluje, kot bi pričakovali tudi na prestopnem letu:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5909,7 +5867,7 @@ Funkcija \texttt{years()} deluje kot bi pričakovali tudi na prestopnem letu:
 ## [1] "2021-06-08 11:05:30 CEST"
 \end{verbatim}
 
-S funkcijami trajanja in period lahko tudi računamo, na primer:
+S funkcijami trajanja in obdobji lahko tudi računamo, na primer:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5951,7 +5909,7 @@ S funkcijami trajanja in period lahko tudi računamo, na primer:
 ## [1] "100M 0S"
 \end{verbatim}
 
-Najbolje, da jo prikažemo na dveh primerih -- premik ure in prestopno leto. Periode so bolj naraven prikaz za človeka.
+Najbolje, da jo prikažemo na dveh primerih -- premik ure in prestopno leto. Obdobja so bolj naraven prikaz za človeka.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6024,7 +5982,7 @@ Najbolje, da jo prikažemo na dveh primerih -- premik ure in prestopno leto. Per
 ## [1] "2021-08-08 11:05:30 CEST"
 \end{verbatim}
 
-V bazi letalskih letov posodobimo podatke, tako da izračunamo niz, ki predstavlja točen odhod letala.
+V bazi letalskih letov posodobimo podatke tako, da izračunamo niz, ki predstavlja odhod letala.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6085,7 +6043,7 @@ V bazi letalskih letov posodobimo podatke, tako da izračunamo niz, ki predstavl
 ## [5] "2013-01-01 06:00:00 UTC" "2013-01-01 05:58:00 UTC"
 \end{verbatim}
 
-Ali opazimo kakšno težavo? datume smo prebrali v časovni coni UTC, so pa podani v lokalni časovni coni. Podatkov torej nismo pretvorili pravilno! Poizkusimo še enkrat:
+Ali opazimo kakšno težavo? Datume smo prebrali v časovni coni UTC, podani pa so v lokalni časovni coni. Podatkov torej nismo pravilno pretvorili! Poizkusimo še enkrat:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6131,7 +6089,7 @@ Ali opazimo kakšno težavo? datume smo prebrali v časovni coni UTC, so pa poda
 \hypertarget{delo-z-binarnimi-datotekami}{%
 \subsection{Delo z binarnimi datotekami}\label{delo-z-binarnimi-datotekami}}
 
-V programskem jeziku R lahko shranjujemo in nalagamo (v trenutno sejo R) spremenljivke kot binarne objekte na dva prevladujoča načina:
+V programskem jeziku R lahko spremenljivke shranjujemo in beremo (v trenutno sejo R) kot binarne objekte. Prednost tega shranjevanja pred shranjevanjem v csv ali excelove razpredelnice je, da se ohranijo tudi meta informacije, kot so recimo nivoji pri faktorjih. Shranjujemo na dva prevladujoča načina:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -6146,7 +6104,7 @@ Pomembna razlika med prvim in drugim pristopom je, da lahko s prvim shranimo ve�
 
 Funkcija \texttt{save()} shrani spremenljivke v trenutni seji R v datoteko s končnico \emph{rda} ali \emph{RData}. To naredi tako, da shrani tako vrednost spremenljivke kot tudi ime spremenljivke. To pomeni, da ko bomo takšno datoteko prebrali v novo sejo R, bomo ustvarili spremenljivke z enakimi imeni, kot smo jih shranili. Pri tem pa lahko pride do težav. Recimo, da imamo v trenutni seji R že nek nabor spremenljivk nato pa želimo vanjo prenesti še neke druge spremenljivke, ki smo jih pred časom shranili s funkcijo \texttt{save()} v datoteko saved-data.rda. Kaj se bo zgodilo, če bo katera od spremenljivk v naši trenutni seji imela enako ime kot ena od spremenljivk shranjenih v saved-data.rda? R bo enostavno to spremenljivko prepisal s spremenljivko, ki se je nahajala v tej rda datoteki. Takšen postopek dela je lahko torej nevaren, saj lahko \emph{nevede} izbrišemo obstoječe spremenljivke.
 
-Predlagamo torej uporabo druge kombinacije, torej funkcij \texttt{saveRDS()} in \texttt{readRDS()}. Funkcija \texttt{saveRDS()} shrani samo vrednost spremenljivke, ne pa tudi njenega imena, tako da ne pride do podobnih težav kot pri prvem pristopu. Končnica tako shranjenih datotek je \emph{rds}. Poglejmo si uporabo teh funkcij.
+Predlagamo torej uporabo kombinacije funkcij \texttt{saveRDS()} in \texttt{readRDS()}. Funkcija \texttt{saveRDS()} shrani samo vrednost spremenljivke, ne pa tudi njenega imena, tako da ne pride do podobnih težav kot pri prvem pristopu. Končnica tako shranjenih datotek je \emph{rds}. Poglejmo si uporabo teh funkcij:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6172,9 +6130,9 @@ Predlagamo torej uporabo druge kombinacije, torej funkcij \texttt{saveRDS()} in 
 ## [1] 3 6 3 7
 \end{verbatim}
 
-Vedno ko preberemo podatke v sejo R s funkcijo \texttt{readRDS()} ji moramo prirediti ime, saj je v rds datoteki shrnajena samo njena vrednost. S tem se tudi izognemo podobnim težavam kot pri funkcijah \texttt{save()} in \texttt{load()}.
+Vedno ko preberemo podatke v sejo R s funkcijo \texttt{readRDS()}, ji moramo prirediti ime, saj je v rds datoteki shrnajena samo njena vrednost. S tem se tudi izognemo podobnim težavam kot pri funkcijah \texttt{save()} in \texttt{load()}.
 
-Pomanjkljivost shranjevanja rds datotek pa je v tem, da lahko naenkrat shranimo samo 1 spremenljivko. Ampak to pomanjkljivost lahko zaobidemo, tako da več spremenljivk enostavno shranimov v seznam (\texttt{list()}). Poglejmo si sedaj na primer, kako bi shranili več spremenljivk.
+Pomanjkljivost shranjevanja datotek rds je v tem, da lahko naenkrat shranimo samo 1 spremenljivko. Ampak to pomanjkljivost lahko zaobidemo tako, da več spremenljivk enostavno shranimov v seznam (\texttt{list()}). Poglejmo si sedaj na primer, kako bi shranili več spremenljivk.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6249,7 +6207,7 @@ Pomanjkljivost shranjevanja rds datotek pa je v tem, da lahko naenkrat shranimo 
 
 Paket \textbf{openxlsx} omogoča delo z exelovimi razpredelnicami. Poglejmo si preproste a uporabne ukaze. Za branje podatkov s tem paketom uprabljamo \texttt{read.xlsx()}, za shranjevanje datotek pa \texttt{write.xlsx()}.
 
-Preberimo podatke ocen, ki smo jih imeli tudi v testni skripti in jo pretvorimo v tibble:
+Preberimo podatke ocen, ki smo jih imeli v testni skripti, in jo pretvorimo v tibble:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6277,14 +6235,14 @@ Preberimo podatke ocen, ki smo jih imeli tudi v testni skripti in jo pretvorimo 
 ## #   averageScore <dbl>
 \end{verbatim}
 
-Privzeto funkcija \texttt{read.xlsx()} odpre prvi list v datoteki in poišče glavo razpredelnice, če želimo druge liste moramo podati ime lista ali številko lista s parametrom \texttt{sheet}.
+Privzeto funkcija \texttt{read.xlsx()} odpre prvi list v datoteki in poišče glavo razpredelnice. Če želimo druge liste moramo podati ime lista ali številko lista s parametrom \texttt{sheet}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(openxlsx)}
 \NormalTok{ocene\_portugalscina }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\FunctionTok{read.xlsx}\NormalTok{(}\StringTok{"./test{-}script/data{-}raw/student{-}performance.xlsx"}\NormalTok{, }\AttributeTok{sheet =} \DecValTok{1}\NormalTok{))}
 \NormalTok{ocene\_matematika }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\FunctionTok{read.xlsx}\NormalTok{(}\StringTok{"./test{-}script/data{-}raw/student{-}performance.xlsx"}\NormalTok{, }\AttributeTok{sheet =} \StringTok{"Math scores"}\NormalTok{))}
-\NormalTok{ocene\_portugalscina }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{ocene\_portugalscina }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(school, G1, G2, G3, averageScore)}
 \end{Highlighting}
 \end{Shaded}
@@ -6330,7 +6288,7 @@ Privzeto funkcija \texttt{read.xlsx()} odpre prvi list v datoteki in poišče gl
 ## # ... with 385 more rows
 \end{verbatim}
 
-Če ima datoteka veliko število listov jih lahko shranite v R-jev seznam (list).
+Če ima datoteka veliko število listov, jih lahko shranimo v R-jev list:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6381,12 +6339,12 @@ Privzeto funkcija \texttt{read.xlsx()} odpre prvi list v datoteki in poišče gl
 ## #   averageScore <dbl>
 \end{verbatim}
 
-V primeru, da je razpredelnica v excelovem listu premaknjena ali pa želimo prebrati le del podatkov, lahko uporabimo parametra \texttt{startRow} in \texttt{cols}. Preberimo samo ocene za matematiko brez ostalih vrednosti.
+V primeru, da je razpredelnica v excelovem listu premaknjena ali pa želimo prebrati le del podatkov, lahko uporabimo parametra \texttt{startRow} in \texttt{cols}. Preberimo samo ocene za matematiko:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{path }\OtherTok{\textless{}{-}} \StringTok{"./test{-}script/data{-}raw/student{-}performance.xlsx"}
-\NormalTok{ocene\_math }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\FunctionTok{read.xlsx}\NormalTok{(path, }\AttributeTok{sheet =} \StringTok{"Math scores"}\NormalTok{, }\AttributeTok{startRow =} \DecValTok{1}\NormalTok{, }
+\NormalTok{ocene\_math }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\FunctionTok{read.xlsx}\NormalTok{(path, }\AttributeTok{sheet =} \StringTok{"Math scores"}\NormalTok{, }\AttributeTok{startRow =} \DecValTok{1}\NormalTok{,}
                                \AttributeTok{cols =} \DecValTok{9}\SpecialCharTok{:}\DecValTok{12}\NormalTok{))}
 \NormalTok{ocene\_math}
 \end{Highlighting}
@@ -6409,7 +6367,7 @@ V primeru, da je razpredelnica v excelovem listu premaknjena ali pa želimo preb
 ## # ... with 385 more rows
 \end{verbatim}
 
-Da podatke shranimo na disk uporabimo \texttt{write.xlsx()}.
+Da podatke shranimo, uporabimo \texttt{write.xlsx()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6450,10 +6408,6 @@ Da shranimo data frame v sav datoteko, uporabimo funkcijo \texttt{write\_sav()}.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## Error: Failed to open 'C:\Users\Gregor\Documents\shared_files\workshops\urejanje-podatkov\data-clean\iris.sav' for writing
-\end{verbatim}
-
 Paket haven ima tudi funkcijo \texttt{read\_por()} ki podpira starejše verzije datotek iz SPSS.
 
 \hypertarget{ali-ux17eelite-izvedeti-veux10d-2}{%
@@ -6471,9 +6425,9 @@ V tem poglavju smo si ogledali operacije treh paketov tidyversa. Če želite hit
   \textbf{lubridate}: \url{https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_lubridate.pdf}
 \end{itemize}
 
-Paket \textbf{stringr} uporablja paket \textbf{stringi}, ki ima na voljo 5x več operacij, ki pa niso tako pogosto uporabljene. Če se boste pri svojem delu srečali z zahtevnejšimi nalogami lahko uporabite ta paket.
+Paket \textbf{stringr} uporablja paket \textbf{stringi}, ki ima na voljo več operacij, ki pa niso tako pogoste. Če se boste pri svojem delu srečali z zahtevnejšimi nalogami, lahko uporabite ta paket.
 
-Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran \url{https://regex101.com/}.
+Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran \url{https://regex101.com/}. Lahko si tudi ogledate knjigo Mastering Regular Expressions \citep{friedl2006mastering}, ki obsežno obravnava snov regularnih izrazov.
 
 \hypertarget{domaux10da-naloga-2}{%
 \section{Domača naloga}\label{domaux10da-naloga-2}}
@@ -6493,7 +6447,12 @@ Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran 
     Dodajte stolpec \emph{ocena}, kjer so vrednosti za \emph{točke} med 0 in 10 enake 1, 10 in 20 enake 2 itd.
   \item
     Dodajte stolpec \emph{besedna\_ocena} tipa faktor, ki bo imel vrednosti glede na \emph{oceno} in sicer ocene \textless6 = ``nezadostno'', 6 = ``zadostno'', 7 in 8 = ``dobro'', 9 = ``zelo dobro'' in 10 = ``odlično''.
+  \item
+    Shranite podatke v datoteko \texttt{students-performance-math-normalized.xlsx\textquotesingle{}\ in\ v\ binarno\ datoteko}students-performance-math-normalized.rds'.
+  \item
+    Ponovno preberite obe datoteki, prvo v spremenljivko \texttt{podatki\_excel} in drugo v \texttt{podatki\_binarni}. Katero razliko opazite?
   \end{itemize}
+\end{enumerate}
 
 \begin{verbatim}
 ## # A tibble: 649 x 9
@@ -6511,6 +6470,37 @@ Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran 
 ## 10 GP            0    12    12    13        12.3   66.1     7 dobro        
 ## # ... with 639 more rows
 \end{verbatim}
+
+\begin{verbatim}
+##   school absences G1 G2 G3 averageScore    točke ocena besedna_ocena
+## 1     GP        4  0 11 11     7.333333 39.28571     4    nezadostno
+## 2     GP        2  9 11 11    10.333333 55.35714     6      zadostno
+## 3     GP        6 12 13 12    12.333333 66.07143     7         dobro
+## 4     GP        0 14 14 14    14.000000 75.00000     8         dobro
+## 5     GP        0 11 13 13    12.333333 66.07143     7         dobro
+## 6     GP        6 12 12 13    12.333333 66.07143     7         dobro
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 649 x 9
+##    school absences    G1    G2    G3 averageScore točke ocena besedna_ocena
+##    <chr>     <dbl> <dbl> <dbl> <dbl>        <dbl> <dbl> <dbl> <fct>        
+##  1 GP            4     0    11    11         7.33  39.3     4 nezadostno   
+##  2 GP            2     9    11    11        10.3   55.4     6 zadostno     
+##  3 GP            6    12    13    12        12.3   66.1     7 dobro        
+##  4 GP            0    14    14    14        14     75       8 dobro        
+##  5 GP            0    11    13    13        12.3   66.1     7 dobro        
+##  6 GP            6    12    12    13        12.3   66.1     7 dobro        
+##  7 GP            0    13    12    13        12.7   67.9     7 dobro        
+##  8 GP            2    10    13    13        12     64.3     7 dobro        
+##  9 GP            0    15    16    17        16     85.7     9 zelo dobro   
+## 10 GP            0    12    12    13        12.3   66.1     7 dobro        
+## # ... with 639 more rows
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
 \item
   Naložite paket \texttt{nycflights13} s podatki letov. V tej bazi je več razpredelnic in sicer \textbf{flights}, \textbf{airlines}, \textbf{planes}, \textbf{airports} in \textbf{weather}. Za razumevanje si pomagajte z \texttt{?flights}.
 
@@ -6566,32 +6556,86 @@ Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran 
   \begin{enumerate}
   \def\labelenumii{\alph{enumii})}
   \setcounter{enumii}{2}
-  \tightlist
   \item
-    \textbf{Daljša} Za vsak let sestavite besedno poročilo spodnje oblike, ki ga shranite v stolpec \textbf{Poročilo leta}.
+    Za vsak let sestavite besedno poročilo spodnje oblike, ki ga shranite v stolpec \emph{Poročilo leta}.
+
+    Besedilo naj se glasi: ``Let iz letalisca Newark Liberty Intl dne 22.01.13 ob 11:00 v letalisce George Bush Intercontinental je imel 2 minut zamude v odhodu in 11 v prihodu.''
+
+    Minute so lahko tudi negativne.
   \end{enumerate}
-
-  Besedilo naj se glasi: ``Let iz letalisca Newark Liberty Intl dne 22.01.13 ob 11:00 v letalisce George Bush Intercontinental je imel 2 minut zamude v odhodu in 11 v prihodu.''
-
-  Minute so lahko tudi negativne.
 
 \begin{verbatim}
 ## # A tibble: 336,776 x 2
 ##    `Poročilo leta`                                           dep_string         
 ##    <chr>                                                     <dttm>             
-##  1 Let iz letalisca Newark Liberty Intl, dne 22.01.13, ob 1~ 2013-01-22 11:00:00
-##  2 Let iz letalisca La Guardia, dne 23.01.13, ob 01:00 v le~ 2013-01-23 01:00:00
-##  3 Let iz letalisca John F Kennedy Intl, dne 23.01.13, ob 1~ 2013-01-23 12:00:00
-##  4 <NA>                                                      2013-01-23 17:00:00
-##  5 Let iz letalisca La Guardia, dne 26.01.13, ob 00:00 v le~ 2013-01-26 00:00:00
-##  6 Let iz letalisca Newark Liberty Intl, dne 24.01.13, ob 0~ 2013-01-24 06:00:00
-##  7 Let iz letalisca Newark Liberty Intl, dne 26.01.13, ob 0~ 2013-01-26 00:00:00
-##  8 Let iz letalisca La Guardia, dne 26.01.13, ob 00:00 v le~ 2013-01-26 00:00:00
-##  9 Let iz letalisca John F Kennedy Intl, dne 26.01.13, ob 0~ 2013-01-26 00:00:00
-## 10 Let iz letalisca La Guardia, dne 26.01.13, ob 00:00 v le~ 2013-01-26 00:00:00
+##  1 Let iz letalisca Newark Liberty Intl, dne 01.01.13, ob 0~ 2013-01-01 05:15:00
+##  2 Let iz letalisca La Guardia, dne 01.01.13, ob 05:29 v le~ 2013-01-01 05:29:00
+##  3 Let iz letalisca John F Kennedy Intl, dne 01.01.13, ob 0~ 2013-01-01 05:40:00
+##  4 <NA>                                                      2013-01-01 05:45:00
+##  5 Let iz letalisca La Guardia, dne 01.01.13, ob 06:00 v le~ 2013-01-01 06:00:00
+##  6 Let iz letalisca Newark Liberty Intl, dne 01.01.13, ob 0~ 2013-01-01 05:58:00
+##  7 Let iz letalisca Newark Liberty Intl, dne 01.01.13, ob 0~ 2013-01-01 06:00:00
+##  8 Let iz letalisca La Guardia, dne 01.01.13, ob 06:00 v le~ 2013-01-01 06:00:00
+##  9 Let iz letalisca John F Kennedy Intl, dne 01.01.13, ob 0~ 2013-01-01 06:00:00
+## 10 Let iz letalisca La Guardia, dne 01.01.13, ob 06:00 v le~ 2013-01-01 06:00:00
 ## # ... with 336,766 more rows
 \end{verbatim}
 \end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Časi odhodov in prihodov so v razpredelnici flights v lokalnem času. Dodajte spremenljivko \texttt{dep\_time\_utc}, ki bo vsebovala vrednost odhoda v časovnem pasu UTC. Zapis naj bo oblike integer, tako kot `dep\_time'.
+\end{enumerate}
+
+\begin{verbatim}
+```
+## # A tibble: 336,776 x 8
+##     year month   day dep_time dep_time_utc origin dest  tzone           
+##    <int> <int> <int>    <int> <chr>        <chr>  <chr> <chr>           
+##  1  2013     1     1      517 1017         EWR    IAH   America/New_York
+##  2  2013     1     1      533 1033         LGA    IAH   America/New_York
+##  3  2013     1     1      542 1042         JFK    MIA   America/New_York
+##  4  2013     1     1      544 1044         JFK    BQN   America/New_York
+##  5  2013     1     1      554 1054         LGA    ATL   America/New_York
+##  6  2013     1     1      554 1054         EWR    ORD   America/New_York
+##  7  2013     1     1      555 1055         EWR    FLL   America/New_York
+##  8  2013     1     1      557 1057         LGA    IAD   America/New_York
+##  9  2013     1     1      557 1057         JFK    MCO   America/New_York
+## 10  2013     1     1      558 1058         LGA    ORD   America/New_York
+## # ... with 336,766 more rows
+```
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Simuliramo. Vsi leti bodo zaradi nepričakovane prenove letališča po 23. 10. 2013 zamaknjeni za dva tedna. Izpišite posodobljene datume v originalni obliki (year, month, day).
+\end{enumerate}
+
+\begin{verbatim}
+## # A tibble: 63,797 x 20
+##       ID  year month   day dep_time sched_dep_time dep_delay arr_time
+##    <int> <int> <int> <int>    <int>          <int>     <dbl>    <int>
+##  1 47500  2013    11     6      454            500        -6      632
+##  2 47501  2013    11     6      512            517        -5      749
+##  3 47502  2013    11     6      541            545        -4      837
+##  4 47503  2013    11     6      544            545        -1      935
+##  5 47504  2013    11     6      545            550        -5      930
+##  6 47505  2013    11     6      546            545         1      856
+##  7 47506  2013    11     6      549            600       -11      711
+##  8 47507  2013    11     6      549            600       -11      900
+##  9 47508  2013    11     6      550            600       -10      716
+## 10 47509  2013    11     6      552            600        -8      735
+## # ... with 63,787 more rows, and 12 more variables: sched_arr_time <int>,
+## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>
+\end{verbatim}
 
   \bibliography{book.bib}
 

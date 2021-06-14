@@ -24,7 +24,7 @@
 <meta name="author" content="Gregor Pirš, Matej Pičulin in Erik Štrumbelj" />
 
 
-<meta name="date" content="2021-06-12" />
+<meta name="date" content="2021-06-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -270,10 +270,10 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="nizi-kategorične-spremenljivke-in-datumi" class="section level1" number="3">
 <h1><span class="header-section-number">Poglavje 3</span> Nizi, kategorične spremenljivke in datumi</h1>
-<p>Pogosto se pri delu s podatki srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali na prvi dveh predavanjih, ampak nad njimi nismo izvajali pretirano kompleksnih operacij. Delali smo tudi s kategoričnimi spremenljivkami, čeprav se tega morda nismo zavedali. S temi podatkovnimi tipi lahko torej delamo z relativno malo znanja. Seveda pa za kvalitetno delo s podatki potrebujemo tudi orodja za bolj podrobno delo s takšnimi tipi. V tem predavanju bomo spoznali kako delati s takšnimi spremenljivkami v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.</p>
+<p>Pri delu s podatki se pogosto srečamo s posebnimi podatkovnimi tipi, kot so nizi, kategorične spremenljivke in datumi. Z nizi smo že delali v prvih dveh poglavjih. Delali smo tudi s kategoričnimi spremenljivkami, čeprav tega nismo poudarili. V tem poglavju bomo spoznali naprednejše operacije nad temi podatkovnimi tipi v okviru zbirke tidyverse ter predstavili praktične primere, dobre prakse in pasti pri delu z njimi.</p>
+<p>Konec poglavja pa bomo posvetili branju in pisanju podatkov v različnih oblikah.</p>
 <div id="priprava-2" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Priprava</h2>
-<p>V tem poglavju bomo spoznali, kako delamo z nizi, kategoričnimi spremenljivkami in datumi. Na koncu se bomo tudi posvetili branju podatkov iz različnih datotek in shranjevanju dobljenih rezultatov.</p>
 <div id="nizi" class="section level4 unnumbered">
 <h4>Nizi</h4>
 <p>Najprej si poglejmo najbolj uporabne funkcije za delo z nizi.</p>
@@ -297,14 +297,14 @@ div.csl-indent {
 <pre><code>## [1] &quot;A(ena)-B(ena)-A2-B2&quot;</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace_all</span>(<span class="st">&quot;A1-B1-A2-B2&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;(ena)&quot;</span>, <span class="st">&quot;2&quot;</span> <span class="ot">=</span> <span class="st">&quot;(dva)&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;A(ena)-B(ena)-A(dva)-B(dva)&quot;</code></pre>
-<p>Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu <code>fruit</code> poiskali vse jagodičevje, to so tisti nizi, ki vsebujejo <code>berry</code>.</p>
+<p>Poglejmo, kako bi iz zbirke sadežev v že vgrajenem nizu <code>fruit</code> poiskali vse nize, ki vsebujejo <code>berry</code>.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(fruit)</span></code></pre></div>
 <pre><code>## [1] 80</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_subset</span>(fruit, <span class="st">&quot;berry&quot;</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;bilberry&quot;    &quot;blackberry&quot;  &quot;blueberry&quot;   &quot;boysenberry&quot; &quot;cloudberry&quot; 
 ##  [6] &quot;cranberry&quot;   &quot;elderberry&quot;  &quot;goji berry&quot;  &quot;gooseberry&quot;  &quot;huckleberry&quot;
 ## [11] &quot;mulberry&quot;    &quot;raspberry&quot;   &quot;salal berry&quot; &quot;strawberry&quot;</code></pre>
-<p>Oziroma lahko vrnemo logični vektor nizov, ki vsebujejo <code>berry</code>.</p>
+<p>Podobno lahko vrnemo logični vektor nizov, ki vsebujejo <code>berry</code>.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(fruit, <span class="st">&quot;berry&quot;</span>)</span></code></pre></div>
 <pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE
 ## [13] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE
@@ -339,7 +339,7 @@ div.csl-indent {
 ## 5 Simon   m         8          8            6        2021               0
 ## 6 Tina    z         7         23            6        2021               1
 ## # ... with 1 more variable: procenti_vaje &lt;dbl&gt;</code></pre>
-<p>Spremenimo <strong>spol</strong> v nominalno spremenljivko (brez ureditve) in <strong>oceno</strong> v ordinalno spremenljivko (obstaja ureditev med vrednostmi, običajno po velikosti):</p>
+<p>Spremenimo <strong>spol</strong> v nominalno spremenljivko (brez ureditve) in <strong>oceno</strong> v ordinalno spremenljivko (obstaja vrsti red vrednosti):</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb28-1" aria-hidden="true" tabindex="-1"></a>tib <span class="ot">&lt;-</span> tib <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">spol  =</span> <span class="fu">factor</span>(spol),</span>
 <span id="cb28-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb28-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ocena =</span> <span class="fu">factor</span>(ocena, <span class="at">ordered =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb28-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb28-3" aria-hidden="true" tabindex="-1"></a>tib<span class="sc">$</span>spol</span></code></pre></div>
@@ -348,7 +348,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb30-1" aria-hidden="true" tabindex="-1"></a>tib<span class="sc">$</span>ocena</span></code></pre></div>
 <pre><code>## [1] 10 10 6  8  8  7 
 ## Levels: 6 &lt; 7 &lt; 8 &lt; 10</code></pre>
-<p>Nivoje faktorja (levels) lahko tudi uredimo glede na vrednosti v nekem drugem stolpcu. To običajno pride prav pri vizualizaciji.</p>
+<p>Nivoje faktorja (levels) lahko uredimo tudi glede na vrednosti v nekem drugem stolpcu. To običajno pride prav pri vizualizaciji.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb32-1" aria-hidden="true" tabindex="-1"></a>tib <span class="ot">&lt;-</span> tib <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spol =</span> <span class="fu">fct_reorder</span>(spol, procenti_vaje, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb32-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb32-3" aria-hidden="true" tabindex="-1"></a>tib<span class="sc">$</span>spol</span></code></pre></div>
@@ -378,7 +378,7 @@ div.csl-indent {
 </div>
 <div id="shranjevanje-podatkov-v-csv" class="section level4 unnumbered">
 <h4>Shranjevanje podatkov v csv</h4>
-<p>V pripravi na 2. predavanje smo že spoznali funkcijo <code>rear_csv2()</code> za branje podatkov iz tekstovnih datotek. Podatke lahko tudi shranimo v tekstovno datoteko s funkcijo <code>write_csv2()</code>:</p>
+<p>V pripravi v 2. poglavju smo že spoznali funkcijo <code>rear_csv2()</code> za branje podatkov iz tekstovnih datotek. Podatke lahko tudi shranimo v tekstovno datoteko s funkcijo <code>write_csv2()</code>:</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(tib, <span class="st">&quot;./data-raw/studenti.csv&quot;</span>)</span></code></pre></div>
 <p><strong>Naloga 1</strong>: Datoteko <em>ocene.csv</em> v mapi <em>data-raw</em> preberite s funkcijami paketa <strong>readr</strong> (<code>read_csv2()</code> in <code>write_csv2()</code>). Shranite jo kot <em>ocene2.csv</em> in to datoteko preberite nazaj. Nato naredite enako z baznimi funkcijami v R (<code>read.csv2()</code> in <code>write.csv2()</code>). Kaj opazite?</p>
 <p>Z <strong>readr</strong>:</p>
@@ -403,7 +403,7 @@ div.csl-indent {
 <ul>
 <li>spremenite stolpec <code>opravljene_vaje</code> v kategorične vrednosti,</li>
 <li>zamenjajte stolpce <code>leto_izpita</code>, <code>mesec_izpita</code>, <code>dan_izpita</code> z <code>datum_izpita</code>, ki vsebuje vse te podatke,</li>
-<li>Izberite samo imena, ki se začnejo na ‘T’ in podatke shranite v datoteko oceneT.csv.</li>
+<li>izberite samo imena, ki se začnejo na ‘T’ in podatke shranite v datoteko oceneT.csv.</li>
 </ul>
 <pre><code>##    ime spol ocena opravljene_vaje datum_izpita
 ## 1  Tom    m     6               1   2021-06-16
@@ -411,17 +411,17 @@ div.csl-indent {
 </div>
 <div id="delo-s-šumniki" class="section level3 unnumbered">
 <h3>Delo s šumniki</h3>
-<p>Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite ali R uporablja pravilno kodiranje je, da napišete v konzolo “čebula.” Nazaj morate dobiti enak niz in ne “cebula” ali celo “პbula.”</p>
+<p>Pri delu z nizi RStudio uporablja privzeto kodiranje vašega operacijskega sistema. Preprost način, da preverite, ali R uporablja pravilno kodiranje, je, da v konzolo napišete “čebula.” Nazaj morate dobiti enak niz in ne “cebula” ali celo “პbula.”</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;čebula&quot;</span></span></code></pre></div>
 <pre><code>## [1] &quot;čebula&quot;</code></pre>
-<p>Če R ne vrne istega niza je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimo katero kodiranje je trenutno uporabljeno, lahko napišemo:</p>
+<p>Če R ne vrne istega niza, je potrebno nastaviti privzeto kodiranje na svojem operacijskem sistemu. Da vidimo, katero kodiranje je trenutno uporabljeno, lahko napišemo:</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getlocale</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;LC_COLLATE=Slovenian_Slovenia.1250;LC_CTYPE=Slovenian_Slovenia.1250;LC_MONETARY=Slovenian_Slovenia.1250;LC_NUMERIC=C;LC_TIME=Slovenian_Slovenia.1250&quot;</code></pre>
-<p>Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate težave, lahko to začasno spremenite z ukazom.</p>
+<p>Pri tem izpisu vidimo, da uporabljamo sloveski nabor znakov CP1250. Če imate težave, lahko to začasno spremenite z ukazom:</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setlocale</span>(<span class="at">category =</span> <span class="st">&quot;LC_ALL&quot;</span>, <span class="at">locale =</span> <span class="st">&quot;Slovenian_Slovenia.1250&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;LC_COLLATE=Slovenian_Slovenia.1250;LC_CTYPE=Slovenian_Slovenia.1250;LC_MONETARY=Slovenian_Slovenia.1250;LC_NUMERIC=C;LC_TIME=Slovenian_Slovenia.1250&quot;</code></pre>
-<p>Oziroma lahko na primer v Windowsih nastavite privzeto kodiranje pod “Settings -&gt; Time &amp; Language -&gt; Region -&gt; Regional Format.” Tukaj izberite “Slovenian (Slovenia).”</p>
-<p>Za slovenske Windowse: “Nastavitve -&gt; Ura in Jezik -&gt; Regija -&gt; Območne nastavitve” in izberite “Slovenščina (Slovenija).”</p>
+<p>Oziroma lahko na primer v OS Windows nastavite privzeto kodiranje pod “Settings -&gt; Time &amp; Language -&gt; Region -&gt; Regional Format.” Tukaj izberite “Slovenian (Slovenia).”</p>
+<p>Za slovenski OS Windows: “Nastavitve -&gt; Ura in Jezik -&gt; Regija -&gt; Območne nastavitve” in izberite “Slovenščina (Slovenija).”</p>
 </div>
 </div>
 <div id="nizi-1" class="section level2" number="3.2">
@@ -434,31 +434,31 @@ div.csl-indent {
 <pre><code>## [1] &quot;urejanje podatkov&quot;</code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb58-1" aria-hidden="true" tabindex="-1"></a>niz_enojne_navednice</span></code></pre></div>
 <pre><code>## [1] &quot;urejanje podatkov&quot;</code></pre>
-<p>Če želimo znotraj niza uporabiti dvojne navednice lahko za definicijo uporabljamo enojne in obratno.</p>
+<p>Če želimo znotraj niza uporabiti dvojne navednice, lahko za definicijo uporabljamo enojne in obratno:</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb60-1" aria-hidden="true" tabindex="-1"></a>citat1 <span class="ot">&lt;-</span> <span class="st">&quot;Jure je rekel: &#39;Citiram Janeza&#39;.&quot;</span></span>
 <span id="cb60-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb60-2" aria-hidden="true" tabindex="-1"></a>citat2 <span class="ot">&lt;-</span> <span class="st">&#39;In Janez je rekel: &quot;Citiram Jureta&quot;.&#39;</span></span>
 <span id="cb60-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb60-3" aria-hidden="true" tabindex="-1"></a>citat1</span></code></pre></div>
 <pre><code>## [1] &quot;Jure je rekel: &#39;Citiram Janeza&#39;.&quot;</code></pre>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb62-1" aria-hidden="true" tabindex="-1"></a>citat2</span></code></pre></div>
 <pre><code>## [1] &quot;In Janez je rekel: \&quot;Citiram Jureta\&quot;.&quot;</code></pre>
-<p>Izpis v drugem primeru uporablja tako imenovan <strong>escape character</strong> (\), ki omogoča tudi vpis tabulaterjev (\t), znakov za novo vrstico (\n) in podobno. Vse znake, ki jih je tako možno zapisati si lahko ogledate z ukazom <code>?"'"</code>.</p>
-<p>Niz lahko vključuje tudi vse posebne znake, ki jih podpira Unicode. To je standard za konsistentno kodiranje teksta, ki vsebuje preko 100000 znakov. Za vnos unicode znakov uporabite <strong>\uxxxx</strong>, kjer je <strong>xxxx</strong> koda znaka, ki ga lahko poiščete na strani <a href="https://unicode.org/charts/" class="uri">https://unicode.org/charts/</a>.</p>
+<p>Izpis v drugem primeru uporablja tako imenovan <strong>escape character</strong> (\), ki omogoča tudi vpis tabulaterjev (\t), znakov za novo vrstico (\n) in podobno. Vse znake, ki jih je tako možno zapisati, si lahko ogledate z ukazom <code>?"'"</code>.</p>
+<p>Niz lahko vključuje tudi vse posebne znake, ki jih podpira Unicode. To je standard za konsistentno kodiranje teksta, ki vsebuje preko 100000 znakov. Za vnos znakov unicode uporabite <strong>\uxxxx</strong>, kjer je <strong>xxxx</strong> koda znaka, ki ga lahko poiščete na strani <a href="https://unicode.org/charts/" class="uri">https://unicode.org/charts/</a>.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb64-1" aria-hidden="true" tabindex="-1"></a>normalna_porazdelitev <span class="ot">&lt;-</span> <span class="st">&quot;Normal(\u03BC, 1)&quot;</span></span>
 <span id="cb64-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb64-2" aria-hidden="true" tabindex="-1"></a>normalna_porazdelitev</span></code></pre></div>
 <pre><code>## [1] &quot;Normal(µ, 1)&quot;</code></pre>
-<p>Dolžino nizov poiščemo s funkcijo <code>str_length()</code>.</p>
+<p>Dolžino nizov poiščemo s funkcijo <code>str_length()</code>:</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_length</span>(<span class="fu">c</span>(<span class="st">&quot;tri&quot;</span>, <span class="st">&quot;štiri&quot;</span>, <span class="st">&quot;&quot;</span>, citat1, normalna_porazdelitev))</span></code></pre></div>
 <pre><code>## [1]  3  5  0 32 12</code></pre>
 <p>Za združevanje nizov se uporablja <code>str_c()</code>, ki mu lahko dodamo tudi niz <code>sep</code>, ki ga vrine med vse podane nize:</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_c</span>(<span class="st">&quot;paradižnik&quot;</span>, <span class="st">&quot;bučke&quot;</span>, <span class="st">&quot;jabolka&quot;</span>, <span class="st">&quot;paprika&quot;</span>, <span class="st">&quot;jagode&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;, &quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;paradižnik, bučke, jabolka, paprika, jagode&quot;</code></pre>
 <p>Če funkciji podamo vektorje lahko združimo tudi več nizov naenkrat. Pri tem bo število dobljenih nizov enako največjemu vektorju, manjši pa se bodo reciklirali, kar pomeni, da se bodo njihove vrednosti ponavljale, dokler ne dosežejo dolžine najdaljšega vektorja.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_c</span>(<span class="st">&quot;Podpoglavje &quot;</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="st">&quot;: &quot;</span>, </span>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_c</span>(<span class="st">&quot;Podpoglavje &quot;</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="st">&quot;: &quot;</span>,</span>
 <span id="cb70-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb70-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">&quot;Nizi&quot;</span>, <span class="st">&quot;Faktorji&quot;</span>, <span class="st">&quot;Datumi&quot;</span>, <span class="st">&quot;Branje podatkov&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;Podpoglavje 1: Nizi&quot;            &quot;Podpoglavje 2: Faktorji&quot;       
 ## [3] &quot;Podpoglavje 3: Datumi&quot;          &quot;Podpoglavje 4: Branje podatkov&quot;</code></pre>
-<p>Če želimo nize združiti zaporedno uporabimo <code>collapse</code>. Za izpis nizov brez escape znakov uporabite funkcijo <code>cat()</code>.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb72-1" aria-hidden="true" tabindex="-1"></a>poglavja <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">&quot;Podpoglavje &quot;</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="st">&quot;: &quot;</span>, </span>
+<p>Če želimo nize združiti zaporedno uporabimo <code>collapse</code>. Za izpis nizov brez escape znakov uporabite funkcijo <code>cat()</code>:</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb72-1" aria-hidden="true" tabindex="-1"></a>poglavja <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">&quot;Podpoglavje &quot;</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="st">&quot;: &quot;</span>,</span>
 <span id="cb72-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb72-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">&quot;Nizi&quot;</span>, <span class="st">&quot;Faktorji&quot;</span>, <span class="st">&quot;Datumi&quot;</span>, <span class="st">&quot;Branje podatkov&quot;</span>), <span class="at">collapse =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb72-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb72-3" aria-hidden="true" tabindex="-1"></a>poglavja</span></code></pre></div>
 <pre><code>## [1] &quot;Podpoglavje 1: Nizi\nPodpoglavje 2: Faktorji\nPodpoglavje 3: Datumi\nPodpoglavje 4: Branje podatkov&quot;</code></pre>
@@ -472,7 +472,7 @@ div.csl-indent {
 <pre><code>## [1] &quot;ena&quot;   &quot;dva&quot;   &quot;tri!&quot;  &quot;štiri&quot;</code></pre>
 <div id="podnizi" class="section level3" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Podnizi</h3>
-<p>Velikokrat se pri delu z nizi srečamo tudi s tem, da potrebujemo le del niza ali pa želimo niz razdeliti na več manjših nizov. Poglejmo si na primeru niza <code>"    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "</code> iz katerega želimo dobiti vektor sadja in zelenjave.</p>
+<p>Velikokrat pri delu z nizi potrebujemo le del niza ali pa želimo niz razdeliti na več manjših nizov. Poglejmo si na primeru niza <code>"    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  "</code>, iz katerega želimo dobiti vektor sadja in zelenjave:</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb78-1" aria-hidden="true" tabindex="-1"></a>listek <span class="ot">&lt;-</span> <span class="st">&quot;    KUPI: paradižnik, bučke, jabolka, paprika, jagode.  &quot;</span></span></code></pre></div>
 <p>Najprej odstranimo odvečne začetne in končne presledke. To storimo s <code>str_trim()</code>:</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb79-1" aria-hidden="true" tabindex="-1"></a>listek <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(listek)</span>
@@ -491,7 +491,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb89-1" aria-hidden="true" tabindex="-1"></a>listek <span class="ot">&lt;-</span> <span class="fu">str_sub</span>(listek, <span class="dv">7</span>, <span class="sc">-</span><span class="dv">2</span>)</span>
 <span id="cb89-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb89-2" aria-hidden="true" tabindex="-1"></a>listek</span></code></pre></div>
 <pre><code>## [1] &quot;paradižnik, bučke, jabolka, paprika, jagode&quot;</code></pre>
-<p>Sedaj, ko imamo elemente samo naštete in ločene z vejico, jih lahko preprosto razdelimo s funkcijo <code>str_split()</code>, ki jipodamo vzorec za ločevanje:</p>
+<p>Sedaj, ko imamo elemente samo naštete in ločene z vejico, jih lahko preprosto razdelimo s funkcijo <code>str_split()</code>, ki ji podamo vzorec za ločevanje:</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_split</span>(listek, <span class="at">pattern =</span> <span class="st">&quot;, &quot;</span>)</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;paradižnik&quot; &quot;bučke&quot;      &quot;jabolka&quot;    &quot;paprika&quot;    &quot;jagode&quot;</code></pre>
@@ -505,22 +505,22 @@ div.csl-indent {
 <span id="cb93-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb93-2" aria-hidden="true" tabindex="-1"></a>listek1 <span class="ot">&lt;-</span> <span class="st">&quot;KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.&quot;</span></span>
 <span id="cb93-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb93-3" aria-hidden="true" tabindex="-1"></a>listek2 <span class="ot">&lt;-</span> <span class="st">&quot;KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper.&quot;</span></span>
 <span id="cb93-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb93-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-1140ca1eedffaf3fa0a2" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1140ca1eedffaf3fa0a2">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik<span class='match'>,<\/span> bučke<span class='match'>,<\/span> jabolka<span class='match'>,<\/span> paprika<span class='match'>,<\/span> jagode. Aja<span class='match'>,<\/span> pa banane.<\/li>\n  <li>KUPI: sok(3x)<span class='match'>,<\/span> kruh<span class='match'>,<\/span> piškote<span class='match'>,<\/span> pašto(2x)<span class='match'>,<\/span> sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0f929f45b8165cf99163" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0f929f45b8165cf99163">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik<span class='match'>,<\/span> bučke<span class='match'>,<\/span> jabolka<span class='match'>,<\/span> paprika<span class='match'>,<\/span> jagode. Aja<span class='match'>,<\/span> pa banane.<\/li>\n  <li>KUPI: sok(3x)<span class='match'>,<\/span> kruh<span class='match'>,<\/span> piškote<span class='match'>,<\/span> pašto(2x)<span class='match'>,<\/span> sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Kaj pa pike?</p>
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;.&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-9d5c2a0a58edc3cdc4e8" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9d5c2a0a58edc3cdc4e8">{"x":{"html":"<ul>\n  <li><span class='match'>K<\/span><span class='match'>U<\/span><span class='match'>P<\/span><span class='match'>I<\/span><span class='match'>:<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>r<\/span><span class='match'>a<\/span><span class='match'>d<\/span><span class='match'>i<\/span><span class='match'>ž<\/span><span class='match'>n<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>b<\/span><span class='match'>u<\/span><span class='match'>č<\/span><span class='match'>k<\/span><span class='match'>e<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>b<\/span><span class='match'>o<\/span><span class='match'>l<\/span><span class='match'>k<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>p<\/span><span class='match'>r<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>g<\/span><span class='match'>o<\/span><span class='match'>d<\/span><span class='match'>e<\/span><span class='match'>.<\/span><span class='match'> <\/span><span class='match'>A<\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'> <\/span><span class='match'>b<\/span><span class='match'>a<\/span><span class='match'>n<\/span><span class='match'>a<\/span><span class='match'>n<\/span><span class='match'>e<\/span><span class='match'>.<\/span><\/li>\n  <li><span class='match'>K<\/span><span class='match'>U<\/span><span class='match'>P<\/span><span class='match'>I<\/span><span class='match'>:<\/span><span class='match'> <\/span><span class='match'>s<\/span><span class='match'>o<\/span><span class='match'>k<\/span><span class='match'>(<\/span><span class='match'>3<\/span><span class='match'>x<\/span><span class='match'>)<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>k<\/span><span class='match'>r<\/span><span class='match'>u<\/span><span class='match'>h<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>i<\/span><span class='match'>š<\/span><span class='match'>k<\/span><span class='match'>o<\/span><span class='match'>t<\/span><span class='match'>e<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>š<\/span><span class='match'>t<\/span><span class='match'>o<\/span><span class='match'>(<\/span><span class='match'>2<\/span><span class='match'>x<\/span><span class='match'>)<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>s<\/span><span class='match'>o<\/span><span class='match'>l<\/span><span class='match'> <\/span><span class='match'>i<\/span><span class='match'>n<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>o<\/span><span class='match'>p<\/span><span class='match'>e<\/span><span class='match'>r<\/span><span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-69b1d8010d6fd64e6e97" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-69b1d8010d6fd64e6e97">{"x":{"html":"<ul>\n  <li><span class='match'>K<\/span><span class='match'>U<\/span><span class='match'>P<\/span><span class='match'>I<\/span><span class='match'>:<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>r<\/span><span class='match'>a<\/span><span class='match'>d<\/span><span class='match'>i<\/span><span class='match'>ž<\/span><span class='match'>n<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>b<\/span><span class='match'>u<\/span><span class='match'>č<\/span><span class='match'>k<\/span><span class='match'>e<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>b<\/span><span class='match'>o<\/span><span class='match'>l<\/span><span class='match'>k<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>p<\/span><span class='match'>r<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>g<\/span><span class='match'>o<\/span><span class='match'>d<\/span><span class='match'>e<\/span><span class='match'>.<\/span><span class='match'> <\/span><span class='match'>A<\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'> <\/span><span class='match'>b<\/span><span class='match'>a<\/span><span class='match'>n<\/span><span class='match'>a<\/span><span class='match'>n<\/span><span class='match'>e<\/span><span class='match'>.<\/span><\/li>\n  <li><span class='match'>K<\/span><span class='match'>U<\/span><span class='match'>P<\/span><span class='match'>I<\/span><span class='match'>:<\/span><span class='match'> <\/span><span class='match'>s<\/span><span class='match'>o<\/span><span class='match'>k<\/span><span class='match'>(<\/span><span class='match'>3<\/span><span class='match'>x<\/span><span class='match'>)<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>k<\/span><span class='match'>r<\/span><span class='match'>u<\/span><span class='match'>h<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>i<\/span><span class='match'>š<\/span><span class='match'>k<\/span><span class='match'>o<\/span><span class='match'>t<\/span><span class='match'>e<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>š<\/span><span class='match'>t<\/span><span class='match'>o<\/span><span class='match'>(<\/span><span class='match'>2<\/span><span class='match'>x<\/span><span class='match'>)<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>s<\/span><span class='match'>o<\/span><span class='match'>l<\/span><span class='match'> <\/span><span class='match'>i<\/span><span class='match'>n<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>o<\/span><span class='match'>p<\/span><span class='match'>e<\/span><span class='match'>r<\/span><span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Pika je poseben znak pri regularnih izrazih, ki predstavlja poljuben znak. Zato smo dobili ujemanja z vsemi črkami. Da lahko dejansko poiščemo pike in druge posebne znake moramo uporabiti znak escape <code>\</code>, s katerim programu sporočimo, naj simbola za tem ne prebere kot regularni izraz. Tukaj se nam nekoliko zaplete, ker je znak <code>\</code> že znak escape v R za tabulatorje (<code>\t</code>), nove vrstice (<code>\n</code>) itd. Zato, da vzorcu dejansko podamo <code>\.</code> moramo zapisati <code>\\.</code>. Tukaj si ponovno lahko pomagamo s funkcijo <code>cat()</code>, ki nam bo pokazala dejanski niz podan funkciji.</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="co"># Poglejmo kakšen niz bo dejansko sprejela funkcija str_view_all().</span></span></code></pre></div>
 <pre><code>## \.</code></pre>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-5344881f1e284bc092b5" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5344881f1e284bc092b5">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode<span class='match'>.<\/span> Aja, pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<p>Regularni izrazi uporabljajo tudi dva posebna znaka, ki označujeta začetek <code>^</code> in konec <code>$</code> niza. Poiščimo samo pike, ki zaključujejo nize.</p>
+<div id="htmlwidget-6ca8d9ad956b758a63d1" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6ca8d9ad956b758a63d1">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode<span class='match'>.<\/span> Aja, pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<p>Regularni izrazi uporabljajo tudi dva posebna znaka, ki označujeta začetek <code>^</code> in konec <code>$</code> niza. Poiščimo samo pike, ki zaključujejo nize:</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.$&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-96e6ba2940e46575e514" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-96e6ba2940e46575e514">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-2d34eb1ccb4b5c690f24" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2d34eb1ccb4b5c690f24">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>V regularnih izrazih so zelo uporabne tudi naslednje sekvence.</p>
 <ul>
 <li><code>\d</code>: Ujemanje s poljubno števko;</li>
@@ -533,28 +533,28 @@ div.csl-indent {
 </ul>
 <p>Poglejmo si uporabo nekaterih:</p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">dx&quot;</span>) <span class="co"># Poiščemo vse številke, ki jim sledi x.</span></span></code></pre></div>
-<div id="htmlwidget-134523c29a707795974b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-134523c29a707795974b">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(<span class='match'>3x<\/span>), kruh, piškote, pašto(<span class='match'>2x<\/span>), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e602f6d1681e33016eee" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e602f6d1681e33016eee">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(<span class='match'>3x<\/span>), kruh, piškote, pašto(<span class='match'>2x<\/span>), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;[čžš]&quot;</span>) <span class="co"># Vse šumnike.</span></span></code></pre></div>
-<div id="htmlwidget-7351b8a7ea99c6e24d69" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7351b8a7ea99c6e24d69">{"x":{"html":"<ul>\n  <li>KUPI: paradi<span class='match'>ž<\/span>nik, bu<span class='match'>č<\/span>ke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, pi<span class='match'>š<\/span>kote, pa<span class='match'>š<\/span>to(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c07381facecdcb6be151" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c07381facecdcb6be151">{"x":{"html":"<ul>\n  <li>KUPI: paradi<span class='match'>ž<\/span>nik, bu<span class='match'>č<\/span>ke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, pi<span class='match'>š<\/span>kote, pa<span class='match'>š<\/span>to(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;[aA].[aA]&quot;</span>) <span class="co"># Dva a-ja s poljubnim znakom vmes.</span></span></code></pre></div>
-<div id="htmlwidget-598f2bdd80eb1df44f00" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-598f2bdd80eb1df44f00">{"x":{"html":"<ul>\n  <li>KUPI: p<span class='match'>ara<\/span>dižnik, bučke, jabolka, paprika, jagode. <span class='match'>Aja<\/span>, pa b<span class='match'>ana<\/span>ne.<\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b2e29cd97c4f25a055ed" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b2e29cd97c4f25a055ed">{"x":{"html":"<ul>\n  <li>KUPI: p<span class='match'>ara<\/span>dižnik, bučke, jabolka, paprika, jagode. <span class='match'>Aja<\/span>, pa b<span class='match'>ana<\/span>ne.<\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;.[</span><span class="sc">\\</span><span class="st">s,.]&quot;</span>) <span class="co"># Vse konce besed.</span></span></code></pre></div>
-<div id="htmlwidget-adc246ac4161125767cc" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-adc246ac4161125767cc">{"x":{"html":"<ul>\n  <li>KUPI<span class='match'>: <\/span>paradižni<span class='match'>k,<\/span> bučk<span class='match'>e,<\/span> jabolk<span class='match'>a,<\/span> paprik<span class='match'>a,<\/span> jagod<span class='match'>e.<\/span> Aj<span class='match'>a,<\/span> p<span class='match'>a <\/span>banan<span class='match'>e.<\/span><\/li>\n  <li>KUPI<span class='match'>: <\/span>sok(3x<span class='match'>),<\/span> kru<span class='match'>h,<\/span> piškot<span class='match'>e,<\/span> pašto(2x<span class='match'>),<\/span> so<span class='match'>l <\/span>i<span class='match'>n <\/span>pope<span class='match'>r.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-17ae4de676d9d7a232bd" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-17ae4de676d9d7a232bd">{"x":{"html":"<ul>\n  <li>KUPI<span class='match'>: <\/span>paradižni<span class='match'>k,<\/span> bučk<span class='match'>e,<\/span> jabolk<span class='match'>a,<\/span> paprik<span class='match'>a,<\/span> jagod<span class='match'>e.<\/span> Aj<span class='match'>a,<\/span> p<span class='match'>a <\/span>banan<span class='match'>e.<\/span><\/li>\n  <li>KUPI<span class='match'>: <\/span>sok(3x<span class='match'>),<\/span> kru<span class='match'>h,<\/span> piškot<span class='match'>e,<\/span> pašto(2x<span class='match'>),<\/span> so<span class='match'>l <\/span>i<span class='match'>n <\/span>pope<span class='match'>r.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;[a-f]&quot;</span>) <span class="co"># Vse črke od a do f.</span></span></code></pre></div>
-<div id="htmlwidget-7d8e10bf5cffa4b32ace" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7d8e10bf5cffa4b32ace">{"x":{"html":"<ul>\n  <li>KUPI: p<span class='match'>a<\/span>r<span class='match'>a<\/span><span class='match'>d<\/span>ižnik, <span class='match'>b<\/span>učk<span class='match'>e<\/span>, j<span class='match'>a<\/span><span class='match'>b<\/span>olk<span class='match'>a<\/span>, p<span class='match'>a<\/span>prik<span class='match'>a<\/span>, j<span class='match'>a<\/span>go<span class='match'>d<\/span><span class='match'>e<\/span>. Aj<span class='match'>a<\/span>, p<span class='match'>a<\/span> <span class='match'>b<\/span><span class='match'>a<\/span>n<span class='match'>a<\/span>n<span class='match'>e<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, piškot<span class='match'>e<\/span>, p<span class='match'>a<\/span>što(2x), sol in pop<span class='match'>e<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-5721d40574c403ed91a8" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5721d40574c403ed91a8">{"x":{"html":"<ul>\n  <li>KUPI: p<span class='match'>a<\/span>r<span class='match'>a<\/span><span class='match'>d<\/span>ižnik, <span class='match'>b<\/span>učk<span class='match'>e<\/span>, j<span class='match'>a<\/span><span class='match'>b<\/span>olk<span class='match'>a<\/span>, p<span class='match'>a<\/span>prik<span class='match'>a<\/span>, j<span class='match'>a<\/span>go<span class='match'>d<\/span><span class='match'>e<\/span>. Aj<span class='match'>a<\/span>, p<span class='match'>a<\/span> <span class='match'>b<\/span><span class='match'>a<\/span>n<span class='match'>a<\/span>n<span class='match'>e<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, piškot<span class='match'>e<\/span>, p<span class='match'>a<\/span>što(2x), sol in pop<span class='match'>e<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;[[:punct:]]&quot;</span>) <span class="co"># Vsa ločila.</span></span></code></pre></div>
-<div id="htmlwidget-5d8a36b467b4ac6f0bf6" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5d8a36b467b4ac6f0bf6">{"x":{"html":"<ul>\n  <li>KUPI<span class='match'>:<\/span> paradižnik<span class='match'>,<\/span> bučke<span class='match'>,<\/span> jabolka<span class='match'>,<\/span> paprika<span class='match'>,<\/span> jagode<span class='match'>.<\/span> Aja<span class='match'>,<\/span> pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI<span class='match'>:<\/span> sok<span class='match'>(<\/span>3x<span class='match'>)<\/span><span class='match'>,<\/span> kruh<span class='match'>,<\/span> piškote<span class='match'>,<\/span> pašto<span class='match'>(<\/span>2x<span class='match'>)<\/span><span class='match'>,<\/span> sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4e51b1e3221e371a2f6f" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4e51b1e3221e371a2f6f">{"x":{"html":"<ul>\n  <li>KUPI<span class='match'>:<\/span> paradižnik<span class='match'>,<\/span> bučke<span class='match'>,<\/span> jabolka<span class='match'>,<\/span> paprika<span class='match'>,<\/span> jagode<span class='match'>.<\/span> Aja<span class='match'>,<\/span> pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI<span class='match'>:<\/span> sok<span class='match'>(<\/span>3x<span class='match'>)<\/span><span class='match'>,<\/span> kruh<span class='match'>,<\/span> piškote<span class='match'>,<\/span> pašto<span class='match'>(<\/span>2x<span class='match'>)<\/span><span class='match'>,<\/span> sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Znotraj oglatih oklepajev je pomen pike dobeseden znak pika. Tako, da ga ni potrebno zapisati kot <code>\\.</code> Priporočamo, da sami preizkušate še druge sekvence.</p>
 <p>Navpična črta <code>|</code> pomeni ali:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;sol|sok&quot;</span>) </span></code></pre></div>
-<div id="htmlwidget-ec92c754ef25130aba96" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ec92c754ef25130aba96">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: <span class='match'>sok<\/span>(3x), kruh, piškote, pašto(2x), <span class='match'>sol<\/span> in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;sol|sok&quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-44030c238dea6a1603e4" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-44030c238dea6a1603e4">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: <span class='match'>sok<\/span>(3x), kruh, piškote, pašto(2x), <span class='match'>sol<\/span> in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="ponovitve" class="section level3" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> Ponovitve</h3>
@@ -572,49 +572,49 @@ div.csl-indent {
 <p>Ko začnemo uporabljati ponovitve se pojavijo prve večje težave.</p>
 <p>Poiščimo vse besede dolžine 3. Besede sledijo presledku, torej začnemo regularni izraz z <code>\\s</code> (pri tem ignoriramo prvo besedo v odstavku). Nato morajo slediti 3 črke, torej <code>[:alpha:]{3}</code>. Temu mora slediti nov presledek ali ločilo, <code>[[:punct:]]|\\s</code>:</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">s[[:alpha:]]{3}([[:punct:]]|</span><span class="sc">\\</span><span class="st">s)&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-f2a9a18696e223291b9e" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f2a9a18696e223291b9e">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode.<span class='match'> Aja,<\/span> pa banane.<\/li>\n  <li>KUPI:<span class='match'> sok(<\/span>3x), kruh, piškote, pašto(2x),<span class='match'> sol <\/span>in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ef2b1b7291ece9138448" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ef2b1b7291ece9138448">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode.<span class='match'> Aja,<\/span> pa banane.<\/li>\n  <li>KUPI:<span class='match'> sok(<\/span>3x), kruh, piškote, pašto(2x),<span class='match'> sol <\/span>in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Poskušajmo poiskati besede, ki se začnejo na p in končajo na k ali e.</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;p.*[ke]&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-01a3f5fab09f8aa61a7d" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-01a3f5fab09f8aa61a7d">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote, pašto(2x), sol in pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c11850a3196cd0a739fd" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c11850a3196cd0a739fd">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote, pašto(2x), sol in pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Opazimo, da je ujemanje požrešno. To pomeni, da je ujemanje najdaljše možno, ki ustreza ponovitvam. Če želimo najkrajšega lahko uporabimo še dodaten <code>?</code> za znakom za ponovitve.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;p.*?[ke]&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-e6472ba1e21f72c569a3" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e6472ba1e21f72c569a3">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik<\/span>, bučke, jabolka, <span class='match'>paprik<\/span>a, jagode. Aja, <span class='match'>pa banane<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>pišk<\/span>ote, <span class='match'>pašto(2x), sol in pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-bcd893d1f78997dde715" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bcd893d1f78997dde715">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik<\/span>, bučke, jabolka, <span class='match'>paprik<\/span>a, jagode. Aja, <span class='match'>pa banane<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>pišk<\/span>ote, <span class='match'>pašto(2x), sol in pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Še vedno ni OK. V dobljenih nizih ne želimo presledkov in ne želimo, da se ujemanje konča prehitro, kot pri besedi ‘piškote.’ Poskusimo tako, da vzamemo ponovitve, ki ne vsebujejo presledkov.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;p[^</span><span class="sc">\\</span><span class="st">s]*[ke]&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-939ac4c5b78358004464" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-939ac4c5b78358004464">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik<\/span>, bučke, jabolka, <span class='match'>paprik<\/span>a, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote<\/span>, pašto(2x), sol in <span class='match'>pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ba42c3c39a9336a3ab26" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ba42c3c39a9336a3ab26">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik<\/span>, bučke, jabolka, <span class='match'>paprik<\/span>a, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote<\/span>, pašto(2x), sol in <span class='match'>pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Da zagotovimo zajem konca besede, določimo še, da naj bo na koncu vejica ali presledek.</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;p[[:alpha:]]*[ke]([, ])&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-60ea5c6ea561a3aa6450" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-60ea5c6ea561a3aa6450">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik,<\/span> bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote,<\/span> pašto(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3a7e9c0d9a5c9e84b1b8" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3a7e9c0d9a5c9e84b1b8">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik,<\/span> bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote,<\/span> pašto(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="skupine" class="section level3" number="3.2.4">
 <h3><span class="header-section-number">3.2.4</span> Skupine</h3>
 <p>Kot smo že videli lahko uporabimo tudi oklepaje, da ločimo del regularnega izraza od ostalih simbolov. Oklepaji pa definirajo tudi skupino, na katero se lahko sklicujemo z <code>\x</code>, kjer je x zaporedna številka skupine.</p>
 <p>Poglejmo si uporabo le tega na že vgrajenem vektorju sadja. Parameter <code>match = TRUE</code> nam vrne le nize, pri katerih je prišlo do ujemanja.</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(fruit, <span class="st">&quot;(..)</span><span class="sc">\\</span><span class="st">1&quot;</span>, <span class="at">match =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<div id="htmlwidget-eb908560ff0815eeff1c" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-eb908560ff0815eeff1c">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li><span class='match'>coco<\/span>nut<\/li>\n  <li><span class='match'>cucu<\/span>mber<\/li>\n  <li><span class='match'>juju<\/span>be<\/li>\n  <li><span class='match'>papa<\/span>ya<\/li>\n  <li>s<span class='match'>alal<\/span> berry<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1af331bf841b9f8dbe22" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1af331bf841b9f8dbe22">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li><span class='match'>coco<\/span>nut<\/li>\n  <li><span class='match'>cucu<\/span>mber<\/li>\n  <li><span class='match'>juju<\/span>be<\/li>\n  <li><span class='match'>papa<\/span>ya<\/li>\n  <li>s<span class='match'>alal<\/span> berry<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Zgornji regularni izraz z <code>..</code> poišče dva poljubna znaka. Z <code>(..)</code> definiramo skupino. Z <code>\1</code> oziroma <code>\\1</code>, pa zahtevamo, da se na tem mestu še enkrat nahaja točno to kar je bilo med oklepaji.</p>
-<p>Poiščimo imena sadežev, ki imajo vsaj dve (lahko različni) ponavljajoči si črki.</p>
+<p>Poiščimo imena sadežev, ki imajo vsaj dve (lahko različni) ponavljajoči si črki:</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(fruit, <span class="st">&quot;(.)</span><span class="sc">\\</span><span class="st">1.*(.)</span><span class="sc">\\</span><span class="st">2&quot;</span>, <span class="at">match =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<div id="htmlwidget-46663b19cbdbda35eeca" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-46663b19cbdbda35eeca">{"x":{"html":"<ul>\n  <li>be<span class='match'>ll pepp<\/span>er<\/li>\n  <li>g<span class='match'>ooseberr<\/span>y<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c8564da17960d4926971" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c8564da17960d4926971">{"x":{"html":"<ul>\n  <li>be<span class='match'>ll pepp<\/span>er<\/li>\n  <li>g<span class='match'>ooseberr<\/span>y<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="uporaba-regularnih-izrazov" class="section level3" number="3.2.5">
 <h3><span class="header-section-number">3.2.5</span> Uporaba regularnih izrazov</h3>
-<p>Poglejmo si uporabo regularnih izrazov najprej na preprostih podatkih, nato pa še na podatkih iz že znane ankete.</p>
-<p>Poiščimo vso sadje in zelenjavo, ki vsebuje šumnike:</p>
+<p>Uporabo regularnih izrazov si najprej pogljemo na preprostih podatkih, nato pa še na podatkih iz ankete.</p>
+<p>Poiščimo sadje in zelenjavo, ki vsebuje šumnike:</p>
 <div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb113-1" aria-hidden="true" tabindex="-1"></a>seznam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;paradižnik&quot;</span>, <span class="st">&quot;bučke&quot;</span>, <span class="st">&quot;jabolka&quot;</span>, <span class="st">&quot;paprika&quot;</span>, <span class="st">&quot;jagode&quot;</span>);</span>
 <span id="cb113-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(seznam, <span class="st">&quot;[čšž]&quot;</span>)</span></code></pre></div>
 <pre><code>## [1]  TRUE  TRUE FALSE FALSE FALSE</code></pre>
-<p>Če želimo namesto logičnega vektorja dobiti dejanska imena elementov uporabimo <code>str_subset()</code>.</p>
+<p>Če želimo namesto logičnega vektorja dobiti dejanska imena elementov, uporabimo <code>str_subset()</code>:</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_subset</span>(seznam, <span class="st">&quot;[čšž]&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;paradižnik&quot; &quot;bučke&quot;</code></pre>
-<p>Poglejmo koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija <code>str_count()</code> ne zazna ponovitev, če se le te prekrivajo.</p>
+<p>Poglejmo, koliko samoglasnikov vsebuje vsaka beseda v seznamu. Pozor, funkcija <code>str_count()</code> ne zazna ponovitev, če se le-te prekrivajo:</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_count</span>(seznam, <span class="st">&quot;[aeiou]&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 4 2 3 3 3</code></pre>
 <div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_count</span>(<span class="st">&quot;ababa&quot;</span>, <span class="st">&quot;aba&quot;</span>) <span class="co"># Ne zazna dveh ponovitev, ker se prekrivata.</span></span></code></pre></div>
@@ -638,8 +638,8 @@ div.csl-indent {
 ## [4,] NA        NA       NA  
 ## [5,] NA        NA       NA</code></pre>
 <p>V zadnjem primeru funkcija <code>str_match()</code> v prvem stolpcu vrne enako kot <code>str_extract()</code>, nato pa v naslednjih stolpcih vrne še vsako skupino posebej.</p>
-<p>Preprosta in zelo uporabna pa je funkcija <code>str_replace()</code> oziroma <code>str_replace_all()</code> s katero lahko zamenjamo dele nizov.</p>
-<p>Prekrijmo šumnike z znaki “x.”</p>
+<p>Preprosta in zelo uporabna pa je funkcija <code>str_replace()</code> oziroma <code>str_replace_all()</code>, s katero lahko zamenjamo dele nizov.</p>
+<p>Prekrijmo šumnike z znaki “x”:</p>
 <div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace</span>(seznam, <span class="st">&quot;[čšž]&quot;</span>, <span class="st">&quot;x&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;paradixnik&quot; &quot;buxke&quot;      &quot;jabolka&quot;    &quot;paprika&quot;    &quot;jagode&quot;</code></pre>
 <p>Podamo lahko tudi zamenjavo za več ujemanj:</p>
@@ -667,9 +667,9 @@ div.csl-indent {
 ## #   TimeGatheringData &lt;int&gt;, TimeModelBuilding &lt;dbl&gt;, TimeProduction &lt;dbl&gt;,
 ## #   TimeVisualizing &lt;dbl&gt;, TimeFindingInsights &lt;dbl&gt;, TimeOtherSelect &lt;int&gt;,
 ## #   ExchangeRate &lt;dbl&gt;</code></pre>
-<p>Najbolj uporabna funkcija pri delu z nizi v podatkih je <code>str_detect()</code>, ki nam omogoča izbiro podmnožice vrstic. Pogosto jo kombiniramo z regularnimi izrazi. Poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /.</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb133-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span> </span>
-<span id="cb133-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CurrentJobTitle) <span class="sc">%&gt;%</span> </span>
+<p>Najbolj uporabna funkcija pri delu z nizi v podatkih je <code>str_detect()</code>, ki nam omogoča izbiro podmnožice vrstic. Pogosto jo kombiniramo z regularnimi izrazi. Poiščimo tiste vrstice, kjer imajo anketiranci več službenih nazivov. Ti so ločeni z znakom /:</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb133-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb133-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CurrentJobTitle) <span class="sc">%&gt;%</span></span>
 <span id="cb133-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb133-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(CurrentJobTitle, <span class="st">&quot;/&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 946 x 1
 ##    CurrentJobTitle                     
@@ -686,8 +686,8 @@ div.csl-indent {
 ## 10 Scientist/Researcher                
 ## # ... with 936 more rows</code></pre>
 <p>Izberimo samo tiste vrstice, kjer se <code>CurrentJobTitle</code> začne z “Data” in se <code>EmploymentStatus</code> konča s “full-time”:</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb135-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span> </span>
-<span id="cb135-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EmploymentStatus, CurrentJobTitle) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb135-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb135-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EmploymentStatus, CurrentJobTitle) <span class="sc">%&gt;%</span></span>
 <span id="cb135-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(CurrentJobTitle, <span class="st">&quot;^Data&quot;</span>),</span>
 <span id="cb135-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb135-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">str_detect</span>(EmploymentStatus, <span class="st">&quot;full-time$&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 1,679 x 2
@@ -705,7 +705,7 @@ div.csl-indent {
 ## 10 Employed full-time Data Scientist 
 ## # ... with 1,669 more rows</code></pre>
 <p>Včasih so nizi v podatkih predolgi, oziroma lahko brez škode za pomen izbrišemo del niza. Najlažje to naredimo tako, da ga zamenjamo s praznim nizom. Izbrišimo podnize “Employed”:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb137-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb137-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb137-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EmploymentStatus =</span> <span class="fu">str_replace</span>(EmploymentStatus, <span class="st">&quot;Employed &quot;</span>, <span class="st">&quot;&quot;</span>))</span>
 <span id="cb137-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb137-3" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb137-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb137-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EmploymentStatus, CurrentJobTitle)</span></code></pre></div>
@@ -723,8 +723,8 @@ div.csl-indent {
 ##  9 full-time                                     Data Scientist                 
 ## 10 Independent contractor, freelancer, or self-~ Data Scientist                 
 ## # ... with 4,513 more rows</code></pre>
-<p>Sedaj imamo eno manjšo nekonsistentnost v podatkih, namreč nekateri nizi se začnejo z veliko začetnico, nekateri pa z malo. Spremenimo vse na malo začetnico:</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb139-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span> </span>
+<p>Sedaj imamo eno manjšo nekonsistentnost v podatkih. Nekateri nizi se začnejo z veliko začetnico, nekateri pa z malo. Spremenimo vse na malo začetnico:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb139-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb139-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EmploymentStatus =</span> <span class="fu">str_to_lower</span>(EmploymentStatus))</span>
 <span id="cb139-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb139-3" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb139-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb139-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(EmploymentStatus, CurrentJobTitle)</span></code></pre></div>
@@ -743,8 +743,8 @@ div.csl-indent {
 ## 10 independent contractor, freelancer, or self-~ Data Scientist                 
 ## # ... with 4,513 more rows</code></pre>
 <p>S funkcijo <code>str_count()</code> lahko uporabimo, da anketirancem dodamo stolpec s številom službenih nazivov:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb141-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span> </span>
-<span id="cb141-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CurrentJobTitle) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb141-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb141-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CurrentJobTitle) <span class="sc">%&gt;%</span></span>
 <span id="cb141-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">NumberOfJobTitles =</span> <span class="fu">str_count</span>(CurrentJobTitle, <span class="st">&quot;/&quot;</span>) <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 4,523 x 2
 ##    CurrentJobTitle                      NumberOfJobTitles
@@ -761,8 +761,8 @@ div.csl-indent {
 ## 10 Data Scientist                                       1
 ## # ... with 4,513 more rows</code></pre>
 <p>Poskušajmo razdeliti CurrentJobTitle na FirstTitle in SecondTitle, pri tem naj se naziva ponovita, če ima anketiranec samo enega.</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb143-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span> </span>
-<span id="cb143-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CurrentJobTitle) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb143-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb143-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CurrentJobTitle) <span class="sc">%&gt;%</span></span>
 <span id="cb143-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb143-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">FirstTitle  =</span> <span class="fu">str_extract</span>(CurrentJobTitle, <span class="st">&quot;^[^/]*&quot;</span>),</span>
 <span id="cb143-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb143-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">SecondTitle =</span> <span class="fu">str_extract</span>(CurrentJobTitle, <span class="st">&quot;[^/]*$&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 4,523 x 3
@@ -783,29 +783,29 @@ div.csl-indent {
 </div>
 <div id="kategorične-spremenljivke-1" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Kategorične spremenljivke</h2>
-<p>Kategorične spremenljivke so spremenljivke, ki lahko zavzamejo samo vnaprej določene vrednosti. Delimo jih na:</p>
+<p>Kategorične spremenljivke so spremenljivke, ki lahko zavzamejo samo končno mnogo vnaprej določenih vrednosti. Najbolj pogoste so:</p>
 <ul>
-<li><strong>Nominalne spremenljivke</strong>. To so spremenljivke brez ureditve. Na primer, spol ali vrsta avtomobila.</li>
-<li><strong>Ordinalne spremenljivke</strong>. To so spremenljivke, ki imajo smiselno ureditev. Na primer, stopnja izobrazbe ali šolski uspeh.</li>
+<li><strong>Nominalne spremenljivke</strong>. To so spremenljivke brez ureditve: tip izdelka ali znamka avtomobila.</li>
+<li><strong>Ordinalne spremenljivke</strong>. To so spremenljivke, ki imajo smiselno ureditev: stopnja izobrazbe ali šolski uspeh.</li>
 </ul>
-<p>V R uporabljamo za delo s kategoričnimi spremenljivkami t. i. <strong>faktorje</strong> (ang. <strong>factor</strong>). Ti se od spremenljivk tipa niz razlikujejo v tem, da se v spremenljivki hrani informacija o vseh možnih vrednostih. Prav tako ni mogoče faktorju dodati vrednosti, ki je ni v množici možnih vrednosti, kar služi kot varovalka pred napakami pri vnosu podatkov.</p>
-<p>Poglejmo si uporabo faktorja na dveh preprostih primerih, kjer bomo sami ustvarili spremenljivki. Kasneje si bomo ogledali še delo s faktorji na primeru realnih podatkov, kjer bomo ponovno uporabili podatke o zaposlitvah na področju podatkovnih ved.</p>
-<p>Kot primer nominalne spremenljivke si oglejmo krvne skupine. Obstajajo 4 možne vrednosti. Ustvarimo sedaj vektor krvnih skupin:</p>
+<p>V R uporabljamo za delo s kategoričnimi spremenljivkami t. i. <strong>faktorje</strong> (ang. <strong>factor</strong>). Ti se od spremenljivk tipa niz razlikujejo v tem, da se v spremenljivki hrani informacija o vseh možnih vrednostih. Faktorju ni mogoče dodati vrednosti, ki je ni v množici možnih vrednosti, kar služi kot varovalka pred napakami pri vnosu podatkov.</p>
+<p>Poglejmo si uporabo faktorja na dveh preprostih primerih, kjer bomo sami ustvarili spremenljivki. Kasneje si bomo pogledali še delo s faktorji na primeru realnih podatkov, kjer bomo ponovno uporabili podatke o zaposlitvah na področju podatkovnih ved.</p>
+<p>Kot primer nominalne spremenljivke si oglejmo krvne skupine. Obstajajo 4 možne vrednosti. Ustvarimo vektor krvnih skupin za pet različnih oseb:</p>
 <div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb145-1" aria-hidden="true" tabindex="-1"></a>krvne_skupine <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;O&quot;</span>, <span class="st">&quot;AB&quot;</span>, <span class="st">&quot;BA&quot;</span>)</span></code></pre></div>
 <p>Sedaj je ta vektor shranjen kot niz. Kaj so slabosti takšnega shranjevanja kategoričnih podatkov? Prvič, nimamo nobenega varovala pred tipkarskimi napakami – R je zadnji vnos prebral kot <em>BA</em> in ga tako tudi shranil, čeprav ta krvna skupina ne obstaja:</p>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb146-1" aria-hidden="true" tabindex="-1"></a>krvne_skupine</span></code></pre></div>
 <pre><code>## [1] &quot;B&quot;  &quot;B&quot;  &quot;O&quot;  &quot;AB&quot; &quot;BA&quot;</code></pre>
-<p>Pri ročnem vnosu podatkoh hitro pride do tipkarskih napak in načeloma ne vemo, ali je avtor podatkov v tme primeru želel vnesti A, B ali AB.</p>
+<p>Pri ročnem vnosu podatkov hitro pride do tipkarskih napak in načeloma ne vemo, ali je avtor podatkov v tem primeru želel vnesti A, B ali AB.</p>
 <p>Drugič, če želimo urediti to spremenljivko, se bodo vrednosti razvrstile po abecedi:</p>
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(krvne_skupine)</span></code></pre></div>
 <pre><code>## [1] &quot;AB&quot; &quot;B&quot;  &quot;B&quot;  &quot;BA&quot; &quot;O&quot;</code></pre>
 <p>Morda pa bi bilo bolj smiselno urediti po standardni ureditvi, torej A, B, AB, O.</p>
-<p>Da se izognemo tem težavam je bolje, če spremenljiko za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo <code>factor()</code>. Poizkusimo sedaj narediti faktor iz spremenljivke <code>dan_v_tednu</code>.</p>
+<p>Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo <code>factor()</code>. Naredimo faktor iz spremenljivke <code>dan_v_tednu</code>:</p>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb150-1" aria-hidden="true" tabindex="-1"></a>krvne_skupine_fac <span class="ot">&lt;-</span> <span class="fu">factor</span>(krvne_skupine)</span>
 <span id="cb150-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb150-2" aria-hidden="true" tabindex="-1"></a>krvne_skupine_fac</span></code></pre></div>
 <pre><code>## [1] B  B  O  AB BA
 ## Levels: AB B BA O</code></pre>
-<p>Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 4 krvnih skupin, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija <code>factor()</code> privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument <code>levels</code>, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa da podamo tudi ta argument.</p>
+<p>Opazimo, da je sedaj spremenljivka drugačnega tipa, saj hrani tudi informacijo o možnih vrednostih oziroma ravneh (ang. levels). Ampak v tem primeru so te ravni napačne (ne zajame vseh 4 krvnih skupin, poleg tega pa vsebuje tudi eno napačno vrednost). Funkcija <code>factor()</code> privzeto kot ravni nastavi vse vrednosti v podani spremenljivki. Če želimo, ji lahko podamo dodaten argument <code>levels</code>, kjer ročno določimo, katere ravni bodo v spremenljivki. V kolikor to vemo vnaprej, je dobra praksa, da podamo tudi ta argument:</p>
 <div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb152-1" aria-hidden="true" tabindex="-1"></a>krvne_skupine_fac <span class="ot">&lt;-</span> <span class="fu">factor</span>(krvne_skupine, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;AB&quot;</span>, <span class="st">&quot;O&quot;</span>))</span>
 <span id="cb152-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb152-2" aria-hidden="true" tabindex="-1"></a>krvne_skupine_fac</span></code></pre></div>
 <pre><code>## [1] B    B    O    AB   &lt;NA&gt;
@@ -823,14 +823,14 @@ div.csl-indent {
 <span id="cb158-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb158-4" aria-hidden="true" tabindex="-1"></a>uspeh</span></code></pre></div>
 <pre><code>## [1] odlično    dobro      dobro      prav dobro
 ## Levels: nezadostno &lt; zadostno &lt; dobro &lt; prav dobro &lt; odlično</code></pre>
-<p>Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi uspeha. V praksi nam to omogoča primerjamo, medtem ko tega pri faktorjih, ki nimajo razvrstitve po velikosti, ne moremo narediti.</p>
+<p>Opazimo, da imamo sedaj pri izpisu nivojev dodatno informacijo o razvrstitvi uspeha. V praksi nam to omogoča primerjavo, medtem ko tega pri faktorjih, ki nimajo razvrstitve po velikosti, ne moremo narediti.</p>
 <div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb160-1" aria-hidden="true" tabindex="-1"></a>uspeh[<span class="dv">2</span>] <span class="sc">&gt;</span> uspeh[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb162-1" aria-hidden="true" tabindex="-1"></a>krvne_skupine_fac[<span class="dv">2</span>] <span class="sc">&gt;</span> krvne_skupine_fac[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## Warning in Ops.factor(krvne_skupine_fac[2], krvne_skupine_fac[1]): &#39;&gt;&#39; not
 ## meaningful for factors</code></pre>
 <pre><code>## [1] NA</code></pre>
-<p>Poleg prednosti, ki smo jih že omenili (varovanje pred napakami in smiselna razvrstitev nivojev) imajo faktorji tudi posebno vlogo pri raznih statističnih modelih in modelih strojnega učenja. Nekatere metode eksplicitno zahtevajo faktorje. Prav tako razlikujejo med nominalnimi in ordinalnimi faktorji, kar se pozna na rezultatih. Relativno preprost primer tega je linearna regresija, ki pa je izven obsega te delavnice. Vsekakor pa si je to vredno zapomniti, v kolikor se boste kdaj ukvajrali s podobnimi modeli in boste želeli uporabiti kategorične spremenljivke.</p>
+<p>Poleg prednosti, ki smo jih že omenili, imajo faktorji posebno vlogo pri raznih statističnih modelih in modelih strojnega učenja. Nekatere metode eksplicitno zahtevajo faktorje. Prav tako razlikujejo med nominalnimi in ordinalnimi faktorji, kar se pozna na rezultatih. Ravno tako so faktorji pomembni v primeru, ko poznamo nabor možnih vrednosti a nekaterih pri meritvah še nismo opazili. Pri izrisu želimo take vrednosti izpisati z vrednostjo 0 ali NA.</p>
 <p>Poglejmo si uporabo faktorjev na realni podatkovni množici. Ponovno bomo delali s podatki o zaposlitvah na področju podatkovnih ved. Preberimo podatke in ponovimo nekaj operacij, ki smo jih spoznali na prvem predavanju. Prav tako bomo izbrali samo podmnožico stolpcev za bolj jasen prikaz.</p>
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb165-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb165-2" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/DS-jobs.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
@@ -854,7 +854,7 @@ div.csl-indent {
 ##  9 Poland      29 Employed full-t~ Master&#39;s degree           126000     0.281   
 ## 10 United ~    35 Employed full-t~ Doctoral degree           133000     1       
 ## # ... with 3,176 more rows, and 1 more variable: CompensationUSD &lt;dbl&gt;</code></pre>
-<p>Imamo 3 spremenljivke, ki bi jih bilo smiselno shraniti kot faktorje – <code>Country</code>, <code>EmploymentStatus</code> in <code>FormalEducation</code>. Pretvorimo sedaj ti spremenljivki v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.</p>
+<p>Imamo 3 spremenljivke, ki bi jih bilo smiselno shraniti kot faktorje – <code>Country</code>, <code>EmploymentStatus</code> in <code>FormalEducation</code>. Pretvorimo jih v faktorje. Pri tem pustimo kar privzeto nastavitev, da se kot nivoji uporabijo vse vrednosti v stolpcih.</p>
 <div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb167-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb167-2" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb167-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb167-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Country          =</span> <span class="fu">factor</span>(Country),</span>
@@ -914,7 +914,7 @@ div.csl-indent {
 ## [5] &quot;Master&#39;s degree&quot;                                                  
 ## [6] &quot;Professional degree&quot;                                              
 ## [7] &quot;Some college/university study without earning a bachelor&#39;s degree&quot;</code></pre>
-<p>Kaj se zgodi, če želimo v tibblu spremeniti vrednost faktorja, v neko vrednost, ki je ni v tem faktorju? Recimo, da želimo v 2. vrstici spremeniti državo v Narnia:</p>
+<p>Kaj se zgodi, če želimo v tibblu spremeniti vrednost faktorja v neko vrednost, ki je ni v tem faktorju? Recimo, da želimo v 2. vrstici spremeniti državo v Narnia:</p>
 <div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb175-1" aria-hidden="true" tabindex="-1"></a>ds_jobs2 <span class="ot">&lt;-</span> ds_jobs</span>
 <span id="cb175-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb175-2" aria-hidden="true" tabindex="-1"></a>ds_jobs2<span class="sc">$</span>Country[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Narnia&quot;</span></span></code></pre></div>
 <pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, 2, value = structure(c(2L, NA, 47L, 51L, :
@@ -955,7 +955,7 @@ div.csl-indent {
 ## # ... with 3,176 more rows, and 1 more variable: CompensationUSD &lt;dbl&gt;</code></pre>
 <div id="sprememba-razvrstitve-faktorja" class="section level3" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Sprememba razvrstitve faktorja</h3>
-<p>Kot smo omenili že pri krvnih skupinah imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko ustaljeno razvrstitev. Razvrstitev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:</p>
+<p>Kot smo omenili že pri krvnih skupinah, imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko ustaljeno ureditev. Ureditev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:</p>
 <div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb181-1" aria-hidden="true" tabindex="-1"></a>ds_jobs_agg <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb181-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb181-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(FormalEducation) <span class="sc">%&gt;%</span></span>
 <span id="cb181-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb181-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">MeanCompensationUSD =</span> <span class="fu">mean</span>(CompensationUSD))</span>
@@ -975,7 +975,7 @@ div.csl-indent {
 <span id="cb183-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb183-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb183-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb183-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb183-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb183-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-72-1.png" width="768" /></p>
 <p>Ta graf je sicer zelo informativen, ampak bi s težavo hitro ugotovili, kako so nivoji faktorja razvrščeni glede na plačo. ggplot razvrsti vrednosti glede na to, kako so razvrščene v faktorju:</p>
 <div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(ds_jobs<span class="sc">$</span>FormalEducation)</span></code></pre></div>
 <pre><code>## [1] &quot;Bachelor&#39;s degree&quot;                                                
@@ -985,18 +985,18 @@ div.csl-indent {
 ## [5] &quot;Master&#39;s degree&quot;                                                  
 ## [6] &quot;Professional degree&quot;                                              
 ## [7] &quot;Some college/university study without earning a bachelor&#39;s degree&quot;</code></pre>
-<p>Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke <code>MeanCompensationUSD</code>. Za to moramo določiti novo razvrstitev te spremenljivke. Za to obstaja v paketu <strong>forcats</strong>, ki je del tidyverse, funkcija <code>fct_reorder()</code>.</p>
+<p>Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke <code>MeanCompensationUSD</code>, za kar moramo določiti novo razvrstitev te spremenljivke. Za to obstaja v paketu <strong>forcats</strong>, ki je del tidyverse, funkcija <code>fct_reorder()</code>.</p>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ds_jobs_agg, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(FormalEducation, MeanCompensationUSD), <span class="at">y =</span> MeanCompensationUSD)) <span class="sc">+</span></span>
 <span id="cb186-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb186-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb186-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb186-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb186-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
-<p>Razvrstitev lahko uredimo tudi ročno s funkicjo <code>fct_relevel()</code>, ki ohrani privzeto razvrstitev s tem, da podane nivoje premakne na začetek, oziroma lahko podamo arguemnt after.</p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-74-1.png" width="768" /></p>
+<p>Razvrstitev lahko uredimo tudi ročno s funkcijo <code>fct_relevel()</code>, ki ohrani privzeto razvrstitev tako, da podane nivoje premakne na začetek, oziroma lahko podamo argument <code>after</code>.</p>
 <div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ds_jobs_agg, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_relevel</span>(FormalEducation, <span class="st">&quot;I prefer not to answer&quot;</span>, <span class="st">&quot;I did not complete any formal education past high school&quot;</span>, <span class="at">after =</span> <span class="dv">0</span>), <span class="at">y =</span> MeanCompensationUSD)) <span class="sc">+</span></span>
 <span id="cb187-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb187-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb187-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb187-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb187-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb187-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-75-1.png" width="768" /></p>
 </div>
 <div id="preimenivanje-obstoječih-in-določanje-novih-nivojev" class="section level3" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Preimenivanje obstoječih in določanje novih nivojev</h3>
@@ -1013,7 +1013,7 @@ div.csl-indent {
 </div>
 <div id="razbitje-numerične-spremenljivke-na-intervale" class="section level3" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Razbitje numerične spremenljivke na intervale</h3>
-<p>Pogosto želimo kakšno numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo <code>cut()</code>. Razdelimo spremenljivko <code>Age</code> na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.</p>
+<p>Pogosto želimo numerično spremenljivko segmentirati na določene intervale. Na primer, pri določanju avtomobilskih zavarovalnih premij lahko zavarovance segmentiramo glede na starost. V R za to uporabimo funkcijo <code>cut()</code>. Razdelimo spremenljivko <code>Age</code> na intervale, kjer bodo osebe razdeljene do 25 let, nad 25 in to 35 let, nad 35 do 50 let, in nad 50 let.</p>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb190-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb190-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb190-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">AgeInterval =</span> <span class="fu">cut</span>(Age, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">35</span>, <span class="dv">50</span>, <span class="dv">100</span>)))</span>
 <span id="cb190-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb190-3" aria-hidden="true" tabindex="-1"></a>ds_jobs_agg <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
@@ -1025,8 +1025,8 @@ div.csl-indent {
 </div>
 <div id="datumi-in-ure" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Datumi in ure</h2>
-<p>Delo z datumi in urami morda na prvi pogled deluje precej enostavno. Vendar pa zaradi različnih fizikalnih zakonitosti ali človeških konstruktov lahko pride do težav. Na primer, vsako leto nima 365 dni. Prav tako v nekaterih časovnih conah 3. ura zjutraj ne sledi vedno 2. uri, saj pride do premika ure.</p>
-<p>Za delo z datumi bomo uporabljali paket <strong>lubridate</strong>. Glavni komponenti v tem paketu sta <strong>datum</strong> (date) in <strong>čas</strong> (time), ter združena komponenta <strong>datum in čas</strong> (datetime). S tem paketom lahko datume ustvarimo na 2 načina:</p>
+<p>Delo z datumi in urami na prvi pogled morda deluje enostavno. Vendar pa zaradi različnih fizikalnih zakonitosti ali človeških konstruktov lahko pride do težav. Na primer, vsako leto nima 365 dni. Prav tako v nekaterih časovnih conah 3. ura zjutraj ne sledi vedno 2. uri, saj pride do premika ure.</p>
+<p>Za delo z datumi bomo uporabljali paket <strong>lubridate</strong>. Glavni komponenti v tem paketu sta <strong>datum</strong> (date) in <strong>čas</strong> (time) ter združena komponenta <strong>datum in čas</strong> (datetime). S tem paketom lahko datume ustvarimo na 2 načina:</p>
 <ol style="list-style-type: decimal">
 <li><p>Z nizom:</p>
 <div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
@@ -1042,7 +1042,7 @@ div.csl-indent {
 <pre><code>## [1] &quot;2021-04-02 12:01:00 UTC&quot;</code></pre>
 <div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd</span>(<span class="dv">20210402</span>, <span class="dv">20210403</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-04-02&quot; &quot;2021-04-03&quot;</code></pre>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mdy</span>(<span class="st">&quot;April 2nd, 2021&quot;</span>) <span class="co"># Deluje za angleška imena mesecev</span></span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mdy</span>(<span class="st">&quot;April 2nd, 2021&quot;</span>) <span class="co"># Deluje za angleška imena mesecev.</span></span></code></pre></div>
 <pre><code>## [1] &quot;2021-04-02&quot;</code></pre></li>
 <li><p>S posameznimi komponentami:</p>
 <div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_date</span>(<span class="dv">2021</span>, <span class="dv">4</span>, <span class="dv">2</span>)</span></code></pre></div>
@@ -1050,26 +1050,26 @@ div.csl-indent {
 <div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_datetime</span>(<span class="dv">2021</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">12</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-04-02 12:01:00 UTC&quot;</code></pre></li>
 </ol>
-<p>Opazimo, da pri datumu in času spremenljivka hrani tudi informacijo o časovnem pasu. Privzeto lubridate dela s časovnim pasom UTC (Coordinated Universal Time), ki je naslednik GMT (Greenwich Mean Time). Prednost tega časovnega pasu je predvsem v tem, da se ne prilagaja spremembi ure v pomladnih in jesenskih mesecih. Te spremembe lahko privedejo do napak pri računanju z datumi in časi, tako da je računanje v UTC bolj varno. Seveda pa lahko ročno nastavimo drugi časovni pas z argumentom <code>tz</code>. Paket lubridate uporablja IANA časovne pasove (<a href="https://www.iana.org/time-zones" class="uri">https://www.iana.org/time-zones</a>), kateri so definirani s kombinacijo celine in države. Na primer, za Ljubljano bi časovni pas nastavili tako:</p>
+<p>Opazimo, da pri datumu in času spremenljivka hrani tudi informacijo o časovnem pasu. Privzeto lubridate dela s časovnim pasom UTC (Coordinated Universal Time), ki je naslednik GMT (Greenwich Mean Time). Prednost tega časovnega pasu je , da se ne prilagaja spremembi ure v pomladnih in jesenskih mesecih. Te spremembe lahko privedejo do napak pri računanju z datumi in časi, tako da je računanje v UTC bolj varno. Seveda pa lahko ročno nastavimo drugi časovni pas z argumentom <code>tz</code>. Paket lubridate uporablja IANA časovne pasove (<a href="https://www.iana.org/time-zones" class="uri">https://www.iana.org/time-zones</a>), ki so definirani s kombinacijo celine in države. Za Ljubljano bi časovni pas nastavili tako:</p>
 <div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd_hms</span>(<span class="st">&quot;2021-04-02 12:01:00&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-04-02 12:01:00 CEST&quot;</code></pre>
-<p>Pomembno je torej, da vemo, v katerem časovnem pasu so bile opravljene meritve v naših podatkih, da lahko potem ustrezno pretvorimo spremenljivko v časovno. Seveda pa lahko tudi pretvarjamo časovne spremenljivke med časovnimi pasovi. Za to uporabimo funkcijo <code>with_tz()</code>. Vsakemu času v določenem časovnem pasu lahko priredimo nek čas v drugem časovnem pasu. V kolikor želimo bolj robustno računati z datumi in urami, potem lahko vedno datume pretvorimo v UTC čas, naredimo izračune in potem pretvorimo nazaj v lokalni časovni pas.</p>
+<p>Pomembno je , da vemo, v katerem časovnem pasu so bile opravljene meritve v naših podatkih, da lahko potem ustrezno pretvorimo spremenljivko v časovno. Seveda pa lahko tudi pretvarjamo časovne spremenljivke med časovnimi pasovi. Za to uporabimo funkcijo <code>with_tz()</code>. Vsakemu času v določenem časovnem pasu lahko priredimo nek čas v drugem časovnem pasu. V kolikor želimo bolj robustno računati z datumi in urami, lahko vedno datume pretvorimo v UTC čas, naredimo izračune in potem pretvorimo nazaj v lokalni časovni pas.</p>
 <div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb211-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">&quot;2021-04-02 12:01:00&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>)</span>
 <span id="cb211-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb211-2" aria-hidden="true" tabindex="-1"></a>my_datetime</span></code></pre></div>
 <pre><code>## [1] &quot;2021-04-02 12:01:00 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb213-1" aria-hidden="true" tabindex="-1"></a>my_datetime_UTC <span class="ot">&lt;-</span> <span class="fu">with_tz</span>(my_datetime, <span class="at">tz =</span> <span class="st">&quot;UTC&quot;</span>)</span>
 <span id="cb213-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb213-2" aria-hidden="true" tabindex="-1"></a>my_datetime_UTC</span></code></pre></div>
 <pre><code>## [1] &quot;2021-04-02 10:01:00 UTC&quot;</code></pre>
-<p>Hranita pa spremenljivki v ozadju isti čas. To lahko preverimo z:</p>
+<p>V ozdaju pa spremenljivki hranita isti čas. To lahko preverimo z:</p>
 <div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb215-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">==</span> my_datetime_UTC</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<p>V R je časovni pas namenjen samo izpisu datumov in časov. Sama vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:</p>
+<p>V R je časovni pas namenjen samo izpisu datumov in časov. Vrednost spremenljivke ostane nespremenjena. To lahko preverimo tako, da odštejemo en datum od drugega, kar nam vrne razliko v času:</p>
 <div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb217-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">-</span> my_datetime_UTC</span></code></pre></div>
 <pre><code>## Time difference of 0 secs</code></pre>
-<p>V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo <code>force_tz()</code>. Predlagamo, da udeleženci sami poizkusijo, kaj naredi ta funkcija, tako da z njo pretvorijo <code>my_datetime</code> v UTC in potem izračunajo razliko, podobno kot smo to naredili zgoraj.</p>
-<p>Kadar delamo sekvence datumov in časov te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si prehod na poletni čas v letu 2021:</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb219-1" aria-hidden="true" tabindex="-1"></a>datetime_dst <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">ymd_hms</span>(<span class="st">&quot;2021-03-28 00:00:00&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>), </span>
-<span id="cb219-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb219-2" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">ymd_hms</span>(<span class="st">&quot;2021-03-28 04:00:00&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>), </span>
+<p>V kolikor smo narobe prebrali datum v začetku (na primer, v podatkih je bil datum v UTC, prebrali pa smo v lokalnem času) zgornja pretvorba med časovnimi pasovi ni ustrezna, saj bomo s tem zajeli napačen čas. V tem primeru moramo uporabiti funkcijo <code>force_tz()</code>. Poizkusite kaj naredi ta funkcija, tako da z njo pretvorijo <code>my_datetime</code> v UTC in potem izračunajte razliko, podobno kot smo to naredili zgoraj.</p>
+<p>Kadar delamo sekvence datumov in časov, te upoštevajo premik ure in prehodov v naslednje dni. Poglejmo si prehod na poletni čas v letu 2021:</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb219-1" aria-hidden="true" tabindex="-1"></a>datetime_dst <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">ymd_hms</span>(<span class="st">&quot;2021-03-28 00:00:00&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>),</span>
+<span id="cb219-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb219-2" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">ymd_hms</span>(<span class="st">&quot;2021-03-28 04:00:00&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>),</span>
 <span id="cb219-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb219-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">by =</span> <span class="st">&quot;30 min&quot;</span>)</span>
 <span id="cb219-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb219-4" aria-hidden="true" tabindex="-1"></a>datetime_dst</span></code></pre></div>
 <pre><code>## [1] &quot;2021-03-28 00:00:00 CET&quot;  &quot;2021-03-28 00:30:00 CET&quot; 
@@ -1088,8 +1088,8 @@ div.csl-indent {
 <ul>
 <li><code>year()</code></li>
 <li><code>month()</code></li>
-<li><code>mday()</code>. Dan v mesecu.</li>
-<li><code>wday()</code>. Dan v tednu. Privzeto se začne z nedeljo. To lahko spremenimo z argumentom <code>week_start</code>.</li>
+<li><code>mday()</code> Dan v mesecu.</li>
+<li><code>wday()</code> Dan v tednu. Privzeto se začne z nedeljo. To lahko spremenimo z argumentom <code>week_start</code>.</li>
 <li><code>hour()</code></li>
 <li><code>minute()</code></li>
 <li><code>second()</code></li>
@@ -1097,39 +1097,39 @@ div.csl-indent {
 <p>Poglejmo sedaj kaj vračajo te funkcije:</p>
 <div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb223-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">now</span>()</span>
 <span id="cb223-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb223-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] &quot;2021-06-12 18:23:15 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2021-06-14 08:18:48 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(x)</span></code></pre></div>
 <pre><code>## [1] 2021</code></pre>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">month</span>(x)</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mday</span>(x)</span></code></pre></div>
-<pre><code>## [1] 12</code></pre>
+<pre><code>## [1] 14</code></pre>
 <div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wday</span>(x)</span></code></pre></div>
-<pre><code>## [1] 7</code></pre>
+<pre><code>## [1] 2</code></pre>
 <div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wday</span>(x, <span class="at">week_start =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 6</code></pre>
+<pre><code>## [1] 1</code></pre>
 <div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hour</span>(x)</span></code></pre></div>
-<pre><code>## [1] 18</code></pre>
+<pre><code>## [1] 8</code></pre>
 <div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">minute</span>(x)</span></code></pre></div>
-<pre><code>## [1] 23</code></pre>
+<pre><code>## [1] 18</code></pre>
 <div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second</span>(x)</span></code></pre></div>
-<pre><code>## [1] 15.06125</code></pre>
+<pre><code>## [1] 48.9494</code></pre>
 <p>S komponentami lahko tudi spreminjamo dele časovne spremenljivke:</p>
 <div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mday</span>(x) <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb241-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb241-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] &quot;2021-06-05 18:23:15 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2021-06-05 08:18:48 CEST&quot;</code></pre>
 <p>Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:</p>
 <ul>
 <li><strong>trajanja</strong> (ang. duration). Čas v sekundah. Funkcije <code>dseconds()</code>, <code>dminutes()</code>, <code>ddays()</code>, <code>dweeks()</code> in <code>dyears()</code>. Pri trajanjih se vedno uporabi pretvorba, da ima vsak dan 24 ur in vsako leto 365.25 dni. Slednje predstavlja povprečno šteilo dni v letu. Tako da bo funkcija <code>dyears(4)</code> vedno vrnila število sekund, ki ustreza 4x365.25 dnem, ki imajo vsak po 24 ur.</li>
-<li><strong>periode</strong> (ang. period). Čas v človeških enotah kot je na primer teden. Funkcije <code>seconds()</code>, <code>minutes()</code>, <code>days()</code>, <code>weeks()</code>, <code>months()</code> in <code>years()</code>.</li>
+<li><strong>obdobja</strong> (ang. period). Čas v človeških enotah kot je na primer teden. Funkcije <code>seconds()</code>, <code>minutes()</code>, <code>days()</code>, <code>weeks()</code>, <code>months()</code> in <code>years()</code>.</li>
 <li><strong>intervali</strong> (ang. interval). Časovni interval med dvema točkama.</li>
 </ul>
-<p>Pozoren bralec je morda opazil, da pri trajanjih nismo navedli funkcije za mesece. To je zaradi tega, ker imajo meseci lahko 28, 29, 30 ali 31 dni. Vsekakor bi pri izbiri osnovne enote za trajanja prišlo do neke arbitrarne odločitve, koliko dni vzamemo privzeto. 30 ali 31? V vsakem primeru bo vsaj polovica mesecev imela napačno trajanje. Pri dnevih in letih si lažje privoščimo posplošitev.</p>
+<p>Pozoren bralec je opazil, da pri trajanjih nismo navedli funkcije za mesece. To pa zato, ker imajo meseci lahko 28, 29, 30 ali 31 dni. Vsekakor bi pri izbiri osnovne enote za trajanja prišlo do neke arbitrarne odločitve, koliko dni vzamemo privzeto. 30 ali 31? V vsakem primeru bo vsaj polovica mesecev imela napačno trajanje. Pri dnevih in letih si lažje privoščimo posplošitev.</p>
 <div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ddays</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;86400s (~1 days)&quot;</code></pre>
 <div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">days</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;1d 0H 0M 0S&quot;</code></pre>
-<p>Poglejmo si preprost primer, kako dodati</p>
+<p>Poglejmo si preprost primer, kako dodati določena obdobja:</p>
 <div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb247-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">&quot;2021/06/08 11:05:30&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>)</span>
 <span id="cb247-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb247-2" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">+</span> <span class="fu">ddays</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-06-09 11:05:30 CEST&quot;</code></pre>
@@ -1141,7 +1141,7 @@ div.csl-indent {
 <pre><code>## [1] &quot;2021-06-08 13:05:30 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb255-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">+</span> <span class="fu">months</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-08-08 11:05:30 CEST&quot;</code></pre>
-<p>Trajanja in periode so si očitno zelo podobni ampak imajo eno veliko razliko, kadar računamo z dnevi, tedni in leti. Prvič, kadar bomo uporabljali <code>dyears()</code> lahko hitro pride do težave, saj bomo prišteli 0.25 dneva. Poglejmo si to na primeru:</p>
+<p>Trajanja in obdobja so si očitno zelo podobni, ampak imajo eno veliko razliko, kadar računamo z dnevi, tedni in leti. Prvič, kadar bomo uporabljali <code>dyears()</code> lahko hitro pride do težave, saj bomo prišteli 0.25 dneva. Poglejmo si to na primeru:</p>
 <div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb257-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">+</span> <span class="fu">years</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2022-06-08 11:05:30 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb259-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">+</span> <span class="fu">dyears</span>(<span class="dv">1</span>)</span></code></pre></div>
@@ -1156,11 +1156,11 @@ div.csl-indent {
 <pre><code>## [1] &quot;2021-04-03 12:05:30 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb267-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">+</span> <span class="fu">weeks</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-04-03 11:05:30 CEST&quot;</code></pre>
-<p>Funkcija <code>years()</code> deluje kot bi pričakovali tudi na prestopnem letu:</p>
+<p>Funkcija <code>years()</code> deluje, kot bi pričakovali tudi na prestopnem letu:</p>
 <div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb269-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">&quot;2020/06/08 11:05:30&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>)</span>
 <span id="cb269-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb269-2" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">+</span> <span class="fu">years</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-06-08 11:05:30 CEST&quot;</code></pre>
-<p>S funkcijami trajanja in period lahko tudi računamo, na primer:</p>
+<p>S funkcijami trajanja in obdobji lahko tudi računamo, na primer:</p>
 <div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dyears</span>(<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ddays</span>(<span class="dv">4</span>) <span class="sc">+</span> <span class="fu">dseconds</span>(<span class="dv">20</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;63460820s (~2.01 years)&quot;</code></pre>
 <div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">days</span>(<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">minutes</span>(<span class="dv">20</span>) <span class="sc">+</span> <span class="fu">seconds</span>(<span class="dv">120</span>)</span></code></pre></div>
@@ -1169,7 +1169,7 @@ div.csl-indent {
 <pre><code>## [1] &quot;6000s (~1.67 hours)&quot;</code></pre>
 <div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> <span class="fu">minutes</span>(<span class="dv">20</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;100M 0S&quot;</code></pre>
-<p>Najbolje, da jo prikažemo na dveh primerih – premik ure in prestopno leto. Periode so bolj naraven prikaz za človeka.</p>
+<p>Najbolje, da jo prikažemo na dveh primerih – premik ure in prestopno leto. Obdobja so bolj naraven prikaz za človeka.</p>
 <div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb279-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">&quot;2021/06/08 11:05:30&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Europe/Ljubljana&quot;</span>)</span>
 <span id="cb279-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb279-2" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">+</span> <span class="fu">ddays</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-06-09 11:05:30 CEST&quot;</code></pre>
@@ -1185,7 +1185,7 @@ div.csl-indent {
 <pre><code>## [1] &quot;2022-06-08 11:05:30 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb291-1" aria-hidden="true" tabindex="-1"></a>my_datetime <span class="sc">+</span> <span class="fu">months</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-08-08 11:05:30 CEST&quot;</code></pre>
-<p>V bazi letalskih letov posodobimo podatke, tako da izračunamo niz, ki predstavlja točen odhod letala.</p>
+<p>V bazi letalskih letov posodobimo podatke tako, da izračunamo niz, ki predstavlja odhod letala.</p>
 <div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span>
 <span id="cb293-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb293-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 19
@@ -1221,7 +1221,7 @@ div.csl-indent {
 <pre><code>## [1] &quot;2013-01-01 05:15:00 UTC&quot; &quot;2013-01-01 05:29:00 UTC&quot;
 ## [3] &quot;2013-01-01 05:40:00 UTC&quot; &quot;2013-01-01 05:45:00 UTC&quot;
 ## [5] &quot;2013-01-01 06:00:00 UTC&quot; &quot;2013-01-01 05:58:00 UTC&quot;</code></pre>
-<p>Ali opazimo kakšno težavo? datume smo prebrali v časovni coni UTC, so pa podani v lokalni časovni coni. Podatkov torej nismo pretvorili pravilno! Poizkusimo še enkrat:</p>
+<p>Ali opazimo kakšno težavo? Datume smo prebrali v časovni coni UTC, podani pa so v lokalni časovni coni. Podatkov torej nismo pravilno pretvorili! Poizkusimo še enkrat:</p>
 <div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb299-1" aria-hidden="true" tabindex="-1"></a>flights_datetime <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> <span class="fu">select</span>(year, month, day, hour, minute) <span class="sc">%&gt;%</span></span>
 <span id="cb299-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb299-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DepartureTime =</span> <span class="fu">make_datetime</span>(year, month, day, hour, minute,</span>
 <span id="cb299-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb299-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">tz =</span> <span class="st">&quot;America/New_York&quot;</span>))</span>
@@ -1250,14 +1250,14 @@ div.csl-indent {
 <h2><span class="header-section-number">3.5</span> Shranjevanje in branje podatkov</h2>
 <div id="delo-z-binarnimi-datotekami" class="section level3" number="3.5.1">
 <h3><span class="header-section-number">3.5.1</span> Delo z binarnimi datotekami</h3>
-<p>V programskem jeziku R lahko shranjujemo in nalagamo (v trenutno sejo R) spremenljivke kot binarne objekte na dva prevladujoča načina:</p>
+<p>V programskem jeziku R lahko spremenljivke shranjujemo in beremo (v trenutno sejo R) kot binarne objekte. Prednost tega shranjevanja pred shranjevanjem v csv ali excelove razpredelnice je, da se ohranijo tudi meta informacije, kot so recimo nivoji pri faktorjih. Shranjujemo na dva prevladujoča načina:</p>
 <ol style="list-style-type: decimal">
 <li>S kombinacijo funkcij <code>save()</code> in <code>load()</code>.</li>
 <li>S kombinacijo funkcij <code>saveRDS()</code> in <code>readRDS()</code>.</li>
 </ol>
 <p>Pomembna razlika med prvim in drugim pristopom je, da lahko s prvim shranimo več spremenljivk naenkrat, z drugim pa samo eno. Na prvi pogled bi torej pričakovali, da je prvi pristop boljši, oziroma bolj zaželen. Ampak ima eno pomembno slabost, zaradi katere predlagamo uporabo drugega pristopa.</p>
 <p>Funkcija <code>save()</code> shrani spremenljivke v trenutni seji R v datoteko s končnico <em>rda</em> ali <em>RData</em>. To naredi tako, da shrani tako vrednost spremenljivke kot tudi ime spremenljivke. To pomeni, da ko bomo takšno datoteko prebrali v novo sejo R, bomo ustvarili spremenljivke z enakimi imeni, kot smo jih shranili. Pri tem pa lahko pride do težav. Recimo, da imamo v trenutni seji R že nek nabor spremenljivk nato pa želimo vanjo prenesti še neke druge spremenljivke, ki smo jih pred časom shranili s funkcijo <code>save()</code> v datoteko saved-data.rda. Kaj se bo zgodilo, če bo katera od spremenljivk v naši trenutni seji imela enako ime kot ena od spremenljivk shranjenih v saved-data.rda? R bo enostavno to spremenljivko prepisal s spremenljivko, ki se je nahajala v tej rda datoteki. Takšen postopek dela je lahko torej nevaren, saj lahko <em>nevede</em> izbrišemo obstoječe spremenljivke.</p>
-<p>Predlagamo torej uporabo druge kombinacije, torej funkcij <code>saveRDS()</code> in <code>readRDS()</code>. Funkcija <code>saveRDS()</code> shrani samo vrednost spremenljivke, ne pa tudi njenega imena, tako da ne pride do podobnih težav kot pri prvem pristopu. Končnica tako shranjenih datotek je <em>rds</em>. Poglejmo si uporabo teh funkcij.</p>
+<p>Predlagamo torej uporabo kombinacije funkcij <code>saveRDS()</code> in <code>readRDS()</code>. Funkcija <code>saveRDS()</code> shrani samo vrednost spremenljivke, ne pa tudi njenega imena, tako da ne pride do podobnih težav kot pri prvem pristopu. Končnica tako shranjenih datotek je <em>rds</em>. Poglejmo si uporabo teh funkcij:</p>
 <div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb303-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">7</span>)</span>
 <span id="cb303-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb303-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
 <pre><code>## [1] 3 6 3 7</code></pre>
@@ -1266,8 +1266,8 @@ div.csl-indent {
 <span id="cb305-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb305-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;./my-saved-files/my-x.rds&quot;</span>)</span>
 <span id="cb305-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb305-4" aria-hidden="true" tabindex="-1"></a>x2</span></code></pre></div>
 <pre><code>## [1] 3 6 3 7</code></pre>
-<p>Vedno ko preberemo podatke v sejo R s funkcijo <code>readRDS()</code> ji moramo prirediti ime, saj je v rds datoteki shrnajena samo njena vrednost. S tem se tudi izognemo podobnim težavam kot pri funkcijah <code>save()</code> in <code>load()</code>.</p>
-<p>Pomanjkljivost shranjevanja rds datotek pa je v tem, da lahko naenkrat shranimo samo 1 spremenljivko. Ampak to pomanjkljivost lahko zaobidemo, tako da več spremenljivk enostavno shranimov v seznam (<code>list()</code>). Poglejmo si sedaj na primer, kako bi shranili več spremenljivk.</p>
+<p>Vedno ko preberemo podatke v sejo R s funkcijo <code>readRDS()</code>, ji moramo prirediti ime, saj je v rds datoteki shrnajena samo njena vrednost. S tem se tudi izognemo podobnim težavam kot pri funkcijah <code>save()</code> in <code>load()</code>.</p>
+<p>Pomanjkljivost shranjevanja datotek rds je v tem, da lahko naenkrat shranimo samo 1 spremenljivko. Ampak to pomanjkljivost lahko zaobidemo tako, da več spremenljivk enostavno shranimov v seznam (<code>list()</code>). Poglejmo si sedaj na primer, kako bi shranili več spremenljivk.</p>
 <div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb307-1" aria-hidden="true" tabindex="-1"></a>tmp_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb307-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb307-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;x&quot;</span> <span class="ot">=</span> x,</span>
 <span id="cb307-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb307-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;some_datetime&quot;</span> <span class="ot">=</span> my_datetime,</span>
@@ -1307,7 +1307,7 @@ div.csl-indent {
 <div id="excel" class="section level4" number="3.5.2.1">
 <h4><span class="header-section-number">3.5.2.1</span> Excel</h4>
 <p>Paket <strong>openxlsx</strong> omogoča delo z exelovimi razpredelnicami. Poglejmo si preproste a uporabne ukaze. Za branje podatkov s tem paketom uprabljamo <code>read.xlsx()</code>, za shranjevanje datotek pa <code>write.xlsx()</code>.</p>
-<p>Preberimo podatke ocen, ki smo jih imeli tudi v testni skripti in jo pretvorimo v tibble:</p>
+<p>Preberimo podatke ocen, ki smo jih imeli v testni skripti, in jo pretvorimo v tibble:</p>
 <div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
 <span id="cb315-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb315-2" aria-hidden="true" tabindex="-1"></a>ocene <span class="ot">&lt;-</span> <span class="fu">tibble</span>(openxlsx<span class="sc">::</span><span class="fu">read.xlsx</span>(<span class="st">&quot;./test-script/data-raw/student-performance.xlsx&quot;</span>))</span>
 <span id="cb315-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb315-3" aria-hidden="true" tabindex="-1"></a>ocene</span></code></pre></div>
@@ -1326,11 +1326,11 @@ div.csl-indent {
 ## 10 GP     M     GT3     T                1         2 yes             0    12
 ## # ... with 639 more rows, and 3 more variables: G2 &lt;dbl&gt;, G3 &lt;dbl&gt;,
 ## #   averageScore &lt;dbl&gt;</code></pre>
-<p>Privzeto funkcija <code>read.xlsx()</code> odpre prvi list v datoteki in poišče glavo razpredelnice, če želimo druge liste moramo podati ime lista ali številko lista s parametrom <code>sheet</code>.</p>
+<p>Privzeto funkcija <code>read.xlsx()</code> odpre prvi list v datoteki in poišče glavo razpredelnice. Če želimo druge liste moramo podati ime lista ali številko lista s parametrom <code>sheet</code>:</p>
 <div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
 <span id="cb317-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb317-2" aria-hidden="true" tabindex="-1"></a>ocene_portugalscina <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="fu">read.xlsx</span>(<span class="st">&quot;./test-script/data-raw/student-performance.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="dv">1</span>))</span>
 <span id="cb317-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb317-3" aria-hidden="true" tabindex="-1"></a>ocene_matematika <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="fu">read.xlsx</span>(<span class="st">&quot;./test-script/data-raw/student-performance.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Math scores&quot;</span>))</span>
-<span id="cb317-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb317-4" aria-hidden="true" tabindex="-1"></a>ocene_portugalscina <span class="sc">%&gt;%</span> </span>
+<span id="cb317-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb317-4" aria-hidden="true" tabindex="-1"></a>ocene_portugalscina <span class="sc">%&gt;%</span></span>
 <span id="cb317-5"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb317-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(school, G1, G2, G3, averageScore)</span></code></pre></div>
 <pre><code>## # A tibble: 649 x 5
 ##    school    G1    G2    G3 averageScore
@@ -1362,7 +1362,7 @@ div.csl-indent {
 ##  9 GP        16    18    19        17.7 
 ## 10 GP        14    15    15        14.7 
 ## # ... with 385 more rows</code></pre>
-<p>Če ima datoteka veliko število listov jih lahko shranite v R-jev seznam (list).</p>
+<p>Če ima datoteka veliko število listov, jih lahko shranimo v R-jev list:</p>
 <div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
 <span id="cb321-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb321-2" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">&quot;./test-script/data-raw/student-performance.xlsx&quot;</span></span>
 <span id="cb321-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb321-3" aria-hidden="true" tabindex="-1"></a>imenaListov <span class="ot">&lt;-</span> <span class="fu">getSheetNames</span>(path)</span>
@@ -1404,9 +1404,9 @@ div.csl-indent {
 ## 10 GP     M     GT3     T                1         2 yes             0    12
 ## # ... with 639 more rows, and 3 more variables: G2 &lt;dbl&gt;, G3 &lt;dbl&gt;,
 ## #   averageScore &lt;dbl&gt;</code></pre>
-<p>V primeru, da je razpredelnica v excelovem listu premaknjena ali pa želimo prebrati le del podatkov, lahko uporabimo parametra <code>startRow</code> in <code>cols</code>. Preberimo samo ocene za matematiko brez ostalih vrednosti.</p>
+<p>V primeru, da je razpredelnica v excelovem listu premaknjena ali pa želimo prebrati le del podatkov, lahko uporabimo parametra <code>startRow</code> in <code>cols</code>. Preberimo samo ocene za matematiko:</p>
 <div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb323-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">&quot;./test-script/data-raw/student-performance.xlsx&quot;</span></span>
-<span id="cb323-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb323-2" aria-hidden="true" tabindex="-1"></a>ocene_math <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="fu">read.xlsx</span>(path, <span class="at">sheet =</span> <span class="st">&quot;Math scores&quot;</span>, <span class="at">startRow =</span> <span class="dv">1</span>, </span>
+<span id="cb323-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb323-2" aria-hidden="true" tabindex="-1"></a>ocene_math <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="fu">read.xlsx</span>(path, <span class="at">sheet =</span> <span class="st">&quot;Math scores&quot;</span>, <span class="at">startRow =</span> <span class="dv">1</span>,</span>
 <span id="cb323-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb323-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols =</span> <span class="dv">9</span><span class="sc">:</span><span class="dv">12</span>))</span>
 <span id="cb323-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb323-4" aria-hidden="true" tabindex="-1"></a>ocene_math</span></code></pre></div>
 <pre><code>## # A tibble: 395 x 4
@@ -1423,7 +1423,7 @@ div.csl-indent {
 ##  9    16    18    19        17.7 
 ## 10    14    15    15        14.7 
 ## # ... with 385 more rows</code></pre>
-<p>Da podatke shranimo na disk uporabimo <code>write.xlsx()</code>.</p>
+<p>Da podatke shranimo, uporabimo <code>write.xlsx()</code>.</p>
 <div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb325-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">&quot;./test-script/data-raw/samo-ocene-math.xlsx&quot;</span></span>
 <span id="cb325-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb325-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.xlsx</span>(ocene_math, path)</span></code></pre></div>
 </div>
@@ -1455,8 +1455,8 @@ div.csl-indent {
 <li><strong>forcats</strong>: <a href="http://www.flutterbys.com.au/stats/downloads/slides/figure/factors.pdf" class="uri">http://www.flutterbys.com.au/stats/downloads/slides/figure/factors.pdf</a></li>
 <li><strong>lubridate</strong>: <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_lubridate.pdf" class="uri">https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_lubridate.pdf</a></li>
 </ul>
-<p>Paket <strong>stringr</strong> uporablja paket <strong>stringi</strong>, ki ima na voljo 5x več operacij, ki pa niso tako pogosto uporabljene. Če se boste pri svojem delu srečali z zahtevnejšimi nalogami lahko uporabite ta paket.</p>
-<p>Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran <a href="https://regex101.com/" class="uri">https://regex101.com/</a>.</p>
+<p>Paket <strong>stringr</strong> uporablja paket <strong>stringi</strong>, ki ima na voljo več operacij, ki pa niso tako pogoste. Če se boste pri svojem delu srečali z zahtevnejšimi nalogami, lahko uporabite ta paket.</p>
+<p>Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran <a href="https://regex101.com/" class="uri">https://regex101.com/</a>. Lahko si tudi ogledate knjigo Mastering Regular Expressions <span class="citation">(<a href="reference.html#ref-friedl2006mastering" role="doc-biblioref">Friedl 2006</a>)</span>, ki obsežno obravnava snov regularnih izrazov.</p>
 </div>
 <div id="domača-naloga-2" class="section level2" number="3.7">
 <h2><span class="header-section-number">3.7</span> Domača naloga</h2>
@@ -1468,6 +1468,38 @@ div.csl-indent {
 <li>Dodajte stolpec <em>ocena</em>, kjer so vrednosti za <em>točke</em> med 0 in 10 enake 1, 10 in 20 enake 2 itd.</li>
 <li>Dodajte stolpec <em>besedna_ocena</em> tipa faktor, ki bo imel vrednosti glede na <em>oceno</em> in sicer ocene &lt;6 = “nezadostno,” 6 = “zadostno,” 7 in 8 = “dobro,” 9 = “zelo dobro” in 10 = “odlično.”</li>
 </ul>
+<pre><code>## # A tibble: 649 x 9
+##    school absences    G1    G2    G3 averageScore točke ocena besedna_ocena
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;        
+##  1 GP            4     0    11    11         7.33  39.3     4 nezadostno   
+##  2 GP            2     9    11    11        10.3   55.4     6 zadostno     
+##  3 GP            6    12    13    12        12.3   66.1     7 dobro        
+##  4 GP            0    14    14    14        14     75       8 dobro        
+##  5 GP            0    11    13    13        12.3   66.1     7 dobro        
+##  6 GP            6    12    12    13        12.3   66.1     7 dobro        
+##  7 GP            0    13    12    13        12.7   67.9     7 dobro        
+##  8 GP            2    10    13    13        12     64.3     7 dobro        
+##  9 GP            0    15    16    17        16     85.7     9 zelo dobro   
+## 10 GP            0    12    12    13        12.3   66.1     7 dobro        
+## # ... with 639 more rows</code></pre>
+<ul>
+<li>Shranite podatke v datoteko <code>students-performance-math-normalized.xlsx' in v binarno datoteko</code>students-performance-math-normalized.rds’.</li>
+<li>Ponovno preberite obe datoteki, prvo v spremenljivko <code>podatki_excel</code> in drugo v <code>podatki_binarni</code>. Prvo tudi spremenit v tibble. Katero razliko opazite?</li>
+</ul>
+<pre><code>## # A tibble: 649 x 9
+##    school absences    G1    G2    G3 averageScore točke ocena besedna_ocena
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        
+##  1 GP            4     0    11    11         7.33  39.3     4 nezadostno   
+##  2 GP            2     9    11    11        10.3   55.4     6 zadostno     
+##  3 GP            6    12    13    12        12.3   66.1     7 dobro        
+##  4 GP            0    14    14    14        14     75       8 dobro        
+##  5 GP            0    11    13    13        12.3   66.1     7 dobro        
+##  6 GP            6    12    12    13        12.3   66.1     7 dobro        
+##  7 GP            0    13    12    13        12.7   67.9     7 dobro        
+##  8 GP            2    10    13    13        12     64.3     7 dobro        
+##  9 GP            0    15    16    17        16     85.7     9 zelo dobro   
+## 10 GP            0    12    12    13        12.3   66.1     7 dobro        
+## # ... with 639 more rows</code></pre>
 <pre><code>## # A tibble: 649 x 9
 ##    school absences    G1    G2    G3 averageScore točke ocena besedna_ocena
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;        
@@ -1518,25 +1550,65 @@ div.csl-indent {
 ## 10 0S9   &quot;Jefferson County Intl&quot;  48.1 -123.    108    -8 A     America/Los_Ang~
 ## # ... with 1,448 more rows</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
-<li><p><strong>Daljša.</strong> Za vsak let sestavite besedno poročilo spodnje oblike, ki ga shranite v stolpec <em>Poročilo leta</em>.</p>
+<li><p>Za vsak let sestavite besedno poročilo spodnje oblike, ki ga shranite v stolpec <em>Poročilo leta</em>.</p>
 <p>Besedilo naj se glasi: “Let iz letalisca Newark Liberty Intl dne 22.01.13 ob 11:00 v letalisce George Bush Intercontinental je imel 2 minut zamude v odhodu in 11 v prihodu.”</p>
 <p>Minute so lahko tudi negativne.</p></li>
 </ol>
 <pre><code>## # A tibble: 336,776 x 2
 ##    `Poročilo leta`                                           dep_string         
 ##    &lt;chr&gt;                                                     &lt;dttm&gt;             
-##  1 Let iz letalisca Newark Liberty Intl, dne 22.01.13, ob 1~ 2013-01-22 11:00:00
-##  2 Let iz letalisca La Guardia, dne 23.01.13, ob 01:00 v le~ 2013-01-23 01:00:00
-##  3 Let iz letalisca John F Kennedy Intl, dne 23.01.13, ob 1~ 2013-01-23 12:00:00
-##  4 &lt;NA&gt;                                                      2013-01-23 17:00:00
-##  5 Let iz letalisca La Guardia, dne 26.01.13, ob 00:00 v le~ 2013-01-26 00:00:00
-##  6 Let iz letalisca Newark Liberty Intl, dne 24.01.13, ob 0~ 2013-01-24 06:00:00
-##  7 Let iz letalisca Newark Liberty Intl, dne 26.01.13, ob 0~ 2013-01-26 00:00:00
-##  8 Let iz letalisca La Guardia, dne 26.01.13, ob 00:00 v le~ 2013-01-26 00:00:00
-##  9 Let iz letalisca John F Kennedy Intl, dne 26.01.13, ob 0~ 2013-01-26 00:00:00
-## 10 Let iz letalisca La Guardia, dne 26.01.13, ob 00:00 v le~ 2013-01-26 00:00:00
+##  1 Let iz letalisca Newark Liberty Intl, dne 01.01.13, ob 0~ 2013-01-01 05:15:00
+##  2 Let iz letalisca La Guardia, dne 01.01.13, ob 05:29 v le~ 2013-01-01 05:29:00
+##  3 Let iz letalisca John F Kennedy Intl, dne 01.01.13, ob 0~ 2013-01-01 05:40:00
+##  4 &lt;NA&gt;                                                      2013-01-01 05:45:00
+##  5 Let iz letalisca La Guardia, dne 01.01.13, ob 06:00 v le~ 2013-01-01 06:00:00
+##  6 Let iz letalisca Newark Liberty Intl, dne 01.01.13, ob 0~ 2013-01-01 05:58:00
+##  7 Let iz letalisca Newark Liberty Intl, dne 01.01.13, ob 0~ 2013-01-01 06:00:00
+##  8 Let iz letalisca La Guardia, dne 01.01.13, ob 06:00 v le~ 2013-01-01 06:00:00
+##  9 Let iz letalisca John F Kennedy Intl, dne 01.01.13, ob 0~ 2013-01-01 06:00:00
+## 10 Let iz letalisca La Guardia, dne 01.01.13, ob 06:00 v le~ 2013-01-01 06:00:00
 ## # ... with 336,766 more rows</code></pre></li>
 </ol>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Časi odhodov in prihodov so v razpredelnici flights v lokalnem času. Dodajte spremenljivko <code>dep_time_utc</code>, ki bo vsebovala vrednost odhoda v časovnem pasu UTC. Zapis naj bo oblike integer, tako kot `dep_time’.</li>
+</ol>
+<pre><code>```
+## # A tibble: 336,776 x 8
+##     year month   day dep_time dep_time_utc origin dest  tzone           
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;           
+##  1  2013     1     1      517 1017         EWR    IAH   America/New_York
+##  2  2013     1     1      533 1033         LGA    IAH   America/New_York
+##  3  2013     1     1      542 1042         JFK    MIA   America/New_York
+##  4  2013     1     1      544 1044         JFK    BQN   America/New_York
+##  5  2013     1     1      554 1054         LGA    ATL   America/New_York
+##  6  2013     1     1      554 1054         EWR    ORD   America/New_York
+##  7  2013     1     1      555 1055         EWR    FLL   America/New_York
+##  8  2013     1     1      557 1057         LGA    IAD   America/New_York
+##  9  2013     1     1      557 1057         JFK    MCO   America/New_York
+## 10  2013     1     1      558 1058         LGA    ORD   America/New_York
+## # ... with 336,766 more rows
+```</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Simuliramo. Vsi leti bodo zaradi nepričakovane prenove letališča po 23. 10. 2013 zamaknjeni za dva tedna. Izpišite posodobljene datume v originalni obliki (year, month, day).</li>
+</ol>
+<pre><code>```
+## # A tibble: 63,797 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013    11     6      454            500        -6      632            648
+##  2  2013    11     6      512            517        -5      749            757
+##  3  2013    11     6      541            545        -4      837            827
+##  4  2013    11     6      544            545        -1      935            933
+##  5  2013    11     6      545            550        -5      930            932
+##  6  2013    11     6      546            545         1      856            855
+##  7  2013    11     6      549            600       -11      711            716
+##  8  2013    11     6      549            600       -11      900            858
+##  9  2013    11     6      550            600       -10      716            717
+## 10  2013    11     6      552            600        -8      735            751
+## # ... with 63,787 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,
+## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
+## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;
+```</code></pre>
 
 </div>
 </div>

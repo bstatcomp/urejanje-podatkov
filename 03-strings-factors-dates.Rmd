@@ -647,7 +647,7 @@ ds_jobs2
 ### Sprememba razvrstitve faktorja
 Kot smo omenili že pri krvnih skupinah, imajo velikokrat tudi faktorji, ki niso razvrščeni po velikosti, neko ustaljeno ureditev. Ureditev pa lahko tudi kasneje spremenimo. Ta operacija je običajno uporabna pri vizualizaciji. Poglejmo si, na primer, kako so plače povezane z izobrazbo. Za vizualizacijo rezultatov bomo uporabili razsevni diagram:
 
-```{r}
+```{r, fig.height = 2.5, fig.width = 8}
 ds_jobs_agg <- ds_jobs %>%
   group_by(FormalEducation) %>%
   summarise(MeanCompensationUSD = mean(CompensationUSD))
@@ -666,7 +666,7 @@ levels(ds_jobs$FormalEducation)
 
 Morda bi bilo bolje tak graf urediti glede na vrednosti spremenljivke `MeanCompensationUSD`, za kar moramo določiti novo razvrstitev te spremenljivke. Za to obstaja v paketu **forcats**, ki je del tidyverse, funkcija `fct_reorder()`.
 
-```{r}
+```{r, fig.height = 2.5, fig.width = 8}
 ggplot(ds_jobs_agg, aes(x = fct_reorder(FormalEducation, MeanCompensationUSD), y = MeanCompensationUSD)) +
   geom_point() +
   coord_flip() +
@@ -675,7 +675,7 @@ ggplot(ds_jobs_agg, aes(x = fct_reorder(FormalEducation, MeanCompensationUSD), y
 
 Razvrstitev lahko uredimo tudi ročno s funkcijo `fct_relevel()`, ki ohrani privzeto razvrstitev tako, da podane nivoje premakne na začetek, oziroma lahko podamo argument `after`.
 
-```{r}
+```{r, fig.height = 2.5, fig.width = 8}
 ggplot(ds_jobs_agg, aes(x = fct_relevel(FormalEducation, "I prefer not to answer", "I did not complete any formal education past high school", after = 0), y = MeanCompensationUSD)) +
   geom_point() +
   coord_flip() +
@@ -778,8 +778,8 @@ Vsaka časovna spremenljivka, ki vsebuje datum in čas, je sestavljena iz kompon
 
 - `year()`
 - `month()`
-- `mday()`. Dan v mesecu.
-- `wday()`. Dan v tednu. Privzeto se začne z nedeljo. To lahko spremenimo z argumentom `week_start`.
+- `mday()` Dan v mesecu.
+- `wday()` Dan v tednu. Privzeto se začne z nedeljo. To lahko spremenimo z argumentom `week_start`.
 - `hour()`
 - `minute()`
 - `second()`
@@ -1040,14 +1040,10 @@ Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran 
     - Dodajte stolpec *točke*, ki ima vrednosti med 0 in 100, tako da ima najvišja pripadajoča vrednost v averageScore vrednost 100.
     - Dodajte stolpec *ocena*, kjer so vrednosti za *točke* med 0 in 10 enake 1, 10 in 20 enake 2 itd.
     - Dodajte stolpec *besedna_ocena* tipa faktor, ki bo imel vrednosti glede na *oceno* in sicer ocene <6 = "nezadostno", 6 = "zadostno", 7 in 8 = "dobro", 9 = "zelo dobro" in 10 = "odlično".
-    - Shranite podatke v datoteko `students-performance-math-normalized.xlsx' in v binarno datoteko `students-performance-math-normalized.rds'.
-    - Ponovno preberite obe datoteki, prvo v spremenljivko `podatki_excel` in drugo v `podatki_binarni`. Katero razliko opazite?
-
-
-```{r, echo = FALSE, message = FALSE}
+    ```{r, echo = FALSE, message = FALSE}
 library(openxlsx)
-path <- "./test-script/data-raw/student-performance.xlsx"
-ocene <- tibble(read.xlsx(path, cols = c(1, 8:12)))
+path   <- "./test-script/data-raw/student-performance.xlsx"
+ocene  <- tibble(read.xlsx(path, cols = c(1, 8:12)))
 shrani <- ocene %>% mutate(točke = averageScore/max(averageScore)*100,
                  ocena = ceiling(točke/10),
                  besedna_ocena = cut(ocena, breaks = c(-Inf, 5, 6, 8, 9, 10),
@@ -1056,16 +1052,19 @@ shrani <- ocene %>% mutate(točke = averageScore/max(averageScore)*100,
                                                 "odlično")))
 shrani
 ```
+    - Shranite podatke v datoteko `students-performance-math-normalized.xlsx' in v binarno datoteko `students-performance-math-normalized.rds'.
+    - Ponovno preberite obe datoteki, prvo v spremenljivko `podatki_excel` in drugo v `podatki_binarni`. Prvo tudi spremenit v tibble. Katero razliko opazite?
 
 
-```{r, echo = FALSE, message = FALSE}
+    ```{r, echo = FALSE, message = FALSE}
 write.xlsx(shrani, "./test-script/data-raw/students-performance-math-normalized.xlsx")
 saveRDS(shrani, "./test-script/data-raw/students-performance-math-normalized.rds")
-podatki_excel <- read.xlsx("./test-script/data-raw/students-performance-math-normalized.xlsx")
+podatki_excel   <- as_tibble(read.xlsx("./test-script/data-raw/students-performance-math-normalized.xlsx"))
 podatki_binarno <- readRDS("./test-script/data-raw/students-performance-math-normalized.rds")
 podatki_excel
 podatki_binarno
 ```
+
 2) Naložite paket `nycflights13` s podatki letov. V tej bazi je več razpredelnic in sicer **flights**, **airlines**, **planes**, **airports** in **weather**. Za razumevanje si pomagajte z `?flights`.
 
     a) Izpišite vsa letališča, ki imajo 3 ali več besed v svojem imenu.
@@ -1117,7 +1116,7 @@ podatki %>% mutate(dep_string = make_datetime(year, month, day,
   select("Poročilo leta", dep_string)
 ```
 
-  d) Časi odhodov in prihodov so v razpredelnici flights v lokalnem času. Dodajte spremenljivko `dep_time_utc`, ki bo vsebovala vrednost odhoda v časovnem pasu UTC. Zapis naj bi oblike integer, tako kot `dep_time'.
+  d) Časi odhodov in prihodov so v razpredelnici flights v lokalnem času. Dodajte spremenljivko `dep_time_utc`, ki bo vsebovala vrednost odhoda v časovnem pasu UTC. Zapis naj bo oblike integer, tako kot `dep_time'.
 
     ```{r, echo = FALSE, message = FALSE}
 podatki <- left_join(flights, airports, by = c("origin" = "faa")) %>%
@@ -1134,9 +1133,9 @@ podatki
 
 ```
 
-  e) Simuliramo. Vsi leti bodo zaradi nepričakovane prenove letališča po 23. 10. 2013 bodo zamaknjeni za dva tedna. Izpišite posodobljene datume v originalni obliki (year, month, day).
+  e) Simuliramo. Vsi leti bodo zaradi nepričakovane prenove letališča po 23. 10. 2013 zamaknjeni za dva tedna. Izpišite posodobljene datume v originalni obliki (year, month, day).
 
-```{r, echo = FALSE, message = FALSE}
+    ```{r, echo = FALSE, message = FALSE}
 flights %>% mutate(temp_d = make_date(year, month, day) + 2*weeks(), .after = day) %>%
   filter(temp_d >= make_date(2013, 10, 23) + 2*weeks()) %>%
   mutate(year = as.integer(year(temp_d)),
