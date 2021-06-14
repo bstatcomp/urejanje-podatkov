@@ -723,7 +723,7 @@ Za delo z datumi bomo uporabljali paket **lubridate**. Glavni komponenti v tem p
     dmy("02.04.2021")
     ymd_hms("2021-04-02 12:01:00") # Tipa datetime.
     ymd(20210402, 20210403)
-    mdy("April 2nd, 2021") # Deluje za angleška imena mesecev
+    mdy("April 2nd, 2021") # Deluje za angleška imena mesecev.
     ```
 2) S posameznimi komponentami:
     ```{r}
@@ -890,7 +890,7 @@ flights_datetime
 head(flights_datetime$DepartureTime)
 ```
 
-Ali opazimo kakšno težavo? datume smo prebrali v časovni coni UTC, so pa podani v lokalni časovni coni. Podatkov torej nismo pretvorili pravilno! Poizkusimo še enkrat:
+Ali opazimo kakšno težavo? Datume smo prebrali v časovni coni UTC, so pa podani v lokalni časovni coni. Podatkov torej nismo pretvorili pravilno! Poizkusimo še enkrat:
 
 ``` {r}
 flights_datetime <- flights %>% select(year, month, day, hour, minute) %>%
