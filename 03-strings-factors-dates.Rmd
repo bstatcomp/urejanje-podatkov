@@ -511,8 +511,7 @@ ds_jobs %>%
   select(EmploymentStatus, CurrentJobTitle)
 ```
 
-
-S funkcijo `str_count()` lahko uporabimo, da anketirancem dodamo stolpec s številom službenih nazivov:
+Funkcijo `str_count()` lahko uporabimo, da anketirancem dodamo stolpec s številom službenih nazivov:
 
 ```{r}
 ds_jobs %>%
@@ -561,7 +560,7 @@ sort(krvne_skupine)
 
 Morda pa bi bilo bolj smiselno urediti po standardni ureditvi, torej A, B, AB, O.
 
-Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo `factor()`. Naredimo faktor iz spremenljivke `dan_v_tednu`:
+Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo `factor()`. Naredimo faktor iz spremenljivke `krvne_skupine`:
 
 ```{r}
 krvne_skupine_fac <- factor(krvne_skupine)
@@ -682,7 +681,7 @@ ggplot(ds_jobs_agg, aes(x = fct_relevel(FormalEducation, "I prefer not to answer
   xlab("")
 ```
 
-### Preimenivanje obstoječih in določanje novih nivojev
+### Preimenivanje obstoječih nivojev
 Nivoje faktorjev lahko preimenujemo s funkcijo `fct_recode()`.
 
 ```{r}
@@ -694,7 +693,7 @@ ds_jobs <- ds_jobs %>%
 head(ds_jobs$EmploymentStatus)
 ```
 
-Sorodno lahko zgornjo funkcijo zamenjamo z `fct_collapse()`, ki lahko združi več nivojev v enega.
+Sorodno lahko zgornjo funkcijo zamenjamo s `fct_collapse()`, ki lahko združi več nivojev v enega.
 
 
 ### Razbitje numerične spremenljivke na intervale
