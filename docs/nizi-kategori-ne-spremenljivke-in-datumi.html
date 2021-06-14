@@ -232,7 +232,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#kategorične-spremenljivke-1"><i class="fa fa-check"></i><b>3.3</b> Kategorične spremenljivke</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#sprememba-razvrstitve-faktorja"><i class="fa fa-check"></i><b>3.3.1</b> Sprememba razvrstitve faktorja</a></li>
-<li class="chapter" data-level="3.3.2" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#preimenivanje-obstoječih-in-določanje-novih-nivojev"><i class="fa fa-check"></i><b>3.3.2</b> Preimenivanje obstoječih in določanje novih nivojev</a></li>
+<li class="chapter" data-level="3.3.2" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#preimenivanje-obstoječih-nivojev"><i class="fa fa-check"></i><b>3.3.2</b> Preimenivanje obstoječih nivojev</a></li>
 <li class="chapter" data-level="3.3.3" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#razbitje-numerične-spremenljivke-na-intervale"><i class="fa fa-check"></i><b>3.3.3</b> Razbitje numerične spremenljivke na intervale</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="nizi-kategori-ne-spremenljivke-in-datumi.html"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#datumi-in-ure"><i class="fa fa-check"></i><b>3.4</b> Datumi in ure</a>
@@ -357,7 +357,7 @@ div.csl-indent {
 </div>
 <div id="datumi" class="section level4 unnumbered">
 <h4>Datumi</h4>
-<p>Za delo z datumo bomo uporabljali paket <strong>lubridate</strong>. Datume lahko z lubridate shranimo na več načinov. Preprosto lahko sestavimo datum s posameznimi komponentami:</p>
+<p>Za delo z datumi bomo uporabljali paket <strong>lubridate</strong>. Datume lahko z lubridate shranimo na več načinov. Preprosto lahko sestavimo datum s posameznimi komponentami:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb34-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make_date</span>(<span class="at">year =</span> <span class="dv">2021</span>, <span class="at">month =</span> <span class="dv">6</span>, <span class="at">day =</span> <span class="dv">11</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2021-06-11&quot;</code></pre>
@@ -505,22 +505,22 @@ div.csl-indent {
 <span id="cb93-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb93-2" aria-hidden="true" tabindex="-1"></a>listek1 <span class="ot">&lt;-</span> <span class="st">&quot;KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.&quot;</span></span>
 <span id="cb93-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb93-3" aria-hidden="true" tabindex="-1"></a>listek2 <span class="ot">&lt;-</span> <span class="st">&quot;KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper.&quot;</span></span>
 <span id="cb93-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb93-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-8f0af6ee55b81ec845f1" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8f0af6ee55b81ec845f1">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik<span class='match'>,<\/span> bučke<span class='match'>,<\/span> jabolka<span class='match'>,<\/span> paprika<span class='match'>,<\/span> jagode. Aja<span class='match'>,<\/span> pa banane.<\/li>\n  <li>KUPI: sok(3x)<span class='match'>,<\/span> kruh<span class='match'>,<\/span> piškote<span class='match'>,<\/span> pašto(2x)<span class='match'>,<\/span> sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8bbf2f1bb9e09e99f3f7" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8bbf2f1bb9e09e99f3f7">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik<span class='match'>,<\/span> bučke<span class='match'>,<\/span> jabolka<span class='match'>,<\/span> paprika<span class='match'>,<\/span> jagode. Aja<span class='match'>,<\/span> pa banane.<\/li>\n  <li>KUPI: sok(3x)<span class='match'>,<\/span> kruh<span class='match'>,<\/span> piškote<span class='match'>,<\/span> pašto(2x)<span class='match'>,<\/span> sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Kaj pa pike?</p>
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;.&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-e04b22d727f43eb97e15" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e04b22d727f43eb97e15">{"x":{"html":"<ul>\n  <li><span class='match'>K<\/span><span class='match'>U<\/span><span class='match'>P<\/span><span class='match'>I<\/span><span class='match'>:<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>r<\/span><span class='match'>a<\/span><span class='match'>d<\/span><span class='match'>i<\/span><span class='match'>ž<\/span><span class='match'>n<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>b<\/span><span class='match'>u<\/span><span class='match'>č<\/span><span class='match'>k<\/span><span class='match'>e<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>b<\/span><span class='match'>o<\/span><span class='match'>l<\/span><span class='match'>k<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>p<\/span><span class='match'>r<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>g<\/span><span class='match'>o<\/span><span class='match'>d<\/span><span class='match'>e<\/span><span class='match'>.<\/span><span class='match'> <\/span><span class='match'>A<\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'> <\/span><span class='match'>b<\/span><span class='match'>a<\/span><span class='match'>n<\/span><span class='match'>a<\/span><span class='match'>n<\/span><span class='match'>e<\/span><span class='match'>.<\/span><\/li>\n  <li><span class='match'>K<\/span><span class='match'>U<\/span><span class='match'>P<\/span><span class='match'>I<\/span><span class='match'>:<\/span><span class='match'> <\/span><span class='match'>s<\/span><span class='match'>o<\/span><span class='match'>k<\/span><span class='match'>(<\/span><span class='match'>3<\/span><span class='match'>x<\/span><span class='match'>)<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>k<\/span><span class='match'>r<\/span><span class='match'>u<\/span><span class='match'>h<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>i<\/span><span class='match'>š<\/span><span class='match'>k<\/span><span class='match'>o<\/span><span class='match'>t<\/span><span class='match'>e<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>š<\/span><span class='match'>t<\/span><span class='match'>o<\/span><span class='match'>(<\/span><span class='match'>2<\/span><span class='match'>x<\/span><span class='match'>)<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>s<\/span><span class='match'>o<\/span><span class='match'>l<\/span><span class='match'> <\/span><span class='match'>i<\/span><span class='match'>n<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>o<\/span><span class='match'>p<\/span><span class='match'>e<\/span><span class='match'>r<\/span><span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-579887cb2ec814db85ba" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-579887cb2ec814db85ba">{"x":{"html":"<ul>\n  <li><span class='match'>K<\/span><span class='match'>U<\/span><span class='match'>P<\/span><span class='match'>I<\/span><span class='match'>:<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>r<\/span><span class='match'>a<\/span><span class='match'>d<\/span><span class='match'>i<\/span><span class='match'>ž<\/span><span class='match'>n<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>b<\/span><span class='match'>u<\/span><span class='match'>č<\/span><span class='match'>k<\/span><span class='match'>e<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>b<\/span><span class='match'>o<\/span><span class='match'>l<\/span><span class='match'>k<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>p<\/span><span class='match'>r<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>g<\/span><span class='match'>o<\/span><span class='match'>d<\/span><span class='match'>e<\/span><span class='match'>.<\/span><span class='match'> <\/span><span class='match'>A<\/span><span class='match'>j<\/span><span class='match'>a<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'> <\/span><span class='match'>b<\/span><span class='match'>a<\/span><span class='match'>n<\/span><span class='match'>a<\/span><span class='match'>n<\/span><span class='match'>e<\/span><span class='match'>.<\/span><\/li>\n  <li><span class='match'>K<\/span><span class='match'>U<\/span><span class='match'>P<\/span><span class='match'>I<\/span><span class='match'>:<\/span><span class='match'> <\/span><span class='match'>s<\/span><span class='match'>o<\/span><span class='match'>k<\/span><span class='match'>(<\/span><span class='match'>3<\/span><span class='match'>x<\/span><span class='match'>)<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>k<\/span><span class='match'>r<\/span><span class='match'>u<\/span><span class='match'>h<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>i<\/span><span class='match'>š<\/span><span class='match'>k<\/span><span class='match'>o<\/span><span class='match'>t<\/span><span class='match'>e<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>a<\/span><span class='match'>š<\/span><span class='match'>t<\/span><span class='match'>o<\/span><span class='match'>(<\/span><span class='match'>2<\/span><span class='match'>x<\/span><span class='match'>)<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>s<\/span><span class='match'>o<\/span><span class='match'>l<\/span><span class='match'> <\/span><span class='match'>i<\/span><span class='match'>n<\/span><span class='match'> <\/span><span class='match'>p<\/span><span class='match'>o<\/span><span class='match'>p<\/span><span class='match'>e<\/span><span class='match'>r<\/span><span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Pika je poseben znak pri regularnih izrazih, ki predstavlja poljuben znak. Zato smo dobili ujemanja z vsemi črkami. Da lahko dejansko poiščemo pike in druge posebne znake moramo uporabiti znak escape <code>\</code>, s katerim programu sporočimo, naj simbola za tem ne prebere kot regularni izraz. Tukaj se nam nekoliko zaplete, ker je znak <code>\</code> že znak escape v R za tabulatorje (<code>\t</code>), nove vrstice (<code>\n</code>) itd. Zato, da vzorcu dejansko podamo <code>\.</code> moramo zapisati <code>\\.</code>. Tukaj si ponovno lahko pomagamo s funkcijo <code>cat()</code>, ki nam bo pokazala dejanski niz podan funkciji.</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="co"># Poglejmo kakšen niz bo dejansko sprejela funkcija str_view_all().</span></span></code></pre></div>
 <pre><code>## \.</code></pre>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-da3dd2411021301abbfb" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-da3dd2411021301abbfb">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode<span class='match'>.<\/span> Aja, pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-36320060e7d933ca2536" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-36320060e7d933ca2536">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode<span class='match'>.<\/span> Aja, pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Regularni izrazi uporabljajo tudi dva posebna znaka, ki označujeta začetek <code>^</code> in konec <code>$</code> niza. Poiščimo samo pike, ki zaključujejo nize:</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.$&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-aa9aa29fd31306d3fde7" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-aa9aa29fd31306d3fde7">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-cddce7d130a217075df0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cddce7d130a217075df0">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>V regularnih izrazih so zelo uporabne tudi naslednje sekvence.</p>
 <ul>
 <li><code>\d</code>: Ujemanje s poljubno števko;</li>
@@ -533,28 +533,28 @@ div.csl-indent {
 </ul>
 <p>Poglejmo si uporabo nekaterih:</p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">dx&quot;</span>) <span class="co"># Poiščemo vse številke, ki jim sledi x.</span></span></code></pre></div>
-<div id="htmlwidget-1f78a3dffbbae73e706f" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1f78a3dffbbae73e706f">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(<span class='match'>3x<\/span>), kruh, piškote, pašto(<span class='match'>2x<\/span>), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3ad2200ed83f12badb30" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3ad2200ed83f12badb30">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(<span class='match'>3x<\/span>), kruh, piškote, pašto(<span class='match'>2x<\/span>), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;[čžš]&quot;</span>) <span class="co"># Vse šumnike.</span></span></code></pre></div>
-<div id="htmlwidget-a9c98bfbd2d6e8ebf61e" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a9c98bfbd2d6e8ebf61e">{"x":{"html":"<ul>\n  <li>KUPI: paradi<span class='match'>ž<\/span>nik, bu<span class='match'>č<\/span>ke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, pi<span class='match'>š<\/span>kote, pa<span class='match'>š<\/span>to(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e9f847df7b11be1f2fd6" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e9f847df7b11be1f2fd6">{"x":{"html":"<ul>\n  <li>KUPI: paradi<span class='match'>ž<\/span>nik, bu<span class='match'>č<\/span>ke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, pi<span class='match'>š<\/span>kote, pa<span class='match'>š<\/span>to(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;[aA].[aA]&quot;</span>) <span class="co"># Dva a-ja s poljubnim znakom vmes.</span></span></code></pre></div>
-<div id="htmlwidget-4043e9af82b4b1dc5744" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4043e9af82b4b1dc5744">{"x":{"html":"<ul>\n  <li>KUPI: p<span class='match'>ara<\/span>dižnik, bučke, jabolka, paprika, jagode. <span class='match'>Aja<\/span>, pa b<span class='match'>ana<\/span>ne.<\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-398c02532764f42b3a0a" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-398c02532764f42b3a0a">{"x":{"html":"<ul>\n  <li>KUPI: p<span class='match'>ara<\/span>dižnik, bučke, jabolka, paprika, jagode. <span class='match'>Aja<\/span>, pa b<span class='match'>ana<\/span>ne.<\/li>\n  <li>KUPI: sok(3x), kruh, piškote, pašto(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;.[</span><span class="sc">\\</span><span class="st">s,.]&quot;</span>) <span class="co"># Vse konce besed.</span></span></code></pre></div>
-<div id="htmlwidget-ea3093c8f4df67304232" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ea3093c8f4df67304232">{"x":{"html":"<ul>\n  <li>KUPI<span class='match'>: <\/span>paradižni<span class='match'>k,<\/span> bučk<span class='match'>e,<\/span> jabolk<span class='match'>a,<\/span> paprik<span class='match'>a,<\/span> jagod<span class='match'>e.<\/span> Aj<span class='match'>a,<\/span> p<span class='match'>a <\/span>banan<span class='match'>e.<\/span><\/li>\n  <li>KUPI<span class='match'>: <\/span>sok(3x<span class='match'>),<\/span> kru<span class='match'>h,<\/span> piškot<span class='match'>e,<\/span> pašto(2x<span class='match'>),<\/span> so<span class='match'>l <\/span>i<span class='match'>n <\/span>pope<span class='match'>r.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e0c29bd85f5fd54b4426" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e0c29bd85f5fd54b4426">{"x":{"html":"<ul>\n  <li>KUPI<span class='match'>: <\/span>paradižni<span class='match'>k,<\/span> bučk<span class='match'>e,<\/span> jabolk<span class='match'>a,<\/span> paprik<span class='match'>a,<\/span> jagod<span class='match'>e.<\/span> Aj<span class='match'>a,<\/span> p<span class='match'>a <\/span>banan<span class='match'>e.<\/span><\/li>\n  <li>KUPI<span class='match'>: <\/span>sok(3x<span class='match'>),<\/span> kru<span class='match'>h,<\/span> piškot<span class='match'>e,<\/span> pašto(2x<span class='match'>),<\/span> so<span class='match'>l <\/span>i<span class='match'>n <\/span>pope<span class='match'>r.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;[a-f]&quot;</span>) <span class="co"># Vse črke od a do f.</span></span></code></pre></div>
-<div id="htmlwidget-bf3ff4ab2ccb54433c04" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bf3ff4ab2ccb54433c04">{"x":{"html":"<ul>\n  <li>KUPI: p<span class='match'>a<\/span>r<span class='match'>a<\/span><span class='match'>d<\/span>ižnik, <span class='match'>b<\/span>učk<span class='match'>e<\/span>, j<span class='match'>a<\/span><span class='match'>b<\/span>olk<span class='match'>a<\/span>, p<span class='match'>a<\/span>prik<span class='match'>a<\/span>, j<span class='match'>a<\/span>go<span class='match'>d<\/span><span class='match'>e<\/span>. Aj<span class='match'>a<\/span>, p<span class='match'>a<\/span> <span class='match'>b<\/span><span class='match'>a<\/span>n<span class='match'>a<\/span>n<span class='match'>e<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, piškot<span class='match'>e<\/span>, p<span class='match'>a<\/span>što(2x), sol in pop<span class='match'>e<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3152a51fd205ec6e8261" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3152a51fd205ec6e8261">{"x":{"html":"<ul>\n  <li>KUPI: p<span class='match'>a<\/span>r<span class='match'>a<\/span><span class='match'>d<\/span>ižnik, <span class='match'>b<\/span>učk<span class='match'>e<\/span>, j<span class='match'>a<\/span><span class='match'>b<\/span>olk<span class='match'>a<\/span>, p<span class='match'>a<\/span>prik<span class='match'>a<\/span>, j<span class='match'>a<\/span>go<span class='match'>d<\/span><span class='match'>e<\/span>. Aj<span class='match'>a<\/span>, p<span class='match'>a<\/span> <span class='match'>b<\/span><span class='match'>a<\/span>n<span class='match'>a<\/span>n<span class='match'>e<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, piškot<span class='match'>e<\/span>, p<span class='match'>a<\/span>što(2x), sol in pop<span class='match'>e<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;[[:punct:]]&quot;</span>) <span class="co"># Vsa ločila.</span></span></code></pre></div>
-<div id="htmlwidget-6b463323aed37dd5c32f" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6b463323aed37dd5c32f">{"x":{"html":"<ul>\n  <li>KUPI<span class='match'>:<\/span> paradižnik<span class='match'>,<\/span> bučke<span class='match'>,<\/span> jabolka<span class='match'>,<\/span> paprika<span class='match'>,<\/span> jagode<span class='match'>.<\/span> Aja<span class='match'>,<\/span> pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI<span class='match'>:<\/span> sok<span class='match'>(<\/span>3x<span class='match'>)<\/span><span class='match'>,<\/span> kruh<span class='match'>,<\/span> piškote<span class='match'>,<\/span> pašto<span class='match'>(<\/span>2x<span class='match'>)<\/span><span class='match'>,<\/span> sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-29881475f8dfa6260d1e" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-29881475f8dfa6260d1e">{"x":{"html":"<ul>\n  <li>KUPI<span class='match'>:<\/span> paradižnik<span class='match'>,<\/span> bučke<span class='match'>,<\/span> jabolka<span class='match'>,<\/span> paprika<span class='match'>,<\/span> jagode<span class='match'>.<\/span> Aja<span class='match'>,<\/span> pa banane<span class='match'>.<\/span><\/li>\n  <li>KUPI<span class='match'>:<\/span> sok<span class='match'>(<\/span>3x<span class='match'>)<\/span><span class='match'>,<\/span> kruh<span class='match'>,<\/span> piškote<span class='match'>,<\/span> pašto<span class='match'>(<\/span>2x<span class='match'>)<\/span><span class='match'>,<\/span> sol in poper<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Znotraj oglatih oklepajev je pomen pike dobeseden znak pika. Tako, da ga ni potrebno zapisati kot <code>\\.</code> Priporočamo, da sami preizkušate še druge sekvence.</p>
 <p>Navpična črta <code>|</code> pomeni ali:</p>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;sol|sok&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-987e785246fae6aa4da1" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-987e785246fae6aa4da1">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: <span class='match'>sok<\/span>(3x), kruh, piškote, pašto(2x), <span class='match'>sol<\/span> in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0840714b9f1ed41ba09f" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0840714b9f1ed41ba09f">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: <span class='match'>sok<\/span>(3x), kruh, piškote, pašto(2x), <span class='match'>sol<\/span> in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="ponovitve" class="section level3" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> Ponovitve</h3>
@@ -572,37 +572,37 @@ div.csl-indent {
 <p>Ko začnemo uporabljati ponovitve se pojavijo prve večje težave.</p>
 <p>Poiščimo vse besede dolžine 3. Besede sledijo presledku, torej začnemo regularni izraz z <code>\\s</code> (pri tem ignoriramo prvo besedo v odstavku). Nato morajo slediti 3 črke, torej <code>[:alpha:]{3}</code>. Temu mora slediti nov presledek ali ločilo, <code>[[:punct:]]|\\s</code>:</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">s[[:alpha:]]{3}([[:punct:]]|</span><span class="sc">\\</span><span class="st">s)&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-6ffe8201a5fa69f567b0" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6ffe8201a5fa69f567b0">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode.<span class='match'> Aja,<\/span> pa banane.<\/li>\n  <li>KUPI:<span class='match'> sok(<\/span>3x), kruh, piškote, pašto(2x),<span class='match'> sol <\/span>in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f906e31b898de7bb840c" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f906e31b898de7bb840c">{"x":{"html":"<ul>\n  <li>KUPI: paradižnik, bučke, jabolka, paprika, jagode.<span class='match'> Aja,<\/span> pa banane.<\/li>\n  <li>KUPI:<span class='match'> sok(<\/span>3x), kruh, piškote, pašto(2x),<span class='match'> sol <\/span>in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Poskušajmo poiskati besede, ki se začnejo na p in končajo na k ali e.</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;p.*[ke]&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-6407e8dbf5106ce0027a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6407e8dbf5106ce0027a">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote, pašto(2x), sol in pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-891962b31bd810cb4adb" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-891962b31bd810cb4adb">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik, bučke, jabolka, paprika, jagode. Aja, pa banane<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote, pašto(2x), sol in pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Opazimo, da je ujemanje požrešno. To pomeni, da je ujemanje najdaljše možno, ki ustreza ponovitvam. Če želimo najkrajšega lahko uporabimo še dodaten <code>?</code> za znakom za ponovitve.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;p.*?[ke]&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-d5c682fd22606ee1ee3a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d5c682fd22606ee1ee3a">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik<\/span>, bučke, jabolka, <span class='match'>paprik<\/span>a, jagode. Aja, <span class='match'>pa banane<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>pišk<\/span>ote, <span class='match'>pašto(2x), sol in pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e9f2b8e9e8f2f8033e5d" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e9f2b8e9e8f2f8033e5d">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik<\/span>, bučke, jabolka, <span class='match'>paprik<\/span>a, jagode. Aja, <span class='match'>pa banane<\/span>.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>pišk<\/span>ote, <span class='match'>pašto(2x), sol in pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Še vedno ni OK. V dobljenih nizih ne želimo presledkov in ne želimo, da se ujemanje konča prehitro, kot pri besedi ‘piškote.’ Poskusimo tako, da vzamemo ponovitve, ki ne vsebujejo presledkov.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;p[^</span><span class="sc">\\</span><span class="st">s]*[ke]&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-2a86d05cf921114603c7" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2a86d05cf921114603c7">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik<\/span>, bučke, jabolka, <span class='match'>paprik<\/span>a, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote<\/span>, pašto(2x), sol in <span class='match'>pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-14afe37d6d5611f8622d" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-14afe37d6d5611f8622d">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik<\/span>, bučke, jabolka, <span class='match'>paprik<\/span>a, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote<\/span>, pašto(2x), sol in <span class='match'>pope<\/span>r.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Da zagotovimo zajem konca besede, določimo še, da naj bo na koncu vejica ali presledek.</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="fu">c</span>(listek1, listek2), <span class="st">&quot;p[[:alpha:]]*[ke]([, ])&quot;</span>)</span></code></pre></div>
-<div id="htmlwidget-59e5e8102f1a5815e1e5" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-59e5e8102f1a5815e1e5">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik,<\/span> bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote,<\/span> pašto(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-cfa81f6f0f80c5d38d2a" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cfa81f6f0f80c5d38d2a">{"x":{"html":"<ul>\n  <li>KUPI: <span class='match'>paradižnik,<\/span> bučke, jabolka, paprika, jagode. Aja, pa banane.<\/li>\n  <li>KUPI: sok(3x), kruh, <span class='match'>piškote,<\/span> pašto(2x), sol in poper.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="skupine" class="section level3" number="3.2.4">
 <h3><span class="header-section-number">3.2.4</span> Skupine</h3>
 <p>Kot smo že videli lahko uporabimo tudi oklepaje, da ločimo del regularnega izraza od ostalih simbolov. Oklepaji pa definirajo tudi skupino, na katero se lahko sklicujemo z <code>\x</code>, kjer je x zaporedna številka skupine.</p>
 <p>Poglejmo si uporabo le tega na že vgrajenem vektorju sadja. Parameter <code>match = TRUE</code> nam vrne le nize, pri katerih je prišlo do ujemanja.</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(fruit, <span class="st">&quot;(..)</span><span class="sc">\\</span><span class="st">1&quot;</span>, <span class="at">match =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<div id="htmlwidget-68a2bc8a2799f52874db" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-68a2bc8a2799f52874db">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li><span class='match'>coco<\/span>nut<\/li>\n  <li><span class='match'>cucu<\/span>mber<\/li>\n  <li><span class='match'>juju<\/span>be<\/li>\n  <li><span class='match'>papa<\/span>ya<\/li>\n  <li>s<span class='match'>alal<\/span> berry<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1cdc8c38972778753f25" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1cdc8c38972778753f25">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li><span class='match'>coco<\/span>nut<\/li>\n  <li><span class='match'>cucu<\/span>mber<\/li>\n  <li><span class='match'>juju<\/span>be<\/li>\n  <li><span class='match'>papa<\/span>ya<\/li>\n  <li>s<span class='match'>alal<\/span> berry<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Zgornji regularni izraz z <code>..</code> poišče dva poljubna znaka. Z <code>(..)</code> definiramo skupino. Z <code>\1</code> oziroma <code>\\1</code>, pa zahtevamo, da se na tem mestu še enkrat nahaja točno to kar je bilo med oklepaji.</p>
 <p>Poiščimo imena sadežev, ki imajo vsaj dve (lahko različni) ponavljajoči si črki:</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(fruit, <span class="st">&quot;(.)</span><span class="sc">\\</span><span class="st">1.*(.)</span><span class="sc">\\</span><span class="st">2&quot;</span>, <span class="at">match =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<div id="htmlwidget-8becc1e2c3a7519dce1a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8becc1e2c3a7519dce1a">{"x":{"html":"<ul>\n  <li>be<span class='match'>ll pepp<\/span>er<\/li>\n  <li>g<span class='match'>ooseberr<\/span>y<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4013f3b0c41c5da3e162" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4013f3b0c41c5da3e162">{"x":{"html":"<ul>\n  <li>be<span class='match'>ll pepp<\/span>er<\/li>\n  <li>g<span class='match'>ooseberr<\/span>y<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="uporaba-regularnih-izrazov" class="section level3" number="3.2.5">
 <h3><span class="header-section-number">3.2.5</span> Uporaba regularnih izrazov</h3>
@@ -742,7 +742,7 @@ div.csl-indent {
 ##  9 full-time                                     Data Scientist                 
 ## 10 independent contractor, freelancer, or self-~ Data Scientist                 
 ## # ... with 4,513 more rows</code></pre>
-<p>S funkcijo <code>str_count()</code> lahko uporabimo, da anketirancem dodamo stolpec s številom službenih nazivov:</p>
+<p>Funkcijo <code>str_count()</code> lahko uporabimo, da anketirancem dodamo stolpec s številom službenih nazivov:</p>
 <div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb141-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb141-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CurrentJobTitle) <span class="sc">%&gt;%</span></span>
 <span id="cb141-3"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">NumberOfJobTitles =</span> <span class="fu">str_count</span>(CurrentJobTitle, <span class="st">&quot;/&quot;</span>) <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div>
@@ -800,7 +800,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(krvne_skupine)</span></code></pre></div>
 <pre><code>## [1] &quot;AB&quot; &quot;B&quot;  &quot;B&quot;  &quot;BA&quot; &quot;O&quot;</code></pre>
 <p>Morda pa bi bilo bolj smiselno urediti po standardni ureditvi, torej A, B, AB, O.</p>
-<p>Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo <code>factor()</code>. Naredimo faktor iz spremenljivke <code>dan_v_tednu</code>:</p>
+<p>Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo <code>factor()</code>. Naredimo faktor iz spremenljivke <code>krvne_skupine</code>:</p>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb150-1" aria-hidden="true" tabindex="-1"></a>krvne_skupine_fac <span class="ot">&lt;-</span> <span class="fu">factor</span>(krvne_skupine)</span>
 <span id="cb150-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb150-2" aria-hidden="true" tabindex="-1"></a>krvne_skupine_fac</span></code></pre></div>
 <pre><code>## [1] B  B  O  AB BA
@@ -998,8 +998,8 @@ div.csl-indent {
 <span id="cb187-4"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb187-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-75-1.png" width="768" /></p>
 </div>
-<div id="preimenivanje-obstoječih-in-določanje-novih-nivojev" class="section level3" number="3.3.2">
-<h3><span class="header-section-number">3.3.2</span> Preimenivanje obstoječih in določanje novih nivojev</h3>
+<div id="preimenivanje-obstoječih-nivojev" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Preimenivanje obstoječih nivojev</h3>
 <p>Nivoje faktorjev lahko preimenujemo s funkcijo <code>fct_recode()</code>.</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb188-1" aria-hidden="true" tabindex="-1"></a>ds_jobs <span class="ot">&lt;-</span> ds_jobs <span class="sc">%&gt;%</span></span>
 <span id="cb188-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb188-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EmploymentStatus =</span> <span class="fu">fct_recode</span>(EmploymentStatus,</span>
@@ -1009,7 +1009,7 @@ div.csl-indent {
 <span id="cb188-6"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb188-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds_jobs<span class="sc">$</span>EmploymentStatus)</span></code></pre></div>
 <pre><code>## [1] full-time full-time full-time part-time full-time full-time
 ## Levels: full-time part-time other</code></pre>
-<p>Sorodno lahko zgornjo funkcijo zamenjamo z <code>fct_collapse()</code>, ki lahko združi več nivojev v enega.</p>
+<p>Sorodno lahko zgornjo funkcijo zamenjamo s <code>fct_collapse()</code>, ki lahko združi več nivojev v enega.</p>
 </div>
 <div id="razbitje-numerične-spremenljivke-na-intervale" class="section level3" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Razbitje numerične spremenljivke na intervale</h3>
@@ -1097,7 +1097,7 @@ div.csl-indent {
 <p>Poglejmo sedaj kaj vračajo te funkcije:</p>
 <div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb223-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">now</span>()</span>
 <span id="cb223-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb223-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] &quot;2021-06-14 08:26:30 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2021-06-14 12:27:54 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(x)</span></code></pre></div>
 <pre><code>## [1] 2021</code></pre>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">month</span>(x)</span></code></pre></div>
@@ -1109,15 +1109,15 @@ div.csl-indent {
 <div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wday</span>(x, <span class="at">week_start =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hour</span>(x)</span></code></pre></div>
-<pre><code>## [1] 8</code></pre>
+<pre><code>## [1] 12</code></pre>
 <div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">minute</span>(x)</span></code></pre></div>
-<pre><code>## [1] 26</code></pre>
+<pre><code>## [1] 27</code></pre>
 <div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second</span>(x)</span></code></pre></div>
-<pre><code>## [1] 30.19398</code></pre>
+<pre><code>## [1] 54.38038</code></pre>
 <p>S komponentami lahko tudi spreminjamo dele časovne spremenljivke:</p>
 <div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mday</span>(x) <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb241-2"><a href="nizi-kategori-ne-spremenljivke-in-datumi.html#cb241-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] &quot;2021-06-05 08:26:30 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2021-06-05 12:27:54 CEST&quot;</code></pre>
 <p>Pri računanju s časovnimi enotami v lubridate poznamo tri razrede:</p>
 <ul>
 <li><strong>trajanja</strong> (ang. duration). Čas v sekundah. Funkcije <code>dseconds()</code>, <code>dminutes()</code>, <code>ddays()</code>, <code>dweeks()</code> in <code>dyears()</code>. Pri trajanjih se vedno uporabi pretvorba, da ima vsak dan 24 ur in vsako leto 365.25 dni. Slednje predstavlja povprečno šteilo dni v letu. Tako da bo funkcija <code>dyears(4)</code> vedno vrnila število sekund, ki ustreza 4x365.25 dnem, ki imajo vsak po 24 ur.</li>
@@ -1461,26 +1461,60 @@ div.csl-indent {
 <div id="domača-naloga-2" class="section level2" number="3.7">
 <h2><span class="header-section-number">3.7</span> Domača naloga</h2>
 <ol style="list-style-type: decimal">
+<li>Odprite datoteko DS-jobs.csv ter spremenite spremenljivko FormalEducation v tip faktor. Nato obdržite le štiri najbolj pogoste izobrazbe, ostale pa zamenjajte z vrednostjo “other.” Uporabite eno izmed funkcij v skupini <code>fct_lump</code>.</li>
+</ol>
+<pre><code>## # A tibble: 4,523 x 4
+##    Gender Country          Age FormalEducation  
+##    &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt;            
+##  1 Female Australia         43 Bachelor&#39;s degree
+##  2 Male   Russia            33 Bachelor&#39;s degree
+##  3 Male   Taiwan            26 Master&#39;s degree  
+##  4 Male   United States     25 Bachelor&#39;s degree
+##  5 Male   United States     33 Doctoral degree  
+##  6 Male   Czech Republic    21 Other            
+##  7 Male   Russia            22 Bachelor&#39;s degree
+##  8 Male   Netherlands       51 Master&#39;s degree  
+##  9 Male   Colombia          34 Master&#39;s degree  
+## 10 Male   Germany           41 Other            
+## # ... with 4,513 more rows</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Na podatkih <code>fruit</code> uporabite <code>str_subset</code> in poiščite:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Vse sadeže, ki se začnejo in končajo na samoglasnik.</li>
+</ol>
+<pre><code>## [1] &quot;apple&quot;   &quot;avocado&quot; &quot;olive&quot;   &quot;orange&quot;</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Vse sadeže, ki imajo največ 5 črk.</li>
+</ol>
+<pre><code>##  [1] &quot;apple&quot; &quot;date&quot;  &quot;fig&quot;   &quot;grape&quot; &quot;guava&quot; &quot;lemon&quot; &quot;lime&quot;  &quot;mango&quot; &quot;nut&quot;  
+## [10] &quot;olive&quot; &quot;peach&quot; &quot;pear&quot;  &quot;plum&quot;</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><strong>težja</strong> Vse sadeže, pri katerih je prvi samoglasnik enak zadnjemu samoglasniku v besedi. Za rešitev je potrebno uporabiti negacijo in skupino.</li>
+</ol>
+<pre><code>##  [1] &quot;banana&quot;       &quot;bell pepper&quot;  &quot;blackcurrant&quot; &quot;clementine&quot;   &quot;elderberry&quot;  
+##  [6] &quot;kiwi fruit&quot;   &quot;lychee&quot;       &quot;nectarine&quot;    &quot;papaya&quot;       &quot;pomelo&quot;      
+## [11] &quot;rambutan&quot;     &quot;rock melon&quot;   &quot;satsuma&quot;</code></pre></li>
 <li><p>Odprite prvi list ocen v <code>student-performance.xlsx</code> v mapi <code>test-script/data-raw/</code>.</p>
 <ul>
 <li>Odprite le stolpce school, absences, G1, G2, G3 in averageScore.</li>
 <li>Dodajte stolpec <em>točke</em>, ki ima vrednosti med 0 in 100, tako da ima najvišja pripadajoča vrednost v averageScore vrednost 100.</li>
 <li>Dodajte stolpec <em>ocena</em>, kjer so vrednosti za <em>točke</em> med 0 in 10 enake 1, 10 in 20 enake 2 itd.</li>
-<li>Dodajte stolpec <em>besedna_ocena</em> tipa faktor, ki bo imel vrednosti glede na <em>oceno</em> in sicer ocene &lt;6 = “nezadostno,” 6 = “zadostno,” 7 in 8 = “dobro,” 9 = “zelo dobro” in 10 = “odlično.”</li>
+<li>Dodajte stolpec <em>besedna_ocena</em> tipa faktor, ki bo imel vrednosti glede na <em>oceno</em> in sicer ocene &lt;6 = “nezadostno,” 6 = “zadostno,” 7 = “v redu” 8 = “dobro,” 9 = “zelo dobro” in 10 = “odlično.”</li>
+<li>Združite vrednosti “v redu” in “dobro” v eno vrednost “dobro.”</li>
 </ul>
 <pre><code>## # A tibble: 649 x 9
 ##    school absences    G1    G2    G3 averageScore točke ocena besedna_ocena
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;        
 ##  1 GP            4     0    11    11         7.33  39.3     4 nezadostno   
 ##  2 GP            2     9    11    11        10.3   55.4     6 zadostno     
-##  3 GP            6    12    13    12        12.3   66.1     7 dobro        
+##  3 GP            6    12    13    12        12.3   66.1     7 v redu       
 ##  4 GP            0    14    14    14        14     75       8 dobro        
-##  5 GP            0    11    13    13        12.3   66.1     7 dobro        
-##  6 GP            6    12    12    13        12.3   66.1     7 dobro        
-##  7 GP            0    13    12    13        12.7   67.9     7 dobro        
-##  8 GP            2    10    13    13        12     64.3     7 dobro        
+##  5 GP            0    11    13    13        12.3   66.1     7 v redu       
+##  6 GP            6    12    12    13        12.3   66.1     7 v redu       
+##  7 GP            0    13    12    13        12.7   67.9     7 v redu       
+##  8 GP            2    10    13    13        12     64.3     7 v redu       
 ##  9 GP            0    15    16    17        16     85.7     9 zelo dobro   
-## 10 GP            0    12    12    13        12.3   66.1     7 dobro        
+## 10 GP            0    12    12    13        12.3   66.1     7 v redu       
 ## # ... with 639 more rows</code></pre>
 <ul>
 <li>Shranite podatke v datoteko <code>students-performance-math-normalized.xlsx' in v binarno datoteko</code>students-performance-math-normalized.rds’.</li>
@@ -1491,28 +1525,28 @@ div.csl-indent {
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        
 ##  1 GP            4     0    11    11         7.33  39.3     4 nezadostno   
 ##  2 GP            2     9    11    11        10.3   55.4     6 zadostno     
-##  3 GP            6    12    13    12        12.3   66.1     7 dobro        
+##  3 GP            6    12    13    12        12.3   66.1     7 v redu       
 ##  4 GP            0    14    14    14        14     75       8 dobro        
-##  5 GP            0    11    13    13        12.3   66.1     7 dobro        
-##  6 GP            6    12    12    13        12.3   66.1     7 dobro        
-##  7 GP            0    13    12    13        12.7   67.9     7 dobro        
-##  8 GP            2    10    13    13        12     64.3     7 dobro        
+##  5 GP            0    11    13    13        12.3   66.1     7 v redu       
+##  6 GP            6    12    12    13        12.3   66.1     7 v redu       
+##  7 GP            0    13    12    13        12.7   67.9     7 v redu       
+##  8 GP            2    10    13    13        12     64.3     7 v redu       
 ##  9 GP            0    15    16    17        16     85.7     9 zelo dobro   
-## 10 GP            0    12    12    13        12.3   66.1     7 dobro        
+## 10 GP            0    12    12    13        12.3   66.1     7 v redu       
 ## # ... with 639 more rows</code></pre>
 <pre><code>## # A tibble: 649 x 9
 ##    school absences    G1    G2    G3 averageScore točke ocena besedna_ocena
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;        
 ##  1 GP            4     0    11    11         7.33  39.3     4 nezadostno   
 ##  2 GP            2     9    11    11        10.3   55.4     6 zadostno     
-##  3 GP            6    12    13    12        12.3   66.1     7 dobro        
+##  3 GP            6    12    13    12        12.3   66.1     7 v redu       
 ##  4 GP            0    14    14    14        14     75       8 dobro        
-##  5 GP            0    11    13    13        12.3   66.1     7 dobro        
-##  6 GP            6    12    12    13        12.3   66.1     7 dobro        
-##  7 GP            0    13    12    13        12.7   67.9     7 dobro        
-##  8 GP            2    10    13    13        12     64.3     7 dobro        
+##  5 GP            0    11    13    13        12.3   66.1     7 v redu       
+##  6 GP            6    12    12    13        12.3   66.1     7 v redu       
+##  7 GP            0    13    12    13        12.7   67.9     7 v redu       
+##  8 GP            2    10    13    13        12     64.3     7 v redu       
 ##  9 GP            0    15    16    17        16     85.7     9 zelo dobro   
-## 10 GP            0    12    12    13        12.3   66.1     7 dobro        
+## 10 GP            0    12    12    13        12.3   66.1     7 v redu       
 ## # ... with 639 more rows</code></pre></li>
 <li><p>Naložite paket <code>nycflights13</code> s podatki letov. V tej bazi je več razpredelnic in sicer <strong>flights</strong>, <strong>airlines</strong>, <strong>planes</strong>, <strong>airports</strong> in <strong>weather</strong>. Za razumevanje si pomagajte z <code>?flights</code>.</p>
 <ol style="list-style-type: lower-alpha">
@@ -1567,13 +1601,11 @@ div.csl-indent {
 ##  8 Let iz letalisca La Guardia, dne 01.01.13, ob 06:00 v le~ 2013-01-01 06:00:00
 ##  9 Let iz letalisca John F Kennedy Intl, dne 01.01.13, ob 0~ 2013-01-01 06:00:00
 ## 10 Let iz letalisca La Guardia, dne 01.01.13, ob 06:00 v le~ 2013-01-01 06:00:00
-## # ... with 336,766 more rows</code></pre></li>
-</ol>
+## # ... with 336,766 more rows</code></pre>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Časi odhodov in prihodov so v razpredelnici flights v lokalnem času. Dodajte spremenljivko <code>dep_time_utc</code>, ki bo vsebovala vrednost odhoda v časovnem pasu UTC. Zapis naj bo oblike integer, tako kot `dep_time’.</li>
 </ol>
-<pre><code>```
-## # A tibble: 336,776 x 8
+<pre><code>## # A tibble: 336,776 x 8
 ##     year month   day dep_time dep_time_utc origin dest  tzone           
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;           
 ##  1  2013     1     1      517 1017         EWR    IAH   America/New_York
@@ -1586,13 +1618,11 @@ div.csl-indent {
 ##  8  2013     1     1      557 1057         LGA    IAD   America/New_York
 ##  9  2013     1     1      557 1057         JFK    MCO   America/New_York
 ## 10  2013     1     1      558 1058         LGA    ORD   America/New_York
-## # ... with 336,766 more rows
-```</code></pre>
+## # ... with 336,766 more rows</code></pre>
 <ol start="5" style="list-style-type: lower-alpha">
 <li>Simuliramo. Vsi leti bodo zaradi nepričakovane prenove letališča po 23. 10. 2013 zamaknjeni za dva tedna. Izpišite posodobljene datume v originalni obliki (year, month, day).</li>
 </ol>
-<pre><code>```
-## # A tibble: 63,797 x 19
+<pre><code>## # A tibble: 63,797 x 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
 ##  1  2013    11     6      454            500        -6      632            648
@@ -1607,8 +1637,8 @@ div.csl-indent {
 ## 10  2013    11     6      552            600        -8      735            751
 ## # ... with 63,787 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,
 ## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
-## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;
-```</code></pre>
+## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre></li>
+</ol>
 
 </div>
 </div>
