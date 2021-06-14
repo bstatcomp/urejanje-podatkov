@@ -255,7 +255,7 @@ poglavja
 cat(poglavja)
 ```
 
-Manjkajoče vrednosti lahko zamenjamo z `str_replace_na()`.
+Manjkajoče vrednosti lahko zamenjamo s `str_replace_na()`.
 
 ```{r}
 str_replace_na(c("ena", "dva", NA, "štiri"), replacement = "tri!")
@@ -299,7 +299,7 @@ str_split(listek, pattern = ", ")
 
 ### Iskanje vzorcev z regularnimi izrazi
 
-Regularni izrazi so močno orodje za iskanje poljubnega vzorca v nizih. V tem poglavju bo predstavljena le osnovna funkcionalnost regularnih izrazov, saj gre za zelo obširno orodje. Za prikaz delovanja bomo uporabljali funkciji `str_view()` in `str_view_all()`, ki uporabljata paket **htmlwidges** za prikaz rezultatov. Prva označi samo prvo ujemanje, druga pa vsa ujemanja.
+Regularni izrazi so močno orodje za iskanje poljubnega vzorca v nizih. V tem poglavju bo predstavljena le osnovna funkcionalnost regularnih izrazov, saj gre za zelo obširno orodje. Za prikaz delovanja bomo uporabljali funkciji `str_view()` in `str_view_all()`, ki uporabljata paket **htmlwidgets** za prikaz rezultatov. Prva označi samo prvo ujemanje, druga pa vsa ujemanja.
 
 Regularni izrazi so nizi, ki določijo iskalni vzorec. Z njimi lahko, na primer, iščemo nize, ki se začnejo na določen podniz, končajo na določen podniz, vsebujejo posebne simbole in podobno. Uporabljamo jih lahko v vseh funkcijah paketa **stringr**, ki imajo kot vhod `pattern`.
 
