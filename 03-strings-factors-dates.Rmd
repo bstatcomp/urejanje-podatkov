@@ -101,7 +101,7 @@ tib$spol
 
 
 #### Datumi {-}
-Za delo z datumo bomo uporabljali paket **lubridate**. Datume lahko z lubridate shranimo na več načinov. Preprosto lahko sestavimo datum s posameznimi komponentami:
+Za delo z datumi bomo uporabljali paket **lubridate**. Datume lahko z lubridate shranimo na več načinov. Preprosto lahko sestavimo datum s posameznimi komponentami:
 
 ``` {r}
 library(lubridate)
@@ -1038,17 +1038,18 @@ Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran 
     - Odprite le stolpce school, absences, G1, G2, G3 in averageScore.
     - Dodajte stolpec *točke*, ki ima vrednosti med 0 in 100, tako da ima najvišja pripadajoča vrednost v averageScore vrednost 100.
     - Dodajte stolpec *ocena*, kjer so vrednosti za *točke* med 0 in 10 enake 1, 10 in 20 enake 2 itd.
-    - Dodajte stolpec *besedna_ocena* tipa faktor, ki bo imel vrednosti glede na *oceno* in sicer ocene <6 = "nezadostno", 6 = "zadostno", 7 in 8 = "dobro", 9 = "zelo dobro" in 10 = "odlično".
+    - Dodajte stolpec *besedna_ocena* tipa faktor, ki bo imel vrednosti glede na *oceno* in sicer ocene <6 = "nezadostno", 6 = "zadostno", 7 = "v redu" 8 = "dobro", 9 = "zelo dobro" in 10 = "odlično".
+    - Združite vrednosti "v redu" in "dobro" v eno vrednost "dobro".
     ```{r, echo = FALSE, message = FALSE}
 library(openxlsx)
 path   <- "./test-script/data-raw/student-performance.xlsx"
 ocene  <- tibble(read.xlsx(path, cols = c(1, 8:12)))
 shrani <- ocene %>% mutate(točke = averageScore/max(averageScore)*100,
                  ocena = ceiling(točke/10),
-                 besedna_ocena = cut(ocena, breaks = c(-Inf, 5, 6, 8, 9, 10),
+                 besedna_ocena = cut(ocena, breaks = c(-Inf, 5, 6, 7, 8, 9, 10),
                                      labels = c("nezadostno", "zadostno",
-                                                "dobro", "zelo dobro",
-                                                "odlično")))
+                                                "v redu", "dobro", 
+                                                "zelo dobro", "odlično")))
 shrani
 ```
     - Shranite podatke v datoteko `students-performance-math-normalized.xlsx' in v binarno datoteko `students-performance-math-normalized.rds'.
@@ -1141,4 +1142,30 @@ flights %>% mutate(temp_d = make_date(year, month, day) + 2*weeks(), .after = da
          month = as.integer(month(temp_d)),
          day = as.integer(day(temp_d))) %>%
   select(-temp_d)
+```
+
+3) Odprite datoteko DS-jobs.csv ter spremenite spremenljivko FormalEducation v tip faktor. Nato obdržite le štiri najbolj pogoste izobrazbe, ostale pa zamenjajte z vrednostjo "other". Uporabite eno izmed funkcij v skupini `fct_lump`.
+
+```{r, echo = FALSE, message = FALSE}
+ds_jobs <- read_csv2("./data-raw/DS-jobs.csv")
+ds_jobs %>% mutate(FormalEducation = as.factor(FormalEducation)) %>%
+  mutate(FormalEducation = fct_lump_n(FormalEducation, 4)) %>%
+  select(Gender, Country, Age, FormalEducation)
+```
+  
+4) Na podatkih `fruit` uporabite `str_subset` in poiščite:
+  a) Vse sadeže, ki se začnejo in končajo na samoglasnik.
+```{r, echo = FALSE, message = FALSE}
+  str_subset(fruit, "^[aeiou].*[aeiou]$")
+```
+
+  b) Vse sadeže, ki imajo največ 5 črk.
+```{r, echo = FALSE, message = FALSE}
+  str_subset(fruit, "^.{1,5}$")
+```
+
+  c) **težja** Vse sadeže, pri katerih je prvi samoglasnik enak zadnjemu samoglasniku v besedi. Za rešitev je potrebno uporabiti negacijo in skupino.
+  
+```{r, echo = FALSE, message = FALSE}
+  str_subset(fruit, "^[^aeiou]*([aeiou]).*(\\1)[^aeiou]*$")
 ```
