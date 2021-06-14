@@ -1,0 +1,90 @@
+---
+title: "IzbraneTeme"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+## Izbrana poglavja
+
+### Iskanje ponovnih bolnišničnih sprejemov - dodajanje spremenljivk glede na množico pogojev
+
+Predpostavimo, da imamo podatke o hospitalizaciija pacientov (TabelaA) in celotno bazo hospitalizacij (TabelaB). V datoteki primer.xlsx se nahajata umetno ustvarjena primera teh dveh tabel in željen rezultat.
+
+Tabeli A, želimo dodati dva stolpca in sicer "Sprejem_DA/NE" tipa faktor in Trajanja_b, ki spremeljivka tabele B, a le pri vrsticah, kjer je novo ustvarjena vrednost spremenjlivke "Sprejem_DA/NE" "Da".
+
+Pogoji za ponoven sprejem so sledeči:
+    - V obeh tabelah se mora ID_ZO ujemati.
+    - Vrsta storitve v tabeli B mora imeti ključ 7.
+    - Ponovni sprejem se je moral zgoditi v 30 dneh po zaključku prvega. 
+
+Preberimo najprej obe tabeli v R. Ker sta obe tabeli na enem list z parametroma `rows` in `cols` določimo točno območje, ki ga želimo prebrati. Nastavimo tudi `detectDates = TRUE`, da paket **openxlsx** pravilno prebere datume, drugače jih bo prebral kot cela števila. Nazadnje še spremenimo tipe spremenljivk v bolj primerne, ker so privzeto večinoma tipa character.
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(openxlsx)
+Sys.setlocale(category = "LC_ALL", locale = "Slovenian_Slovenia.1250")
+TabelaA <- tibble(openxlsx::read.xlsx("./test-data/primer.xlsx", 
+                                     rows = 3:15, cols = 1:8, 
+                                     detectDates = TRUE))
+TabelaB <- tibble(openxlsx::read.xlsx("./test-data/primer.xlsx", 
+                                     rows = 21:34, cols = 1:8,
+                                     detectDates = TRUE))
+TabelaA <- TabelaA %>% mutate(ID_BZ = as.integer(ID_BZ),
+                            ID_ZO = as.integer(ID_ZO),
+                            Vrsta.storitve = as.integer(Vrsta.storitve),
+                            Naziv.storitve = factor(Naziv.storitve, 
+                                                       levels = c("NBO", "SPP", "REH", "BOL")),
+                            Datum.začetka_a = as.Date(Datum.začetka_a),
+                            Datum.zaključka_a = as.Date(Datum.zaključka_a),
+                            Leto.zaključka = as.integer(Leto.zaključka),
+                            Trajanje_a = as.double(Trajanje_a))
+
+TabelaB <- TabelaB %>% mutate(ID.bolnišničnega.zdravljenja = as.integer(ID.bolnišničnega.zdravljenja),
+                            ID_ZO = as.integer(ID_ZO),
+                            Vrsta.storitve = as.integer(Vrsta.storitve),
+                            Naziv.storitve = factor(Naziv.storitve,
+                                                       levels = c("NBO", "SPP", "REH", "BOL")),
+                            Datum.začetka_b = as.Date(Datum.začetka_b),
+                            Datum.zaključka_b = as.Date(Datum.zaključka_b),
+                            Leto.zaključka.BZ = as.integer(Leto.zaključka.BZ),
+                            Trajanja_b = as.double(Trajanja_b))
+
+TabelaA
+TabelaB
+
+```
+
+Pri spremenljivki `Naziv.storitve` smo ročno nastavili nivoje v obeh tabelah ker:
+    - V tabeli A ni vseh vrednostih in bi privzeto R izpustil nevidene vrednosti.
+    - S ročnim vnosom zagotovimo, da so tudi vrednosti faktorjev v obeh tabelah enaki.
+    
+Sedaj, ko smo prebrali podatke najprej samo poiščimo vrstice, katere ustrezajo pogojem za ponovni sprejem.
+
+```{r}
+RazsirjenA <- inner_join(TabelaA, TabelaB, by = "ID_ZO", 
+                         suffix = c("", "_b"))
+RazsirjenA <- RazsirjenA %>% 
+    filter(Vrsta.storitve_b == 7) %>%
+    filter(Datum.zaključka_a < Datum.začetka_b,
+           Datum.začetka_b < Datum.zaključka_a + days(30))
+RazsirjenA
+```
+
+Najprej smo tabeli združili po vrednosti `ID_ZO`. Tukaj smo uporabili še parameter `suffix`, da smo ohranili prvotna imena iz tabele A, tabeli B pa dodali "_b". Ostala dva pogoja smo implementirali z funkcijo `filter`. V tabeli RazsirjenA, so sedaj v stolpcu ID_BZ vrednosti, pri katerih moramo dodati ponovni sprejem. Tukaj predpostavljamo, da je to primarni ključ.
+
+V zadnjem koraku originalni tabeli A v dveh korakih dodamo manjkajoči spremenljivki.
+
+``` {r}
+#Dodajmo sprejeme
+TabelaA <- TabelaA %>% mutate("Sprejem_DA/NE" = factor(ID_BZ %in% RazsirjenA$ID_BZ,
+                  levels = c(TRUE, FALSE),
+                  labels = c("Da", "Ne")))
+#Dodajmo trajanja_b
+left_join(TabelaA, RazsirjenA %>% select(ID_ZO, Trajanja_b), by = "ID_ZO", suffix = c("", "")) %>%
+  mutate(Trajanja_b = replace_na(Trajanja_b, 0)) %>%
+  select(ID_BZ, ID_ZO, "Sprejem_DA/NE", Trajanja_b)
+```
+
+Pri prvem delu uporabljamo operator %in% za delo z množicami in preverimo ali je `ID_BZ` tabele A v izbranih vrsticah tabele RazsirjenA. Na koncu z levim združevanjem dodamo še vrednosti trajanja_b in tabele B in izpišemo okrajšan rezultat. Za izpis točno željene tabele je potrebno le spremeniti zadnji select in podatke shraniti nazaj v tabelo A.
