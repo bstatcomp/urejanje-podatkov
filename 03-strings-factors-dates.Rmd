@@ -511,8 +511,7 @@ ds_jobs %>%
   select(EmploymentStatus, CurrentJobTitle)
 ```
 
-
-S funkcijo `str_count()` lahko uporabimo, da anketirancem dodamo stolpec s številom službenih nazivov:
+Funkcijo `str_count()` lahko uporabimo, da anketirancem dodamo stolpec s številom službenih nazivov:
 
 ```{r}
 ds_jobs %>%
@@ -561,7 +560,7 @@ sort(krvne_skupine)
 
 Morda pa bi bilo bolj smiselno urediti po standardni ureditvi, torej A, B, AB, O.
 
-Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo `factor()`. Naredimo faktor iz spremenljivke `dan_v_tednu`:
+Da se izognemo tem težavam, je bolje, če spremenljivko, za katero vemo, da bo zasedla eno od vnaprej določenih vrednosti, shranimo kot faktor. V R za to uporabimo funkcijo `factor()`. Naredimo faktor iz spremenljivke `krvne_skupine`:
 
 ```{r}
 krvne_skupine_fac <- factor(krvne_skupine)
@@ -682,7 +681,7 @@ ggplot(ds_jobs_agg, aes(x = fct_relevel(FormalEducation, "I prefer not to answer
   xlab("")
 ```
 
-### Preimenivanje obstoječih in določanje novih nivojev
+### Preimenivanje obstoječih nivojev
 Nivoje faktorjev lahko preimenujemo s funkcijo `fct_recode()`.
 
 ```{r}
@@ -694,7 +693,7 @@ ds_jobs <- ds_jobs %>%
 head(ds_jobs$EmploymentStatus)
 ```
 
-Sorodno lahko zgornjo funkcijo zamenjamo z `fct_collapse()`, ki lahko združi več nivojev v enega.
+Sorodno lahko zgornjo funkcijo zamenjamo s `fct_collapse()`, ki lahko združi več nivojev v enega.
 
 
 ### Razbitje numerične spremenljivke na intervale
@@ -1034,7 +1033,33 @@ Za razumevanje regularnih izrazov in tudi avtomatsko razlago priporočamo stran 
 
 ## Domača naloga
 
-1) Odprite prvi list ocen v `student-performance.xlsx` v mapi `test-script/data-raw/`.
+1) Odprite datoteko DS-jobs.csv ter spremenite spremenljivko FormalEducation v tip faktor. Nato obdržite le štiri najbolj pogoste izobrazbe, ostale pa zamenjajte z vrednostjo "other". Uporabite eno izmed funkcij v skupini `fct_lump`.
+
+```{r, echo = FALSE, message = FALSE}
+ds_jobs <- read_csv2("./data-raw/DS-jobs.csv")
+ds_jobs %>% mutate(FormalEducation = as.factor(FormalEducation)) %>%
+  mutate(FormalEducation = fct_lump_n(FormalEducation, 4)) %>%
+  select(Gender, Country, Age, FormalEducation)
+```
+  
+2) Na podatkih `fruit` uporabite `str_subset` in poiščite:
+    a) Vse sadeže, ki se začnejo in končajo na samoglasnik.
+    ```{r, echo = FALSE, message = FALSE}
+  str_subset(fruit, "^[aeiou].*[aeiou]$")
+```
+
+    b) Vse sadeže, ki imajo največ 5 črk.
+    ```{r, echo = FALSE, message = FALSE}
+  str_subset(fruit, "^.{1,5}$")
+```
+
+    c) **težja** Vse sadeže, pri katerih je prvi samoglasnik enak zadnjemu samoglasniku v besedi. Za rešitev je potrebno uporabiti negacijo in skupino.
+  
+    ```{r, echo = FALSE, message = FALSE}
+  str_subset(fruit, "^[^aeiou]*([aeiou]).*(\\1)[^aeiou]*$")
+```
+
+3) Odprite prvi list ocen v `student-performance.xlsx` v mapi `test-script/data-raw/`.
 
     - Odprite le stolpce school, absences, G1, G2, G3 in averageScore.
     - Dodajte stolpec *točke*, ki ima vrednosti med 0 in 100, tako da ima najvišja pripadajoča vrednost v averageScore vrednost 100.
@@ -1066,7 +1091,7 @@ podatki_excel
 podatki_binarno
 ```
 
-2) Naložite paket `nycflights13` s podatki letov. V tej bazi je več razpredelnic in sicer **flights**, **airlines**, **planes**, **airports** in **weather**. Za razumevanje si pomagajte z `?flights`.
+4) Naložite paket `nycflights13` s podatki letov. V tej bazi je več razpredelnic in sicer **flights**, **airlines**, **planes**, **airports** in **weather**. Za razumevanje si pomagajte z `?flights`.
 
     a) Izpišite vsa letališča, ki imajo 3 ali več besed v svojem imenu.
 
@@ -1117,7 +1142,7 @@ podatki %>% mutate(dep_string = make_datetime(year, month, day,
   select("Poročilo leta", dep_string)
 ```
 
-  d) Časi odhodov in prihodov so v razpredelnici flights v lokalnem času. Dodajte spremenljivko `dep_time_utc`, ki bo vsebovala vrednost odhoda v časovnem pasu UTC. Zapis naj bo oblike integer, tako kot `dep_time'.
+    d) Časi odhodov in prihodov so v razpredelnici flights v lokalnem času. Dodajte spremenljivko `dep_time_utc`, ki bo vsebovala vrednost odhoda v časovnem pasu UTC. Zapis naj bo oblike integer, tako kot `dep_time'.
 
     ```{r, echo = FALSE, message = FALSE}
 podatki <- left_join(flights, airports, by = c("origin" = "faa")) %>%
@@ -1134,7 +1159,7 @@ podatki
 
 ```
 
-  e) Simuliramo. Vsi leti bodo zaradi nepričakovane prenove letališča po 23. 10. 2013 zamaknjeni za dva tedna. Izpišite posodobljene datume v originalni obliki (year, month, day).
+    e) Simuliramo. Vsi leti bodo zaradi nepričakovane prenove letališča po 23. 10. 2013 zamaknjeni za dva tedna. Izpišite posodobljene datume v originalni obliki (year, month, day).
 
     ```{r, echo = FALSE, message = FALSE}
 flights %>% mutate(temp_d = make_date(year, month, day) + 2*weeks(), .after = day) %>%
@@ -1145,28 +1170,3 @@ flights %>% mutate(temp_d = make_date(year, month, day) + 2*weeks(), .after = da
   select(-temp_d)
 ```
 
-3) Odprite datoteko DS-jobs.csv ter spremenite spremenljivko FormalEducation v tip faktor. Nato obdržite le štiri najbolj pogoste izobrazbe, ostale pa zamenjajte z vrednostjo "other". Uporabite eno izmed funkcij v skupini `fct_lump`.
-
-```{r, echo = FALSE, message = FALSE}
-ds_jobs <- read_csv2("./data-raw/DS-jobs.csv")
-ds_jobs %>% mutate(FormalEducation = as.factor(FormalEducation)) %>%
-  mutate(FormalEducation = fct_lump_n(FormalEducation, 4)) %>%
-  select(Gender, Country, Age, FormalEducation)
-```
-  
-4) Na podatkih `fruit` uporabite `str_subset` in poiščite:
-  a) Vse sadeže, ki se začnejo in končajo na samoglasnik.
-```{r, echo = FALSE, message = FALSE}
-  str_subset(fruit, "^[aeiou].*[aeiou]$")
-```
-
-  b) Vse sadeže, ki imajo največ 5 črk.
-```{r, echo = FALSE, message = FALSE}
-  str_subset(fruit, "^.{1,5}$")
-```
-
-  c) **težja** Vse sadeže, pri katerih je prvi samoglasnik enak zadnjemu samoglasniku v besedi. Za rešitev je potrebno uporabiti negacijo in skupino.
-  
-```{r, echo = FALSE, message = FALSE}
-  str_subset(fruit, "^[^aeiou]*([aeiou]).*(\\1)[^aeiou]*$")
-```
