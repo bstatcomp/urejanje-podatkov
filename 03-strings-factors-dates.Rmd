@@ -335,6 +335,7 @@ V regularnih izrazih so zelo uporabne tudi naslednje sekvence.
 
 - `\d`: Ujemanje s poljubno števko;
 - `\s`: Ujemanje s poljubnim presledkom (presledek, tabulator, nova vrstica);
+- `\b`: Ujemanje s prehodom iz besednih znakov (črke) na nebesedne (ločila, presledki).
 - `[xyz]`: Ujemanje z x, y ali z;
 - `[^xyz]`: Ujemanje z vsem razen x, y in z. Strešica znotraj oglatih oklepajev pomeni negacijo;
 - `[[:digit:]]`: Ujemanje s poljubnim številom;
@@ -370,38 +371,39 @@ Zelo uporabni so tudi ukazi za ponovitve znakov ali sekvenc, ki nam omogočajo i
 - `{,m}`: ponovi m ali manj krat,
 - `{n,m}`: ponovi med n in m krat.
 
-Če znak za ponovitev uporabimo za enim znakom pomeni to ponovitev prejšnjega znaka. Lahko pa ga uporabimo tudi za oglatimi ali navadnimi oklepaji. Navadni oklepaji določajo skupino (več o skupinah v nadalje), ki se mora ponoviti. Oglati oklepaji pa izbiro, se pravi ponoviti se mora vsaj en od naštetih znakov.
+Če znak za ponovitev uporabimo za enim znakom pomeni to ponovitev prejšnjega znaka. Lahko pa ga uporabimo tudi za oglatimi ali navadnimi oklepaji. Navadni oklepaji ločijo del regularnega izraza, podobno kot smo navajeni pri računanju z oklepaji. Določajo pa tudi skupino, o kateri bomo več povedali v naslednjem poglavju. Oglati oklepaji določajo izbiro, se pravi ponoviti se mora vsaj en od naštetih znakov.
 
-Ko začnemo uporabljati ponovitve se pojavijo prve večje težave.
-
-Poiščimo vse besede dolžine 3. Besede sledijo presledku, torej začnemo regularni izraz z `\\s` (pri tem ignoriramo prvo besedo v odstavku). Nato morajo slediti 3 črke, torej `[:alpha:]{3}`. Temu mora slediti nov presledek ali ločilo, `[[:punct:]]|\\s`:
+Poiščimo najprej vse podnize, kjer se "an" ponovi enkrat:
 
 ```{r}
-str_view_all(c(listek1, listek2), "\\s[[:alpha:]]{3}([[:punct:]]|\\s)")
+str_view_all(c(listek1, listek2), "(an){1}")
+```
+
+
+Poiščimo vse besede dolžine 3. Da določimo začetek in konec besede, uporabimo `\\b`, ki določa prehod med besednim in nebesednim znakom. Za tem izberemo poljuben nabor črk, ki se mora ponoviti 3-krat:
+
+```{r}
+str_view_all(c(listek1, listek2), "\\b[:alpha:]{3}\\b")
+```
+
+Poiščimo vse besede dolžine med 3 ali 5 znakov:
+
+```{r}
+str_view_all(c(listek1, listek2), "\\b[:alpha:]{3,5}\\b")
+```
+
+Poiščimo vse besede dolžine točno 3 ali 5 znakov. V tem primeru moramo uporabiti "ali":
+
+```{r}
+str_view_all(c(listek1, listek2), "\\b([:alpha:]{3}|[:alpha:]{5})\\b")
 ```
 
 Poskušajmo poiskati besede, ki se začnejo na p in končajo na k ali e.
 
 ```{r}
-str_view_all(c(listek1, listek2), "p.*[ke]")
-```
-Opazimo, da je ujemanje požrešno. To pomeni, da je ujemanje najdaljše možno, ki ustreza ponovitvam. Če želimo najkrajšega lahko uporabimo še dodaten `?` za znakom za ponovitve.
-
-```{r}
-str_view_all(c(listek1, listek2), "p.*?[ke]")
+str_view_all(c(listek1, listek2), "\\bp[:alpha:]*[ke]\\b")
 ```
 
-Še vedno ni OK. V dobljenih nizih ne želimo presledkov in ne želimo, da se ujemanje konča prehitro, kot pri besedi 'piškote'. Poskusimo tako, da vzamemo ponovitve, ki ne vsebujejo presledkov.
-
-```{r}
-str_view_all(c(listek1, listek2), "p[^\\s]*[ke]")
-```
-
-Da zagotovimo zajem konca besede, določimo še, da naj bo na koncu vejica ali presledek.
-
-```{r}
-str_view_all(c(listek1, listek2), "p[[:alpha:]]*[ke]([, ])")
-```
 ### Skupine
 
 Kot smo že videli lahko uporabimo tudi oklepaje, da ločimo del regularnega izraza od ostalih simbolov. Oklepaji pa definirajo tudi skupino, na katero se lahko sklicujemo z `\x`, kjer je x zaporedna številka skupine.
