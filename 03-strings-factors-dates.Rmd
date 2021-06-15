@@ -863,18 +863,6 @@ days(2) + minutes(20) + seconds(120)
 5 * minutes(20)
 ```
 
-Najbolje, da jo prikažemo na dveh primerih -- premik ure in prestopno leto. Obdobja so bolj naraven prikaz za človeka.
-
-```{r}
-my_datetime <- ymd_hms("2021/06/08 11:05:30", tz = "Europe/Ljubljana")
-my_datetime + ddays(1)
-my_datetime + days(1)
-my_datetime + dminutes(120)
-my_datetime + minutes(120)
-my_datetime + dyears(1)
-my_datetime + years(1)
-my_datetime + months(2)
-```
 
 V bazi letalskih letov posodobimo podatke tako, da izračunamo niz, ki predstavlja odhod letala.
 
