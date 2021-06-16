@@ -7,6 +7,102 @@ output:
 
 ## Izbrana poglavja
 
+### Urejanje kumulativne razpredelnice
+Iz repozitorija slovenskega COVID sledilnika (https://github.com/sledilnik/data) prenesemo podatke o kumulativnem številu okuženih glede na spol in starostno kategorijo (*age-cases.csv*). Preberimo datoteko v našo sejo R:
+
+```{r}
+library(tidyverse)
+df <- read_csv("./raw-data/age-cases.csv")
+df
+```
+
+Opazimo, da so podatki shranjeni v zelo široki razpredelnici. Vsak stolpec v bistvu hrani 2 spremenljivki -- spol in starost. Pretvorimo podatke v urejeno obliko. Začnimo s pretvorbo v daljšo obliko:
+
+```{r}
+df_tidy <- df %>% 
+  pivot_longer(cols = starts_with("age"), values_to = "cumulative")
+df_tidy
+```
+
+Naslednji korak je, da stolpec `name` razdružimo. Izgleda, kot da je ločitveni znak pika, torej uporabimo za separator `\\.`, saj razdružujemo z regularnim izrazom:
+
+```{r}
+df_tidy <- df %>% 
+  pivot_longer(cols = starts_with("age"), values_to = "cumulative") %>%
+  separate(name, into = c("delete1", "sex", "age", "delete2"), "\\.")
+df_tidy
+```
+
+Dobimo opozorilo. Preverimo v čem je težava, tako da si s funkcijo `View()` ogledamo celoten tibble. V 11. vrstici opazimo prvo težavo, v stolpcu `age` imamo vrednost `todate`. Zakaj je do tega prišlo? Poglejmo imena stolpcev izvirne razpredelnice:
+
+```{r}
+colnames(df)
+```
+
+Opazimo, da niso vsi stolpci ločeni s 3 pikami. Imamo tudi stolpce, ki povzemajo. Na primer, `age.male.todate` vsebuje vsoto vseh okuženih moških do nekega datuma, torej je vsota stolpcev. V urejenih podatkih ne želimo povzemanj, saj ne želimo mešati posameznih podatkov in njihovih vsot. Povzemanja lahko kasneje izračunamo sami. Zadevo rešimo tako, da iz stolpca `name` v daljši obliki izberemo samo tiste stolpce, ki vsebujejo 3 pike, pri čemer imamo okoli pike vedno nek tekst. Uporabimo `str_detect()` in regularne izraze:
+
+```{r}
+df_tidy <- df %>%
+  pivot_longer(cols = starts_with("age"), values_to = "cumulative") %>%
+  filter(str_detect(name, "[:alpha:]*\\.[:alpha:]*\\.[0-9-]*\\.[:alpha:]*")) %>%
+  separate("name", into = c("delete1", "sex", "age", "delete2"), sep = "\\.") %>%
+  select(date, sex, age, cumulative)
+df_tidy
+```
+
+Spremenimo manjkajoče vrednosti v 0:
+
+```{r}
+df_tidy <- df %>%
+  pivot_longer(cols = starts_with("age"), values_to = "cumulative") %>%
+  filter(str_detect(name, "[:alpha:]*\\.[:alpha:]*\\.[0-9-]*\\.[:alpha:]*")) %>%
+  separate("name", into = c("delete1", "sex", "age", "delete2"), sep = "\\.") %>%
+  select(date, sex, age, cumulative) %>%
+  mutate(cumulative = replace_na(cumulative, 0))
+df_tidy
+```
+Preostane nam še pretvorba kumulativnih podatkov v dnevne. Trenutno imamo za vsako kombinacijo spola in starosti podano vsoto okuženih do tistega datuma, na primer:
+
+```{r}
+df_tmp <- filter(df_tidy, sex == "female", age == "25-34")
+df_tmp$cumulative
+```
+
+Kako pretvoriti kumulativne podatke v dnevne? Kumulativnemu vektor moramo enostavno odšteti enak vektor, premaknjen za en korak naprej. Na primer:
+
+```{r}
+x_cum <- c(1, 5, 6, 7)
+x_dly <- x_cum - c(0, x_cum[1:3])
+x_cum
+x_dly
+```
+
+V R imamo za to funkcijo `diff`:
+
+```{r}
+x_cum <- c(1, 5, 6, 7)
+x_dly <- c(x_cum[1], diff(x_cum))
+x_cum
+x_dly
+```
+
+Uporabimo sedaj to funkcijo, da dobimo dnevne podatke. Pri tem moramo biti pozorni, da so kumulativne vrednosti podane za vsak spol in starost posebej. Torej moramo podatke tudi grupirati:
+
+```{r}
+df_tidy <- df %>%
+  pivot_longer(cols = starts_with("age"), values_to = "cumulative") %>%
+  filter(str_detect(name, "[:alpha:]*\\.[:alpha:]*\\.[0-9-]*\\.[:alpha:]*")) %>%
+  separate("name", into = c("delete1", "sex", "age", "delete2"), sep = "\\.") %>%
+  select(date, sex, age, cumulative) %>%
+  mutate(cumulative = replace_na(cumulative, 0)) %>%
+  group_by(sex, age) %>%
+  mutate(daily = c(cumulative[1], diff(cumulative)))
+df_tidy
+df_tidy %>%
+  filter(sex == "female", age == "25-34")
+```
+
+
 ### Iskanje ponovnih bolnišničnih sprejemov - dodajanje spremenljivk glede na množico pogojev
 
 Predpostavimo, da imamo podatke o hospitalizaciija pacientov (TabelaA) in celotno bazo hospitalizacij (TabelaB). V datoteki primer.xlsx se nahajata umetno ustvarjena primera teh dveh tabel in željen rezultat.
@@ -88,3 +184,70 @@ left_join(TabelaA, RazsirjenA %>% select(ID_ZO, Trajanja_b), by = "ID_ZO", suffi
 ```
 
 Pri prvem delu uporabljamo operator %in% za delo z množicami in preverimo ali je `ID_BZ` tabele A v izbranih vrsticah tabele RazsirjenA. Na koncu z levim združevanjem dodamo še vrednosti trajanja_b in tabele B in izpišemo okrajšan rezultat. Za izpis točno željene tabele je potrebno le spremeniti zadnji select in podatke shraniti nazaj v tabelo A.
+
+
+### Paralelizacija v R
+Pogosto se pri delu s podatki srečujemo z nalogami, ki zahtevajo časovno potratno obdelavo. Dober primer tega je učenje metod umetne inteligence. Že relativno preprosti primeri, kot je linearna regresija, lahko trajajo tudi po več ur, če imamo veliko podatkov. Velikokrat potem modele učimo na različnih podmnožicah. Ampak dva modela učena na različnih množicah nimata praktično nič skupnega, torej bi jih načeloma lahko učili hkrati! V danajšnih dneh večina računalnikov premore več procesorskih jeder, ki so namenjena izvajanju operacij, oziroma računanju. Torej lahko te ločene probleme enostavno razdelimo med več procesorjev in bodo ti naloge opravljali hkrati! Na prenosnikih ni nenavadno, da imamo 4 jedra, torej lahko hkrati poženemo 4 procese. Če vsak traja 1 uro, potem tako prihranimo 3 ure! Boljši računalniki imajo tudi več jeder, na primer 32. Če gremo še dlje, lahko vzporedno izvajanje prenesemo na grafične procesne enote (grafične kartice), ki pa imajo tudi nad 8000 procesorskih enot. 
+
+Tukaj si bomo pogledali relativno preprost primer paralelizacije, kjer bomo zadeve izvajali vzporedno na procesorskih jedrih glavnega procesorja. Koda je pripravljena tako, da lahko število podatkov poljubno povečamo, in s tem primerjamo časovno zahtevnost obeh pristopov.
+
+Kot primer si bomo pogledali relativno preprost statistični model -- linearno regresijo, ki jo bomo učili na dveh ločenih podatkovnih množicah.
+
+``` {r}
+set.seed(1) # Zagotovimo ponovljivost.
+n <- 1000000 # Število primerov v podatkih.
+
+# Generiramo podatke.
+x1 <- rnorm(n)
+y1 <- rnorm(n, 4 + 2 * x1, 0.2)
+# qplot(x1, y1)
+x2 <- rnorm(n)
+y2 <- rnorm(n, 3 - 1.5 * x2, 0.2)
+# qplot(x2, y2)
+
+df1 <- data.frame(x = x1, y = y1)
+df2 <- data.frame(x = x2, y = y2)
+df_list <- list(df1, df2)
+```
+
+Da poženemo model na vseh pdoatkih, bomo uporabili zanko for skozi vse elemente seznama `df_list()`:
+
+``` {r}
+t1 <- Sys.time() # Za izračun potrebnega časa.
+my_lms <- list() # V ta seznam bomo shranili rezultate.
+for (i in 1:length(df_list)) {
+  print(str_c("Računam model: ", i))
+  my_lms[[i]] <- lm(y ~ x, data = df_list[[i]])
+}
+t2 <- Sys.time()
+my_lms
+t2 - t1
+```
+
+Sedaj pa naredimo enako, ampak tako da bomo uporabili 2 procesorski jedri hkrati. Uporabili bomo paket `doParallel`. Sintaksa kode je zelo podobna standardni R zanki:
+
+``` {r}
+library(doParallel)
+nc <- 2 # Število procesorjev.
+mc <- makeCluster(nc) # Ustvarimo cluster 2 procesorjev.
+
+# S spodnjim klicem bomo ustvarili log datoteko, kamor se bodo zapisovale
+# informacije iz vsakega procesorja.
+clusterEvalQ(mc, sink(paste0("./log", Sys.getpid(), ".txt")))
+
+registerDoParallel(mc) # Registriramo cluster.
+
+my_lms <- list()
+t1 <- Sys.time() # Za izračun potrebnega časa.
+foreach(i = 1:length(df_list)) %dopar% {
+  library(stringr) # V vsakem procesorju je potrebno naložiti pakete posebej!
+  print(str_c("Računam model: ", i))
+  my_lms[[i]] <- lm(y ~ x, data = df_list[[i]])
+}
+stopCluster(mc) # Ustavimo cluster.
+t2 <- Sys.time() # Za izračun potrebnega časa.
+my_lms
+t2 - t1
+```
+
+Predlagamo, da poizkusite tudi sami, ampak z več podatki! Pri tem najprej preverite, koliko jeder ima vaš računalnik. Glede na to, da imamo samo 2 razpredelnici, s katerimi delamo, več kot 2 jeder ni smiselno uporabiti.
