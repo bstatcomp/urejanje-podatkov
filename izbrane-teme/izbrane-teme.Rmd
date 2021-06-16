@@ -12,7 +12,7 @@ Iz repozitorija slovenskega COVID sledilnika (https://github.com/sledilnik/data)
 
 ```{r}
 library(tidyverse)
-df <- read_csv("./raw-data/age-cases.csv")
+df <- read_csv("./data-raw/age-cases.csv")
 df
 ```
 
@@ -100,6 +100,14 @@ df_tidy <- df %>%
 df_tidy
 df_tidy %>%
   filter(sex == "female", age == "25-34")
+```
+
+Urejene podatke še shranimo v mapo `data-clean`:
+
+
+```{r}
+dir.create("./data-clean/") # Če še ni mape data-clean jo ustvarimo.
+write_csv2(df_tidy, "./data-clean/age-cases-tidy.csv")
 ```
 
 
