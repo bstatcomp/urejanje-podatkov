@@ -335,7 +335,7 @@ V regularnih izrazih so zelo uporabne tudi naslednje sekvence.
 
 - `\d`: Ujemanje s poljubno števko;
 - `\s`: Ujemanje s poljubnim presledkom (presledek, tabulator, nova vrstica);
-- `\b`: Ujemanje s prehodom iz besednih znakov (črke) na nebesedne (ločila, presledki).
+- `\b`: Ujemanje s prehodom iz besednih znakov (črke) na nebesedne (ločila, presledki);
 - `[xyz]`: Ujemanje z x, y ali z;
 - `[^xyz]`: Ujemanje z vsem razen x, y in z. Strešica znotraj oglatih oklepajev pomeni negacijo;
 - `[[:digit:]]`: Ujemanje s poljubnim številom;
