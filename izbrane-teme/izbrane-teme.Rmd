@@ -194,6 +194,82 @@ left_join(TabelaA, RazsirjenA %>% select(ID_ZO, Trajanja_b), by = "ID_ZO", suffi
 Pri prvem delu uporabljamo operator %in% za delo z množicami in preverimo ali je `ID_BZ` tabele A v izbranih vrsticah tabele RazsirjenA. Na koncu z levim združevanjem dodamo še vrednosti trajanja_b in tabele B in izpišemo okrajšan rezultat. Za izpis točno željene tabele je potrebno le spremeniti zadnji select in podatke shraniti nazaj v tabelo A.
 
 
+### Paket data.table
+Včasih se srečamo s podatkovnimi množicami, ki imajo veliko število zapisov, na primer milijon, 100 milijonov, ali več. Največja omejitev za delo z velikimi podatkovnimi množicami v R je velikost pomnilnika (ang. memory, RAM), saj R vse podatke hrani v pomnilniku. Za primer, numerični vektor dolžine 100 milijonov zasede 800 MB prostora. V kolikor nam pomnilnik dopušča uporabo podatkov, je naslednja ovira čas procesiranja posameznih operacij. V takšnih primerih je smiselno uporabiti programsko opremo (oziroma pakete), ki so namensko razviti za delo z večjo količino podatkov. V R je temu namenjen paket **data.table**. V tem paketu obstaja objekt `data.table`, ki je drugačna različica `data.frame`. Data table ima tri dimenzije `data.table[i, j, by]`:
+
+- `i` Izbira vrstic in urejanje glede na vrednosti v stolpcih. V dplyr sta za to na voljo glagola `filter()` in `arrange()`.
+- `j` Izbira stolpcev, spreminjanje vrednosti stolpcev in povzemanje. V dplyr so za to na voljo glagoli `select()`, `mutate()` in `summarise()`.
+- `by` Kako združimo podatke pri operacijah. V dplyr je za to na voljo glagol `group_by()`.
+
+Paketa data.table ne bomo spoznali podrobneje, v kolikor želite več informacij predlagamo ta uvod v paket: https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html.
+
+Vsekakor takšnih podatkovnih množic ne smemo zamenjati z velepodatki (big data), kjer so množice tako velike, da standardna programska oprema za delo s podatki z njimi ni zmožna delati. V takih primerih se poslužimo programske opreme za velepodatke, kot so, na primer, Hadoop, MongoDB, Apache Spark, itd.
+
+Paket dplyr lahko razširimo s paketom **dtplyr** (https://github.com/tidyverse/dtplyr), ki ga namestimo z ukazom `install.packages(dtplyr)`. Ta nam omogoča uporabo sintakse paketa dplyr, z učinkovitostjo paketa data.table. To naredi tako, da v ozadju dplyr kodo prevede v data.table kodo. Sicer vseeno deluje nekoliko počasneje kot data.table, ampak je razlika večinoma zanemarljiva. Poglejmo si preprost primer, kjer generiramo neke podatke in na njih izvedemo nekaj operacij. Zadevo bomo naredili v dplyr, data.table in dtplyr ter sočasno merili čas izvajanja operacij. Tudi data.table dopušča uporabo operatorja pipe. V paketu dtplyr imamo funkcijo `lazy_dt()` katera omogoči t. i. leno ovrednotenje (lazy evaluation). V dplyr se opreacije izvajajo požrešno, ena za drugo, kot so zapisane. Leno ovrednotenje pa omogoča, da se operacije ne izvedejo, dokler na koncu ne kličemo funkcije `as_tibble()`. To omogoča veliko hitrejšo izvedbo.
+
+```{r}
+library(data.table)
+library(dtplyr)
+
+
+# Generirani podatki, da lahko poljubno nastavimo število primerov. ------------
+n         <- 100000000
+x         <- rnorm(n)
+price     <- rnorm(n, 5000, 100)
+all_types <- apply(expand.grid(LETTERS, 0:9), 1, paste, collapse=".")
+types     <- sample(all_types, n, replace = T)
+
+tib_dplyr  <- tibble(x = x, price = price, type = types)
+dt_dtplyr  <- lazy_dt(data.table::data.table(x = x, price = price, 
+                                             type = types))
+dt_dtable  <- data.table::data.table(x = x, price = price, type = types)
+
+
+
+# dplyr ------------------------------------------------------------------------
+t1 <- Sys.time()
+
+tib_dplyr %>%
+  filter(x < 2) %>%
+  group_by(type) %>%
+  mutate(price_stand = (price - mean(price)) / sd(price)) %>%
+  summarize(mean_price_stand = mean(price_stand))
+
+t2 <- Sys.time()
+t2 - t1
+
+
+# data.table -------------------------------------------------------------------
+t1 <- Sys.time()
+
+dt_dtable %>% 
+  .[x < 2] %>% 
+  .[ , price_stand := (price - mean(price)) / sd(price), by = type] %>% 
+  .[ , .(mean_price_stand = mean(price_stand)), keyby = type]
+
+
+t2 <- Sys.time()
+t2 - t1
+
+
+# dtplyr -----------------------------------------------------------------------
+t1 <- Sys.time()
+
+dt_dtplyr %>%
+  filter(x < 2) %>%
+  group_by(type) %>%
+  mutate(price_stand = (price - mean(price)) / sd(price)) %>%
+  summarize(mean_price_stand = mean(price_stand)) %>%
+  as_tibble() # To vrstico moramo zapisati, v koliko želimo da se ukaz izvede!
+
+t2 <- Sys.time()
+t2 - t1
+
+```
+
+Opazimo, da dtplyr in data.table delujeta veliko hitreje kot dplyr. Koliko hitreje je odvisno od večih parametrov, na primer, koliko podatkov imamo, koliko različnih skupin v združevanju, katere operacije izvajamo in podobno. Za bolj podrobno časovno primerjavo predlagamo obisk strani https://github.com/Rdatatable/data.table/wiki/Benchmarks-%3A-Grouping in https://iyarlin.github.io/2020/05/26/dtplyr_benchmarks/. Za diskusijo o razlikah, prednostih in slabostih obeh paketov (dplyr in data.table) predlagamo ogled tega vprašanja (in odgovorov): https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly.
+
+
 ### Paralelizacija v R
 Pogosto se pri delu s podatki srečujemo z nalogami, ki zahtevajo časovno potratno obdelavo. Dober primer tega je učenje metod umetne inteligence. Že relativno preprosti primeri, kot je linearna regresija, lahko trajajo tudi po več ur, če imamo veliko podatkov. Velikokrat potem modele učimo na različnih podmnožicah. Ampak dva modela učena na različnih množicah nimata praktično nič skupnega, torej bi jih načeloma lahko učili hkrati! V danajšnih dneh večina računalnikov premore več procesorskih jeder, ki so namenjena izvajanju operacij, oziroma računanju. Torej lahko te ločene probleme enostavno razdelimo med več procesorjev in bodo ti naloge opravljali hkrati! Na prenosnikih ni nenavadno, da imamo 4 jedra, torej lahko hkrati poženemo 4 procese. Če vsak traja 1 uro, potem tako prihranimo 3 ure! Boljši računalniki imajo tudi več jeder, na primer 32. Če gremo še dlje, lahko vzporedno izvajanje prenesemo na grafične procesne enote (grafične kartice), ki pa imajo tudi nad 8000 procesorskih enot. 
 
