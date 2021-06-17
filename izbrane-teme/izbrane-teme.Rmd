@@ -13,17 +13,17 @@ knitr::opts_chunk$set(
 
 
 ## Iskanje ponovnih bolnišničnih sprejemov -- dodajanje spremenljivk glede na množico pogojev {-}
+Predpostavimo, da imamo podatke o hospitalizacijah pacientov (TabelaA) in celotno bazo hospitalizacij (TabelaB). V datoteki Primer.xlsx se nahajata umetno ustvarjena primera teh dveh tabel in željen rezultat.
 
-Predpostavimo, da imamo podatke o hospitalizaciija pacientov (TabelaA) in celotno bazo hospitalizacij (TabelaB). V datoteki primer.xlsx se nahajata umetno ustvarjena primera teh dveh tabel in željen rezultat.
-
-Tabeli A, želimo dodati dva stolpca in sicer "Sprejem_DA/NE" tipa faktor in Trajanja_b, ki spremeljivka tabele B, a le pri vrsticah, kjer je novo ustvarjena vrednost spremenjlivke "Sprejem_DA/NE" "Da".
+Tabeli A želimo dodati dva stolpca in sicer `Sprejem_DA/NE` tipa faktor in `Trajanja_b`, ki je iz spremeljivke tabele B, a le pri vrsticah, kjer je novo ustvarjena vrednost spremenljivke `Sprejem_DA/NE` "Da".
 
 Pogoji za ponoven sprejem so sledeči:
-    - V obeh tabelah se mora ID_ZO ujemati.
-    - Vrsta storitve v tabeli B mora imeti ključ 7.
-    - Ponovni sprejem se je moral zgoditi v 30 dneh po zaključku prvega. 
 
-Preberimo najprej obe tabeli v R. Ker sta obe tabeli na enem list z parametroma `rows` in `cols` določimo točno območje, ki ga želimo prebrati. Nastavimo tudi `detectDates = TRUE`, da paket **openxlsx** pravilno prebere datume, drugače jih bo prebral kot cela števila. Nazadnje še spremenimo tipe spremenljivk v bolj primerne, ker so privzeto večinoma tipa character.
+- V obeh tabelah se mora ID_ZO ujemati.
+- Vrsta storitve v tabeli B mora imeti ključ 7.
+- Ponovni sprejem se je moral zgoditi v 30 dneh po zaključku prvega. 
+
+Preberimo najprej obe tabeli v R. Ker sta obe tabeli na enem listu s parametroma `rows` in `cols` določimo točno območje, ki ga želimo prebrati. Nastavimo tudi `detectDates = TRUE`, da paket **openxlsx** pravilno prebere datume, drugače jih bo prebral kot cela števila. Nazadnje še spremenimo tipe spremenljivk v bolj primerne, ker so privzeto večinoma tipa niz.
 
 ```{r}
 library(tidyverse)
@@ -62,10 +62,11 @@ TabelaB
 ```
 
 Pri spremenljivki `Naziv.storitve` smo ročno nastavili nivoje v obeh tabelah ker:
-    - V tabeli A ni vseh vrednostih in bi privzeto R izpustil nevidene vrednosti.
-    - S ročnim vnosom zagotovimo, da so tudi vrednosti faktorjev v obeh tabelah enaki.
+
+- V tabeli A ni vseh vrednosti in bi privzeto R izpustil nevidene vrednosti.
+- Z ročnim vnosom zagotovimo, da so tudi vrednosti faktorjev v obeh tabelah enake.
     
-Sedaj, ko smo prebrali podatke najprej samo poiščimo vrstice, katere ustrezajo pogojem za ponovni sprejem.
+Sedaj, ko smo prebrali podatke, najprej samo poiščimo vrstice, katere ustrezajo pogojem za ponovni sprejem.
 
 ```{r}
 RazsirjenA <- inner_join(TabelaA, TabelaB, by = "ID_ZO", 
@@ -77,22 +78,23 @@ RazsirjenA <- RazsirjenA %>%
 RazsirjenA
 ```
 
-Najprej smo tabeli združili po vrednosti `ID_ZO`. Tukaj smo uporabili še parameter `suffix`, da smo ohranili prvotna imena iz tabele A, tabeli B pa dodali "_b". Ostala dva pogoja smo implementirali z funkcijo `filter`. V tabeli RazsirjenA, so sedaj v stolpcu ID_BZ vrednosti, pri katerih moramo dodati ponovni sprejem. Tukaj predpostavljamo, da je to primarni ključ.
+Najprej smo tabeli združili po vrednosti `ID_ZO`. Tukaj smo uporabili še parameter `suffix`, da smo ohranili prvotna imena iz tabele A, tabeli B pa dodali "_b". Ostala dva pogoja smo implementirali s funkcijo `filter`. V tabeli RazsirjenA, so sedaj v stolpcu ID_BZ vrednosti, pri katerih moramo dodati ponovni sprejem. Tukaj predpostavljamo, da je to primarni ključ.
 
 V zadnjem koraku originalni tabeli A v dveh korakih dodamo manjkajoči spremenljivki.
 
 ``` {r}
-#Dodajmo sprejeme
+#Dodajmo sprejeme.
 TabelaA <- TabelaA %>% mutate("Sprejem_DA/NE" = factor(ID_BZ %in% RazsirjenA$ID_BZ,
                   levels = c(TRUE, FALSE),
                   labels = c("Da", "Ne")))
-#Dodajmo trajanja_b
+#Dodajmo trajanja_b.
 left_join(TabelaA, RazsirjenA %>% select(ID_ZO, Trajanja_b), by = "ID_ZO", suffix = c("", "")) %>%
   mutate(Trajanja_b = replace_na(Trajanja_b, 0)) %>%
   select(ID_BZ, ID_ZO, "Sprejem_DA/NE", Trajanja_b)
 ```
 
-Pri prvem delu uporabljamo operator %in% za delo z množicami in preverimo ali je `ID_BZ` tabele A v izbranih vrsticah tabele RazsirjenA. Na koncu z levim združevanjem dodamo še vrednosti trajanja_b in tabele B in izpišemo okrajšan rezultat. Za izpis točno željene tabele je potrebno le spremeniti zadnji select in podatke shraniti nazaj v tabelo A.
+Pri prvem delu uporabljamo operator `%in%` za delo z množicami in preverimo ali je `ID_BZ` tabele A v izbranih vrsticah tabele RazsirjenA. Na koncu z levim združevanjem dodamo še vrednosti trajanja_b iz tabele B in izpišemo okrajšan rezultat. Za izpis točno željene tabele je potrebno le spremeniti zadnji select in podatke shraniti nazaj v tabelo A.
+
 
 ## Urejanje kumulativne razpredelnice {-}
 Iz repozitorija slovenskega COVID sledilnika (https://github.com/sledilnik/data) prenesemo podatke o kumulativnem številu okuženih glede na spol in starostno kategorijo (*age-cases.csv*). Preberimo datoteko v našo sejo R:
@@ -192,7 +194,7 @@ df_tidy %>%
 Urejene podatke še shranimo v mapo `data-clean`:
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 dir.create("./data-clean/") # Če še ni mape data-clean jo ustvarimo.
 write_csv2(df_tidy, "./data-clean/age-cases-tidy.csv")
 ```
@@ -207,14 +209,13 @@ Osnovna funkcija za izris grafov je `ggplot()`. Ta že sama po sebi izriše praz
 ggplot()
 ```
 
-Če želimo, dejanski izris grafa podatkov pa moramo podati še tri ključne elemente:
-* **Podatke**.
-* **Tip grafa** -- Kako naj bodo podatki predstavljeni na grafu, lahko jih podatmo tudi več.
-* **Estetike** -- x-os, y-os, barve točk, skupine podatkov itd...
+Če želimo dejanski izris grafa podatkov pa moramo podati še tri ključne elemente:
 
-Prva dva elementa sta nujno potreba. Estetike pa lahko izpustimo, pri čemer jih bo `ggplot()` samodejno smiselno določil.
+- **Podatke**.
+- **Tip grafa** -- Kako naj bodo podatki predstavljeni na grafu, lahko jih podamo tudi več.
+- **Estetike** -- x-os, y-os, barve točk, skupine podatkov, itd.
 
-Poglejmo si različne grafe osnovne grafe na podatkih portugalsih požarov.
+Poglejmo si različne osnovne grafe na podatkih portugalskih požarov.
 
 ```{r}
 pozari <- read_csv2("./data-raw/forest-fires.csv")
@@ -233,6 +234,7 @@ ggplot(pozari_per_m, aes(x = month, y = n)) +
   geom_point()
 
 ```
+
 Tip grafa podamo z eno izmed družine funkcij `geom_`. Lahko podamo tudi več geomov, če so le-ti kompatibilni. Posebej tudi dodajamo estetike. Dodajmo še rdečo črto.
 
 ``` {r, fig.width = 7, fig.height = 5}
@@ -241,12 +243,13 @@ ggplot(pozari_per_m, aes(x = as.integer(month), y = n)) +
   geom_line(aes(colour = "red"))
 
 ```
-Zgornje podatke bi lahko izrisali tudi v obliki stolpičnega grafa s funkcijo `geom_bar()`, ki pa že implicitno prešteje število vrstic za vsako vrednost x-a.
+
+Zgornje podatke bi lahko izrisali tudi v obliki stolpičnega diagrama s funkcijo `geom_bar()`, ki pa že implicitno prešteje število vrstic za vsako vrednost x-a.
 
 ```{r, , fig.width = 7, fig.height = 5}
 ggplot(pozari, aes(x = month)) + geom_bar()
-#ggplot(pozari_per_m, aes(x = month, y = n)) + geom_bar(stat = "identity")
 ```
+
 Naredimo še vročinski (heat) diagram.
 
 ``` {r, fig.width = 7, fig.height = 5}
@@ -266,16 +269,16 @@ pozari_xy <- pozari %>%
   mutate(area_sum = sum(area))
 ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
   geom_tile() +
-  labs(x = "X koordinata", y = "Y koordinata", 
+  labs(x     = "X koordinata", y = "Y koordinata", 
        title = "Intenziteta požarov glede na koordinate.",
-       fill = "Površina")
+       fill  = "Površina")
 ```
-Da, spremenimo pisavo je v R najprej potrebno naložiti nove pisave. Nekaj pisav je že nameščenih, katere lahko vidimo s funkcijo `windowsFonts()`. 
+Da spremenimo pisavo je v R najprej potrebno naložiti nove pisave. Nekaj pisav je že nameščenih, katere lahko vidimo s funkcijo `windowsFonts()`. 
 
 ``` {r}
 head(windowsFonts())
 ```
-Pri prvem poganjanju so ponavadi na OS Windows na voljo le tri pisave. Da namestimo še ostale pisave uporabimo paket **extrafont**. Da paket naloži vse pisave uporabimo `font_import()`. To funkcijo poženemo samo enkrat, nalaganja pa lahko traja par minut. Nato v R-ju naložime fonte z `loadfonts(device = "win")`, ki naloži vse pisave, ki jih dobi na sistemu.
+Pri prvem poganjanju so ponavadi na OS Windows na voljo le tri pisave. Da namestimo še ostale pisave uporabimo paket **extrafont**. Da paket naloži vse pisave uporabimo `font_import()`. To funkcijo poženemo samo enkrat, nalaganje pa lahko traja nekaj minut. Nato v R-ju naložime fonte z `loadfonts(device = "win")`, ki naloži vse pisave, ki jih najde na sistemu.
 
 ``` {r}
 library(extrafont)
@@ -284,7 +287,7 @@ loadfonts(device = "win", quiet = TRUE)
 cat(str_c("Stevilo najdenih pisav: ", length(windowsFonts())))
 ```
 
-Izrišimo sedaj graf z pisavo 'Ravie':
+Izrišimo sedaj graf s pisavo 'Ravie':
 
 ``` {r, fig.width = 7, fig.height = 5}
 pozari_xy <- pozari %>%
@@ -292,9 +295,9 @@ pozari_xy <- pozari %>%
   mutate(area_sum = sum(area))
 ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
   geom_tile() +
-  labs(x = "X koordinata", y = "Y koordinata", 
+  labs(x     = "X koordinata", y = "Y koordinata", 
        title = "Intenziteta požarov glede na koordinate.",
-       fill = "Površina") +
+       fill  = "Površina") +
   theme(text=element_text(size=9, family="Ravie", face = "italic"))
 ```
 
@@ -303,7 +306,7 @@ ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) +
 S funkcijo `ggsave()` iz knjižnice ggplot2 lahko grafe tipa ggplot shranimo v enem izmed popularnih formatov. Dobra praksa dela z grafi je, da jih najprej shranimo v spremenljivko. Nato jih lahko izrišemo ali njihovo podobo shranimo v datoteko:
 
 
-```{r fig.width = 7, fig.height = 5}
+```{r fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE}
 graf <- ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
   geom_tile()
 
@@ -317,7 +320,7 @@ getwd()
 Funkcija `ggsave()` bo iz končnice sama zaznala željeni format shranjevanja in primerno shranila graf v datoteko.
 
 Za shranjevanje osnovnih R-jevih grafov, pa lahko preusmerite izrise v datoteko.
-Shranimo preprost graf v .png sliko.
+Shranimo preprost graf v png sliko.
 
 ``` {r}
 getwd()
@@ -326,7 +329,7 @@ plot(pozari$temp, type = "l", col = "blue")
 lines(pozari$wind, type = "l", col = "red")
 dev.off() # Povrnemo izrise nazaj v R.
 ```
-Izrisujemo lahko tudi v .pdf datoteke, kjer bo vsak graf izrisan na svojo stran. Grafi so v pdf datoteki shranjeni vektorsko. 
+Izrisujemo lahko tudi v pdf datoteke, kjer bo vsak graf izrisan na svojo stran. Grafi so v pdf datoteki shranjeni vektorsko. 
 
 ```{r}
 pdf("./data-plots/grafR.pdf")
@@ -350,7 +353,7 @@ Vsekakor takšnih podatkovnih množic ne smemo zamenjati z velepodatki (big data
 
 Paket dplyr lahko razširimo s paketom **dtplyr** (https://github.com/tidyverse/dtplyr), ki ga namestimo z ukazom `install.packages(dtplyr)`. Ta nam omogoča uporabo sintakse paketa dplyr, z učinkovitostjo paketa data.table. To naredi tako, da v ozadju dplyr kodo prevede v data.table kodo. Sicer vseeno deluje nekoliko počasneje kot data.table, ampak je razlika večinoma zanemarljiva. 
 
-Poglejmo si preprost primer, kjer generiramo neke podatke in na njih izvedemo nekaj operacij. Zadevo bomo naredili v dplyr, data.table in dtplyr ter sočasno merili čas izvajanja operacij. Tudi data.table dopušča uporabo operatorja pipe. V paketu dtplyr imamo funkcijo `lazy_dt()` katera omogoči t. i. leno ovrednotenje (lazy evaluation). V dplyr se opreacije izvajajo požrešno, ena za drugo, kot so zapisane. Leno ovrednotenje pa omogoča, da se operacije ne izvedejo, dokler na koncu ne kličemo funkcije `as_tibble()`. To omogoča veliko hitrejšo izvedbo.
+Poglejmo si preprost primer, kjer generiramo podatke in na njih izvedemo nekaj operacij. Zadevo bomo naredili v dplyr, data.table in dtplyr ter sočasno merili čas izvajanja operacij. Tudi data.table dopušča uporabo operatorja pipe. V paketu dtplyr imamo funkcijo `lazy_dt()` katera omogoči t. i. leno ovrednotenje (lazy evaluation). V dplyr se opreacije izvajajo požrešno, ena za drugo, kot so zapisane. Leno ovrednotenje pa omogoča, da se operacije ne izvedejo, dokler na koncu ne kličemo funkcije `as_tibble()`. To omogoča veliko hitrejšo izvedbo.
 
 ```{r}
 library(data.table)
@@ -434,8 +437,6 @@ dt_dtplyr %>%
 t2 <- Sys.time()
 t2 - t1
 ```
-
-
 
 
 ## Povezava med R in podatkovnimi bazami  {-}
@@ -539,5 +540,5 @@ my_lms
 # t2 - t1
 ```
 
-Predlagamo, da poizkusite tudi sami, ampak z več podatki in si izpišete razliko v časih. Pri tem najprej preverite, koliko jeder ima vaš računalnik, potrebovali boste vsaj 2. Glede na to, da imamo samo 2 razpredelnici, več kot 2 jeder ni smiselno uporabiti.
+Predlagamo, da poizkusite tudi sami, ampak z več podatki in da si izpišete razliko v časih. Pri tem najprej preverite, koliko jeder ima vaš računalnik, potrebovali boste vsaj 2. Glede na to, da imamo samo 2 razpredelnici, več kot 2 jeder ni smiselno uporabiti.
 

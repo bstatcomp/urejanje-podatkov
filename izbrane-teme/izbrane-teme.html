@@ -161,13 +161,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="iskanje-ponovnih-bolnišničnih-sprejemov-dodajanje-spremenljivk-glede-na-množico-pogojev" class="section level2 unnumbered">
 <h2>Iskanje ponovnih bolnišničnih sprejemov – dodajanje spremenljivk glede na množico pogojev</h2>
-<p>Predpostavimo, da imamo podatke o hospitalizaciija pacientov (TabelaA) in celotno bazo hospitalizacij (TabelaB). V datoteki primer.xlsx se nahajata umetno ustvarjena primera teh dveh tabel in željen rezultat.</p>
-<p>Tabeli A, želimo dodati dva stolpca in sicer “Sprejem_DA/NE” tipa faktor in Trajanja_b, ki spremeljivka tabele B, a le pri vrsticah, kjer je novo ustvarjena vrednost spremenjlivke “Sprejem_DA/NE” “Da”.</p>
-<p>Pogoji za ponoven sprejem so sledeči:
-- V obeh tabelah se mora ID_ZO ujemati.
-- Vrsta storitve v tabeli B mora imeti ključ 7.
-- Ponovni sprejem se je moral zgoditi v 30 dneh po zaključku prvega.</p>
-<p>Preberimo najprej obe tabeli v R. Ker sta obe tabeli na enem list z parametroma <code>rows</code> in <code>cols</code> določimo točno območje, ki ga želimo prebrati. Nastavimo tudi <code>detectDates = TRUE</code>, da paket <strong>openxlsx</strong> pravilno prebere datume, drugače jih bo prebral kot cela števila. Nazadnje še spremenimo tipe spremenljivk v bolj primerne, ker so privzeto večinoma tipa character.</p>
+<p>Predpostavimo, da imamo podatke o hospitalizacijah pacientov (TabelaA) in celotno bazo hospitalizacij (TabelaB). V datoteki Primer.xlsx se nahajata umetno ustvarjena primera teh dveh tabel in željen rezultat.</p>
+<p>Tabeli A želimo dodati dva stolpca in sicer <code>Sprejem_DA/NE</code> tipa faktor in <code>Trajanja_b</code>, ki je iz spremeljivke tabele B, a le pri vrsticah, kjer je novo ustvarjena vrednost spremenljivke <code>Sprejem_DA/NE</code> “Da”.</p>
+<p>Pogoji za ponoven sprejem so sledeči:</p>
+<ul>
+<li>V obeh tabelah se mora ID_ZO ujemati.</li>
+<li>Vrsta storitve v tabeli B mora imeti ključ 7.</li>
+<li>Ponovni sprejem se je moral zgoditi v 30 dneh po zaključku prvega.</li>
+</ul>
+<p>Preberimo najprej obe tabeli v R. Ker sta obe tabeli na enem listu s parametroma <code>rows</code> in <code>cols</code> določimo točno območje, ki ga želimo prebrati. Nastavimo tudi <code>detectDates = TRUE</code>, da paket <strong>openxlsx</strong> pravilno prebere datume, drugače jih bo prebral kot cela števila. Nazadnje še spremenimo tipe spremenljivk v bolj primerne, ker so privzeto večinoma tipa niz.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
@@ -232,10 +234,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 11                      2970736 328930              7 NBO            2020-08-02      2020-09-03                     2020      16   
 ## 12                      2918965 333928              3 REH            2020-06-29      2020-07-10                     2020      11.1 
 ## 13                      2987891 333928              5 BOL            2020-09-09      2020-09-26                     2020      16.8</code></pre>
-<p>Pri spremenljivki <code>Naziv.storitve</code> smo ročno nastavili nivoje v obeh tabelah ker:
-- V tabeli A ni vseh vrednostih in bi privzeto R izpustil nevidene vrednosti.
-- S ročnim vnosom zagotovimo, da so tudi vrednosti faktorjev v obeh tabelah enaki.</p>
-<p>Sedaj, ko smo prebrali podatke najprej samo poiščimo vrstice, katere ustrezajo pogojem za ponovni sprejem.</p>
+<p>Pri spremenljivki <code>Naziv.storitve</code> smo ročno nastavili nivoje v obeh tabelah ker:</p>
+<ul>
+<li>V tabeli A ni vseh vrednosti in bi privzeto R izpustil nevidene vrednosti.</li>
+<li>Z ročnim vnosom zagotovimo, da so tudi vrednosti faktorjev v obeh tabelah enake.</li>
+</ul>
+<p>Sedaj, ko smo prebrali podatke, najprej samo poiščimo vrstice, katere ustrezajo pogojem za ponovni sprejem.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>RazsirjenA <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(TabelaA, TabelaB, <span class="at">by =</span> <span class="st">&quot;ID_ZO&quot;</span>, </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;_b&quot;</span>))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>RazsirjenA <span class="ot">&lt;-</span> RazsirjenA <span class="sc">%&gt;%</span> </span>
@@ -244,19 +248,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>           Datum.začetka_b <span class="sc">&lt;</span> Datum.zaključka_a <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">30</span>))</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>RazsirjenA</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 15
-##     ID_BZ  ID_ZO Vrsta.storitve Naziv.storitve Datum.začetka_a Datum.zaključka_a Leto.zaključka Trajanje_a ID.bolnišničnega.zdrav~ Vrsta.storitve_b Naziv.storitve_b
-##     &lt;int&gt;  &lt;int&gt;          &lt;int&gt; &lt;fct&gt;          &lt;date&gt;          &lt;date&gt;                     &lt;int&gt;      &lt;dbl&gt;                   &lt;int&gt;            &lt;int&gt; &lt;fct&gt;           
-## 1 2798353 319130              1 SPP            2020-03-13      2020-03-16                  2020       3.08                 2787203                7 NBO             
-## 2 2797632 322959              1 SPP            2020-02-28      2020-03-04                  2020       5.16                 3015310                7 NBO             
-## 3 2896543 338157              1 SPP            2020-06-08      2020-06-13                  2020       5.32                 2896543                7 SPP             
+##     ID_BZ  ID_ZO Vrsta.storitve Naziv.storitve Datum.začetka_a Datum.zaključka_a Leto.zaključka Trajanje_a ID.bolnišničnega.zdra~ Vrsta.storitve_b Naziv.storitve_b
+##     &lt;int&gt;  &lt;int&gt;          &lt;int&gt; &lt;fct&gt;          &lt;date&gt;          &lt;date&gt;                     &lt;int&gt;      &lt;dbl&gt;                  &lt;int&gt;            &lt;int&gt; &lt;fct&gt;           
+## 1 2798353 319130              1 SPP            2020-03-13      2020-03-16                  2020       3.08                2787203                7 NBO             
+## 2 2797632 322959              1 SPP            2020-02-28      2020-03-04                  2020       5.16                3015310                7 NBO             
+## 3 2896543 338157              1 SPP            2020-06-08      2020-06-13                  2020       5.32                2896543                7 SPP             
 ## # ... with 4 more variables: Datum.začetka_b &lt;date&gt;, Datum.zaključka_b &lt;date&gt;, Leto.zaključka.BZ &lt;int&gt;, Trajanja_b &lt;dbl&gt;</code></pre>
-<p>Najprej smo tabeli združili po vrednosti <code>ID_ZO</code>. Tukaj smo uporabili še parameter <code>suffix</code>, da smo ohranili prvotna imena iz tabele A, tabeli B pa dodali "_b". Ostala dva pogoja smo implementirali z funkcijo <code>filter</code>. V tabeli RazsirjenA, so sedaj v stolpcu ID_BZ vrednosti, pri katerih moramo dodati ponovni sprejem. Tukaj predpostavljamo, da je to primarni ključ.</p>
+<p>Najprej smo tabeli združili po vrednosti <code>ID_ZO</code>. Tukaj smo uporabili še parameter <code>suffix</code>, da smo ohranili prvotna imena iz tabele A, tabeli B pa dodali "_b". Ostala dva pogoja smo implementirali s funkcijo <code>filter</code>. V tabeli RazsirjenA, so sedaj v stolpcu ID_BZ vrednosti, pri katerih moramo dodati ponovni sprejem. Tukaj predpostavljamo, da je to primarni ključ.</p>
 <p>V zadnjem koraku originalni tabeli A v dveh korakih dodamo manjkajoči spremenljivki.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dodajmo sprejeme</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dodajmo sprejeme.</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>TabelaA <span class="ot">&lt;-</span> TabelaA <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="st">&quot;Sprejem_DA/NE&quot;</span> <span class="ot">=</span> <span class="fu">factor</span>(ID_BZ <span class="sc">%in%</span> RazsirjenA<span class="sc">$</span>ID_BZ,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Da&quot;</span>, <span class="st">&quot;Ne&quot;</span>)))</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Dodajmo trajanja_b</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Dodajmo trajanja_b.</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(TabelaA, RazsirjenA <span class="sc">%&gt;%</span> <span class="fu">select</span>(ID_ZO, Trajanja_b), <span class="at">by =</span> <span class="st">&quot;ID_ZO&quot;</span>, <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Trajanja_b =</span> <span class="fu">replace_na</span>(Trajanja_b, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ID_BZ, ID_ZO, <span class="st">&quot;Sprejem_DA/NE&quot;</span>, Trajanja_b)</span></code></pre></div>
@@ -275,7 +279,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 2926455 340040 Ne                       0
 ## 11 2763834 345093 Ne                       0
 ## 12 2850770 345538 Ne                       0</code></pre>
-<p>Pri prvem delu uporabljamo operator %in% za delo z množicami in preverimo ali je <code>ID_BZ</code> tabele A v izbranih vrsticah tabele RazsirjenA. Na koncu z levim združevanjem dodamo še vrednosti trajanja_b in tabele B in izpišemo okrajšan rezultat. Za izpis točno željene tabele je potrebno le spremeniti zadnji select in podatke shraniti nazaj v tabelo A.</p>
+<p>Pri prvem delu uporabljamo operator <code>%in%</code> za delo z množicami in preverimo ali je <code>ID_BZ</code> tabele A v izbranih vrsticah tabele RazsirjenA. Na koncu z levim združevanjem dodamo še vrednosti trajanja_b iz tabele B in izpišemo okrajšan rezultat. Za izpis točno željene tabele je potrebno le spremeniti zadnji select in podatke shraniti nazaj v tabelo A.</p>
 </div>
 <div id="urejanje-kumulativne-razpredelnice" class="section level2 unnumbered">
 <h2>Urejanje kumulativne razpredelnice</h2>
@@ -284,18 +288,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./data-raw/age-cases.csv&quot;</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>## # A tibble: 469 x 45
-##    date       `age.male.0-4.tod~ `age.male.5-14.to~ `age.male.15-24.t~ `age.male.25-34.t~ `age.male.35-44.t~ `age.male.45-54.t~ `age.male.55-64.t~ `age.male.65-74.~
-##    &lt;date&gt;                  &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;             &lt;dbl&gt;
-##  1 2020-03-04                 NA                 NA                 NA                 NA                 NA                 NA                  1                NA
-##  2 2020-03-05                 NA                 NA                 NA                  2                  1                 NA                  1                 1
-##  3 2020-03-06                 NA                 NA                 NA                  2                  1                  1                  3                 1
-##  4 2020-03-07                 NA                 NA                 NA                  4                  1                  1                  3                 1
-##  5 2020-03-08                 NA                 NA                 NA                  4                  1                  1                  4                 2
-##  6 2020-03-09                 NA                 NA                  1                  5                  1                  1                  5                 4
-##  7 2020-03-10                 NA                 NA                  1                  6                  2                  2                  7                 5
-##  8 2020-03-11                 NA                  1                  2                 10                  5                  5                  9                 6
-##  9 2020-03-12                 NA                  5                  5                 18                  9                  9                 15                 6
-## 10 2020-03-13                 NA                  5                  8                 21                 10                 16                 15                10
+##    date       `age.male.0-4.tod~ `age.male.5-14.to~ `age.male.15-24.t~ `age.male.25-34.t~ `age.male.35-44.t~ `age.male.45-54.t~ `age.male.55-64.~ `age.male.65-74.~
+##    &lt;date&gt;                  &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;
+##  1 2020-03-04                 NA                 NA                 NA                 NA                 NA                 NA                 1                NA
+##  2 2020-03-05                 NA                 NA                 NA                  2                  1                 NA                 1                 1
+##  3 2020-03-06                 NA                 NA                 NA                  2                  1                  1                 3                 1
+##  4 2020-03-07                 NA                 NA                 NA                  4                  1                  1                 3                 1
+##  5 2020-03-08                 NA                 NA                 NA                  4                  1                  1                 4                 2
+##  6 2020-03-09                 NA                 NA                  1                  5                  1                  1                 5                 4
+##  7 2020-03-10                 NA                 NA                  1                  6                  2                  2                 7                 5
+##  8 2020-03-11                 NA                  1                  2                 10                  5                  5                 9                 6
+##  9 2020-03-12                 NA                  5                  5                 18                  9                  9                15                 6
+## 10 2020-03-13                 NA                  5                  8                 21                 10                 16                15                10
 ## # ... with 459 more rows, and 36 more variables: age.male.75-84.todate &lt;dbl&gt;, age.male.85+.todate &lt;dbl&gt;, age.male.todate &lt;dbl&gt;, age.female.0-4.todate &lt;dbl&gt;,
 ## #   age.female.5-14.todate &lt;dbl&gt;, age.female.15-24.todate &lt;dbl&gt;, age.female.25-34.todate &lt;dbl&gt;, age.female.35-44.todate &lt;dbl&gt;, age.female.45-54.todate &lt;dbl&gt;,
 ## #   age.female.55-64.todate &lt;dbl&gt;, age.female.65-74.todate &lt;dbl&gt;, age.female.75-84.todate &lt;dbl&gt;, age.female.85+.todate &lt;dbl&gt;, age.female.todate &lt;dbl&gt;,
@@ -474,24 +478,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 2020-03-13 female 25-34         22     3
 ## # ... with 459 more rows</code></pre>
 <p>Urejene podatke še shranimo v mapo <code>data-clean</code>:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;./data-clean/&quot;</span>) <span class="co"># Če še ni mape data-clean jo ustvarimo.</span></span></code></pre></div>
-<pre><code>## Warning in dir.create(&quot;./data-clean/&quot;): &#39;.\data-clean&#39; already exists</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(df_tidy, <span class="st">&quot;./data-clean/age-cases-tidy.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;./data-clean/&quot;</span>) <span class="co"># Če še ni mape data-clean jo ustvarimo.</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(df_tidy, <span class="st">&quot;./data-clean/age-cases-tidy.csv&quot;</span>)</span></code></pre></div>
 </div>
 <div id="osnove-grafov-z-ggplot2" class="section level2 unnumbered">
 <h2>Osnove grafov z ggplot2</h2>
 <p>Osnovni paket v tidyverse je <strong>ggplot2</strong>, ki je namenjen izrisovanju grafov. Paket <strong>ggplot2</strong> implementira sistematičen formalni jezik za opisovanje grafov. To naredi paket dosti bolj zmogljiv, vendar na videz tudi bolj zahtevnega.</p>
 <p>Osnovna funkcija za izris grafov je <code>ggplot()</code>. Ta že sama po sebi izriše prazen graf.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()</span></code></pre></div>
 <p><img src="izbrane-teme_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Če želimo, dejanski izris grafa podatkov pa moramo podati še tri ključne elemente:
-* <strong>Podatke</strong>.
-* <strong>Tip grafa</strong> – Kako naj bodo podatki predstavljeni na grafu, lahko jih podatmo tudi več.
-* <strong>Estetike</strong> – x-os, y-os, barve točk, skupine podatkov itd…</p>
-<p>Prva dva elementa sta nujno potreba. Estetike pa lahko izpustimo, pri čemer jih bo <code>ggplot()</code> samodejno smiselno določil.</p>
-<p>Poglejmo si različne grafe osnovne grafe na podatkih portugalsih požarov.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pozari <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/forest-fires.csv&quot;</span>)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>pozari</span></code></pre></div>
+<p>Če želimo dejanski izris grafa podatkov pa moramo podati še tri ključne elemente:</p>
+<ul>
+<li><strong>Podatke</strong>.</li>
+<li><strong>Tip grafa</strong> – Kako naj bodo podatki predstavljeni na grafu, lahko jih podamo tudi več.</li>
+<li><strong>Estetike</strong> – x-os, y-os, barve točk, skupine podatkov, itd.</li>
+</ul>
+<p>Poglejmo si različne osnovne grafe na podatkih portugalskih požarov.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pozari <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">&quot;./data-raw/forest-fires.csv&quot;</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>pozari</span></code></pre></div>
 <pre><code>## # A tibble: 517 x 13
 ##        X     Y month day   FFMC_index DMC_index DC_index ISI_index  temp    RH  wind  rain  area
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -507,45 +511,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10     7     5 sep   sat         92.5      88      699.        7.1  22.8    40   4     0       0
 ## # ... with 507 more rows</code></pre>
 <p>Izrišimo najprej število požarov glede na posamezen mesec. Tukaj smo pretvorili mesece v ordinalno spremenljivko, da bo tudi izpis avtomatsko urejen po mesecih.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>pozari_per_m <span class="ot">&lt;-</span> pozari <span class="sc">%&gt;%</span> </span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(month, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;jan&quot;</span>, <span class="st">&quot;feb&quot;</span>, <span class="st">&quot;mar&quot;</span>, <span class="st">&quot;apr&quot;</span>, </span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="st">&quot;maj&quot;</span>, <span class="st">&quot;jun&quot;</span>, <span class="st">&quot;jul&quot;</span>, <span class="st">&quot;avg&quot;</span>, </span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="st">&quot;sep&quot;</span>, <span class="st">&quot;okt&quot;</span>, <span class="st">&quot;nov&quot;</span>, <span class="st">&quot;dec&quot;</span>), </span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">ordered =</span> T)) <span class="sc">%&gt;%</span> <span class="fu">count</span>(month)</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_per_m, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="izbrane-teme_files/figure-html/unnamed-chunk-18-1.png" width="672" />
-Tip grafa podamo z eno izmed družine funkcij <code>geom_</code>. Lahko podamo tudi več geomov, če so le-ti kompatibilni. Posebej tudi dodajamo estetike. Dodajmo še rdečo črto.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_per_m, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(month), <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">colour =</span> <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
-<p><img src="izbrane-teme_files/figure-html/unnamed-chunk-19-1.png" width="672" />
-Zgornje podatke bi lahko izrisali tudi v obliki stolpičnega grafa s funkcijo <code>geom_bar()</code>, ki pa že implicitno prešteje število vrstic za vsako vrednost x-a.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari, <span class="fu">aes</span>(<span class="at">x =</span> month)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pozari_per_m <span class="ot">&lt;-</span> pozari <span class="sc">%&gt;%</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(month, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;jan&quot;</span>, <span class="st">&quot;feb&quot;</span>, <span class="st">&quot;mar&quot;</span>, <span class="st">&quot;apr&quot;</span>, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="st">&quot;maj&quot;</span>, <span class="st">&quot;jun&quot;</span>, <span class="st">&quot;jul&quot;</span>, <span class="st">&quot;avg&quot;</span>, </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="st">&quot;sep&quot;</span>, <span class="st">&quot;okt&quot;</span>, <span class="st">&quot;nov&quot;</span>, <span class="st">&quot;dec&quot;</span>), </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">ordered =</span> T)) <span class="sc">%&gt;%</span> <span class="fu">count</span>(month)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_per_m, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="izbrane-teme_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Tip grafa podamo z eno izmed družine funkcij <code>geom_</code>. Lahko podamo tudi več geomov, če so le-ti kompatibilni. Posebej tudi dodajamo estetike. Dodajmo še rdečo črto.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_per_m, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(month), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">colour =</span> <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<p><img src="izbrane-teme_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>Zgornje podatke bi lahko izrisali tudi v obliki stolpičnega diagrama s funkcijo <code>geom_bar()</code>, ki pa že implicitno prešteje število vrstic za vsako vrednost x-a.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari, <span class="fu">aes</span>(<span class="at">x =</span> month)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div>
 <p><img src="izbrane-teme_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ggplot(pozari_per_m, aes(x = month, y = n)) + geom_bar(stat = &quot;identity&quot;)</span></span></code></pre></div>
 <p>Naredimo še vročinski (heat) diagram.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>pozari_xy <span class="ot">&lt;-</span> pozari <span class="sc">%&gt;%</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(X, Y) <span class="sc">%&gt;%</span> </span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area_sum =</span> <span class="fu">sum</span>(area))</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_xy, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> area_sum)) <span class="sc">+</span> </span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>pozari_xy <span class="ot">&lt;-</span> pozari <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(X, Y) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area_sum =</span> <span class="fu">sum</span>(area))</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_xy, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> area_sum)) <span class="sc">+</span> </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span></code></pre></div>
 <p><img src="izbrane-teme_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 </div>
 <div id="spreminjanje-fontov-na-grafu" class="section level2 unnumbered">
 <h2>Spreminjanje fontov na grafu</h2>
 <p>Dodajmo bolj opisna imena osi grafov in naslov.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>pozari_xy <span class="ot">&lt;-</span> pozari <span class="sc">%&gt;%</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(X, Y) <span class="sc">%&gt;%</span> </span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area_sum =</span> <span class="fu">sum</span>(area))</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_xy, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> area_sum)) <span class="sc">+</span> </span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;X koordinata&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Y koordinata&quot;</span>, </span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Intenziteta požarov glede na koordinate.&quot;</span>,</span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Površina&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pozari_xy <span class="ot">&lt;-</span> pozari <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(X, Y) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area_sum =</span> <span class="fu">sum</span>(area))</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_xy, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> area_sum)) <span class="sc">+</span> </span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x     =</span> <span class="st">&quot;X koordinata&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Y koordinata&quot;</span>, </span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Intenziteta požarov glede na koordinate.&quot;</span>,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill  =</span> <span class="st">&quot;Površina&quot;</span>)</span></code></pre></div>
 <p><img src="izbrane-teme_files/figure-html/unnamed-chunk-22-1.png" width="672" />
-Da, spremenimo pisavo je v R najprej potrebno naložiti nove pisave. Nekaj pisav je že nameščenih, katere lahko vidimo s funkcijo <code>windowsFonts()</code>.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">windowsFonts</span>())</span></code></pre></div>
+Da spremenimo pisavo je v R najprej potrebno naložiti nove pisave. Nekaj pisav je že nameščenih, katere lahko vidimo s funkcijo <code>windowsFonts()</code>.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">windowsFonts</span>())</span></code></pre></div>
 <pre><code>## $serif
 ## [1] &quot;TT Times New Roman&quot;
 ## 
@@ -563,54 +566,53 @@ Da, spremenimo pisavo je v R najprej potrebno naložiti nove pisave. Nekaj pisav
 ## 
 ## $`Arial Black`
 ## [1] &quot;Arial Black&quot;</code></pre>
-<p>Pri prvem poganjanju so ponavadi na OS Windows na voljo le tri pisave. Da namestimo še ostale pisave uporabimo paket <strong>extrafont</strong>. Da paket naloži vse pisave uporabimo <code>font_import()</code>. To funkcijo poženemo samo enkrat, nalaganja pa lahko traja par minut. Nato v R-ju naložime fonte z <code>loadfonts(device = "win")</code>, ki naloži vse pisave, ki jih dobi na sistemu.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(extrafont)</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co">#font_import() # Naloži vse pisave, ki jih dobi.</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">loadfonts</span>(<span class="at">device =</span> <span class="st">&quot;win&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">str_c</span>(<span class="st">&quot;Stevilo najdenih pisav: &quot;</span>, <span class="fu">length</span>(<span class="fu">windowsFonts</span>())))</span></code></pre></div>
+<p>Pri prvem poganjanju so ponavadi na OS Windows na voljo le tri pisave. Da namestimo še ostale pisave uporabimo paket <strong>extrafont</strong>. Da paket naloži vse pisave uporabimo <code>font_import()</code>. To funkcijo poženemo samo enkrat, nalaganje pa lahko traja nekaj minut. Nato v R-ju naložime fonte z <code>loadfonts(device = "win")</code>, ki naloži vse pisave, ki jih najde na sistemu.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(extrafont)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">#font_import() # Naloži vse pisave, ki jih dobi.</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">loadfonts</span>(<span class="at">device =</span> <span class="st">&quot;win&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">str_c</span>(<span class="st">&quot;Stevilo najdenih pisav: &quot;</span>, <span class="fu">length</span>(<span class="fu">windowsFonts</span>())))</span></code></pre></div>
 <pre><code>## Stevilo najdenih pisav: 207</code></pre>
-<p>Izrišimo sedaj graf z pisavo ‘Ravie’:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>pozari_xy <span class="ot">&lt;-</span> pozari <span class="sc">%&gt;%</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(X, Y) <span class="sc">%&gt;%</span> </span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area_sum =</span> <span class="fu">sum</span>(area))</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_xy, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> area_sum)) <span class="sc">+</span> </span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;X koordinata&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Y koordinata&quot;</span>, </span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Intenziteta požarov glede na koordinate.&quot;</span>,</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Površina&quot;</span>) <span class="sc">+</span></span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">family=</span><span class="st">&quot;Ravie&quot;</span>, <span class="at">face =</span> <span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
+<p>Izrišimo sedaj graf s pisavo ‘Ravie’:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>pozari_xy <span class="ot">&lt;-</span> pozari <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(X, Y) <span class="sc">%&gt;%</span> </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area_sum =</span> <span class="fu">sum</span>(area))</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pozari_xy, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> area_sum)) <span class="sc">+</span> </span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x     =</span> <span class="st">&quot;X koordinata&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Y koordinata&quot;</span>, </span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Intenziteta požarov glede na koordinate.&quot;</span>,</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill  =</span> <span class="st">&quot;Površina&quot;</span>) <span class="sc">+</span></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">family=</span><span class="st">&quot;Ravie&quot;</span>, <span class="at">face =</span> <span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
 <p><img src="izbrane-teme_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 </div>
 <div id="shranjevanje-grafov" class="section level2 unnumbered">
 <h2>Shranjevanje grafov</h2>
 <p>S funkcijo <code>ggsave()</code> iz knjižnice ggplot2 lahko grafe tipa ggplot shranimo v enem izmed popularnih formatov. Dobra praksa dela z grafi je, da jih najprej shranimo v spremenljivko. Nato jih lahko izrišemo ali njihovo podobo shranimo v datoteko:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>graf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pozari_xy, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> area_sum)) <span class="sc">+</span> </span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;./data-plots/&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in dir.create(&quot;./data-plots/&quot;): &#39;.\data-plots&#39; already exists</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;./data-plots/graf.jpg&quot;</span>, <span class="at">plot =</span> graf, <span class="at">width =</span> <span class="dv">4</span>, <span class="at">height =</span> <span class="dv">3</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;./data-plots/graf.png&quot;</span>, <span class="at">width =</span> <span class="dv">4</span>, <span class="at">height =</span> <span class="dv">3</span>, <span class="at">dpi =</span> <span class="dv">300</span>) </span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;./data-plots/graf.pdf&quot;</span>, <span class="at">width =</span> <span class="dv">4</span>, <span class="at">height =</span> <span class="dv">3</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>graf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pozari_xy, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> area_sum)) <span class="sc">+</span> </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;./data-plots/&quot;</span>)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;./data-plots/graf.jpg&quot;</span>, <span class="at">plot =</span> graf, <span class="at">width =</span> <span class="dv">4</span>, <span class="at">height =</span> <span class="dv">3</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;./data-plots/graf.png&quot;</span>, <span class="at">width =</span> <span class="dv">4</span>, <span class="at">height =</span> <span class="dv">3</span>, <span class="at">dpi =</span> <span class="dv">300</span>) </span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;./data-plots/graf.pdf&quot;</span>, <span class="at">width =</span> <span class="dv">4</span>, <span class="at">height =</span> <span class="dv">3</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;C:/Users/Gregor/Documents/shared_files/workshops/urejanje-podatkov/izbrane-teme&quot;</code></pre>
 <p>Funkcija <code>ggsave()</code> bo iz končnice sama zaznala željeni format shranjevanja in primerno shranila graf v datoteko.</p>
 <p>Za shranjevanje osnovnih R-jevih grafov, pa lahko preusmerite izrise v datoteko.
-Shranimo preprost graf v .png sliko.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
+Shranimo preprost graf v png sliko.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;C:/Users/Gregor/Documents/shared_files/workshops/urejanje-podatkov/izbrane-teme&quot;</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&quot;./data-plots/grafR.png&quot;</span>)</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pozari<span class="sc">$</span>temp, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pozari<span class="sc">$</span>wind, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() <span class="co"># Povrnemo izrise nazaj v R.</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&quot;./data-plots/grafR.png&quot;</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pozari<span class="sc">$</span>temp, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pozari<span class="sc">$</span>wind, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() <span class="co"># Povrnemo izrise nazaj v R.</span></span></code></pre></div>
 <pre><code>## png 
 ##   2</code></pre>
-<p>Izrisujemo lahko tudi v .pdf datoteke, kjer bo vsak graf izrisan na svojo stran. Grafi so v pdf datoteki shranjeni vektorsko.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;./data-plots/grafR.pdf&quot;</span>)</span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pozari<span class="sc">$</span>temp, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pozari<span class="sc">$</span>wind, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pozari<span class="sc">$</span>wind, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() <span class="co"># Povrnemo izrise nazaj v R.</span></span></code></pre></div>
+<p>Izrisujemo lahko tudi v pdf datoteke, kjer bo vsak graf izrisan na svojo stran. Grafi so v pdf datoteki shranjeni vektorsko.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;./data-plots/grafR.pdf&quot;</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pozari<span class="sc">$</span>temp, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pozari<span class="sc">$</span>wind, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pozari<span class="sc">$</span>wind, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() <span class="co"># Povrnemo izrise nazaj v R.</span></span></code></pre></div>
 <pre><code>## png 
 ##   2</code></pre>
 </div>
@@ -625,29 +627,29 @@ Shranimo preprost graf v .png sliko.</p>
 <p>Paketa data.table ne bomo spoznali podrobneje, v kolikor želite več informacij predlagamo ta uvod v paket: <a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html" class="uri">https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html</a>. Za diskusijo o razlikah, prednostih in slabostih obeh paketov (dplyr in data.table) predlagamo ogled tega vprašanja (in odgovorov): <a href="https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly" class="uri">https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly</a>.</p>
 <p>Vsekakor takšnih podatkovnih množic ne smemo zamenjati z velepodatki (big data), kjer so množice tako velike, da standardna programska oprema za delo s podatki z njimi ni zmožna delati. V takih primerih se poslužimo programske opreme za velepodatke, kot so, na primer, Hadoop, MongoDB, Apache Spark, itd.</p>
 <p>Paket dplyr lahko razširimo s paketom <strong>dtplyr</strong> (<a href="https://github.com/tidyverse/dtplyr" class="uri">https://github.com/tidyverse/dtplyr</a>), ki ga namestimo z ukazom <code>install.packages(dtplyr)</code>. Ta nam omogoča uporabo sintakse paketa dplyr, z učinkovitostjo paketa data.table. To naredi tako, da v ozadju dplyr kodo prevede v data.table kodo. Sicer vseeno deluje nekoliko počasneje kot data.table, ampak je razlika večinoma zanemarljiva.</p>
-<p>Poglejmo si preprost primer, kjer generiramo neke podatke in na njih izvedemo nekaj operacij. Zadevo bomo naredili v dplyr, data.table in dtplyr ter sočasno merili čas izvajanja operacij. Tudi data.table dopušča uporabo operatorja pipe. V paketu dtplyr imamo funkcijo <code>lazy_dt()</code> katera omogoči t. i. leno ovrednotenje (lazy evaluation). V dplyr se opreacije izvajajo požrešno, ena za drugo, kot so zapisane. Leno ovrednotenje pa omogoča, da se operacije ne izvedejo, dokler na koncu ne kličemo funkcije <code>as_tibble()</code>. To omogoča veliko hitrejšo izvedbo.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dtplyr)</span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generirani podatki, da lahko poljubno nastavimo število primerov. ------------</span></span>
-<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>n         <span class="ot">&lt;-</span> <span class="dv">100000000</span></span>
-<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>x         <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>price     <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">5000</span>, <span class="dv">100</span>)</span>
-<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>all_types <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">expand.grid</span>(LETTERS, LETTERS, <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>), <span class="dv">1</span>, paste, <span class="at">collapse=</span><span class="st">&quot;.&quot;</span>)</span>
-<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>types     <span class="ot">&lt;-</span> <span class="fu">sample</span>(all_types, n, <span class="at">replace =</span> T)</span>
-<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>tib_dplyr  <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x, <span class="at">price =</span> price, <span class="at">type =</span> types)</span>
-<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>dt_dtplyr  <span class="ot">&lt;-</span> <span class="fu">lazy_dt</span>(data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">x =</span> x, <span class="at">price =</span> price, </span>
-<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">type =</span> types))</span>
-<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>dt_dtable  <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">x =</span> x, <span class="at">price =</span> price, <span class="at">type =</span> types)</span>
-<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr ------------------------------------------------------------------------</span></span>
-<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>tib_dplyr <span class="sc">%&gt;%</span> </span>
-<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span> </span>
-<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_price =</span> <span class="fu">mean</span>(price))</span></code></pre></div>
+<p>Poglejmo si preprost primer, kjer generiramo podatke in na njih izvedemo nekaj operacij. Zadevo bomo naredili v dplyr, data.table in dtplyr ter sočasno merili čas izvajanja operacij. Tudi data.table dopušča uporabo operatorja pipe. V paketu dtplyr imamo funkcijo <code>lazy_dt()</code> katera omogoči t. i. leno ovrednotenje (lazy evaluation). V dplyr se opreacije izvajajo požrešno, ena za drugo, kot so zapisane. Leno ovrednotenje pa omogoča, da se operacije ne izvedejo, dokler na koncu ne kličemo funkcije <code>as_tibble()</code>. To omogoča veliko hitrejšo izvedbo.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dtplyr)</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generirani podatki, da lahko poljubno nastavimo število primerov. ------------</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>n         <span class="ot">&lt;-</span> <span class="dv">100000000</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>x         <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>price     <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">5000</span>, <span class="dv">100</span>)</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>all_types <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">expand.grid</span>(LETTERS, LETTERS, <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>), <span class="dv">1</span>, paste, <span class="at">collapse=</span><span class="st">&quot;.&quot;</span>)</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>types     <span class="ot">&lt;-</span> <span class="fu">sample</span>(all_types, n, <span class="at">replace =</span> T)</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>tib_dplyr  <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x, <span class="at">price =</span> price, <span class="at">type =</span> types)</span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>dt_dtplyr  <span class="ot">&lt;-</span> <span class="fu">lazy_dt</span>(data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">x =</span> x, <span class="at">price =</span> price, </span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">type =</span> types))</span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>dt_dtable  <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">x =</span> x, <span class="at">price =</span> price, <span class="at">type =</span> types)</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr ------------------------------------------------------------------------</span></span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>tib_dplyr <span class="sc">%&gt;%</span> </span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span> </span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_price =</span> <span class="fu">mean</span>(price))</span></code></pre></div>
 <pre><code>## # A tibble: 6,760 x 2
 ##    type  mean_price
 ##    &lt;chr&gt;      &lt;dbl&gt;
@@ -662,12 +664,12 @@ Shranimo preprost graf v .png sliko.</p>
 ##  9 A.A.8      5000.
 ## 10 A.A.9      4999.
 ## # ... with 6,750 more rows</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span></code></pre></div>
-<pre><code>## Time difference of 9.286003 secs</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data.table -------------------------------------------------------------------</span></span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>dt_dtable[, <span class="fu">sum</span>(price), keyby<span class="ot">=</span>type]</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span></code></pre></div>
+<pre><code>## Time difference of 8.444396 secs</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data.table -------------------------------------------------------------------</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>dt_dtable[, <span class="fu">sum</span>(price), keyby<span class="ot">=</span>type]</span></code></pre></div>
 <pre><code>##        type       V1
 ##    1: A.A.0 73814630
 ##    2: A.A.1 73573418
@@ -680,15 +682,15 @@ Shranimo preprost graf v .png sliko.</p>
 ## 6758: Z.Z.7 73341645
 ## 6759: Z.Z.8 74776179
 ## 6760: Z.Z.9 74337558</code></pre>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span></code></pre></div>
-<pre><code>## Time difference of 4.065668 secs</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dtplyr -----------------------------------------------------------------------</span></span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>dt_dtplyr <span class="sc">%&gt;%</span> </span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span> </span>
-<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_price =</span> <span class="fu">mean</span>(price)) <span class="sc">%&gt;%</span></span>
-<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span></code></pre></div>
+<pre><code>## Time difference of 4.199335 secs</code></pre>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dtplyr -----------------------------------------------------------------------</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>dt_dtplyr <span class="sc">%&gt;%</span> </span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span> </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_price =</span> <span class="fu">mean</span>(price)) <span class="sc">%&gt;%</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6,760 x 2
 ##    type  mean_price
 ##    &lt;chr&gt;      &lt;dbl&gt;
@@ -703,53 +705,53 @@ Shranimo preprost graf v .png sliko.</p>
 ##  9 A.A.8      5000.
 ## 10 A.A.9      4999.
 ## # ... with 6,750 more rows</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span></code></pre></div>
-<pre><code>## Time difference of 4.041919 secs</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span></code></pre></div>
+<pre><code>## Time difference of 4.237827 secs</code></pre>
 <p>Opazimo, da dtplyr in data.table delujeta veliko hitreje kot dplyr. Koliko hitreje je odvisno od večih parametrov, na primer, koliko podatkov imamo, koliko različnih skupin v združevanju, katere operacije izvajamo in podobno. Za bolj podrobno časovno primerjavo predlagamo obisk strani <a href="https://github.com/Rdatatable/data.table/wiki/Benchmarks-%3A-Grouping" class="uri">https://github.com/Rdatatable/data.table/wiki/Benchmarks-%3A-Grouping</a> in <a href="https://iyarlin.github.io/2020/05/26/dtplyr_benchmarks/" class="uri">https://iyarlin.github.io/2020/05/26/dtplyr_benchmarks/</a>.</p>
 <p>Še ena primerjava kode med paketi, ki pa je v knjigi ne bomo izvedli, zaradi nekoliko večje časovne zahtevnosti:</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr ------------------------------------------------------------------------</span></span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>tib_dplyr <span class="sc">%&gt;%</span></span>
-<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span></span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">price_stand =</span> (price <span class="sc">-</span> <span class="fu">mean</span>(price)) <span class="sc">/</span> <span class="fu">sd</span>(price)) <span class="sc">%&gt;%</span></span>
-<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_price_stand =</span> <span class="fu">mean</span>(price_stand))</span>
-<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span>
-<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a><span class="co"># data.table -------------------------------------------------------------------</span></span>
-<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>dt_dtable <span class="sc">%&gt;%</span></span>
-<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a>  .[x <span class="sc">&lt;</span> <span class="dv">2</span>] <span class="sc">%&gt;%</span></span>
-<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a>  .[ , price_stand <span class="sc">:</span><span class="er">=</span> (price <span class="sc">-</span> <span class="fu">mean</span>(price)) <span class="sc">/</span> <span class="fu">sd</span>(price), by <span class="ot">=</span> type] <span class="sc">%&gt;%</span></span>
-<span id="cb78-17"><a href="#cb78-17" aria-hidden="true" tabindex="-1"></a>  .[ , .(<span class="at">mean_price_stand =</span> <span class="fu">mean</span>(price_stand)), keyby <span class="ot">=</span> type]</span>
-<span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span>
-<span id="cb78-20"><a href="#cb78-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-21"><a href="#cb78-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-22"><a href="#cb78-22" aria-hidden="true" tabindex="-1"></a><span class="co"># dtplyr -----------------------------------------------------------------------</span></span>
-<span id="cb78-23"><a href="#cb78-23" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb78-24"><a href="#cb78-24" aria-hidden="true" tabindex="-1"></a>dt_dtplyr <span class="sc">%&gt;%</span></span>
-<span id="cb78-25"><a href="#cb78-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb78-26"><a href="#cb78-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span></span>
-<span id="cb78-27"><a href="#cb78-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">price_stand =</span> (price <span class="sc">-</span> <span class="fu">mean</span>(price)) <span class="sc">/</span> <span class="fu">sd</span>(price)) <span class="sc">%&gt;%</span></span>
-<span id="cb78-28"><a href="#cb78-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_price_stand =</span> <span class="fu">mean</span>(price_stand)) <span class="sc">%&gt;%</span></span>
-<span id="cb78-29"><a href="#cb78-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="co"># To vrstico moramo zapisati, v koliko želimo da se ukaz izvede!</span></span>
-<span id="cb78-30"><a href="#cb78-30" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb78-31"><a href="#cb78-31" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr ------------------------------------------------------------------------</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>tib_dplyr <span class="sc">%&gt;%</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">price_stand =</span> (price <span class="sc">-</span> <span class="fu">mean</span>(price)) <span class="sc">/</span> <span class="fu">sd</span>(price)) <span class="sc">%&gt;%</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_price_stand =</span> <span class="fu">mean</span>(price_stand))</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="co"># data.table -------------------------------------------------------------------</span></span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>dt_dtable <span class="sc">%&gt;%</span></span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a>  .[x <span class="sc">&lt;</span> <span class="dv">2</span>] <span class="sc">%&gt;%</span></span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a>  .[ , price_stand <span class="sc">:</span><span class="er">=</span> (price <span class="sc">-</span> <span class="fu">mean</span>(price)) <span class="sc">/</span> <span class="fu">sd</span>(price), by <span class="ot">=</span> type] <span class="sc">%&gt;%</span></span>
+<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a>  .[ , .(<span class="at">mean_price_stand =</span> <span class="fu">mean</span>(price_stand)), keyby <span class="ot">=</span> type]</span>
+<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span>
+<span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a><span class="co"># dtplyr -----------------------------------------------------------------------</span></span>
+<span id="cb73-23"><a href="#cb73-23" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb73-24"><a href="#cb73-24" aria-hidden="true" tabindex="-1"></a>dt_dtplyr <span class="sc">%&gt;%</span></span>
+<span id="cb73-25"><a href="#cb73-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-26"><a href="#cb73-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span></span>
+<span id="cb73-27"><a href="#cb73-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">price_stand =</span> (price <span class="sc">-</span> <span class="fu">mean</span>(price)) <span class="sc">/</span> <span class="fu">sd</span>(price)) <span class="sc">%&gt;%</span></span>
+<span id="cb73-28"><a href="#cb73-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_price_stand =</span> <span class="fu">mean</span>(price_stand)) <span class="sc">%&gt;%</span></span>
+<span id="cb73-29"><a href="#cb73-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="co"># To vrstico moramo zapisati, v koliko želimo da se ukaz izvede!</span></span>
+<span id="cb73-30"><a href="#cb73-30" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb73-31"><a href="#cb73-31" aria-hidden="true" tabindex="-1"></a>t2 <span class="sc">-</span> t1</span></code></pre></div>
 </div>
 <div id="povezava-med-r-in-podatkovnimi-bazami" class="section level2 unnumbered">
 <h2>Povezava med R in podatkovnimi bazami</h2>
 <p>Pogosto podatke pridobimo iz podatkovnih baz, ki so namenjene hranjenju in analizi večjih podatkovnih zbirk. Za delo s podatkovnimi bazami običajno uporabljamo programski jezik SQL. V R obstaja več paketov, ki nam omogočajo povezavo na podatkovno bazo. Najbolj popularni so <strong>DBI</strong>, <strong>odbc</strong> in <strong>dbplyr</strong> (slednja oba temeljita na DBI). Ti paketi delujejo z uveljavljenimi sistemi za upravljanje podatkovnih baz, kot so MySQL, PostgreSQL in SQLite ter veliko komercialnimi podatkovnimi bazami.</p>
 <p>Poglejmo si primer uporabe podatkovne baze. Na pomnilniku bomo ustvarili začasno bazo. V praksi bi se s tem povezali na poljubno bazo, več informacij lahko poiščete na: <a href="https://db.rstudio.com/" class="uri">https://db.rstudio.com/</a>.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>) <span class="co"># V pomnilniku ustvarimo začasno bazo.</span></span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(con, <span class="st">&quot;age-cases-clean&quot;</span>, df_tidy) <span class="co"># Shranimo podatke v bazo.</span></span>
-<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>df_tidy_from_db <span class="ot">&lt;-</span> <span class="fu">dbReadTable</span>(con, <span class="st">&quot;age-cases-clean&quot;</span>) <span class="co"># Preberemo podatke iz baze v R.</span></span>
-<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_tidy_from_db)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>) <span class="co"># V pomnilniku ustvarimo začasno bazo.</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(con, <span class="st">&quot;age-cases-clean&quot;</span>, df_tidy) <span class="co"># Shranimo podatke v bazo.</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>df_tidy_from_db <span class="ot">&lt;-</span> <span class="fu">dbReadTable</span>(con, <span class="st">&quot;age-cases-clean&quot;</span>) <span class="co"># Preberemo podatke iz baze v R.</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_tidy_from_db)</span></code></pre></div>
 <pre><code>##    date  sex   age cumulative daily
 ## 1 18325 male   0-4          0     0
 ## 2 18325 male  5-14          0     0
@@ -758,8 +760,8 @@ Shranimo preprost graf v .png sliko.</p>
 ## 5 18325 male 35-44          0     0
 ## 6 18325 male 45-54          0     0</code></pre>
 <p>Paket dbplyr nam omogoča uporabo sintakse dplyr kar na bazi. Interno bo prevedel dplyr kodo v SQL in poizvedbe (transformacije) izvedel direktno na bazi. S tem lahko potem upravljamo tudi z večjo količino podatkov, kot pa jih lahko naložimo v R! Poglejmo si primer:</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>razpredelnica_na_bazi <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;age-cases-clean&quot;</span>) <span class="co"># S tbl() dostopamo do razpredelnice na bazi.</span></span>
-<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>razpredelnica_na_bazi</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>razpredelnica_na_bazi <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;age-cases-clean&quot;</span>) <span class="co"># S tbl() dostopamo do razpredelnice na bazi.</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>razpredelnica_na_bazi</span></code></pre></div>
 <pre><code>## # Source:   table&lt;age-cases-clean&gt; [?? x 5]
 ## # Database: sqlite 3.35.5 [:memory:]
 ##     date sex    age   cumulative daily
@@ -776,20 +778,17 @@ Shranimo preprost graf v .png sliko.</p>
 ## 10 18325 female 0-4            0     0
 ## # ... with more rows</code></pre>
 <p>Opazimo, da dostopamo do razpredelnice naravnost v bazi. Izračunajmo sedaj vsoto dnevnih obolelih za spol in starost kar na bazi. Najprej pripravimo dplyr kodo:</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>povzemi <span class="ot">&lt;-</span> razpredelnica_na_bazi <span class="sc">%&gt;%</span></span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, age) <span class="sc">%&gt;%</span></span>
-<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">sum</span>(daily))</span>
-<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>povzemi <span class="sc">%&gt;%</span> <span class="fu">show_query</span>() <span class="co"># Prikaže prevedeno kodo v SQL.</span></span></code></pre></div>
-<pre><code>## Warning: Missing values are always removed in SQL.
-## Use `SUM(x, na.rm = TRUE)` to silence this warning
-## This warning is displayed only once per session.</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>povzemi <span class="ot">&lt;-</span> razpredelnica_na_bazi <span class="sc">%&gt;%</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, age) <span class="sc">%&gt;%</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">sum</span>(daily))</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>povzemi <span class="sc">%&gt;%</span> <span class="fu">show_query</span>() <span class="co"># Prikaže prevedeno kodo v SQL.</span></span></code></pre></div>
 <pre><code>## &lt;SQL&gt;
 ## SELECT `sex`, `age`, SUM(`daily`) AS `sum(daily)`
 ## FROM `age-cases-clean`
 ## GROUP BY `sex`, `age`</code></pre>
 <p>Preostane nam še, da izvedemo te operacije na bazi. S <code>collect()</code> zberemo rezultate:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>povzetek <span class="ot">&lt;-</span> povzemi <span class="sc">%&gt;%</span> <span class="fu">collect</span>()</span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>povzetek</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>povzetek <span class="ot">&lt;-</span> povzemi <span class="sc">%&gt;%</span> <span class="fu">collect</span>()</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>povzetek</span></code></pre></div>
 <pre><code>## # A tibble: 27 x 3
 ## # Groups:   sex [3]
 ##    sex    age   `sum(daily)`
@@ -805,34 +804,34 @@ Shranimo preprost graf v .png sliko.</p>
 ##  9 female 75-84         7713
 ## 10 male   0-4           1207
 ## # ... with 17 more rows</code></pre>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con) <span class="co"># Zapremo povezavo do baze.</span></span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con) <span class="co"># Zapremo povezavo do baze.</span></span></code></pre></div>
 </div>
 <div id="paralelizacija-v-r" class="section level2 unnumbered">
 <h2>Paralelizacija v R</h2>
 <p>Pogosto se pri delu s podatki srečujemo z nalogami, ki zahtevajo časovno potratno obdelavo. Dober primer tega je učenje metod umetne inteligence. Že relativno preprosti primeri, kot je linearna regresija, lahko trajajo tudi po več ur, če imamo veliko podatkov. Velikokrat potem modele učimo na različnih podmnožicah. Ampak dva modela učena na različnih množicah nimata praktično nič skupnega, torej bi jih načeloma lahko učili hkrati! V danajšnih dneh večina računalnikov premore več procesorskih jeder, ki so namenjena izvajanju operacij, oziroma računanju. Torej lahko te ločene probleme enostavno razdelimo med več procesorjev in bodo ti naloge opravljali hkrati! Na prenosnikih ni nenavadno, da imamo 4 jedra, torej lahko hkrati poženemo 4 procese. Če vsak traja 1 uro, potem tako prihranimo 3 ure! Boljši računalniki imajo tudi več jeder, na primer 32. Če gremo še dlje, lahko vzporedno izvajanje prenesemo na grafične procesne enote (grafične kartice), ki pa imajo tudi nad 8000 procesorskih enot.</p>
 <p>Tukaj si bomo pogledali relativno preprost primer paralelizacije, kjer bomo zadeve izvajali vzporedno na procesorskih jedrih glavnega procesorja. Koda je pripravljena tako, da lahko število podatkov poljubno povečamo, in s tem primerjamo časovno zahtevnost obeh pristopov.</p>
 <p>Kot primer si bomo pogledali relativno preprost statistični model – linearno regresijo, ki jo bomo učili na dveh ločenih podatkovnih množicah.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>) <span class="co"># Zagotovimo ponovljivost.</span></span>
-<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000000</span> <span class="co"># Število primerov v podatkih.</span></span>
-<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generiramo podatke.</span></span>
-<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">4</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1, <span class="fl">0.2</span>)</span>
-<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">3</span> <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> x2, <span class="fl">0.2</span>)</span>
-<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x1, <span class="at">y =</span> y1)</span>
-<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x2, <span class="at">y =</span> y2)</span>
-<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>(df1, df2)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>) <span class="co"># Zagotovimo ponovljivost.</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000000</span> <span class="co"># Število primerov v podatkih.</span></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generiramo podatke.</span></span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">4</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1, <span class="fl">0.2</span>)</span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">3</span> <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> x2, <span class="fl">0.2</span>)</span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x1, <span class="at">y =</span> y1)</span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x2, <span class="at">y =</span> y2)</span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>(df1, df2)</span></code></pre></div>
 <p>Da poženemo model na vseh podatkih, bomo uporabili zanko for skozi vse elemente seznama <code>df_list()</code>:</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="co"># Za izračun potrebnega časa.</span></span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>my_lms <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># V ta seznam bomo shranili rezultate.</span></span>
-<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df_list)) {</span>
-<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>  my_lms[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df_list[[i]])</span>
-<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>my_lms</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="co"># Za izračun potrebnega časa.</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>my_lms <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># V ta seznam bomo shranili rezultate.</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df_list)) {</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  my_lms[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df_list[[i]])</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>my_lms</span></code></pre></div>
 <pre><code>## [[1]]
 ## 
 ## Call:
@@ -851,30 +850,30 @@ Shranimo preprost graf v .png sliko.</p>
 ## Coefficients:
 ## (Intercept)            x  
 ##         3.0         -1.5</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t2 - t1</span></span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t2 - t1</span></span></code></pre></div>
 <p>Sedaj pa naredimo enako, ampak tako da bomo uporabili 2 procesorski jedri hkrati. Uporabili bomo paket <code>doParallel</code>. Sintaksa kode je zelo podobna standardni R zanki:</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
-<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>() <span class="co"># Preverimo, koliko procesorjev imamo na voljo.</span></span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>() <span class="co"># Preverimo, koliko procesorjev imamo na voljo.</span></span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Število procesorjev.</span></span>
-<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(nc) <span class="co"># Ustvarimo cluster 2 procesorjev.</span></span>
-<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a><span class="co"># S spodnjim klicem bomo ustvarili log datoteko, kamor se bodo zapisovale</span></span>
-<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a><span class="co"># informacije iz vsakega procesorja.</span></span>
-<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterEvalQ</span>(mc, <span class="fu">sink</span>(<span class="fu">paste0</span>(<span class="st">&quot;./log&quot;</span>, <span class="fu">Sys.getpid</span>(), <span class="st">&quot;.txt&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Število procesorjev.</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(nc) <span class="co"># Ustvarimo cluster 2 procesorjev.</span></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a><span class="co"># S spodnjim klicem bomo ustvarili log datoteko, kamor se bodo zapisovale</span></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="co"># informacije iz vsakega procesorja.</span></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterEvalQ</span>(mc, <span class="fu">sink</span>(<span class="fu">paste0</span>(<span class="st">&quot;./log&quot;</span>, <span class="fu">Sys.getpid</span>(), <span class="st">&quot;.txt&quot;</span>)))</span></code></pre></div>
 <pre><code>## [[1]]
 ## NULL
 ## 
 ## [[2]]
 ## NULL</code></pre>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(mc) <span class="co"># Registriramo cluster.</span></span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>my_lms <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="co"># Za izračun potrebnega časa.</span></span>
-<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df_list)) <span class="sc">%dopar%</span> {</span>
-<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">&quot;Računam model: &quot;</span>, i))</span>
-<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>  my_lms[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df_list[[i]])</span>
-<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(mc) <span class="co"># Registriramo cluster.</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>my_lms <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="co"># Za izračun potrebnega časa.</span></span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df_list)) <span class="sc">%dopar%</span> {</span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">&quot;Računam model: &quot;</span>, i))</span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>  my_lms[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df_list[[i]])</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [[1]]
 ## 
 ## Call:
@@ -893,12 +892,12 @@ Shranimo preprost graf v .png sliko.</p>
 ## Coefficients:
 ## (Intercept)            x  
 ##         3.0         -1.5</code></pre>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(mc) <span class="co"># Ustavimo cluster.</span></span>
-<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="co"># Za izračun potrebnega časa.</span></span>
-<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>my_lms</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(mc) <span class="co"># Ustavimo cluster.</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="co"># Za izračun potrebnega časa.</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>my_lms</span></code></pre></div>
 <pre><code>## list()</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t2 - t1</span></span></code></pre></div>
-<p>Predlagamo, da poizkusite tudi sami, ampak z več podatki in si izpišete razliko v časih. Pri tem najprej preverite, koliko jeder ima vaš računalnik, potrebovali boste vsaj 2. Glede na to, da imamo samo 2 razpredelnici, več kot 2 jeder ni smiselno uporabiti.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t2 - t1</span></span></code></pre></div>
+<p>Predlagamo, da poizkusite tudi sami, ampak z več podatki in da si izpišete razliko v časih. Pri tem najprej preverite, koliko jeder ima vaš računalnik, potrebovali boste vsaj 2. Glede na to, da imamo samo 2 razpredelnici, več kot 2 jeder ni smiselno uporabiti.</p>
 </div>
             </section>
 
