@@ -394,3 +394,142 @@ t2 - t1
 ```
 
 Predlagamo, da poizkusite tudi sami, ampak z več podatki. Pri tem najprej preverite, koliko jeder ima vaš računalnik, potrebovali boste vsaj 2. Glede na to, da imamo samo 2 razpredelnici, več kot 2 jeder ni smiselno uporabiti.
+
+### Osnove grafov z ggplot2
+
+Osnovni paket v tidyverse je **ggplot2**, ki je namenjen izrisovanju grafov. Paket **ggplot2** implementira sistematičen formalni jezik za opisovanje grafov. To naredi paket dosti bolj zmogljiv, vendar na videz tudi bolj zahtevnega. 
+
+Osnovna funkcija za izris grafov je `ggplot()`. Ta že sama po sebi izriše prazen graf.
+
+``` {r, fig.width = 2, fig.height = 2}
+ggplot()
+```
+
+Če želimo, dejanski izris grafa podatkov pa moramo podati še tri ključne elemente:
+* **Podatke**.
+* **Tip grafa** -- Kako naj bodo podatki predstavljeni na grafu, lahko jih podatmo tudi več.
+* **Estetike** -- x-os, y-os, barve točk, skupine podatkov itd...
+
+Prva dva elementa sta nujno potreba. Estetike pa lahko izpustimo, pri čemer jih bo `ggplot()` samodejno smiselno določil.
+
+Poglejmo si različne grafe osnovne grafe na podatkih portugalsih požarov.
+
+```{r}
+pozari <- read_csv2("./data-raw/forest-fires.csv")
+pozari
+```
+
+Izrišimo najprej število požarov glede na posamezen mesec. Tukaj smo pretvorili mesece v ordinalno spremenljivko, da bo tudi izpis avtomatsko urejen po mesecih.
+
+``` {r, fig.width = 4, fig.height = 4}
+pozari_per_m <- pozari %>% 
+  mutate(month = factor(month, labels = c("jan", "feb", "mar", "apr", 
+                                                   "maj", "jun", "jul", "avg", 
+                                                   "sep", "okt", "nov", "dec"), 
+                                 ordered = T)) %>% count(month)
+ggplot(pozari_per_m, aes(x = month, y = n)) +
+  geom_point()
+
+```
+Tip grafa podamo z eno izmed družine funkcij `geom_`. Lahko podamo tudi več geomov, če so le-ti kompatibilni. Posebej tudi dodajamo estetike. Dodajmo še rdečo črto.
+
+``` {r, fig.width = 4, fig.height = 4}
+ggplot(pozari_per_m, aes(x = as.integer(month), y = n)) +
+  geom_point() +
+  geom_line(aes(colour = "red"))
+
+```
+Zgornje podatke bi lahko izrisali tudi v obliki stolpičnega grafa s funkcijo `geom_bar()`, ki pa že implicitno prešteje število vrstic za vsako vrednost x-a.
+
+```{r, , fig.width = 4, fig.height = 4}
+ggplot(pozari, aes(x = month)) + geom_bar()
+#ggplot(pozari_per_m, aes(x = month, y = n)) + geom_bar(stat = "identity")
+```
+Naredimo še vročinski (heat) diagram.
+
+``` {r, fig.width = 4, fig.height = 4}
+pozari_xy <- pozari %>%
+      group_by(X, Y) %>% 
+  mutate(area_sum = sum(area))
+ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
+  geom_tile()
+```
+### Spreminjanje fontov na grafu
+
+Dodajmo bolj opisna imena osi grafov in naslov.
+
+``` {r, fig.width = 4, fig.height = 4}
+pozari_xy <- pozari %>%
+      group_by(X, Y) %>% 
+  mutate(area_sum = sum(area))
+ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
+  geom_tile() +
+  labs(x = "X koordinata", y = "Y koordinata", 
+       title = "Intenziteta požarov glede na koordinate.",
+       fill = "Površina")
+```
+Da, spremenimo pisavo je v R najprej potrebno naložiti nove pisave. Nekaj pisav je že nameščenih, katere lahko vidimo s funkcijo `windowsFonts()`. 
+
+``` {r}
+head(windowsFonts())
+```
+Pri prvem poganjanju so ponavadi na OS Windows na voljo le tri pisave. Da namestimo še ostale pisave uporabimo paket **extrafont**. Da paket naloži vse pisave uporabimo `font_import()`. To funkcijo poženemo samo enkrat, nalaganja pa lahko traja par minut. Nato v R-ju naložime fonte z `loadfonts(device = "win")`, ki naloži vse pisave, ki jih dobi na sistemu.
+
+``` {r}
+library(extrafont)
+#font_import() #Naloži vse pisave, ki jih dobi.
+loadfonts(device = "win", quiet = TRUE)
+cat(str_c("Stevilo najdenih pisav: ", length(windowsFonts())))
+```
+
+Izrišimo sedaj graf z pizsavo 'Ravie':
+
+``` {r, fig.width = 4, fig.height = 4}
+pozari_xy <- pozari %>%
+      group_by(X, Y) %>% 
+  mutate(area_sum = sum(area))
+ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
+  geom_tile() +
+  labs(x = "X koordinata", y = "Y koordinata", 
+       title = "Intenziteta požarov glede na koordinate.",
+       fill = "Površina") +
+  theme(text=element_text(size=9, family="Ravie", face = "italic"))
+```
+
+### Shranjevanje grafov
+
+
+S funkcijo `ggsave()` iz knjižnice ggplot2 lahko grafe tipa ggplot shranimo v enem izmed popularnih formatov. Dobra praksa dela z grafi je, da jih najprej shranimo v spremenljivko. Nato jih lahko izrišemo ali njihovo podobo shranimo v datoteko:
+
+
+```{r fig.width = 3.7, fig.height = 2}
+graf <- ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
+  geom_tile()
+
+dir.create("./data-plots/")
+ggsave("./data-plots/graf.jpg", plot = graf, width = 4, height = 3, dpi = 300)
+ggsave("./data-plots/graf.png", width = 4, height = 3, dpi = 300) 
+ggsave("./data-plots/graf.pdf", width = 4, height = 3, dpi = 300)
+getwd()
+```
+
+Funkcija `ggsave()` bo iz končnice sama zaznala željeni format shranjevanja in primerno shranila graf v datoteko.
+
+Za shranjevanje osnovnih R-jevih grafov, pa lahko preusmerite izrise v datoteko.
+Shranimo preprost graf v .png sliko.
+
+``` {r}
+getwd()
+png("./data-plots/grafR.png")
+plot(pozari$temp, type = "l", col = "blue")
+lines(pozari$wind, type = "l", col = "red")
+dev.off() #povrnemo izrise nazaj v R
+```
+Izrisujemo lahko tudi v .pdf datoteke, kjer bo vsak graf izrisan na svojo stran. Grafi so v pdf datoteki shranjeni vektorsko. 
+
+``` {r}
+pdf("./data-plots/grafR.pdf")
+plot(pozari$temp, type = "l", col = "blue")
+lines(pozari$wind, type = "l", col = "red")
+plot(pozari$wind, type = "l", col = "red")
+dev.off() #povrnemo izrise nazaj v R
