@@ -208,7 +208,6 @@ Paket dplyr lahko razširimo s paketom **dtplyr** (https://github.com/tidyverse/
 Poglejmo si preprost primer, kjer generiramo neke podatke in na njih izvedemo nekaj operacij. Zadevo bomo naredili v dplyr, data.table in dtplyr ter sočasno merili čas izvajanja operacij. Tudi data.table dopušča uporabo operatorja pipe. V paketu dtplyr imamo funkcijo `lazy_dt()` katera omogoči t. i. leno ovrednotenje (lazy evaluation). V dplyr se opreacije izvajajo požrešno, ena za drugo, kot so zapisane. Leno ovrednotenje pa omogoča, da se operacije ne izvedejo, dokler na koncu ne kličemo funkcije `as_tibble()`. To omogoča veliko hitrejšo izvedbo.
 
 ```{r}
-rm(list = ls())
 library(data.table)
 library(dtplyr)
 
@@ -255,43 +254,43 @@ t2 - t1
 
 Opazimo, da dtplyr in data.table delujeta veliko hitreje kot dplyr. Koliko hitreje je odvisno od večih parametrov, na primer, koliko podatkov imamo, koliko različnih skupin v združevanju, katere operacije izvajamo in podobno. Za bolj podrobno časovno primerjavo predlagamo obisk strani https://github.com/Rdatatable/data.table/wiki/Benchmarks-%3A-Grouping in https://iyarlin.github.io/2020/05/26/dtplyr_benchmarks/. 
 
-Še ena primerjava kode med paketi:
+Še ena primerjava kode med paketi, ki pa je v knjigi ne bomo izvedli, zaradi nekoliko večje časovne zahtevnosti:
 
-```{r}
-# # dplyr ------------------------------------------------------------------------
-# t1 <- Sys.time()
-# tib_dplyr %>%
-#   filter(x < 2) %>%
-#   group_by(type) %>%
-#   mutate(price_stand = (price - mean(price)) / sd(price)) %>%
-#   summarize(mean_price_stand = mean(price_stand))
-# t2 <- Sys.time()
-# t2 - t1
-# 
-# 
-# # data.table -------------------------------------------------------------------
-# t1 <- Sys.time()
-# dt_dtable %>% 
-#   .[x < 2] %>% 
-#   .[ , price_stand := (price - mean(price)) / sd(price), by = type] %>% 
-#   .[ , .(mean_price_stand = mean(price_stand)), keyby = type]
-# t2 <- Sys.time()
-# t2 - t1
-# 
-# 
-# # dtplyr -----------------------------------------------------------------------
-# t1 <- Sys.time()
-# dt_dtplyr %>%
-#   filter(x < 2) %>%
-#   group_by(type) %>%
-#   mutate(price_stand = (price - mean(price)) / sd(price)) %>%
-#   summarize(mean_price_stand = mean(price_stand)) %>%
-#   as_tibble() # To vrstico moramo zapisati, v koliko želimo da se ukaz izvede!
-# t2 <- Sys.time()
-# t2 - t1
+```{r, eval = FALSE}
+# dplyr ------------------------------------------------------------------------
+t1 <- Sys.time()
+tib_dplyr %>%
+  filter(x < 2) %>%
+  group_by(type) %>%
+  mutate(price_stand = (price - mean(price)) / sd(price)) %>%
+  summarize(mean_price_stand = mean(price_stand))
+t2 <- Sys.time()
+t2 - t1
+
+
+# data.table -------------------------------------------------------------------
+t1 <- Sys.time()
+dt_dtable %>%
+  .[x < 2] %>%
+  .[ , price_stand := (price - mean(price)) / sd(price), by = type] %>%
+  .[ , .(mean_price_stand = mean(price_stand)), keyby = type]
+t2 <- Sys.time()
+t2 - t1
+
+
+# dtplyr -----------------------------------------------------------------------
+t1 <- Sys.time()
+dt_dtplyr %>%
+  filter(x < 2) %>%
+  group_by(type) %>%
+  mutate(price_stand = (price - mean(price)) / sd(price)) %>%
+  summarize(mean_price_stand = mean(price_stand)) %>%
+  as_tibble() # To vrstico moramo zapisati, v koliko želimo da se ukaz izvede!
+t2 <- Sys.time()
+t2 - t1
 ```
 
-V tem primeru so časovne razlike zanemarljive. Učinkovitost je odvisna tudi od tipa operacij, ki jih izvajamo.
+
 
 
 ### Povezava med R in podatkovnimi bazami  {-}
@@ -304,13 +303,13 @@ library(dbplyr)
 con <- dbConnect(RSQLite::SQLite(), ":memory:") # V pomnilniku ustvarimo začasno bazo.
 dbWriteTable(con, "age-cases-clean", df_tidy) # Shranimo podatke v bazo.
 df_tidy_from_db <- dbReadTable(con, "age-cases-clean") # Preberemo podatke iz baze v R.
-df_tidy_from_db
+head(df_tidy_from_db)
 ```
 
 Paket dbplyr nam omogoča uporabo sintakse dplyr kar na bazi. Interno bo prevedel dplyr kodo v SQL in poizvedbe (transformacije) izvedel direktno na bazi. S tem lahko potem upravljamo tudi z večjo količino podatkov, kot pa jih lahko naložimo v R! Poglejmo si primer:
 
 ```{r}
-razpredelnica_na_bazi <- tbl("age-cases-clean") # S tbl() dostopamo do razpredelnice na bazi.
+razpredelnica_na_bazi <- tbl(con, "age-cases-clean") # S tbl() dostopamo do razpredelnice na bazi.
 razpredelnica_na_bazi
 ```
 
@@ -340,8 +339,9 @@ Tukaj si bomo pogledali relativno preprost primer paralelizacije, kjer bomo zade
 Kot primer si bomo pogledali relativno preprost statistični model -- linearno regresijo, ki jo bomo učili na dveh ločenih podatkovnih množicah.
 
 ``` {r}
+rm(list = ls())
 set.seed(1) # Zagotovimo ponovljivost.
-n <- 1000000 # Število primerov v podatkih.
+n <- 2000000 # Število primerov v podatkih.
 
 # Generiramo podatke.
 x1 <- rnorm(n)
@@ -354,13 +354,12 @@ df2 <- data.frame(x = x2, y = y2)
 df_list <- list(df1, df2)
 ```
 
-Da poženemo model na vseh pdoatkih, bomo uporabili zanko for skozi vse elemente seznama `df_list()`:
+Da poženemo model na vseh podatkih, bomo uporabili zanko for skozi vse elemente seznama `df_list()`:
 
 ``` {r}
 t1 <- Sys.time() # Za izračun potrebnega časa.
 my_lms <- list() # V ta seznam bomo shranili rezultate.
 for (i in 1:length(df_list)) {
-  print(str_c("Računam model: ", i))
   my_lms[[i]] <- lm(y ~ x, data = df_list[[i]])
 }
 t2 <- Sys.time()
@@ -385,8 +384,7 @@ registerDoParallel(mc) # Registriramo cluster.
 my_lms <- list()
 t1 <- Sys.time() # Za izračun potrebnega časa.
 foreach(i = 1:length(df_list)) %dopar% {
-  library(stringr) # V vsakem procesorju je potrebno naložiti pakete posebej!
-  print(str_c("Računam model: ", i))
+  print(paste0("Računam model: ", i))
   my_lms[[i]] <- lm(y ~ x, data = df_list[[i]])
 }
 stopCluster(mc) # Ustavimo cluster.
