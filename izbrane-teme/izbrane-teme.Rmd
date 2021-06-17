@@ -1,13 +1,11 @@
 ---
-title: "IzbraneTeme"
-output:
-  html_document: default
-  pdf_document: default
+title: "Izbrane teme"
+output: bookdown::gitbook
 ---
 
-## Izbrana poglavja
+## Izbrana poglavja {-}
 
-### Urejanje kumulativne razpredelnice
+### Urejanje kumulativne razpredelnice {-}
 Iz repozitorija slovenskega COVID sledilnika (https://github.com/sledilnik/data) prenesemo podatke o kumulativnem številu okuženih glede na spol in starostno kategorijo (*age-cases.csv*). Preberimo datoteko v našo sejo R:
 
 ```{r}
@@ -111,7 +109,7 @@ write_csv2(df_tidy, "./data-clean/age-cases-tidy.csv")
 ```
 
 
-### Iskanje ponovnih bolnišničnih sprejemov - dodajanje spremenljivk glede na množico pogojev
+### Iskanje ponovnih bolnišničnih sprejemov - dodajanje spremenljivk glede na množico pogojev {-}
 
 Predpostavimo, da imamo podatke o hospitalizaciija pacientov (TabelaA) in celotno bazo hospitalizacij (TabelaB). V datoteki primer.xlsx se nahajata umetno ustvarjena primera teh dveh tabel in željen rezultat.
 
@@ -129,10 +127,10 @@ library(tidyverse)
 library(lubridate)
 library(openxlsx)
 Sys.setlocale(category = "LC_ALL", locale = "Slovenian_Slovenia.1250")
-TabelaA <- tibble(openxlsx::read.xlsx("./test-data/primer.xlsx", 
+TabelaA <- tibble(openxlsx::read.xlsx("./data-raw/Primer.xlsx", 
                                      rows = 3:15, cols = 1:8, 
                                      detectDates = TRUE))
-TabelaB <- tibble(openxlsx::read.xlsx("./test-data/primer.xlsx", 
+TabelaB <- tibble(openxlsx::read.xlsx("./data-raw/Primer.xlsx", 
                                      rows = 21:34, cols = 1:8,
                                      detectDates = TRUE))
 TabelaA <- TabelaA %>% mutate(ID_BZ = as.integer(ID_BZ),
@@ -194,20 +192,23 @@ left_join(TabelaA, RazsirjenA %>% select(ID_ZO, Trajanja_b), by = "ID_ZO", suffi
 Pri prvem delu uporabljamo operator %in% za delo z množicami in preverimo ali je `ID_BZ` tabele A v izbranih vrsticah tabele RazsirjenA. Na koncu z levim združevanjem dodamo še vrednosti trajanja_b in tabele B in izpišemo okrajšan rezultat. Za izpis točno željene tabele je potrebno le spremeniti zadnji select in podatke shraniti nazaj v tabelo A.
 
 
-### Paket data.table
+### Paket data.table {-}
 Včasih se srečamo s podatkovnimi množicami, ki imajo veliko število zapisov, na primer milijon, 100 milijonov, ali več. Največja omejitev za delo z velikimi podatkovnimi množicami v R je velikost pomnilnika (ang. memory, RAM), saj R vse podatke hrani v pomnilniku. Za primer, numerični vektor dolžine 100 milijonov zasede 800 MB prostora. V kolikor nam pomnilnik dopušča uporabo podatkov, je naslednja ovira čas procesiranja posameznih operacij. V takšnih primerih je smiselno uporabiti programsko opremo (oziroma pakete), ki so namensko razviti za delo z večjo količino podatkov. V R je temu namenjen paket **data.table**. V tem paketu obstaja objekt `data.table`, ki je drugačna različica `data.frame`. Data table ima tri dimenzije `data.table[i, j, by]`:
 
 - `i` Izbira vrstic in urejanje glede na vrednosti v stolpcih. V dplyr sta za to na voljo glagola `filter()` in `arrange()`.
 - `j` Izbira stolpcev, spreminjanje vrednosti stolpcev in povzemanje. V dplyr so za to na voljo glagoli `select()`, `mutate()` in `summarise()`.
 - `by` Kako združimo podatke pri operacijah. V dplyr je za to na voljo glagol `group_by()`.
 
-Paketa data.table ne bomo spoznali podrobneje, v kolikor želite več informacij predlagamo ta uvod v paket: https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html.
+Paketa data.table ne bomo spoznali podrobneje, v kolikor želite več informacij predlagamo ta uvod v paket: https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html. Za diskusijo o razlikah, prednostih in slabostih obeh paketov (dplyr in data.table) predlagamo ogled tega vprašanja (in odgovorov): https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly.
 
 Vsekakor takšnih podatkovnih množic ne smemo zamenjati z velepodatki (big data), kjer so množice tako velike, da standardna programska oprema za delo s podatki z njimi ni zmožna delati. V takih primerih se poslužimo programske opreme za velepodatke, kot so, na primer, Hadoop, MongoDB, Apache Spark, itd.
 
-Paket dplyr lahko razširimo s paketom **dtplyr** (https://github.com/tidyverse/dtplyr), ki ga namestimo z ukazom `install.packages(dtplyr)`. Ta nam omogoča uporabo sintakse paketa dplyr, z učinkovitostjo paketa data.table. To naredi tako, da v ozadju dplyr kodo prevede v data.table kodo. Sicer vseeno deluje nekoliko počasneje kot data.table, ampak je razlika večinoma zanemarljiva. Poglejmo si preprost primer, kjer generiramo neke podatke in na njih izvedemo nekaj operacij. Zadevo bomo naredili v dplyr, data.table in dtplyr ter sočasno merili čas izvajanja operacij. Tudi data.table dopušča uporabo operatorja pipe. V paketu dtplyr imamo funkcijo `lazy_dt()` katera omogoči t. i. leno ovrednotenje (lazy evaluation). V dplyr se opreacije izvajajo požrešno, ena za drugo, kot so zapisane. Leno ovrednotenje pa omogoča, da se operacije ne izvedejo, dokler na koncu ne kličemo funkcije `as_tibble()`. To omogoča veliko hitrejšo izvedbo.
+Paket dplyr lahko razširimo s paketom **dtplyr** (https://github.com/tidyverse/dtplyr), ki ga namestimo z ukazom `install.packages(dtplyr)`. Ta nam omogoča uporabo sintakse paketa dplyr, z učinkovitostjo paketa data.table. To naredi tako, da v ozadju dplyr kodo prevede v data.table kodo. Sicer vseeno deluje nekoliko počasneje kot data.table, ampak je razlika večinoma zanemarljiva. 
+
+Poglejmo si preprost primer, kjer generiramo neke podatke in na njih izvedemo nekaj operacij. Zadevo bomo naredili v dplyr, data.table in dtplyr ter sočasno merili čas izvajanja operacij. Tudi data.table dopušča uporabo operatorja pipe. V paketu dtplyr imamo funkcijo `lazy_dt()` katera omogoči t. i. leno ovrednotenje (lazy evaluation). V dplyr se opreacije izvajajo požrešno, ena za drugo, kot so zapisane. Leno ovrednotenje pa omogoča, da se operacije ne izvedejo, dokler na koncu ne kličemo funkcije `as_tibble()`. To omogoča veliko hitrejšo izvedbo.
 
 ```{r}
+rm(list = ls())
 library(data.table)
 library(dtplyr)
 
@@ -216,7 +217,7 @@ library(dtplyr)
 n         <- 100000000
 x         <- rnorm(n)
 price     <- rnorm(n, 5000, 100)
-all_types <- apply(expand.grid(LETTERS, 0:9), 1, paste, collapse=".")
+all_types <- apply(expand.grid(LETTERS, LETTERS, 0:9), 1, paste, collapse=".")
 types     <- sample(all_types, n, replace = T)
 
 tib_dplyr  <- tibble(x = x, price = price, type = types)
@@ -225,52 +226,113 @@ dt_dtplyr  <- lazy_dt(data.table::data.table(x = x, price = price,
 dt_dtable  <- data.table::data.table(x = x, price = price, type = types)
 
 
-
 # dplyr ------------------------------------------------------------------------
 t1 <- Sys.time()
-
-tib_dplyr %>%
-  filter(x < 2) %>%
-  group_by(type) %>%
-  mutate(price_stand = (price - mean(price)) / sd(price)) %>%
-  summarize(mean_price_stand = mean(price_stand))
-
+tib_dplyr %>% 
+  group_by(type) %>% 
+  summarise(mean_price = mean(price))
 t2 <- Sys.time()
 t2 - t1
 
 
 # data.table -------------------------------------------------------------------
 t1 <- Sys.time()
-
-dt_dtable %>% 
-  .[x < 2] %>% 
-  .[ , price_stand := (price - mean(price)) / sd(price), by = type] %>% 
-  .[ , .(mean_price_stand = mean(price_stand)), keyby = type]
-
-
+dt_dtable[, sum(price), keyby=type]
 t2 <- Sys.time()
 t2 - t1
 
 
 # dtplyr -----------------------------------------------------------------------
 t1 <- Sys.time()
-
-dt_dtplyr %>%
-  filter(x < 2) %>%
-  group_by(type) %>%
-  mutate(price_stand = (price - mean(price)) / sd(price)) %>%
-  summarize(mean_price_stand = mean(price_stand)) %>%
-  as_tibble() # To vrstico moramo zapisati, v koliko želimo da se ukaz izvede!
-
+dt_dtplyr %>% 
+  group_by(type) %>% 
+  summarise(mean_price = mean(price)) %>%
+  as_tibble()
 t2 <- Sys.time()
 t2 - t1
 
 ```
 
-Opazimo, da dtplyr in data.table delujeta veliko hitreje kot dplyr. Koliko hitreje je odvisno od večih parametrov, na primer, koliko podatkov imamo, koliko različnih skupin v združevanju, katere operacije izvajamo in podobno. Za bolj podrobno časovno primerjavo predlagamo obisk strani https://github.com/Rdatatable/data.table/wiki/Benchmarks-%3A-Grouping in https://iyarlin.github.io/2020/05/26/dtplyr_benchmarks/. Za diskusijo o razlikah, prednostih in slabostih obeh paketov (dplyr in data.table) predlagamo ogled tega vprašanja (in odgovorov): https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly.
+Opazimo, da dtplyr in data.table delujeta veliko hitreje kot dplyr. Koliko hitreje je odvisno od večih parametrov, na primer, koliko podatkov imamo, koliko različnih skupin v združevanju, katere operacije izvajamo in podobno. Za bolj podrobno časovno primerjavo predlagamo obisk strani https://github.com/Rdatatable/data.table/wiki/Benchmarks-%3A-Grouping in https://iyarlin.github.io/2020/05/26/dtplyr_benchmarks/. 
+
+Še ena primerjava kode med paketi:
+
+```{r}
+# # dplyr ------------------------------------------------------------------------
+# t1 <- Sys.time()
+# tib_dplyr %>%
+#   filter(x < 2) %>%
+#   group_by(type) %>%
+#   mutate(price_stand = (price - mean(price)) / sd(price)) %>%
+#   summarize(mean_price_stand = mean(price_stand))
+# t2 <- Sys.time()
+# t2 - t1
+# 
+# 
+# # data.table -------------------------------------------------------------------
+# t1 <- Sys.time()
+# dt_dtable %>% 
+#   .[x < 2] %>% 
+#   .[ , price_stand := (price - mean(price)) / sd(price), by = type] %>% 
+#   .[ , .(mean_price_stand = mean(price_stand)), keyby = type]
+# t2 <- Sys.time()
+# t2 - t1
+# 
+# 
+# # dtplyr -----------------------------------------------------------------------
+# t1 <- Sys.time()
+# dt_dtplyr %>%
+#   filter(x < 2) %>%
+#   group_by(type) %>%
+#   mutate(price_stand = (price - mean(price)) / sd(price)) %>%
+#   summarize(mean_price_stand = mean(price_stand)) %>%
+#   as_tibble() # To vrstico moramo zapisati, v koliko želimo da se ukaz izvede!
+# t2 <- Sys.time()
+# t2 - t1
+```
+
+V tem primeru so časovne razlike zanemarljive. Učinkovitost je odvisna tudi od tipa operacij, ki jih izvajamo.
 
 
-### Paralelizacija v R
+### Povezava med R in podatkovnimi bazami  {-}
+Pogosto podatke pridobimo iz podatkovnih baz, ki so namenjene hranjenju in analizi večjih podatkovnih zbirk. Za delo s podatkovnimi bazami običajno uporabljamo programski jezik SQL. V R obstaja več paketov, ki nam omogočajo povezavo na podatkovno bazo. Najbolj popularni so **DBI**, **odbc** in **dbplyr** (slednja oba temeljita na DBI). Ti paketi delujejo z uveljavljenimi sistemi za upravljanje podatkovnih baz, kot so MySQL, PostgreSQL in SQLite ter veliko komercialnimi podatkovnimi bazami.
+
+Poglejmo si primer uporabe podatkovne baze. Na pomnilniku bomo ustvarili začasno bazo. V praksi bi se s tem povezali na poljubno bazo, več informacij lahko poiščete na: https://db.rstudio.com/.
+
+```{r}
+library(dbplyr)
+con <- dbConnect(RSQLite::SQLite(), ":memory:") # V pomnilniku ustvarimo začasno bazo.
+dbWriteTable(con, "age-cases-clean", df_tidy) # Shranimo podatke v bazo.
+df_tidy_from_db <- dbReadTable(con, "age-cases-clean") # Preberemo podatke iz baze v R.
+df_tidy_from_db
+```
+
+Paket dbplyr nam omogoča uporabo sintakse dplyr kar na bazi. Interno bo prevedel dplyr kodo v SQL in poizvedbe (transformacije) izvedel direktno na bazi. S tem lahko potem upravljamo tudi z večjo količino podatkov, kot pa jih lahko naložimo v R! Poglejmo si primer:
+
+```{r}
+razpredelnica_na_bazi <- tbl("age-cases-clean") # S tbl() dostopamo do razpredelnice na bazi.
+razpredelnica_na_bazi
+```
+
+Opazimo, da dostopamo do razpredelnice naravnost v bazi. Izračunajmo sedaj vsoto dnevnih obolelih za spol in starost kar na bazi. Najprej pripravimo dplyr kodo:
+
+```{r}
+povzemi <- razpredelnica_na_bazi %>%
+  group_by(sex, age) %>%
+  summarise(sum(daily))
+povzemi %>% show_query() # Prikaže prevedeno kodo v SQL.
+```
+
+Preostane nam še, da izvedemo te operacije na bazi. S `collect()` zberemo rezultate:
+
+```{r}
+povzetek <- povzemi %>% collect()
+povzetek
+dbDisconnect(con) # Zapremo povezavo do baze.
+```
+
+
+### Paralelizacija v R {-}
 Pogosto se pri delu s podatki srečujemo z nalogami, ki zahtevajo časovno potratno obdelavo. Dober primer tega je učenje metod umetne inteligence. Že relativno preprosti primeri, kot je linearna regresija, lahko trajajo tudi po več ur, če imamo veliko podatkov. Velikokrat potem modele učimo na različnih podmnožicah. Ampak dva modela učena na različnih množicah nimata praktično nič skupnega, torej bi jih načeloma lahko učili hkrati! V danajšnih dneh večina računalnikov premore več procesorskih jeder, ki so namenjena izvajanju operacij, oziroma računanju. Torej lahko te ločene probleme enostavno razdelimo med več procesorjev in bodo ti naloge opravljali hkrati! Na prenosnikih ni nenavadno, da imamo 4 jedra, torej lahko hkrati poženemo 4 procese. Če vsak traja 1 uro, potem tako prihranimo 3 ure! Boljši računalniki imajo tudi več jeder, na primer 32. Če gremo še dlje, lahko vzporedno izvajanje prenesemo na grafične procesne enote (grafične kartice), ki pa imajo tudi nad 8000 procesorskih enot. 
 
 Tukaj si bomo pogledali relativno preprost primer paralelizacije, kjer bomo zadeve izvajali vzporedno na procesorskih jedrih glavnega procesorja. Koda je pripravljena tako, da lahko število podatkov poljubno povečamo, in s tem primerjamo časovno zahtevnost obeh pristopov.
@@ -284,10 +346,8 @@ n <- 1000000 # Število primerov v podatkih.
 # Generiramo podatke.
 x1 <- rnorm(n)
 y1 <- rnorm(n, 4 + 2 * x1, 0.2)
-# qplot(x1, y1)
 x2 <- rnorm(n)
 y2 <- rnorm(n, 3 - 1.5 * x2, 0.2)
-# qplot(x2, y2)
 
 df1 <- data.frame(x = x1, y = y1)
 df2 <- data.frame(x = x2, y = y2)
@@ -312,6 +372,7 @@ Sedaj pa naredimo enako, ampak tako da bomo uporabili 2 procesorski jedri hkrati
 
 ``` {r}
 library(doParallel)
+detectCores() # Preverimo, koliko procesorjev imamo na voljo.
 nc <- 2 # Število procesorjev.
 mc <- makeCluster(nc) # Ustvarimo cluster 2 procesorjev.
 
@@ -334,4 +395,4 @@ my_lms
 t2 - t1
 ```
 
-Predlagamo, da poizkusite tudi sami, ampak z več podatki! Pri tem najprej preverite, koliko jeder ima vaš računalnik. Glede na to, da imamo samo 2 razpredelnici, s katerimi delamo, več kot 2 jeder ni smiselno uporabiti.
+Predlagamo, da poizkusite tudi sami, ampak z več podatki. Pri tem najprej preverite, koliko jeder ima vaš računalnik, potrebovali boste vsaj 2. Glede na to, da imamo samo 2 razpredelnici, več kot 2 jeder ni smiselno uporabiti.
