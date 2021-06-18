@@ -1,4 +1,4 @@
-## ---- echo = FALSE-----------------------------------------------------------------------------------------------------------------------------------------------
+## ---- echo = FALSE----------------------------------------------------------------------------------------------------------
 knitr::opts_chunk$set(
   error = TRUE, # do not interrupt in case of errors
   warnings = FALSE,
@@ -6,37 +6,37 @@ knitr::opts_chunk$set(
 )
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 library(tidyverse)
 library(lubridate)
 library(openxlsx)
 Sys.setlocale(category = "LC_ALL", locale = "Slovenian_Slovenia.1250")
-TabelaA <- tibble(openxlsx::read.xlsx("./data-raw/Primer.xlsx", 
-                                     rows = 3:15, cols = 1:8, 
+TabelaA <- tibble(openxlsx::read.xlsx("./data-raw/Primer.xlsx",
+                                     rows = 3:15, cols = 1:8,
                                      detectDates = TRUE))
-TabelaB <- tibble(openxlsx::read.xlsx("./data-raw/Primer.xlsx", 
+TabelaB <- tibble(openxlsx::read.xlsx("./data-raw/Primer.xlsx",
                                      rows = 21:34, cols = 1:8,
                                      detectDates = TRUE))
 TabelaA <- TabelaA %>% mutate(
   ID_BZ             = as.integer(ID_BZ),
   ID_ZO             = as.integer(ID_ZO),
   Vrsta.storitve    = as.integer(Vrsta.storitve),
-  Naziv.storitve    = factor(Naziv.storitve, 
+  Naziv.storitve    = factor(Naziv.storitve,
                              levels = c("NBO", "SPP", "REH", "BOL")),
-  Datum.zaƒçetka_a   = as.Date(Datum.zaƒçetka_a),
-  Datum.zakljuƒçka_a = as.Date(Datum.zakljuƒçka_a),
-  Leto.zakljuƒçka    = as.integer(Leto.zakljuƒçka),
+  Datum.zaËetka_a   = as.Date(Datum.zaËetka_a),
+  Datum.zakljuËka_a = as.Date(Datum.zakljuËka_a),
+  Leto.zakljuËka    = as.integer(Leto.zakljuËka),
   Trajanje_a        = as.double(Trajanje_a))
 
 TabelaB <- TabelaB %>% mutate(
-  ID.bolni≈°niƒçnega.zdravljenja = as.integer(ID.bolni≈°niƒçnega.zdravljenja),
+  ID.bolniöniËnega.zdravljenja = as.integer(ID.bolniöniËnega.zdravljenja),
   ID_ZO                        = as.integer(ID_ZO),
   Vrsta.storitve               = as.integer(Vrsta.storitve),
   Naziv.storitve               = factor(Naziv.storitve,
                                         levels = c("NBO", "SPP", "REH", "BOL")),
-  Datum.zaƒçetka_b              = as.Date(Datum.zaƒçetka_b),
-  Datum.zakljuƒçka_b            = as.Date(Datum.zakljuƒçka_b),
-  Leto.zakljuƒçka.BZ            = as.integer(Leto.zakljuƒçka.BZ),
+  Datum.zaËetka_b              = as.Date(Datum.zaËetka_b),
+  Datum.zakljuËka_b            = as.Date(Datum.zakljuËka_b),
+  Leto.zakljuËka.BZ            = as.integer(Leto.zakljuËka.BZ),
   Trajanja_b                   = as.double(Trajanja_b))
 
 TabelaA
@@ -44,53 +44,53 @@ TabelaB
 
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-RazsirjenA <- inner_join(TabelaA, TabelaB, by = "ID_ZO", 
+## ---------------------------------------------------------------------------------------------------------------------------
+RazsirjenA <- inner_join(TabelaA, TabelaB, by = "ID_ZO",
                          suffix = c("", "_b"))
-RazsirjenA <- RazsirjenA %>% 
+RazsirjenA <- RazsirjenA %>%
     filter(Vrsta.storitve_b == 7) %>%
-    filter(Datum.zakljuƒçka_a < Datum.zaƒçetka_b,
-           Datum.zaƒçetka_b < Datum.zakljuƒçka_a + days(30))
+    filter(Datum.zakljuËka_a < Datum.zaËetka_b,
+           Datum.zaËetka_b < Datum.zakljuËka_a + days(30))
 RazsirjenA
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 #Dodajmo sprejeme.
-TabelaA <- TabelaA %>% 
+TabelaA <- TabelaA %>%
   mutate("Sprejem_DA/NE" = factor(ID_BZ %in% RazsirjenA$ID_BZ,
                                   levels = c(TRUE, FALSE),
                                   labels = c("Da", "Ne")))
 #Dodajmo trajanja_b.
-left_join(TabelaA, RazsirjenA %>% 
+left_join(TabelaA, RazsirjenA %>%
             select(ID_ZO, Trajanja_b), by = "ID_ZO", suffix = c("", "")) %>%
   mutate(Trajanja_b = replace_na(Trajanja_b, 0)) %>%
   select(ID_BZ, ID_ZO, "Sprejem_DA/NE", Trajanja_b)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 library(tidyverse)
 df <- read_csv("./data-raw/age-cases.csv")
 df
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-df_tidy <- df %>% 
+## ---------------------------------------------------------------------------------------------------------------------------
+df_tidy <- df %>%
   pivot_longer(cols = starts_with("age"), values_to = "cumulative")
 df_tidy
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-df_tidy <- df %>% 
+## ---------------------------------------------------------------------------------------------------------------------------
+df_tidy <- df %>%
   pivot_longer(cols = starts_with("age"), values_to = "cumulative") %>%
   separate(name, into = c("delete1", "sex", "age", "delete2"), "\\.")
 df_tidy
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 colnames(df)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 df_tidy <- df %>%
   pivot_longer(cols = starts_with("age"), values_to = "cumulative") %>%
   filter(str_detect(name, "[:alpha:]*\\.[:alpha:]*\\.[0-9-]*\\.[:alpha:]*")) %>%
@@ -99,7 +99,7 @@ df_tidy <- df %>%
 df_tidy
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 df_tidy <- df %>%
   pivot_longer(cols = starts_with("age"), values_to = "cumulative") %>%
   filter(str_detect(name, "[:alpha:]*\\.[:alpha:]*\\.[0-9-]*\\.[:alpha:]*")) %>%
@@ -109,26 +109,26 @@ df_tidy <- df %>%
 df_tidy
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 df_tmp <- filter(df_tidy, sex == "female", age == "25-34")
 df_tmp$cumulative
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 x_cum <- c(1, 5, 6, 7)
 x_dly <- x_cum - c(0, x_cum[1:3])
 x_cum
 x_dly
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 x_cum <- c(1, 5, 6, 7)
 x_dly <- c(x_cum[1], diff(x_cum))
 x_cum
 x_dly
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 df_tidy <- df %>%
   pivot_longer(cols = starts_with("age"), values_to = "cumulative") %>%
   filter(str_detect(name, "[:alpha:]*\\.[:alpha:]*\\.[0-9-]*\\.[:alpha:]*")) %>%
@@ -142,96 +142,96 @@ df_tidy %>%
   filter(sex == "female", age == "25-34")
 
 
-## ---- message = FALSE, warning = FALSE---------------------------------------------------------------------------------------------------------------------------
-dir.create("./data-clean/") # ƒåe ≈°e ni mape data-clean jo ustvarimo.
+## ---- message = FALSE, warning = FALSE--------------------------------------------------------------------------------------
+dir.create("./data-clean/") # »e öe ni mape data-clean jo ustvarimo.
 write_csv2(df_tidy, "./data-clean/age-cases-tidy.csv")
 
 
-## ---- fig.width = 7, fig.height = 5------------------------------------------------------------------------------------------------------------------------------
+## ---- fig.width = 7, fig.height = 5-----------------------------------------------------------------------------------------
 ggplot()
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 pozari <- read_csv2("./data-raw/forest-fires.csv")
 pozari
 
 
-## ---- fig.width = 7, fig.height = 5------------------------------------------------------------------------------------------------------------------------------
-pozari_per_m <- pozari %>% 
-  mutate(month = factor(month, labels = c("jan", "feb", "mar", "apr", 
-                                                   "maj", "jun", "jul", "avg", 
-                                                   "sep", "okt", "nov", "dec"), 
+## ---- fig.width = 7, fig.height = 5-----------------------------------------------------------------------------------------
+pozari_per_m <- pozari %>%
+  mutate(month = factor(month, labels = c("jan", "feb", "mar", "apr",
+                                                   "maj", "jun", "jul", "avg",
+                                                   "sep", "okt", "nov", "dec"),
                                  ordered = T)) %>% count(month)
 ggplot(pozari_per_m, aes(x = month, y = n)) +
   geom_point()
 
 
 
-## ---- fig.width = 7, fig.height = 5------------------------------------------------------------------------------------------------------------------------------
+## ---- fig.width = 7, fig.height = 5-----------------------------------------------------------------------------------------
 ggplot(pozari_per_m, aes(x = as.integer(month), y = n)) +
   geom_point() +
   geom_line(aes(colour = "red"))
 
 
 
-## ---- , fig.width = 7, fig.height = 5----------------------------------------------------------------------------------------------------------------------------
+## ---- , fig.width = 7, fig.height = 5---------------------------------------------------------------------------------------
 ggplot(pozari, aes(x = month)) + geom_bar()
 
 
-## ---- fig.width = 7, fig.height = 5------------------------------------------------------------------------------------------------------------------------------
+## ---- fig.width = 7, fig.height = 5-----------------------------------------------------------------------------------------
 pozari_xy <- pozari %>%
-      group_by(X, Y) %>% 
+      group_by(X, Y) %>%
   mutate(area_sum = sum(area))
-ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
+ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) +
   geom_tile()
 
 
-## ---- fig.width = 7, fig.height = 5------------------------------------------------------------------------------------------------------------------------------
+## ---- fig.width = 7, fig.height = 5-----------------------------------------------------------------------------------------
 pozari_xy <- pozari %>%
-      group_by(X, Y) %>% 
+      group_by(X, Y) %>%
   mutate(area_sum = sum(area))
-ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
+ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) +
   geom_tile() +
-  labs(x     = "X koordinata", y = "Y koordinata", 
-       title = "Intenziteta po≈æarov glede na koordinate.",
-       fill  = "Povr≈°ina")
+  labs(x     = "X koordinata", y = "Y koordinata",
+       title = "Intenziteta poûarov glede na koordinate.",
+       fill  = "Povröina")
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 head(windowsFonts())
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 library(extrafont)
-#font_import() # Nalo≈æi vse pisave, ki jih dobi.
+#font_import() # Naloûi vse pisave, ki jih dobi.
 loadfonts(device = "win", quiet = TRUE)
 cat(str_c("Stevilo najdenih pisav: ", length(windowsFonts())))
 
 
-## ---- fig.width = 7, fig.height = 5------------------------------------------------------------------------------------------------------------------------------
+## ---- fig.width = 7, fig.height = 5-----------------------------------------------------------------------------------------
 pozari_xy <- pozari %>%
-      group_by(X, Y) %>% 
+      group_by(X, Y) %>%
   mutate(area_sum = sum(area))
-ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
+ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) +
   geom_tile() +
-  labs(x     = "X koordinata", y = "Y koordinata", 
-       title = "Intenziteta po≈æarov glede na koordinate.",
-       fill  = "Povr≈°ina") +
+  labs(x     = "X koordinata", y = "Y koordinata",
+       title = "Intenziteta poûarov glede na koordinate.",
+       fill  = "Povröina") +
   theme(text=element_text(size=9, family="Ravie", face = "italic"))
 
 
-## ----fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE---------------------------------------------------------------------------------------------
-graf <- ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) + 
+## ----fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE--------------------------------------------------------
+graf <- ggplot(pozari_xy, aes(x = X, y = Y, fill = area_sum)) +
   geom_tile()
 
 dir.create("./data-plots/")
 ggsave("./data-plots/graf.jpg", plot = graf, width = 4, height = 3, dpi = 300)
-ggsave("./data-plots/graf.png", width = 4, height = 3, dpi = 300) 
+ggsave("./data-plots/graf.png", width = 4, height = 3, dpi = 300)
 ggsave("./data-plots/graf.pdf", width = 4, height = 3, dpi = 300)
 getwd()
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 getwd()
 png("./data-plots/grafR.png")
 plot(pozari$temp, type = "l", col = "blue")
@@ -239,7 +239,7 @@ lines(pozari$wind, type = "l", col = "red")
 dev.off() # Povrnemo izrise nazaj v R.
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 pdf("./data-plots/grafR.pdf")
 plot(pozari$temp, type = "l", col = "blue")
 lines(pozari$wind, type = "l", col = "red")
@@ -247,12 +247,12 @@ plot(pozari$wind, type = "l", col = "red")
 dev.off() # Povrnemo izrise nazaj v R.
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 library(data.table)
 library(dtplyr)
 
 
-# Generirani podatki, da lahko poljubno nastavimo ≈°tevilo primerov. ------------
+# Generirani podatki, da lahko poljubno nastavimo ötevilo primerov. ------------
 n         <- 100000000
 x         <- rnorm(n)
 price     <- rnorm(n, 5000, 100)
@@ -260,15 +260,15 @@ all_types <- apply(expand.grid(LETTERS, LETTERS, 0:9), 1, paste, collapse=".")
 types     <- sample(all_types, n, replace = T)
 
 tib_dplyr  <- tibble(x = x, price = price, type = types)
-dt_dtplyr  <- lazy_dt(data.table::data.table(x = x, price = price, 
+dt_dtplyr  <- lazy_dt(data.table::data.table(x = x, price = price,
                                              type = types))
 dt_dtable  <- data.table::data.table(x = x, price = price, type = types)
 
 
 # dplyr ------------------------------------------------------------------------
 t1 <- Sys.time()
-tib_dplyr %>% 
-  group_by(type) %>% 
+tib_dplyr %>%
+  group_by(type) %>%
   summarise(mean_price = mean(price))
 t2 <- Sys.time()
 t2 - t1
@@ -283,8 +283,8 @@ t2 - t1
 
 # dtplyr -----------------------------------------------------------------------
 t1 <- Sys.time()
-dt_dtplyr %>% 
-  group_by(type) %>% 
+dt_dtplyr %>%
+  group_by(type) %>%
   summarise(mean_price = mean(price)) %>%
   as_tibble()
 t2 <- Sys.time()
@@ -292,7 +292,7 @@ t2 - t1
 
 
 
-## ---- eval = FALSE-----------------------------------------------------------------------------------------------------------------------------------------------
+## ---- eval = FALSE----------------------------------------------------------------------------------------------------------
 ## # dplyr ------------------------------------------------------------------------
 ## t1 <- Sys.time()
 ## tib_dplyr %>%
@@ -302,8 +302,8 @@ t2 - t1
 ##   summarize(mean_price_stand = mean(price_stand))
 ## t2 <- Sys.time()
 ## t2 - t1
-## 
-## 
+##
+##
 ## # data.table -------------------------------------------------------------------
 ## t1 <- Sys.time()
 ## dt_dtable %>%
@@ -312,8 +312,8 @@ t2 - t1
 ##   .[ , .(mean_price_stand = mean(price_stand)), keyby = type]
 ## t2 <- Sys.time()
 ## t2 - t1
-## 
-## 
+##
+##
 ## # dtplyr -----------------------------------------------------------------------
 ## t1 <- Sys.time()
 ## dt_dtplyr %>%
@@ -321,43 +321,43 @@ t2 - t1
 ##   group_by(type) %>%
 ##   mutate(price_stand = (price - mean(price)) / sd(price)) %>%
 ##   summarize(mean_price_stand = mean(price_stand)) %>%
-##   as_tibble() # To vrstico moramo zapisati, v koliko ≈æelimo da se ukaz izvede!
+##   as_tibble() # To vrstico moramo zapisati, v koliko ûelimo da se ukaz izvede!
 ## t2 <- Sys.time()
 ## t2 - t1
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 library(dbplyr)
 library(DBI)
-con <- dbConnect(RSQLite::SQLite(), ":memory:") # Ustvarimo zaƒçasno bazo (RAM).
+con <- dbConnect(RSQLite::SQLite(), ":memory:") # Ustvarimo zaËasno bazo (RAM).
 dbWriteTable(con, "age-cases-clean", df_tidy) # Shranimo podatke v bazo.
 df_tidy_from_db <- dbReadTable(con, "age-cases-clean") # Preberemo podatke v R.
 head(df_tidy_from_db)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
  # S tbl() dostopamo do razpredelnice na bazi.
 razpredelnica_na_bazi <- tbl(con, "age-cases-clean")
 razpredelnica_na_bazi
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 povzemi <- razpredelnica_na_bazi %>%
   group_by(sex, age) %>%
   summarise(sum(daily))
-povzemi %>% show_query() # Prika≈æe prevedeno kodo v SQL.
+povzemi %>% show_query() # Prikaûe prevedeno kodo v SQL.
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 povzetek <- povzemi %>% collect()
 povzetek
 dbDisconnect(con) # Zapremo povezavo do baze.
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 rm(list = ls())
 set.seed(1) # Zagotovimo ponovljivost.
-n <- 2000000 # ≈†tevilo primerov v podatkih.
+n <- 2000000 # ätevilo primerov v podatkih.
 
 # Generiramo podatke.
 x1 <- rnorm(n)
@@ -370,8 +370,8 @@ df2 <- data.frame(x = x2, y = y2)
 df_list <- list(df1, df2)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-t1 <- Sys.time() # Za izraƒçun potrebnega ƒçasa.
+## ---------------------------------------------------------------------------------------------------------------------------
+t1 <- Sys.time() # Za izraËun potrebnega Ëasa.
 my_lms <- list() # V ta seznam bomo shranili rezultate.
 for (i in 1:length(df_list)) {
   my_lms[[i]] <- lm(y ~ x, data = df_list[[i]])
@@ -381,10 +381,10 @@ my_lms
 # t2 - t1
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 library(doParallel)
 detectCores() # Preverimo, koliko procesorjev imamo na voljo.
-nc <- 2 # ≈†tevilo procesorjev.
+nc <- 2 # ätevilo procesorjev.
 mc <- makeCluster(nc) # Ustvarimo cluster 2 procesorjev.
 
 # S spodnjim klicem bomo ustvarili log datoteko, kamor se bodo zapisovale
@@ -394,13 +394,13 @@ clusterEvalQ(mc, sink(paste0("./log", Sys.getpid(), ".txt")))
 registerDoParallel(mc) # Registriramo cluster.
 
 my_lms <- list()
-t1 <- Sys.time() # Za izraƒçun potrebnega ƒçasa.
+t1 <- Sys.time() # Za izraËun potrebnega Ëasa.
 foreach(i = 1:length(df_list)) %dopar% {
-  print(paste0("Raƒçunam model: ", i))
+  print(paste0("RaËunam model: ", i))
   my_lms[[i]] <- lm(y ~ x, data = df_list[[i]])
 }
 stopCluster(mc) # Ustavimo cluster.
-t2 <- Sys.time() # Za izraƒçun potrebnega ƒçasa.
+t2 <- Sys.time() # Za izraËun potrebnega Ëasa.
 my_lms
 # t2 - t1
 
