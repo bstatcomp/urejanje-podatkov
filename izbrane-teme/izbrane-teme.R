@@ -17,25 +17,27 @@ TabelaA <- tibble(openxlsx::read.xlsx("./data-raw/Primer.xlsx",
 TabelaB <- tibble(openxlsx::read.xlsx("./data-raw/Primer.xlsx", 
                                      rows = 21:34, cols = 1:8,
                                      detectDates = TRUE))
-TabelaA <- TabelaA %>% mutate(ID_BZ             = as.integer(ID_BZ),
-                              ID_ZO             = as.integer(ID_ZO),
-                              Vrsta.storitve    = as.integer(Vrsta.storitve),
-                              Naziv.storitve    = factor(Naziv.storitve, 
-                                                       levels = c("NBO", "SPP", "REH", "BOL")),
-                              Datum.začetka_a   = as.Date(Datum.začetka_a),
-                              Datum.zaključka_a = as.Date(Datum.zaključka_a),
-                              Leto.zaključka    = as.integer(Leto.zaključka),
-                              Trajanje_a        = as.double(Trajanje_a))
+TabelaA <- TabelaA %>% mutate(
+  ID_BZ             = as.integer(ID_BZ),
+  ID_ZO             = as.integer(ID_ZO),
+  Vrsta.storitve    = as.integer(Vrsta.storitve),
+  Naziv.storitve    = factor(Naziv.storitve, 
+                             levels = c("NBO", "SPP", "REH", "BOL")),
+  Datum.začetka_a   = as.Date(Datum.začetka_a),
+  Datum.zaključka_a = as.Date(Datum.zaključka_a),
+  Leto.zaključka    = as.integer(Leto.zaključka),
+  Trajanje_a        = as.double(Trajanje_a))
 
-TabelaB <- TabelaB %>% mutate(ID.bolnišničnega.zdravljenja = as.integer(ID.bolnišničnega.zdravljenja),
-                              ID_ZO                        = as.integer(ID_ZO),
-                              Vrsta.storitve               = as.integer(Vrsta.storitve),
-                              Naziv.storitve               = factor(Naziv.storitve,
-                                                             levels = c("NBO", "SPP", "REH", "BOL")),
-                              Datum.začetka_b              = as.Date(Datum.začetka_b),
-                              Datum.zaključka_b            = as.Date(Datum.zaključka_b),
-                              Leto.zaključka.BZ            = as.integer(Leto.zaključka.BZ),
-                              Trajanja_b                   = as.double(Trajanja_b))
+TabelaB <- TabelaB %>% mutate(
+  ID.bolnišničnega.zdravljenja = as.integer(ID.bolnišničnega.zdravljenja),
+  ID_ZO                        = as.integer(ID_ZO),
+  Vrsta.storitve               = as.integer(Vrsta.storitve),
+  Naziv.storitve               = factor(Naziv.storitve,
+                                        levels = c("NBO", "SPP", "REH", "BOL")),
+  Datum.začetka_b              = as.Date(Datum.začetka_b),
+  Datum.zaključka_b            = as.Date(Datum.zaključka_b),
+  Leto.zaključka.BZ            = as.integer(Leto.zaključka.BZ),
+  Trajanja_b                   = as.double(Trajanja_b))
 
 TabelaA
 TabelaB
@@ -54,11 +56,13 @@ RazsirjenA
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Dodajmo sprejeme.
-TabelaA <- TabelaA %>% mutate("Sprejem_DA/NE" = factor(ID_BZ %in% RazsirjenA$ID_BZ,
-                  levels = c(TRUE, FALSE),
-                  labels = c("Da", "Ne")))
+TabelaA <- TabelaA %>% 
+  mutate("Sprejem_DA/NE" = factor(ID_BZ %in% RazsirjenA$ID_BZ,
+                                  levels = c(TRUE, FALSE),
+                                  labels = c("Da", "Ne")))
 #Dodajmo trajanja_b.
-left_join(TabelaA, RazsirjenA %>% select(ID_ZO, Trajanja_b), by = "ID_ZO", suffix = c("", "")) %>%
+left_join(TabelaA, RazsirjenA %>% 
+            select(ID_ZO, Trajanja_b), by = "ID_ZO", suffix = c("", "")) %>%
   mutate(Trajanja_b = replace_na(Trajanja_b, 0)) %>%
   select(ID_BZ, ID_ZO, "Sprejem_DA/NE", Trajanja_b)
 
@@ -325,14 +329,15 @@ t2 - t1
 ## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 library(dbplyr)
 library(DBI)
-con <- dbConnect(RSQLite::SQLite(), ":memory:") # V pomnilniku ustvarimo začasno bazo.
+con <- dbConnect(RSQLite::SQLite(), ":memory:") # Ustvarimo začasno bazo (RAM).
 dbWriteTable(con, "age-cases-clean", df_tidy) # Shranimo podatke v bazo.
-df_tidy_from_db <- dbReadTable(con, "age-cases-clean") # Preberemo podatke iz baze v R.
+df_tidy_from_db <- dbReadTable(con, "age-cases-clean") # Preberemo podatke v R.
 head(df_tidy_from_db)
 
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-razpredelnica_na_bazi <- tbl(con, "age-cases-clean") # S tbl() dostopamo do razpredelnice na bazi.
+ # S tbl() dostopamo do razpredelnice na bazi.
+razpredelnica_na_bazi <- tbl(con, "age-cases-clean")
 razpredelnica_na_bazi
 
 
