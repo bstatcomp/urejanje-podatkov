@@ -1,0 +1,434 @@
+---
+title: "izbrane-teme-Jan22"
+author: "Patrik Kojanec, Matej Pičulin, Jana Faganeli"
+date: "26/01/2022"
+output: 
+  html_document: 
+    df_print: tibble
+---
+
+# 1.del - Povezovanje do SQL baz in vzorčenje
+
+### Povezava na SQL bazo
+
+Za delo s SQL bazami potrebujemo paket `DBI`, ki komunicira med R-jem in sistemi za upravljanje s podatkovnimi bazami. Poleg tega potrebujemo še paket za dotično bazo. V tem primeru bomo uporabljali MariaDB in paket `RMariaDB`, obstajajo pa seveda še drugi in delo z njimi je identično ali zelo podobno. Nekaj ostalih paketov je `RMySQL`, `RPostgreSQL`, `RSQLite`, `ROracle`, `odbc` itd.
+
+Naložimo potrebne pakete:
+
+```{r results='hide', message=F, warning=F}
+library(tidyverse)
+library(dbplyr)
+library(DBI)
+library(RMariaDB)
+```
+
+Najprej se moramo na bazo povezati. To storimo s funkcijo `dbConnect()`:
+
+```{r eval = F}
+con <- dbConnect(RMariaDB::MariaDB(), 
+                 user = "urejanje", 
+                 password = "podatkov", 
+                 dbname = "delavnica", 
+                 host = "localhost")
+```
+
+V tem primeru smo se povezali na lokalno bazo *delavnica* z uporabnikom *urejanje* in geslom *podatkov*. Prvi argument funkcije je vedno funkcija za povezavo naše dotične baze.
+
+Sedaj si poglejmo, kako lahko tabelo iz R-ja zapišemo v našo bazo. To storimo z ukazom `dbWriteTable()`.
+
+```{r, eval = F}
+accounts <- read.csv2("./data-raw/financial/account.csv")
+dbWriteTable(con, "accounts", accounts) #DBI verzija
+```
+
+Ko imamo v bazi podatke, lahko po njih delamo SQL poizvedbe. Osnovna funkcija je `dbGetQuery()`, ki zahteva povezavo in poizvedbo zapisano kot navaden tekst.
+
+```{r eval = F}
+res <- dbGetQuery(con, "SELECT trans_id, type, balance  
+                 FROM transactions_small 
+                 WHERE balance > 100000")
+head(tibble(res))
+```
+
+Vidimo, da nam poizvedba vrne pričakovani rezultat. Če želimo prenesti celotno tabelo imamo na voljo funkcijo `dbReadTable()`. Z uporabo le te preberimo podatke o transakcijah, ki smo jih za potrebe demonstracije že predhodno naložili. Podatki so enaki kot na drugem predavanju.
+
+```{r eval = F}
+trans <- dbReadTable(con, "transactions_small") # Preberemo podatke iz baze v R.
+trans <- tibble(trans)
+head(trans)
+```
+
+Tudi paket `dplyr` ima funkcije za delo z bazami, ki vedno vrnejo tibble, hkrati pa nam omogočajo **pisati** SQL ukaze s pipe operacijo.
+
+Dostop do tabele v bazi lahko omogočimo s funkcijo `tbl`. Ta funkcija podatkov ne prenese ampak naredi le kazalec na tabelo v bazi!
+
+```{r eval = F}
+razpredelnica_na_bazi <- tbl(con, "transactions_small") # S tbl() dostopamo do razpredelnice na bazi.
+razpredelnica_na_bazi
+```
+
+Pozorni bodimo na začetni izpis, kjer je vidno, da to ni R tabela ampak povezava na bazo.
+
+Sedaj naredimo kratko poizvedbo, kot smo jih navajeni delati s *tidyverse* paketi.
+
+```{r eval = F}
+povzemi <- razpredelnica_na_bazi %>%
+  group_by(type, operation) %>%
+  summarise(stevilo = n())
+povzemi %>% show_query() # Prikaže prevedeno kodo v SQL.
+```
+
+Funkcija `show_query()` nam pokaže SQL stavek, ki se je izvedel direktno v bazi, da dobimo želeni rezultat. To pomeni, da se je zgornji izraz le prevedel v SQL poizvedbo in bil poslan v bazo.
+
+Sedaj še shranimo povzetek in zapremo povezvo do baze.
+
+```{r eval = F}
+povzetek <- povzemi %>% collect()
+povzetek
+dbDisconnect(con) # Zapremo povezavo do baze.
+```
+
+Ko bazo zapremo vidimo, da so shranjeni podatki še na voljo, kazalci na bazo pa se izgubijo.
+
+```{r, error = T, eval = F}
+#povzetek še imamo
+povzetek
+#kazalca poizvedbe ni več
+povzemi
+#razpredelnica ni več dostopna
+razpredelnica_na_bazi
+#podatke o transakcijah še vedno imamo v R-ju
+head(trans)
+```
+
+Paket `odbc` omogoča povezavo do različnih baz, hkrati pa je tudi povezan z RStudio-m, kar lahko vidite v desnem zgornjem oknu pod zavihkom connections.
+
+Poglejmo katere gonilnike ima odbc na voljo in se z enim povežimo na bazo. Pozor, dotični gonilnik je potrebno namestiti. Dobite ga [tukaj](https://dev.mysql.com/downloads/connector/odbc/).
+
+```{r eval = F}
+library("odbc")
+sort(unique(odbcListDrivers()[[1]]))
+povezava <- dbConnect(odbc(), 
+                      driver = "MySQL ODBC 8.0 ANSI Driver",
+                      user = "urejanje", 
+                      password = "podatkov", 
+                      dbname = "delavnica", 
+                      host = "localhost")
+dbDisconnect(povezava)
+```
+
+### Vzorčenje
+
+Najbolj osnovna in najbolj uporabna funkcija za vzorčenje tabel v R-ju je `sample`. Omogoča vračanje elementov z ali brez ponavljanja in tudi uporabo uteži.
+
+```{r}
+sample(1:10, 5)
+sample(1:10, 5, replace = T)
+sample(1:10, 5, prob = c(20, 20, 15, 15, 10, 10, 5, 5, 1, 1))
+```
+
+Z uporabo te funkcije sedaj vzorčimo 1000 vzrocev iz tabele trans, ki ima 20000 primerov.
+
+```{r, eval = F}
+trans1000 <- trans[sample(1:nrow(trans), 1000),]
+```
+
+Takšno vzorčenje je v praksi reprezentativno, če imamo dovolj podatkov in imamo dokaj enakomerno število vrednosti pri vsaki spremenljivki.
+
+Poglejmo, kaj se je zgodilo z distribucijo izbrane nominalne spremenljivke.
+
+```{r eval = F}
+table(trans$type)/nrow(trans)
+table(trans1000$type)/nrow(trans1000)
+```
+
+Opazimo lahko, da je ujemanje OK, vendar ne idealno. Da preverimo, če smo pravilno vzorčili zvezno spremenljivko, lahko originalno in vzorčeno porazdelitev diskretiziramo ju prikažemo na grafu.
+
+```{r eval=F}
+ggplot(trans, aes(x = amount, fill = "trans")) +    
+  geom_histogram(aes(y=..count../sum(..count..)), alpha = 0.3, bins = 20) +
+  geom_histogram(data = trans1000, aes(y=..count../sum(..count..), fill = "trans1000"), 
+                  alpha = 0.3, bins = 20)
+
+```
+
+Opazimo, da je tudi v tem primeru vzročenje primerno.
+
+## Stratificirano vzorčenje
+
+Če želimo distribucijo neke spremenljivke ohraniti čim bolj reprezantitivno lahko uporabimo straticificirano vzorčenje.
+
+Najprej za spremenljivko *type* izračunamo koliko primerov moramo izbrati za vsako vrednost, če bi želeli imeti enako distribucijo kot v originalnih podatkih.
+
+```{r eval = F}
+dist <- table(trans$type)/nrow(trans)*1000
+dist <- round(dist)
+dist
+```
+
+Spodaj je še funkcija, ki nam vrne isto, hkrati pa pazi še na morebitne napake pri zaokroževanju.
+
+```{r eval = F}
+calculate_subsamples_n <- function(data, colName, n){
+  dist <- table(trans$type)/nrow(trans)*n
+  dist <- round(dist)
+  #dodatno preverjanje, ker zaradi zaokroževanja
+  #lahko pride do manjših odstopanj v n-ju
+  #največji vrednosti prištejemo oz. odštejemo dodatne primere
+  max_value <- which.max(dist)
+  odstopanje <- n - sum(dist)
+  if(odstopanje > 0){
+    dist[max_value] <- dist[max_value] - odstopanje
+  }else if(odstopanje < 0){
+    dist[max_value] <- dist[max_value] + odstopanje
+  }
+  dist
+}
+
+calculate_subsamples_n(trans, "type", 1000)
+```
+
+Sedaj lahko sami izberemo primerno število primerov glede na vrednost spremenljivke in jih nato združimo.
+
+```{r eval = F}
+select_n_rows <- function(data, n){
+  data[sample(1:nrow(data), n),]
+}
+
+t1 <- trans %>% filter(type == "CHOICE") %>% select_n_rows(14)
+t2 <- trans %>% filter(type == "EXPENDITURE") %>% select_n_rows(600)
+t3 <- trans %>% filter(type == "INCOME") %>% select_n_rows(386)
+
+t <- union(t1, union(t2, t3))
+
+table(trans$type)/nrow(trans)
+table(t$type)/nrow(t)
+```
+
+V tem primeru je bilo to še dokaj preprosto, da smo brez večjih težav lahko to spisali sami. Vendar, ta pristop ohranja le distribucijo po izbrani spremenljivi, ostale pa lahko tudi nekoliko bolj pokvari.
+
+Če želimo stratificirano vzorčenje uporabiti po več spremenljivkah je bolje, da uporabimo paket `splitstackshape`, ki omogoča več različnih vzorčenj.
+
+Najprej vzorčimo samo po spremenljivki *type* in vidimo, da distribucija spremeljivke *operation* ni najboljša.
+
+```{r eval = F}
+library(splitstackshape)
+
+trans5p <- tibble(stratified(trans, group = "type", size = 0.05))
+table(trans$type)/nrow(trans)
+table(trans5p$type)/nrow(trans5p)
+
+table(trans$operation)/nrow(trans)
+table(trans5p$operation)/nrow(trans5p)
+```
+
+Sedaj ponovimo postopek, s tem, da ohranimo obe distribuciji.
+
+```{r eval = F}
+trans5p <- tibble(stratified(trans, group = c("type", "operation"), size = 0.05))
+table(trans$type)/nrow(trans)
+table(trans5p$type)/nrow(trans5p)
+
+table(trans$operation)/nrow(trans)
+table(trans5p$operation)/nrow(trans5p)
+```
+
+# 2.del - Exploratory data analysis
+V tem delu bomo simulirali Exploratory Data Analysis (EDA). Uporablili bomo statistične podatke o Covidu v Sloveniji, ki so na voljo na spletni strani   [Sledilnika]("https://raw.githubusercontent.com/sledilnik/data/master/csv/stats.csv"). Cilj je, da se spoznamo s podatki, jih preuredimo v obliko za lažje delo in poskusimo izluščiti trende iz njih. Podatke bomo za potrebe prikazovanja nekaterih funkcij dodatno popačili z manjkajočimi vrednostmi.
+
+## Naložimo Podatke
+
+Najprej naložimo podatke. To lahko storimo z uporabo funkcije `curl`, ki podatke prenese kar iz uradne strani.
+
+```{r message=F, warning=F}
+library(tidyverse)
+library(curl)
+library(lubridate)
+set.seed(1234)
+
+df <- read_csv(curl("https://raw.githubusercontent.com/sledilnik/data/master/csv/stats.csv"))
+```
+Če smo pozorni na izpis vidimo, da imamo 129 zveznih atributov, 6 logičnih, en datum in en nominalni atribut.
+
+Poglejmo, kako ti podatki izgledajo:
+```{r}
+df
+```
+Že takoj lahko opazimo, da imamo v nekaterih stolpcih kar veliko manjkajočih vrednosti. Opazimo tudi, da vsaka vrstica prikazuje meritve za en dan, kar lahko pojasni manjkajoče podatke, saj vseh meritev niso opravljali na začetku. Vseeno bomo dodali še nekaj manjkajočih podatkov, da simuliramo šum oziroma naključne izpade meritev.
+
+
+```{r}
+# Podatke malce pokvarimo
+make_NA <- function(x, pctg = 0.05){
+  "x = vector, pctg = percentage of data that will become NA"
+  n = length(x)
+  indices <- sample(1:n, n%*%pctg, replace = T)
+  x[indices] <- NA
+  return(x)
+}
+df <- df %>% mutate(across(.cols = everything(), make_NA))
+```
+
+
+Bolj podrobno si poglejmo še zadnje dni:
+```{r}
+print(tail(df), width = Inf)
+```
+Opazimo, da so imena stolpcev logično povezana v kategorije. Stolpce zlahka ločimo po kategorijah glede na prvo besedo njihovega imena.
+
+Za vsako kategorijo bomo zato ustvarili manjšo tabelo, ki bo bolj pregledna. Pri tem bomo spremenljivko phase izpustili, day in date pa bomo uporabili kot ključe, da lahko kasneje tabele s stiki povežemo nazaj v celoto. Od tukaj naprej se bomo analize lotili le na parih tabelah. Ostale si lahko ogledate in uredite sami.
+
+Razbijmo sedaj podatke na več manjših tabel:
+```{r}
+testi     <- select(df, day, date, starts_with("tests.")) 
+okuzbe    <- select(df, day, date, starts_with("cases."))
+regije    <- select(df, day, date, starts_with("region.")) 
+stanje    <- select(df, day, date, starts_with("state.")) 
+starost   <- select(df, day, date, starts_with("age."))
+smrti     <- select(df, day, date, starts_with("deceased."))
+cepljeni  <- select(df, day, date, starts_with("vaccination."))
+```
+
+## Vizualizacija 1 - Stanja bolnišnic
+
+Poglejmo si najprej tabelo *stanje*, ki prikazuje število pacientov v bolnišnicah.
+```{r}
+print(stanje, width = Inf, n = 20)
+colnames(stanje)
+```
+Ko pogledamo razpredelnico *stanje* opazimo, da na začetku ima nekaj vrstic, ki vsebujejo samo manjkajoče vrednosti, nato pa se NA-ji pojavljajo sporadično. Manjkajoče vrednosti so lahko problematične pri obdelavi in jih je zato velikokrat smiselno nadomestiti s smiselnimi vrednostmi. Opazimo tudi, da stolpci, ki vsebujejo niz ".todate" v imenu, predstavljajo kumulativne vrednosti. Kumulativne vrednosti ne predstavljajo problema, niso pa uporabne pri prikazovanju trendov. To lahko opazimo v spodnjem primeru:
+
+```{r, out.width="49%", fig.show="hold"}
+x <- c(1, 2, 1, 2, 3, 4, 5, 8, 9, 10, 7, 3, 1, 1, 4, 5, 7, 4, 3, 1)
+kum_x <- cumsum(x)
+
+y <- seq(1, length(kum_x))
+podatki <- tibble(x=x,y=y,kum_x=kum_x)
+
+ggplot(podatki, aes(y, x)) + geom_line()
+ggplot(podatki, aes(y, kum_x)) + geom_line()
+```
+
+Za izris grafov uporabimo knjižnico **ggplot**, ki je del knjižnice **tidyverse**.V zgornjem primeru opazimo, da v prvem grafu (navadnih podatkih) imamo dva ločena vrha, medtem ko pri kumulativnih podatkih vrha nista očitna, saj krivulja stalno narašča. Zato bomo v nadaljevanju spremenili vse kumulativne vrednosti v  "dnevne vrednosti", tako da bomo izračunali razlike vrednosti glede na prejšnji dan.
+
+
+### Čiščenje manjkajočih vrednosti
+
+Začnimo z nadomeščanjem manjkajočih vrednosti (NA). Pomagali si bomo s paketom *zoo*. Če pogledamo razpredelnico *stanje*, opazimo, da prvih 15 vrstic vsebuje le manjkajoče vrednosti. Te vrstice so za nas popolnoma neuporabne, zato jih odstranimo.
+
+```{r}
+stanje <- filter(stanje, day >= 7)
+```
+
+Nato, nam preostanejo le sporadične manjkajoče vrednosti. Za stolpca `day` in `date` lahko manjkajoče vrednosti popravimo tako, da vzamemo vrednost iz prejšnje vrstice in prištejemo 1 dan. Za to bomo uporabili funkcijo `lag`, ki prebere vrednost iz prejšnje vrstice. To seveda lahko storimo, ker imamo malo manjkajočih vrednosti, če bi imeli tudi po več zaporednih manjkajočih vrednosti bi lahko na novo zgenerirali datume ali pa ta postopek ponovili večkrat.
+
+```{r}
+stanje <- mutate(stanje, 
+                 date = ifelse(is.na(date), lag(date) + days(1), ymd(date)),
+                 date = as_date(date),
+                 day = ifelse(is.na(day), lag(day) + 1, day))
+```
+
+Datumi so sedaj popravljeni.
+
+Za ostale spremenljivke pa nadomeščanje manjkajočih vrednosti v našem primeru ni tako enostavno. Standardne metode, kjer vse vrednosti zamenjamo z 0 ali pa s povprečno vrednostjo v tem primeru niso najbolj smiselne. Tu seUporabili bomo funkcijo `na.spline` iz paketa *zoo*, ki aproksimira manjkajoče vrednosti. Aproksimacije so realna števila izračunana iz sosednjih vrednosti. Aproksimacije bomo ponovno spremenili v cela števila s funkcijo `as.integer`.
+
+```{r}
+library(zoo)
+stanje <- mutate(stanje, across(starts_with("state."), na.spline),
+                 across(starts_with("state."), as.integer))
+stanje
+```
+
+Na koncu pa še preverimo, če smo odstranili vse NA-je:
+
+```{r}
+apply(stanje, 2, function(x){sum(is.na(x))})
+```
+
+### Spremenimo kumulativne vrednosti v navadne
+Kumulativa *state.in_hospital.todate* nam ne pove veliko. Če gledamo samo razlike od prejšnjega dne, dobimo podatek o številu na novo sprejetih pacientih, kar je za nas veliko bolj zanimivo.
+
+Za spremembo kumulativnih vrednosti v navadne vrednosti, moramo vsaki vrednosti odšteti vrednost prejšnjega dne. Torej moramo narediti obraten postopek, kot pri računanju kumulativnih vrednosti. Tudi v tem primeru bomo uporabili funkcijo `lag`. Funkcija `lag` bo za prvo vrstico vrnila NA, zato moramo biti previdni in začetni NA nadomestiti z 0.
+```{r}
+stanje <- stanje %>%
+  mutate(across(ends_with(".todate"), ~ . -lag(.))) %>%
+  mutate(across(ends_with(".todate"), ~ na.fill0(., fill = 0)))
+```
+
+Seveda, ste verjetno opazili, da je tabela v široki obliki, saj ima v glavi spremenljivko *state*, ki opisuje stanje pacientov. Spremenimo to v daljšo obliko za lažji izris z *ggplot*.
+
+```{r}
+stanje <- stanje %>% 
+  pivot_longer(cols = c(-day, -date), 
+               names_to = "stanje_pacienta", 
+               values_to = "st_oseb", 
+               names_prefix = "state.") %>%
+  mutate(stanje_pacienta = str_replace(stanje_pacienta, ".todate", "_novi"))
+stanje
+```
+
+### Vizualizacija
+Sedaj imamo podatke v dolgi obliki, tako da bomo za izris grafa uporabljali paket `ggplot`.`ggplot` se lahko integrira v "pipe". Sedaj lahko prikažemo trende za vsa stanja pacientov. Spodnji graf prikazuje epidemiološka vala jeseni in pozimi 2020-2021 ter jeseni in pozimi 2021-2022. Poleg tega v kodi določimo tudi spremenljivko, ki bo določala katera stanja prikažemo. Zaenkrat bomo prikazali kar vsa:
+
+```{r}
+prikazemo <- c("icu", 
+               "in_hospital", 
+               "critical", 
+                "in_hospital_novi", 
+                "out_of_hospital_novi",
+                "deceased_novi")
+
+stanje %>% mutate(val1 = ifelse(date > make_date(2020, 11, 1) & date < make_date(2021, 1, 25), 2021, 0),
+                  val2 = ifelse(date > make_date(2021, 11, 1) & date < make_date(2022, 2, 25), 2022, 0), 
+                  val = val1 + val2) %>% #case_when?
+  filter(stanje_pacienta %in% prikazemo, val > 0 ) %>%
+  ggplot(., aes(x = date, y = st_oseb, color = stanje_pacienta)) + geom_line() + 
+  facet_wrap(.~ val, scales = "free_x" )
+
+```
+
+## Vizualizacija 2 - Število smrti za Covid v odvisnosti od starosti in spola
+
+Sedaj, ko že bolje poznamo strukturo podatkov si bomo za drugo vizualizacijo pogledali še smrti zaradi Covida v odvisnosti od starosti in spola. Uporabljali bomo razpredelnico *smrti*, oziroma le zadnji zapis v tabeli, ker predstavlja najsodobnejši podatek.
+
+```{r}
+tail(smrti)
+```
+Konkretno si bomo pogledali 691-ti zapis:
+```{r}
+smrti[691,]
+```
+Opazimo, da ima tudi ta vrstica nekaj manjkajočih podatkov.
+
+### Čiščenje podatkov
+Tudi v tem primeru je smiselno, da si zagotovimo, da imamo vse potrebne podatke za izbrani dan. Če podatek manjka je v tem primeru smiselno vzeti zadnjo kumulativo, ki je na voljo. Za polnjenje manjkajočih vrednosti bomo zato uporabljali funkcijo `na.locf`, ki vsakemu NA-ju priredi zadnjo znano vrdnost. Začetni vrstici moramo prirediti vrednost 0, da bo `na.locf` delovala pravilno.
+
+```{r}
+smrti <- mutate(smrti, 
+                 date = ifelse(is.na(date), lag(date) + days(1), ymd(date)),
+                 date = as_date(date),
+                 day = ifelse(is.na(day), lag(day) + 1, day))
+
+smrti[1, 3:37] <- 0
+smrti <- mutate(smrti,across(starts_with("deceased."), na.locf ))
+```
+
+Sedaj, ko imamo zapolnjene podatke, lahko tabelo spremenimo v dolgo obliko in izrišemo graf. Naredimo vse skupaj.
+
+```{r, warning=FALSE}
+smrti %>% 
+  filter(day == 691) %>%
+    select(day, date, (contains("female") | contains("male")) & matches("\\d")) %>%
+  pivot_longer(cols = contains("deceased."), 
+               names_to = c("spol", "starost"),
+               names_sep = "\\.",
+               names_prefix = "deceased.", 
+               values_to = "smrti") %>% #warning, ker zavržemo todate
+  mutate( spol = factor(spol), 
+          starost = factor(starost, levels = unique(starost), ordered = T)) %>%
+  ggplot(., aes(x = starost, y = smrti, fill = spol )) + 
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Covid smrti po spolu in starosti")
+  
+```
