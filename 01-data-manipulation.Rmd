@@ -251,7 +251,7 @@ Podobno kot v zgornjem primeru lahko v pogoju nastopa poljubna funkcija.
 S funkcijo `select()` izbiramo podmnožico stolpcev. Osnovna sintaksa je:
 
 ```{r, eval = FALSE}
-filter(<tibble>, <stolpec1>, <stolpec2>, ...)
+select(<tibble>, <stolpec1>, <stolpec2>, ...)
 ```
 
 Izberimo sedaj stolpce `Country`, `Age` in `EmploymentStatus`.
@@ -594,7 +594,7 @@ ds_jobs_select %>%
 
 
 ### Summarise in group unpeeling
-Kot smo že spoznali je funkcija `summarise()` najbolj uporabna v kombinaciji z `group_by()`. Pogljemo si sedaj bolj podrobno, kakšen tibble je rezultat te kombinacije. Najprej samo grupirajmo `ds_jobs`:
+Kot smo že spoznali je funkcija `summarise()` najbolj uporabna v kombinaciji z `group_by()`. Poglejmo si sedaj bolj podrobno, kakšen tibble je rezultat te kombinacije. Najprej samo grupirajmo `ds_jobs`:
 
 ```{r}
 ds_jobs_grouped <- ds_jobs %>%
